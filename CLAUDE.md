@@ -4,6 +4,8 @@
 
 **新会话开始时先读 `docs/progress.md`**，里面有协作须知、已定决策、当前状态和下一步。每次会话结束前更新它。
 
+同时遵守 [AGENTS.md](AGENTS.md) 中的共用规范。正式记录和 commit 说明使用中文，采用 STE 的清晰表达原则。有实质进展时，追加开发日报。
+
 ## 硬约束
 
 - **不用 Anthropic 官方 SDK，也不用任何 agent 框架。** 直接 `fetch` 调 `POST $ANTHROPIC_BASE_URL/v1/messages`，SSE 手写解析。这是项目的核心学习目标，不是疏忽。

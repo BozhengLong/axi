@@ -4,3 +4,6 @@
 
 - 愿景与路线图：[docs/00-vision.md](docs/00-vision.md)
 - v0 设计：[docs/01-v0-design.md](docs/01-v0-design.md)
+- 当前状态：[docs/progress.md](docs/progress.md)
+- 协作与记录规范：[AGENTS.md](AGENTS.md)
+- 开发日报：[docs/devlog/](docs/devlog/)
