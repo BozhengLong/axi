@@ -10,8 +10,8 @@
 
 - **不用 Anthropic 官方 SDK，也不用任何 agent 框架。** 直接 `fetch` 调 `POST $ANTHROPIC_BASE_URL/v1/messages`，SSE 手写解析。这是项目的核心学习目标，不是疏忽。
 - API 地址和 key 从环境变量 `ANTHROPIC_BASE_URL`、`ANTHROPIC_API_KEY` 读取（公司网关，`x-api-key` 头 + `anthropic-version: 2023-06-01`）。
-- 默认模型 `claude-opus-5-5`：thinking 无法关闭，thinking 块必须原样回传；不支持 `tool_choice` 的 `any`/`tool`。
-- **对话历史只追加不修改**（append-only），否则 thinking 块会失效。
+- 默认模型 `claude-opus-5-5`：使用 adaptive thinking。返回 thinking 块时，保留原文与签名；不使用 `tool_choice` 的 `any`/`tool`。
+- **对话历史只追加不修改**（append-only）。这是项目约束，用于保留原始消息及工具配对。2026-10-12 的网关实验未因删除 thinking 块而报错，不能声称删除一定导致 API 失败。实验记录见开发日报。
 
 ## 工作方式
 
