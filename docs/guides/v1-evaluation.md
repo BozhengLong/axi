@@ -29,7 +29,8 @@ sha256:89533abd22cabe73692800a8b7a48ea0849edc6fddd8435cd85898d7938f21cf
 | tasks/A、tasks/B | 上游来源、输入、依赖锁文件和清单；准备修订留旧版 |
 | calibration-latest.json | 两道新题与 C7 的 14 项校准 |
 | pipeline-smoke-latest.json | 新旧 Axi/Claude 共 8 次完整流水线模拟 |
-| formal-batch.json、formal.claim | 正式批次位置与一次性绝对截止 |
+| formal-batch.json、formal.claim | 首批位置与一次性绝对截止；首批因公开命令缺陷停止 |
+| continuation-batch.json、continuation.claim | 同一截止与累计预算下的修订批次；原受影响样本不混入比较 |
 | RUNNING.md | 当前私有执行检查点 |
 
 批次目录中保存 manifest/source-snapshot、attempts/results/selection、每次 initial/final 文件与 Git 状态、verification、终端/输入输出时间线、API 事件、原生会话日志和 SHA-256 清单。对照报告审查写在单独文件，原始机判和 Trace 不覆盖。参见[Trace 说明](trace-reading.md)。
@@ -48,3 +49,7 @@ AXI_EVAL_IMAGE=sha256:89533abd22cabe73692800a8b7a48ea0849edc6fddd8435cd85898d793
 正式启动使用同一命令的 `--live`。控制器用一次性 formal.claim 阻止重复启动，自动固定最多 18 小时截止并预留 30 分钟报告；不能删除 claim 绕过预算。只读 `--check` 校验产品、前置、校准、模拟和输入指纹，不启动模型。新任务只能在新的产品冻结和授权计划中替换。
 
 自动控制器按冻结策略响应确认，它的响应时间不是人的思考时间。真实用户的易用性反馈仍可通过[v1 试用](v1-first-use.md)单列收集。
+
+## 公开命令修复后的续跑
+
+首批因公开 AVA 命令误收集新测试而停止。详情见[任务规格修订](../../evals/specs/v1-holdout-v1/README.md#公开命令修订设施-revision-2)和[日报](../devlog/2026-11-12.md)。重新冻结使用 AXI_V1_CONTINUE_FROM 指向原批次。控制器只接受已完整交付的固定四条记录、同一产品/镜像/截止，以及仅公开命令的输入差异；复用 C7 两条，排除原首组两条。之后执行原六组三方计划，累计预计 22 次，且关闭进一步恢复。不能用该入口重跑普通失败。

@@ -26,7 +26,7 @@ for(const [id,repo,sha] of [['A','p-limit','4d4ec71803d8736567249c3dde06ea82795a
  }finally{await docker(['rm','-f',prep],undefined,true);}
  files['eval/brief.md']=file(readFileSync(join(ROOT,`evals/specs/v1-holdout-v1/${id}/brief.md`),'utf8'));
  files['eval/ava.config.mjs']=file('export default {cache: false};\n');
- files['eval/environment.md']=file(`# 环境\n\nNode 24.22.2 / Bun 1.3.14，预装依赖来自固定 package-lock.json，node_modules 只读。候选没有公网，无需安装。\n\n- 原上游运行测试：\`node node_modules/ava/entrypoints/cli.mjs --config eval/ava.config.mjs\`\n- 原上游类型测试：\`node node_modules/tsd/dist/cli.js\`\n- 新增回归：\`node --test eval-tests/*.test.mjs\`\n- 可选格式检查：\`node node_modules/xo/cli.js\`（不作为本题必须门槛）\n\n新增回归文件必须位于 eval-tests/，测试可用标准 node:test，不能引入依赖。自动验收会用原始上游文件恢复保护项再运行，并将新增回归放到原始实现复验。缺少 API 的旧实现应由断言清楚指出，不能仅靠导入失败或进程超时。候选无需看到保留检查。\n`);
+ files['eval/environment.md']=file(`# 环境\n\nNode 24.22.2 / Bun 1.3.14，预装依赖来自固定 package-lock.json，node_modules 只读。候选没有公网，无需安装。\n\n- 原上游运行测试：\`node node_modules/ava/entrypoints/cli.mjs --config eval/ava.config.mjs ${id === "A" ? "test.js" : "test/index.js"}\`\n- 原上游类型测试：\`node node_modules/tsd/dist/cli.js\`\n- 新增回归：\`node --test eval-tests/*.test.mjs\`\n- 可选格式检查：\`./node_modules/.bin/xo\`（不作为本题必须门槛）\n\n新增回归文件必须位于 eval-tests/，测试可用标准 node:test，不能引入依赖。自动验收会用原始上游文件恢复保护项再运行，并将新增回归放到原始实现复验。缺少 API 的旧实现应由断言清楚指出，不能仅靠导入失败或进程超时。候选无需看到保留检查。\n`);
  files['user/policy.txt']=file('用户已修改，保留此行：本周只做当前接口。\r\n',0o640);files['user/notes.txt']=file('未跟踪的用户记录🙂\n',0o600);
  const protect=[...Object.keys(files).filter(p=>!['index.js','index.d.ts','readme.md'].includes(p)),'eval/protected-files.json'].sort();
  files['eval/protected-files.json']=file(JSON.stringify(protect,null,2)+'\n');
