@@ -1,0 +1,24 @@
+
+const beforeR3 = results.length;
+await check('V-FILTER', 'includeOutput=false 只过滤 output，保留状态与结束且 seq 连续', () => {
+  const { renderer, task, lines } = direct({ includeOutput: false }); renderer.render();
+  task.state$ = S.STARTED; task.output$ = 'omit'; task.state$ = S.COMPLETED; renderer.end();
+  const records = decode(lines); schema(records); assert.deepEqual(records.map(x => x.type), ['state', 'state', 'run_end']);
+});
+await check('V-TRANSFORM', '只转换文本，不改写元字段及 Task 原文', () => {
+  const { renderer, task, lines } = direct({ runId: 'metadata', transformText: x => '[' + x + ']' }, '原标题'); renderer.render();
+  task.state$ = S.STARTED; task.output$ = '原文'; renderer.end();
+  const records = decode(lines); schema(records, 'metadata');
+  assert.equal(records[0].title, '[原标题]'); assert.equal(records[0].state, S.STARTED);
+  assert.equal(records[0].taskId, task.id); assert.equal(records[1].output, '[原文]');
+  assert.equal(task.title, '原标题'); assert.equal(task.output, '原文');
+});
+await check('V-POLICY', '示例调用用户策略，保留原规则并应用新规则', () => {
+  const run = spawnSync(process.execPath, ['examples/c6-consumer/run.ts'], { cwd: '/task', encoding: 'utf8', timeout: 10000 });
+  assert.equal(run.status, 0, run.stderr);
+  const records = run.stdout.trim().split('\n').map(x => JSON.parse(x)); schema(records);
+  const text = records.flatMap(x => [x.title ?? '', x.output ?? '']).join('\n');
+  assert.ok(text.includes('team=[TEAM]')); assert.ok(text.includes('token=[REDACTED]')); assert.ok(text.includes('普通中文'));
+  assert.ok(!text.includes('team=demo-internal')); assert.ok(!text.includes('token=demo-secret'));
+});
+console.log(JSON.stringify({ suite: 'visible-r3', results: results.slice(beforeR3) }));

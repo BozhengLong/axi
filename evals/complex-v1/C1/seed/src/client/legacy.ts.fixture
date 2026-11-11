@@ -1,0 +1,2 @@
+export async function inventory(base: string, sku: string) { const res=await fetch(`${base}/stock/${encodeURIComponent(sku)}`); if(!res.ok) throw Error("stock unavailable"); return await res.json() as {sku:string;available:number}; }
+export async function orders(base: string) { return await (await fetch(`${base}/orders`)).json() as {id:string;sku:string;quantity:number}[]; }

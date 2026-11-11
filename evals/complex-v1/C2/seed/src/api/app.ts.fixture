@@ -1,0 +1,6 @@
+import type {Database} from "bun:sqlite";
+import {list} from "../services/list.ts";
+export function createApp(db:Database){return (req:Request):Response=>{const path=new URL(req.url).pathname;
+ if(req.method!=="GET"||!["/tasks","/v2/tasks"].includes(path))return Response.json({error:"not_found"},{status:404});
+ try{return Response.json(list(db,path==="/v2/tasks"));}catch(e){const message=e instanceof Error?e.message:"internal_error";return Response.json({error:message},{status:message==="migration_required"?409:500});}
+};}

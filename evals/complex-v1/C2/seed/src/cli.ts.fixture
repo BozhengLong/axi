@@ -1,0 +1,8 @@
+import {migrate} from "./migrations/upgrade.ts";
+import {openDb} from "./storage/db.ts";
+import {list} from "./services/list.ts";
+try{const [cmd,path]=process.argv.slice(2);if(!path)throw Error("database path required");
+ if(cmd==="migrate")console.log(JSON.stringify(migrate(path,{dryRun:process.argv.includes("--dry-run")})));
+ else if(cmd==="export"){const db=openDb(path);try{console.log(JSON.stringify(list(db,process.argv.includes("--v2"))));}finally{db.close();}}
+ else throw Error("unknown command");
+}catch(e){console.error(e instanceof Error?e.message:String(e));process.exitCode=1;}

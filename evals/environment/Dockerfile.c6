@@ -1,0 +1,15 @@
+# 目标项目使用固定的 Node；Axi 与控制器仍由已有 Bun 镜像运行。
+FROM node@sha256:01d566e8d94d8c619591d78652babfccd3c6992a3dffa9ed5ab39e11cf6c70e9 AS node
+FROM axi-eval-complex:20261111
+USER root
+COPY --from=node /usr/local/bin/node /usr/local/bin/node
+COPY --from=node /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
+RUN ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+    && npm install --global pnpm@10.34.9 \
+    && node --version && pnpm --version
+COPY --from=c6-upstream / /opt/c6/upstream/
+WORKDIR /opt/c6/upstream
+RUN pnpm install --frozen-lockfile \
+    && chmod -R a+rX /opt/c6
+COPY scripts/eval/container /opt/eval
+WORKDIR /task

@@ -1,0 +1,7 @@
+import type { Purchase } from "./types.ts";
+import { BusinessError } from "./errors.ts";
+export function purchase(value: unknown, key: string | null): Purchase {
+  const v = value as Partial<Purchase> | null;
+  if (!key?.trim() || !v || typeof v.sku !== "string" || !v.sku.trim() || !Number.isSafeInteger(v.quantity) || v.quantity! <= 0) throw new BusinessError(400, "invalid_request");
+  return { sku: v.sku, quantity: v.quantity! };
+}

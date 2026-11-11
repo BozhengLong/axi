@@ -1,0 +1,1 @@
+export function orderRequest(key: string, quantity=1, sku="tea") { return new Request("http://localhost/orders",{method:"POST",headers:{"content-type":"application/json","Idempotency-Key":key},body:JSON.stringify({sku,quantity})}); }

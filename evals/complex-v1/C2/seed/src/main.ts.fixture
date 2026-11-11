@@ -1,0 +1,4 @@
+import {openDb} from "./storage/db.ts";
+import {createApp} from "./api/app.ts";
+const db=openDb(process.env.DB_PATH??"fixtures/legacy.db");const server=Bun.serve({hostname:"127.0.0.1",port:Number(process.env.PORT??3000),fetch:createApp(db)});
+process.on("SIGTERM",()=>{server.stop(true);db.close();process.exit(0)});console.log(server.url.toString());

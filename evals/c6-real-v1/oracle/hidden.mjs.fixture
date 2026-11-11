@@ -1,0 +1,144 @@
+const beforeHidden = results.length;
+await check('H-ERROR-END', '正常业务失败保留原错误并结束日志；退出不以成功状态伪装失败', async () => {
+  const original = new Error('ordinary failure'), lines = [];
+  const list = new Listr([{ title: 'fail', task() { throw original; } }], { renderer: JsonlRenderer, rendererOptions: { writer: line => lines.push(line) }, registerSignalListeners: false });
+  await assert.rejects(list.run(), error => error === original);
+  const records = decode(lines); schema(records); assert.equal(records.at(-1).type, 'run_end');
+  assert.equal(records.filter(x => x.type === 'run_end').length, 1); assert.ok(records.some(x => x.state === S.FAILED));
+});
+await check('H-DETACH', 'end 实际释放自身监听器，不仅忽略后续事件', () => {
+  const item = direct(), added = [], removed = [], on = item.task.on.bind(item.task), off = item.task.off.bind(item.task);
+  item.task.on = (event, handler) => { added.push([event, handler]); on(event, handler); };
+  item.task.off = (event, handler) => { removed.push([event, handler]); off(event, handler); };
+  item.renderer.render(); item.renderer.end();
+  assert.ok(added.length > 0); assert.ok(removed.every(([, handler]) => typeof handler === 'function'));
+  assert.ok(added.every(([event, handler]) => removed.some(([e, h]) => event === e && handler === h)));
+});
+await check('H-IDENTITY', '无标题/同名/改名任务仍有真实身份，所有状态值原样输出', () => {
+  const one = direct({ runId: 'identity' }, undefined), two = direct({}, 'same');
+  one.task.title = undefined; one.renderer.render(); two.renderer.render();
+  for (const state of [S.STARTED, S.RETRY, S.ROLLING_BACK, S.ROLLED_BACK, S.CANCELLED]) one.task.state$ = state;
+  one.task.output$ = '引号"反斜杠\\\t🙂\n'; two.task.state$ = S.STARTED;
+  one.task.title = 'same'; one.task.output$ = ''; one.renderer.end(); two.renderer.end();
+  const a = decode(one.lines), b = decode(two.lines); schema(a, 'identity'); schema(b);
+  assert.equal(a[0].title, ''); assert.equal(a[6].title, 'same'); assert.equal(a[6].output, '');
+  assert.equal(a[5].output, '引号"反斜杠\\\t🙂\n'); assert.notEqual(a[0].taskId, b[0].taskId);
+  assert.deepEqual(a.slice(0, 5).map(x => x.state), [S.STARTED, S.RETRY, S.ROLLING_BACK, S.ROLLED_BACK, S.CANCELLED]);
+});
+await check('H-TREE', '多层并发子树中任务身份、直接父节点及输出次数正确', async () => {
+  const lines = []; let arrived = 0, release; const gate = new Promise(resolve => { release = resolve; });
+  const list = new Listr([0, 1].map(i => ({ title: 'same', task: (_, task) => task.newListr([{ title: 'same', task: (_, child) => child.newListr([{ title: undefined, task: async (_, leaf) => { arrived++; if (arrived === 2) release(); await gate; leaf.output = 'leaf-' + i; } }]) }]) })), { concurrent: 2, renderer: 'jsonl', rendererOptions: { writer: x => lines.push(x) }, registerSignalListeners: false });
+  await list.run(); const records = decode(lines); schema(records);
+  const out = records.filter(x => x.type === 'output'); assert.equal(out.length, 2);
+  for (let i = 0; i < 2; i++) {
+    const mid = list.tasks[i].subtasks[0], leaf = mid.subtasks[0], r = out.find(x => x.output === 'leaf-' + i);
+    assert.equal(r.taskId, leaf.id); assert.equal(r.parentId, mid.id); assert.equal(r.title, '');
+    assert.equal(records.filter(x => x.type === 'state' && x.taskId === leaf.id && x.state === S.STARTED).length, 1);
+  }
+});
+await check('H-REATTACH', '重复发现同一子任务不会重复订阅，先结束后启动不会重启', () => {
+  const p = direct(), c = direct(); c.task.parent = p.task;
+  p.renderer.render(); p.task.emit(E.SUBTASK, [c.task]); p.task.emit(E.SUBTASK, [c.task]); c.task.output$ = 'once'; p.renderer.end();
+  assert.equal(decode(p.lines).filter(x => x.type === 'output').length, 1);
+  const closed = direct(); closed.renderer.end(); closed.renderer.render(); closed.task.state$ = S.STARTED; closed.renderer.end();
+  const records = decode(closed.lines); schema(records); assert.deepEqual(records.map(x => x.type), ['run_end']);
+});
+await check('H-FAULT', '不同 writer 异常值均隔离并保持原值身份及业务失败身份', async () => {
+  class StatusError extends Error { status = 409; }
+  for (const failure of [new StatusError('callback'), { status: 400, message: 'callback' }, 'callback-text']) {
+    for (const failBusiness of [false, true]) {
+      let writes = 0, reports = 0, reported, calls = 0;
+      const original = new StatusError('business');
+      const list = new Listr([{ task() { calls++; if (failBusiness) throw original; } }], { renderer: 'jsonl', rendererOptions: { writer() { writes++; throw failure; }, onError(error) { reports++; reported = error; } }, registerSignalListeners: false });
+      if (failBusiness) await assert.rejects(list.run(), error => error === original); else await list.run();
+      assert.equal(calls, 1); assert.equal(writes, 1); assert.equal(reports, 1); assert.equal(reported, failure);
+    }
+  }
+});
+await check('H-RETRY', '日志故障不增加业务重试，不改变原回滚次数', async () => {
+  let calls = 0, rolledBack = 0;
+  const list = new Listr([{ title: 'retry', retry: 1, task() { calls++; if (calls === 1) throw new Error('retry'); } }], { renderer: 'jsonl', rendererOptions: { writer() { throw 'sink'; } }, registerSignalListeners: false });
+  await list.run(); assert.equal(calls, 2);
+  const fail = new Listr([{ task() { throw new Error('rollback'); }, rollback() { rolledBack++; } }], { renderer: 'jsonl', rendererOptions: { writer() { throw { status: 409 }; } }, registerSignalListeners: false });
+  await fail.run().catch(() => {}); assert.equal(rolledBack, 1);
+});
+if (Number(process.argv[2]) === 3) {
+  await check('H-TRANSFORM-FAULT', '转换抛错/返回非字符串均报告一次、停止输出且保留业务结果', async () => {
+    for (const failure of [new Error('transform'), { status: 409 }, 'transform-string']) {
+      let writes = 0, errors = 0, seen, calls = 0;
+      const list = new Listr([{ title: 'x', task() { calls++; } }], { renderer: 'jsonl', rendererOptions: { writer() { writes++; }, transformText() { throw failure; }, onError(e) { seen = e; errors++; throw 'secondary'; } }, registerSignalListeners: false });
+      await list.run(); assert.equal(calls, 1); assert.equal(writes, 0); assert.equal(errors, 1); assert.equal(seen, failure);
+    }
+    for (const value of [undefined, 42, {}, Promise.resolve('not sync')]) {
+      let errors = 0, seen; const item = direct({ transformText: () => value, onError(e) { errors++; seen = e; } });
+      item.renderer.render(); item.task.state$ = S.STARTED; item.task.output$ = 'again'; item.renderer.end();
+      assert.equal(item.lines.length, 0); assert.equal(errors, 1); assert.ok(seen instanceof TypeError);
+    }
+  });
+  await check('H-FILTER-TRANSFORM', '被过滤的 output 不触发转换，其他事件保持元信息和连续编号', () => {
+    let outputCalls = 0, totalCalls = 0;
+    const item = direct({ includeOutput: false, transformText(text) { totalCalls++; if (text === 'omit-me') { outputCalls++; throw 'unexpected'; } return '<' + text + '>'; } });
+    item.renderer.render(); item.task.output$ = 'omit-me'; item.task.state$ = S.STARTED; item.renderer.end();
+    const records = decode(item.lines); schema(records); assert.equal(outputCalls, 0); assert.equal(totalCalls, 1); assert.equal(records.length, 2); assert.equal(records[0].title, '<标题>');
+  });
+  await check('H-POLICY', '示例使用同签名用户策略而非硬编码规则', async () => {
+    const { readFileSync, writeFileSync } = await import('node:fs'); const path = '/task/examples/c6-consumer/policy.ts';
+    const original = readFileSync(path);
+    try {
+      writeFileSync(path, "export function formatText(text: string): string { return 'ALTERNATE<' + text + '>'; }\n");
+      const run = spawnSync(process.execPath, ['examples/c6-consumer/run.ts'], { cwd: '/task', encoding: 'utf8', timeout: 10000 });
+      assert.equal(run.status, 0, run.stderr); const records = run.stdout.trim().split('\n').map(x => JSON.parse(x)); schema(records);
+      const texts = records.filter(x => x.type !== 'run_end').flatMap(x => x.type === 'output' ? [x.title, x.output] : [x.title]);
+      assert.ok(texts.length > 0); assert.ok(texts.every(x => x.startsWith('ALTERNATE<') && x.endsWith('>')));
+      assert.ok(texts.some(x => x.includes('token=demo-secret')));
+    } finally { writeFileSync(path, original); }
+  });
+}
+
+await check('H-END-DURING-SUBTASK', '另一监听器在子任务事件分发中结束 renderer 后，不再追加订阅', async () => {
+  function observe(t) {
+    const active = [], originalOn = t.on.bind(t), originalOnce = t.once.bind(t), originalOff = t.off.bind(t), originalComplete = t.complete.bind(t);
+    t.on = (event, handler) => { active.push([event, handler]); return originalOn(event, handler); };
+    t.once = (event, handler) => { active.push([event, handler]); return originalOnce(event, handler); };
+    t.off = (event, handler) => {
+      for (let i = active.length - 1; i >= 0; i--) if (active[i][0] === event && (!handler || active[i][1] === handler)) active.splice(i, 1);
+      return originalOff(event, handler);
+    };
+    t.complete = () => { active.length = 0; return originalComplete(); };
+    return active;
+  }
+  async function integrationScenario(order) {
+    let renderer, observerCalls = 0;
+    const lines = [], observations = [];
+    class Capturing extends JsonlRenderer {
+      constructor(...args) { super(...args); renderer = this; }
+      render() { super.render(); if (order === 'already-ended') this.end(); }
+    }
+    const root = new Listr([{ title: 'root', task: (ctx, wrapper) => {
+      let activeChild;
+      const child = wrapper.newListr([{ title: 'child', task: (ctx, childWrapper) => {
+        observations.push({ task: 'child', active: activeChild.length }); ctx.steps++;
+        let activeGrandchild;
+        const grandchild = childWrapper.newListr([{ title: 'grandchild', task: ctx => {
+          observations.push({ task: 'grandchild', active: activeGrandchild.length }); ctx.steps++;
+        } }]);
+        activeGrandchild = observe(grandchild.tasks[0]);
+        return grandchild;
+      } }]);
+      activeChild = observe(child.tasks[0]);
+      return child;
+    } }], { renderer: Capturing, rendererOptions: { writer: line => lines.push(JSON.parse(line)) }, registerSignalListeners: false });
+    const watcher = () => { observerCalls++; renderer.end(); };
+    if (order === 'before') root.tasks[0].on(E.SUBTASK, watcher);
+    const pending = root.run({ steps: 0 });
+    if (order !== 'before') root.tasks[0].on(E.SUBTASK, watcher);
+    const context = await pending;
+    const expectedTypes = order === 'already-ended' ? ['run_end'] : ['state', 'run_end'];
+    return { order, passed: context.steps === 2 && observerCalls === 1 && observations.length === 2 && observations.every(x => x.active === 0) && JSON.stringify(lines.map(x => x.type)) === JSON.stringify(expectedTypes), observed: { context, observerCalls, observations, recordTypes: lines.map(x => x.type) } };
+  }
+  for (const order of ['before', 'after', 'already-ended']) {
+    const result = await integrationScenario(order);
+    assert.equal(result.passed, true, JSON.stringify(result));
+  }
+});
+console.log(JSON.stringify({ suite: 'hidden', results: results.slice(beforeHidden) }));

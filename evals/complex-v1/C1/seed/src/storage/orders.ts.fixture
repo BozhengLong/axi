@@ -1,0 +1,4 @@
+import type { Database } from "bun:sqlite";
+import type { Order } from "../domain/types.ts";
+export function insertOrder(db: Database, row: Order) { db.query("INSERT INTO orders VALUES(?,?,?)").run(row.id,row.sku,row.quantity); }
+export function listOrders(db: Database): Order[] { return db.query("SELECT id,sku,quantity FROM orders ORDER BY id").all() as Order[]; }

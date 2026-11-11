@@ -1,0 +1,10 @@
+*
+!src
+!src/**
+!scripts
+!scripts/eval
+!scripts/eval/container
+!scripts/eval/container/**
+!evals
+!evals/environment
+!evals/environment/**

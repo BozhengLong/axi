@@ -1,0 +1,5 @@
+# Axi 离线回放任务副本
+
+这是冻结的真实 Axi 源码与测试，位于 /task。你正在使用的 agent 位于其他只读目录。仅修改这份副本。
+运行 `bun run typecheck`、`bun test tests`。阅读 brief.md 和 replay-contract.md。源码没有运行依赖，测试工具链已预装。
+受保护：原 tests/ 文件、package.json、tsconfig.json、brief.md、replay-contract.md、samples/。允许新增测试和文档。不得联网安装。

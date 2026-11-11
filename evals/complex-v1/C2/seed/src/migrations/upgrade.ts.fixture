@@ -1,0 +1,13 @@
+import {openDb} from "../storage/db.ts";
+import {version} from "../storage/version.ts";
+import {rows} from "../storage/tasks.ts";
+import type {MigrationOptions,MigrationResult} from "../domain/types.ts";
+export function migrate(path:string,options:MigrationOptions={}):MigrationResult {
+ const db=openDb(path);try{const from=version(db),count=rows(db).length;
+ if(from===2)return {from,to:2,count,changed:false};
+ if(options.dryRun)return {from,to:2,count,changed:false};
+ db.exec("ALTER TABLE tasks ADD COLUMN deleted_at TEXT; UPDATE tasks SET status=CASE status WHEN 'todo' THEN 'open' WHEN 'doing' THEN 'active' ELSE status END");
+ options.fail?.("after_copy");db.exec("PRAGMA user_version=2");options.fail?.("before_commit");
+ return {from,to:2,count,changed:true};
+ }finally{db.close();}
+}

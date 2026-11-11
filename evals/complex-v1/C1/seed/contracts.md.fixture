@@ -1,0 +1,11 @@
+# 固定契约
+
+- POST /orders JSON `{sku:string,quantity:正安全整数}`，非空 Idempotency-Key 为业务键。非法 JSON、缺少键、无效参数返回 400 `{error:"invalid_request"}`。额外字段忽略，JSON 键顺序无意义。
+- 首次成功 201，响应 `{id,sku,quantity}`。同键同 sku/quantity 返回原状态和响应，不重复扣减。不同业务参数 409 `{error:"idempotency_conflict"}`，即使库存已不足也优先判定键冲突。
+- 未知 sku 与不足库存统一 409 `{error:"out_of_stock"}`。失败不占用键；修复条件后同键可以成功。零数量、负数、小数、超过安全整数范围一律 400。
+- 库存、订单、成功键记录原子提交。重启进程后仍能重放；多个服务实例共享数据库也适用。总库存不得负数。
+- 错误注入钩子 after_inventory、after_order、before_commit 抛错时返回 500 `{error:"internal_error"}`，所有写入回滚。成功提交后模拟响应丢失，重试仍只产生一次效果。
+- `GET /stock/:sku` 返回 200 `{sku,available}`，未知商品 404 `{error:"not_found"}`；`GET /orders` 和 CLI list 返回按 id 升序的订单数组，字段不增加。其他路径 404。
+- 导出 `createApp(db, hooks?)` 返回异步 Request→Response 函数。Hooks.enter 可用于可控并发屏障，每个合法 POST 必须等待它完成后才开始业务操作，且不得放在持有数据库写锁的区间。Hooks.fail 是同步故障注入，必须在三个指定阶段调用。故障钩子不得吞掉。
+- `openStore(path)` 可开已有库；`seedStock(db,sku,n)` 为测试重置库存。不能在启动时清空订单或现有数据。服务与 CLI 关闭连接。
+- 数据库可新增表/索引，保留 inventory(sku,available)、orders(id,sku,quantity) 的兼容读取。无需鉴权、支付、外部服务。

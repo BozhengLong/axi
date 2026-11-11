@@ -1,0 +1,6 @@
+import { openStore } from "./storage/db.ts";
+import { createApp } from "./http/app.ts";
+const db=openStore(process.env.DB_PATH ?? "/tmp/orders.db");
+const server=Bun.serve({hostname:"127.0.0.1",port:Number(process.env.PORT ?? 3000),fetch:createApp(db)});
+process.on("SIGTERM",()=>{server.stop(true);db.close();process.exit(0)});
+console.log(server.url.toString());

@@ -1,0 +1,14 @@
+import type { Database } from "bun:sqlite";
+import type { Hooks, Purchase, Order } from "../domain/types.ts";
+import { BusinessError } from "../domain/errors.ts";
+import { stock, subtract } from "../storage/inventory.ts";
+import { insertOrder } from "../storage/orders.ts";
+export async function placeOrder(db: Database, input: Purchase, key: string, hooks: Hooks = {}): Promise<Order> {
+  const available = stock(db,input.sku);
+  await hooks.enter?.();
+  if (available === undefined || available < input.quantity) throw new BusinessError(409,"out_of_stock");
+  subtract(db,input.sku,input.quantity); hooks.fail?.("after_inventory");
+  const row = { id: crypto.randomUUID(), ...input };
+  insertOrder(db,row); hooks.fail?.("after_order"); hooks.fail?.("before_commit");
+  return row;
+}

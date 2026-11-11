@@ -1,0 +1,7 @@
+import {test,expect} from "bun:test";
+import {openStore,seedStock} from "../src/storage/db.ts";
+import {createApp} from "../src/http/app.ts";
+import {inventory,orders} from "../src/client/legacy.ts";
+import {orderRequest} from "../src/testing/request.ts";
+test("旧客户端读取库存和订单",async()=>{const db=openStore(":memory:");seedStock(db,"tea",5);const app=createApp(db);const s=Bun.serve({hostname:"127.0.0.1",port:0,fetch:app});try {expect(await inventory(s.url.toString().replace(/\/$/,""),"tea")).toEqual({sku:"tea",available:5});const r=await app(orderRequest("old",2));expect(r.status).toBe(201);expect(await orders(s.url.toString().replace(/\/$/,""))).toHaveLength(1);}finally{s.stop(true);db.close();}});
+test("无效输入不扣库存",async()=>{const db=openStore(":memory:");seedStock(db,"tea",2);try{expect((await createApp(db)(orderRequest("x",0))).status).toBe(400);expect(db.query("SELECT available FROM inventory").get()).toEqual({available:2});}finally{db.close();}});

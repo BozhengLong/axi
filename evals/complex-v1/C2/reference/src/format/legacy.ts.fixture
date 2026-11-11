@@ -1,0 +1,2 @@
+import type {Row} from "../domain/types.ts";
+export function legacy(row:Row){const map:Record<string,string>={open:"todo",active:"doing",done:"done"};return {id:row.id,title:row.title,status:map[row.status]??row.status,created_at:row.created_at,updated_at:row.updated_at};}

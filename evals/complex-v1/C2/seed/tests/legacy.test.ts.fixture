@@ -1,0 +1,10 @@
+import {test,expect} from "bun:test";
+import {mkdtempSync,rmSync,copyFileSync} from "node:fs";
+import {tmpdir} from "node:os";
+import {join} from "node:path";
+import {openDb} from "../src/storage/db.ts";
+import {list} from "../src/services/list.ts";
+import {version} from "../src/storage/version.ts";
+import {createApp} from "../src/api/app.ts";
+import {fetchTasks} from "../src/client/legacy.ts";
+test("旧接口和导出不升级数据库",async()=>{const dir=mkdtempSync(join(tmpdir(),"legacy-")),path=join(dir,"db");copyFileSync("fixtures/legacy.db",path);const db=openDb(path);const server=Bun.serve({hostname:"127.0.0.1",port:0,fetch:createApp(db)});try{expect(list(db).map(x=>x.status)).toEqual(["todo","doing","done"]);expect(await fetchTasks(server.url.toString().replace(/\/$/,""))).toHaveLength(3);expect(version(db)).toBe(1);expect(createApp(db)(new Request("http://localhost/v2/tasks")).status).toBe(409);}finally{server.stop(true);db.close();rmSync(dir,{recursive:true,force:true});}});

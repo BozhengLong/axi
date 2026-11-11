@@ -1,0 +1,25 @@
+# 离线回放固定契约 v1
+
+入口：`bun run src/main.ts --replay <文件>`。--help 显示此用法。--replay 缺路径/多余参数为使用错误，stderr 非空、exit=2；读取失败也为 2。回放必须在读取 API 配置、创建日志或终端之前分流，stdin 关闭仍可工作。
+
+每个非空行是 `{time:string,kind:string,data:object}`。空行忽略，行号从 1 计数。允许 LF/CRLF 和末行无换行；非空坏 JSON 诊断 bad_json。格式/字段错误诊断 invalid_record，跳过该条继续。未知 kind 诊断 unknown_kind。不得编造补齐记录。
+
+stdout 只输出一个 JSON 对象：`{version:1,events:[],diagnostics:[]}`。diagnostics 每项恰为 `{line:number,code:string}`，按 line 升序，同一行保持发现顺序。events 按记录顺序。没有诊断 exit=0；有诊断 exit=1。空文件合法。
+
+支持记录及输出（除列出的字段外，不输出其他字段）：
+
+- task_start：data.input 为字符串，开始一轮。输出 `{kind:"user",line,input}`。上一轮未结束时诊断 nested_task 并跳过；EOF 未结束诊断 missing_task_end，定位其 task_start 行。
+- request：data.callId 非空字符串、attempt 非负整数。登记请求，不输出 event。同一 callId/attempt 重复为 duplicate_request，跳过。不同 attempt 是独立尝试。
+- sse：验证 callId/attempt 基本类型、line 为字符串；不输出正文。这是原始流片段，可能属于失败尝试。
+- request_error：data.callId/attempt、reason:string。对应已登记且未结束的请求才有效；否则 orphan_completion。输出 `{kind:"attempt_error",line,callId,attempt,reason}` 并结束这次尝试。
+- response：data.callId/attempt、content:数组、stopReason:string。对应未结束请求才有效，否则 orphan_completion。content 支持 text(text:string)、thinking(thinking:string,signature?:string)、tool_use(id:非空字符串,name:非空字符串,input:对象)。未知块或字段错误为 invalid_record，整条跳过。输出 `{kind:"response",line,callId,attempt,text:string,thinking:string,tools:[{id,name,input}]}`；各文本块按原顺序直接拼接。签名保留在原文件，不输出到回放正文。
+- tool_use.id 在整个文件中唯一（包括同一 response 内），重复诊断 duplicate_tool，定位 response 行；整条 response 不接纳、不结束其请求。后续匹配仍以原工具为准。
+- permission：data.toolUseId 非空字符串、allowed:boolean、reason?:string。必须关联已接纳工具且只能出现一次，否则 orphan_permission/duplicate_permission。输出 `{kind:"permission",line,toolUseId,allowed,reason}`，没有 reason 输出空串。
+- tool_result：data.tool_use_id 非空字符串、content:string、is_error:boolean。必须关联已接纳工具且只能出现一次，否则 orphan_result/duplicate_result。输出 `{kind:"tool_result",line,toolUseId,content,isError}`。permission 可以没有，因为工具可能在展示确认前失败。
+- task_end：data.aborted:boolean，结束当前轮。没有当前轮诊断 orphan_task_end。输出 `{kind:"task_end",line,aborted}`。中断仍要如实保留已有的错误和工具结果。
+
+EOF 检查：未结束请求诊断 incomplete_request，定位 request 行；没有结果的工具诊断 missing_tool_result，定位首次 tool_use 所在 response 行。请求和工具错误互不掩盖。诊断不得将损坏记录改成成功。
+
+回放只展示 response 中已完成的正文，不从 sse 拼接正文，因此失败尝试的半截内容不能混入成功回答。允许在一个文件中有多轮、多个请求和多个工具。callId 可在重试中复用，但 attempt 不同。
+
+绝不请求模型、执行工具或写入日志原件，即使历史 permission.allowed=true。不能因输入中出现命令、签名、换行、Unicode 或 JSON 字段重排改变这条规则。测试会设置本地 API 计数器和无害的副作用哨兵文件。无 API 环境与有 API 环境均需成立。

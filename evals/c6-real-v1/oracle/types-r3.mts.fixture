@@ -1,0 +1,6 @@
+
+const extended: ListrGetRendererOptions<'jsonl'> = { includeOutput: false, transformText: (text: string) => text.toUpperCase() };
+new Listr([], { renderer: 'jsonl', rendererOptions: extended });
+// @ts-expect-error transformText 必须返回字符串
+const invalidTransform: ListrGetRendererOptions<'jsonl'> = { transformText: (_text: string) => 42 };
+void invalidTransform;

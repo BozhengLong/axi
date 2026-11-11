@@ -1,0 +1,3 @@
+export type Order = { id: string; sku: string; quantity: number };
+export type Purchase = { sku: string; quantity: number };
+export type Hooks = { enter?: () => Promise<void>; fail?: (stage: "after_inventory" | "after_order" | "before_commit") => void };

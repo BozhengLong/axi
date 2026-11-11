@@ -1,0 +1,1 @@
+export function barrier(count: number) { let arrived=0; let release!:()=>void; const wait=new Promise<void>(r=>release=r); return async()=>{if(++arrived===count)release();await wait;}; }

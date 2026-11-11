@@ -1,0 +1,2 @@
+import type {Database} from "bun:sqlite";
+export function version(db:Database) {return (db.query("PRAGMA user_version").get() as {user_version:number}).user_version;}

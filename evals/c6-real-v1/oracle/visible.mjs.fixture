@@ -1,0 +1,86 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { spawnSync } from 'node:child_process';
+const require = createRequire('/task/examples/package.json');
+const packagePath = require.resolve('listr2');
+const lib = await import(pathToFileURL(packagePath).href);
+const { Listr, ListrTaskEventType: E, ListrTaskState: S, JsonlRenderer } = lib;
+const results = [];
+async function check(id, requirement, fn) {
+  try { await fn(); results.push({ id, requirement, status: 'passed', expected: requirement, observed: '断言全部通过' }); }
+  catch (error) { results.push({ id, requirement, status: 'failed', expected: requirement, observed: String(error), stack: error?.stack }); }
+}
+function decode(lines) {
+  return lines.map((line) => {
+    assert.equal(typeof line, 'string'); assert.ok(line.endsWith('\n'));
+    assert.equal(line.split('\n').length, 2); assert.ok(!line.includes('\x1b'));
+    return JSON.parse(line);
+  });
+}
+function schema(records, runId) {
+  records.forEach((r, index) => {
+    const expected = ['schemaVersion', 'runId', 'seq', 'type'];
+    if (r.type !== 'run_end') expected.push('taskId', 'parentId', 'title', r.type);
+    assert.ok(['state', 'output', 'run_end'].includes(r.type));
+    assert.deepEqual(Object.keys(r).sort(), expected.sort());
+    assert.equal(r.schemaVersion, 1); assert.equal(r.seq, index + 1);
+    assert.equal(typeof r.runId, 'string'); assert.ok(r.runId.length > 0);
+    if (runId !== undefined) assert.equal(r.runId, runId);
+    if (r.type !== 'run_end') { assert.equal(typeof r.taskId, 'string'); assert.ok(r.parentId === null || typeof r.parentId === 'string'); assert.equal(typeof r.title, 'string'); assert.equal(typeof r[r.type], 'string'); }
+  });
+}
+function direct(options = {}, title = '标题') {
+  const list = new Listr([{ title, task() {} }], { renderer: 'silent', registerSignalListeners: false });
+  const lines = []; const renderer = new JsonlRenderer(list.tasks, { writer: line => lines.push(line), ...options });
+  return { task: list.tasks[0], renderer, lines };
+}
+await check('V-API', '公开包导出 JsonlRenderer，jsonl 别名可在非 TTY 环境运行', async () => {
+  assert.equal(typeof JsonlRenderer, 'function');
+  assert.ok(packagePath.startsWith('/task/packages/listr2/dist/'), packagePath);
+  const lines = [], ctx = { counter: 0 };
+  const list = new Listr([{ title: '真实根任务', task(c, task) { c.counter++; task.output = 'hello'; } }], { renderer: 'jsonl', rendererOptions: { runId: 'visible', writer: x => lines.push(x) }, registerSignalListeners: false });
+  assert.equal(await list.run(ctx), ctx); assert.equal(ctx.counter, 1);
+  const records = decode(lines); schema(records, 'visible');
+  assert.deepEqual(records.map(x => x.type), ['state', 'output', 'state', 'run_end']);
+  assert.equal(records[0].state, S.STARTED); assert.equal(records[2].state, S.COMPLETED);
+});
+await check('V-SCHEMA', '字段、任务身份、换行文本和实际事件顺序符合契约', () => {
+  const { renderer, task, lines } = direct({ runId: 'schema' }); renderer.render();
+  task.state$ = S.STARTED; task.output$ = '中文🙂\n第二行'; task.title = '新标题'; task.state$ = S.COMPLETED; renderer.end();
+  const records = decode(lines); schema(records, 'schema');
+  assert.equal(records.length, 4); assert.equal(records[1].output, '中文🙂\n第二行');
+  assert.equal(records[2].title, '新标题'); assert.equal(records[0].taskId, task.id); assert.equal(records[0].parentId, null);
+});
+await check('V-TREE', '动态子任务在执行前订阅，每次输出只记录一次并关联父任务', async () => {
+  const lines = [];
+  const list = new Listr([{ title: 'root', task: (_, task) => task.newListr([{ title: 'child', task: (_, child) => { child.output = 'nested'; } }]) }], { renderer: 'jsonl', rendererOptions: { writer: x => lines.push(x) }, registerSignalListeners: false });
+  await list.run(); const records = decode(lines); schema(records);
+  const output = records.filter(r => r.type === 'output'); assert.equal(output.length, 1);
+  assert.equal(output[0].parentId, list.tasks[0].id); assert.equal(output[0].taskId, list.tasks[0].subtasks[0].id);
+  assert.equal(records.filter(r => r.type === 'run_end').length, 1);
+});
+await check('V-LIFECYCLE', '重复 render/end 不重复输出，结束不移除其他监听器', () => {
+  const { renderer, task, lines } = direct(); let observer = 0;
+  task.on(E.STATE, () => observer++); renderer.render(); renderer.render(); task.state$ = S.STARTED;
+  renderer.end(); renderer.end(); renderer.render(); task.state$ = S.COMPLETED;
+  const records = decode(lines); schema(records); assert.equal(records.length, 2); assert.equal(observer, 2);
+  const next = direct(); next.renderer.render(); next.task.state$ = S.STARTED; next.renderer.end();
+  assert.notEqual(decode(next.lines)[0].runId, records[0].runId); assert.equal(decode(next.lines)[0].seq, 1);
+});
+await check('V-FAULT', 'writer 故障报告一次并停止输出，onError 再抛错不改变业务结果', async () => {
+  const marker = new Error('writer failed'); let writes = 0, errors = 0, business = 0;
+  const list = new Listr([{ task() { business++; } }], { renderer: 'jsonl', rendererOptions: { writer() { writes++; throw marker; }, onError(error) { assert.equal(error, marker); errors++; throw new Error('onError failed'); } }, registerSignalListeners: false });
+  await list.run(); assert.equal(business, 1); assert.equal(writes, 1); assert.equal(errors, 1);
+  const original = new Error('business failed');
+  const failing = new Listr([{ task() { throw original; } }], { renderer: 'jsonl', rendererOptions: { writer() { throw marker; } }, registerSignalListeners: false });
+  await assert.rejects(failing.run(), error => error === original);
+});
+await check('V-CONSUMER', '示例通过构建包输出 JSONL，包含嵌套任务及换行输出', () => {
+  const run = spawnSync(process.execPath, ['examples/c6-consumer/run.ts'], { cwd: '/task', encoding: 'utf8', timeout: 10000 });
+  assert.equal(run.status, 0, run.stderr); assert.ok(run.stdout.trim().length > 0);
+  const records = decode(run.stdout.trimEnd().split('\n').map(x => x + '\n')); schema(records);
+  assert.ok(records.some(x => x.type === 'output' && x.output.includes('\n')));
+  assert.ok(records.some(x => x.parentId)); assert.equal(records.at(-1).type, 'run_end');
+});
+console.log(JSON.stringify({ suite: 'visible-r1', results }));

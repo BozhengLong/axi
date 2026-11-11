@@ -1,0 +1,5 @@
+# 青松任务管理工具
+
+虚构数据。阅读 brief.md、contracts.md。src/migrations/ 是待完成的升级实现，src/api/ 和 src/cli.ts 是已有调用入口。
+`bun run typecheck`；`bun test tests`。迁移：`bun src/cli.ts migrate <数据库路径> [--dry-run]`；导出：`bun src/cli.ts export <数据库路径> [--v2]`。
+fixtures/legacy.db 为受保护原件，复制到 /tmp 再迁移。tests/、fixtures/、README.md、brief.md、contracts.md、package.json、tsconfig.json 不可改。src/ 可改，可新增测试。不联网安装。

@@ -1,0 +1,6 @@
+# 青松订单服务
+
+虚构服务。请阅读 brief.md 和 contracts.md。入口 src/main.ts，HTTP 路由 src/http/app.ts，订单业务 src/services/orders.ts，持久化 src/storage/。
+
+运行：`bun run typecheck`、`bun test tests`。测试自行启动和关闭本机服务。CLI：`bun src/cli.ts <db> list`。不需要安装依赖。
+给定 tests/、brief.md、contracts.md、package.json、tsconfig.json 受保护，可以新增独立测试文件。src/ 可修改。不要删除或弱化原测试。临时数据库放 /tmp。

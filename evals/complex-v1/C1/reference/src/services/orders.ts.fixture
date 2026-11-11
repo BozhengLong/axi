@@ -1,0 +1,19 @@
+import type { Database } from "bun:sqlite";
+import type { Hooks, Purchase, Order } from "../domain/types.ts";
+import { BusinessError } from "../domain/errors.ts";
+import { stock, subtract } from "../storage/inventory.ts";
+import { insertOrder } from "../storage/orders.ts";
+export async function placeOrder(db: Database, input: Purchase, key: string, hooks: Hooks = {}): Promise<Order> {
+  const injected = (stage: "after_inventory" | "after_order" | "before_commit") => { try { hooks.fail?.(stage); } catch (cause) { throw new Error("injected storage failure", { cause }); } };
+  await hooks.enter?.();
+  db.exec("CREATE TABLE IF NOT EXISTS request_keys(key TEXT PRIMARY KEY, sku TEXT NOT NULL, quantity INTEGER NOT NULL, response TEXT NOT NULL)");
+  return db.transaction(() => {
+    const previous=db.query("SELECT sku,quantity,response FROM request_keys WHERE key=?").get(key) as {sku:string;quantity:number;response:string}|null;
+    if(previous){if(previous.sku!==input.sku||previous.quantity!==input.quantity)throw new BusinessError(409,"idempotency_conflict");return JSON.parse(previous.response) as Order;}
+    const available=stock(db,input.sku);
+    if(available===undefined||available<input.quantity)throw new BusinessError(409,"out_of_stock");
+    subtract(db,input.sku,input.quantity);injected("after_inventory");
+    const row:Order={id:crypto.randomUUID(),...input};insertOrder(db,row);injected("after_order");
+    db.query("INSERT INTO request_keys VALUES(?,?,?,?)").run(key,input.sku,input.quantity,JSON.stringify(row));injected("before_commit");return row;
+  }).immediate();
+}

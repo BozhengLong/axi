@@ -1,0 +1,2 @@
+import type {Row} from "../domain/types.ts";
+export function current(row:Row) {return {...row,deleted_at:row.deleted_at??null};}

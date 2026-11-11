@@ -1,0 +1,5 @@
+export type LegacyStatus = "todo" | "doing" | "done";
+export type CurrentStatus = "open" | "active" | "done";
+export type Row = { id:string; title:string; status:string; created_at:string; updated_at:string; deleted_at?:string|null };
+export type MigrationOptions = { dryRun?:boolean; fail?:(stage:"after_copy"|"before_commit")=>void };
+export type MigrationResult = {from:number;to:number;count:number;changed:boolean};

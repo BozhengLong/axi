@@ -1,0 +1,4 @@
+import { Database } from "bun:sqlite";
+import { schema } from "./schema.ts";
+export function openStore(path: string) { const db = new Database(path); db.exec("PRAGMA busy_timeout=5000"); schema(db); return db; }
+export function seedStock(db: Database, sku: string, n: number) { db.query("INSERT INTO inventory VALUES(?,?) ON CONFLICT(sku) DO UPDATE SET available=excluded.available").run(sku, n); }

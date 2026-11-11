@@ -1,0 +1,16 @@
+import {openDb} from "../storage/db.ts";
+import {version} from "../storage/version.ts";
+import {rows} from "../storage/tasks.ts";
+import type {MigrationOptions,MigrationResult} from "../domain/types.ts";
+export function migrate(path:string,options:MigrationOptions={}):MigrationResult {
+ const db=openDb(path);try{return db.transaction(():MigrationResult=>{
+ const from=version(db);if(![1,2].includes(from))throw Error("unsupported_version");
+ const data=rows(db),seen=new Set<string>();const map:Record<string,string>={todo:"open",doing:"active",done:"done"};
+ for(const row of data){if(typeof row.id!=="string"||!row.id||seen.has(row.id)||[row.title,row.created_at,row.updated_at].some(x=>typeof x!=="string")||!(from===1?Object.hasOwn(map,row.status):["open","active","done"].includes(row.status)))throw Error("invalid_legacy_data");seen.add(row.id);}
+ const count=data.length;if(from===2||options.dryRun)return {from,to:2,count,changed:false};
+ db.exec("CREATE TABLE tasks_v2(id TEXT PRIMARY KEY,title TEXT NOT NULL,status TEXT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL,deleted_at TEXT)");
+ for(const r of data)db.query("INSERT INTO tasks_v2 VALUES(?,?,?,?,?,NULL)").run(r.id,r.title,map[r.status]!,r.created_at,r.updated_at);
+ options.fail?.("after_copy");db.exec("DROP TABLE tasks; ALTER TABLE tasks_v2 RENAME TO tasks; PRAGMA user_version=2");options.fail?.("before_commit");
+ return {from,to:2,count,changed:true};
+ }).immediate();}finally{db.close();}
+}

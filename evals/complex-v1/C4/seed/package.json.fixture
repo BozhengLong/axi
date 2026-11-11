@@ -1,0 +1,9 @@
+{
+  "name": "axi-replay-task",
+  "type": "module",
+  "scripts": {
+    "test": "bun test tests",
+    "typecheck": "bun /opt/toolchain/node_modules/typescript/bin/tsc --noEmit",
+    "axi": "bun src/main.ts"
+  }
+}

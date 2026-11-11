@@ -1,0 +1,7 @@
+import { Listr, JsonlRenderer, type ListrGetRendererOptions } from '../packages/listr2/dist/index.mjs';
+const options: ListrGetRendererOptions<'jsonl'> = { runId: 'typed', writer: (line: string) => void line, onError: (error: unknown) => void error };
+new Listr([], { renderer: 'jsonl', rendererOptions: options });
+new Listr([], { renderer: JsonlRenderer, rendererOptions: options });
+// @ts-expect-error writer 参数必须是字符串
+const invalid: ListrGetRendererOptions<'jsonl'> = { writer: (line: number) => void line };
+void invalid;

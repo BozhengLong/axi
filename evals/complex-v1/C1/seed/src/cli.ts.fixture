@@ -1,0 +1,4 @@
+import { openStore } from "./storage/db.ts";
+import { listOrders } from "./storage/orders.ts";
+const db=openStore(process.argv[2]!);
+try { if(process.argv[3] !== "list") throw Error("usage: cli <db> list"); console.log(JSON.stringify(listOrders(db))); } finally { db.close(); }

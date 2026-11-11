@@ -1,0 +1,6 @@
+import type {Database} from "bun:sqlite";
+import {rows} from "../storage/tasks.ts";
+import {version} from "../storage/version.ts";
+import {legacy} from "../format/legacy.ts";
+import {current} from "../format/current.ts";
+export function list(db:Database,v2=false){if(v2&&version(db)<2)throw Error("migration_required");return rows(db).filter(r=>r.deleted_at==null).map(r=>v2?current(r):legacy(r));}

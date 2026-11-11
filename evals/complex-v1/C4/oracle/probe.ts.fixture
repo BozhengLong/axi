@@ -1,0 +1,19 @@
+import {readFileSync,writeFileSync,mkdtempSync,existsSync,rmSync} from "node:fs";
+import {join} from "node:path";
+const cases=JSON.parse(readFileSync("oracle-cases.json","utf8"));
+const directory=mkdtempSync("/tmp/replay-oracle-");const results=[];
+let calls=0;
+const server=Bun.serve({hostname:"127.0.0.1",port:0,fetch(){calls++;return Response.json({error:"replay must stay offline"},{status:500});}});
+try {for(const [index,c] of cases.entries()){
+  const path=join(directory,c.id+".jsonl");writeFileSync(path,c.text);
+  const env={...process.env};for(const key of Object.keys(env))if(/^ANTHROPIC_|^(http|https|all|no)_proxy$/i.test(key))delete env[key];
+  if(index%2===0){env.ANTHROPIC_BASE_URL=server.url.toString();env.ANTHROPIC_API_KEY="synthetic-only";}
+  const args=c.argv?c.argv.map((x:string)=>x==="@input"?path:x):["--replay",path];
+  const before=calls,proc=Bun.spawn(["bun","--no-env-file","src/main.ts",...args],{env,stdin:"ignore",stdout:"pipe",stderr:"pipe"});
+  let timedOut=false;const timer=setTimeout(()=>{timedOut=true;proc.kill("SIGKILL");},4000);
+  const [stdout,stderr,code]=await Promise.all([new Response(proc.stdout).text(),new Response(proc.stderr).text(),proc.exited]);clearTimeout(timer);
+  let value;try{value=JSON.parse(stdout);}catch{}
+  results.push({id:c.id,code,value,stdout,stderr,timedOut,requests:calls-before,inputPreserved:readFileSync(path,"utf8")===c.text,sideEffect:existsSync("/tmp/axi-replay-sentinel")});
+}
+const help=Bun.spawn(["bun","--no-env-file","src/main.ts","--help"],{stdout:"pipe",stderr:"pipe"});const helpText=await new Response(help.stdout).text();console.log(JSON.stringify({results,help:{code:await help.exited,text:helpText}}));
+}finally{server.stop(true);rmSync(directory,{recursive:true,force:true});}

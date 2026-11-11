@@ -1,0 +1,73 @@
+import { readFileSync } from "node:fs";
+type ObjectValue = Record<string, any>;
+const object = (v: unknown): v is ObjectValue => v !== null && typeof v === "object" && !Array.isArray(v);
+const nonempty = (v: unknown): v is string => typeof v === "string" && v.length > 0;
+export function replay(text: string) {
+  const events: ObjectValue[] = [], diagnostics: {line:number;code:string}[] = [];
+  const requests = new Map<string,{line:number;done:boolean}>();
+  const tools = new Map<string,{line:number;permission:boolean;result:boolean}>();
+  let task: number | null = null;
+  const issue = (line:number,code:string) => diagnostics.push({line,code});
+  const meta = (d:ObjectValue) => nonempty(d.callId) && Number.isInteger(d.attempt) && d.attempt >= 0;
+  for(const [index,raw] of text.split(/\r?\n/).entries()) {
+    const line=index+1;if(!raw.trim())continue;
+    let record:unknown;try{record=JSON.parse(raw);}catch{issue(line,"bad_json");continue;}
+    if(!object(record)||typeof record.time!=="string"||typeof record.kind!=="string"||!object(record.data)){issue(line,"invalid_record");continue;}
+    const {kind,data:d}=record;
+    const key=JSON.stringify([d.callId,d.attempt]);
+    if(["request","sse","request_error","response"].includes(kind)&&!meta(d)){issue(line,"invalid_record");continue;}
+    switch(kind) {
+      case "task_start":
+        if(typeof d.input!=="string"){issue(line,"invalid_record");break;}
+        if(task!==null){issue(line,"nested_task");break;}
+        task=line;events.push({kind:"user",line,input:d.input});break;
+      case "task_end":
+        if(typeof d.aborted!=="boolean"){issue(line,"invalid_record");break;}
+        if(task===null){issue(line,"orphan_task_end");break;}
+        task=null;events.push({kind,line,aborted:d.aborted});break;
+      case "request":
+        if(requests.has(key)){issue(line,"duplicate_request");break;}
+        requests.set(key,{line,done:false});break;
+      case "sse":
+        if(typeof d.line!=="string")issue(line,"invalid_record");break;
+      case "request_error": {
+        if(typeof d.reason!=="string"){issue(line,"invalid_record");break;}
+        const request=requests.get(key);if(!request||request.done){issue(line,"orphan_completion");break;}
+        request.done=true;events.push({kind:"attempt_error",line,callId:d.callId,attempt:d.attempt,reason:d.reason});break;
+      }
+      case "response": {
+        const blocks=d.content;
+        if(!Array.isArray(blocks)||typeof d.stopReason!=="string"||blocks.some(b=>!object(b)||!(b.type==="text"?typeof b.text==="string":b.type==="thinking"?typeof b.thinking==="string"&&(b.signature===undefined||typeof b.signature==="string"):b.type==="tool_use"?nonempty(b.id)&&nonempty(b.name)&&object(b.input):false))){issue(line,"invalid_record");break;}
+        const request=requests.get(key);if(!request||request.done){issue(line,"orphan_completion");break;}
+        const ids=new Set<string>();let duplicate=false;
+        for(const b of blocks.filter(b=>b.type==="tool_use")){if(ids.has(b.id)||tools.has(b.id))duplicate=true;ids.add(b.id);}
+        if(duplicate){issue(line,"duplicate_tool");break;}
+        request.done=true;
+        const used=blocks.filter(b=>b.type==="tool_use").map(b=>({id:b.id,name:b.name,input:b.input}));
+        for(const b of used)tools.set(b.id,{line,permission:false,result:false});
+        events.push({kind,line,callId:d.callId,attempt:d.attempt,text:blocks.filter(b=>b.type==="text").map(b=>b.text).join(""),thinking:blocks.filter(b=>b.type==="thinking").map(b=>b.thinking).join(""),tools:used});break;
+      }
+      case "permission": {
+        if(!nonempty(d.toolUseId)||typeof d.allowed!=="boolean"||(d.reason!==undefined&&typeof d.reason!=="string")){issue(line,"invalid_record");break;}
+        const tool=tools.get(d.toolUseId);if(!tool){issue(line,"orphan_permission");break;}if(tool.permission){issue(line,"duplicate_permission");break;}
+        tool.permission=true;events.push({kind,line,toolUseId:d.toolUseId,allowed:d.allowed,reason:d.reason??""});break;
+      }
+      case "tool_result": {
+        if(!nonempty(d.tool_use_id)||typeof d.content!=="string"||typeof d.is_error!=="boolean"){issue(line,"invalid_record");break;}
+        const tool=tools.get(d.tool_use_id);if(!tool){issue(line,"orphan_result");break;}if(tool.result){issue(line,"duplicate_result");break;}
+        tool.result=true;events.push({kind,line,toolUseId:d.tool_use_id,content:d.content,isError:d.is_error});break;
+      }
+      default:issue(line,"unknown_kind");
+    }
+  }
+  for(const request of requests.values())if(!request.done)issue(request.line,"incomplete_request");
+  for(const tool of tools.values())if(!tool.result)issue(tool.line,"missing_tool_result");
+  if(task!==null)issue(task,"missing_task_end");
+  diagnostics.sort((a,b)=>a.line-b.line);
+  return {version:1,events,diagnostics};
+}
+export function replayFile(args:string[]):void {
+  if(args.length!==2||args[0]!=="--replay"){console.error("用法：--replay <trace.jsonl>");process.exitCode=2;return;}
+  let text:string;try{text=readFileSync(args[1]!,"utf8");}catch{console.error("无法读取回放文件");process.exitCode=2;return;}
+  const result=replay(text);console.log(JSON.stringify(result));process.exitCode=result.diagnostics.length?1:0;
+}

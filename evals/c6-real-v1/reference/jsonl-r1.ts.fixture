@@ -1,0 +1,78 @@
+import { randomUUID } from 'node:crypto'
+import { ListrTaskEventType } from '@constants'
+import type { ListrRenderer } from '@interfaces'
+import type { Task } from '@lib'
+
+export interface JsonlRendererOptions {
+  runId?: string
+  writer?: (line: string) => void
+  onError?: (error: unknown) => void
+}
+
+export class JsonlRenderer implements ListrRenderer {
+  public static nonTTY = true
+  public static rendererOptions: JsonlRendererOptions = {}
+  public static rendererTaskOptions: Record<string, never> = {}
+  private readonly runId: string
+  private readonly writer: (line: string) => void
+  private seq = 0
+  private started = false
+  private ended = false
+  private failed = false
+  private seen = new Set<Task<any, any, any>>()
+  private removers: (() => void)[] = []
+
+  constructor(private readonly tasks: Task<any, any, any>[], private readonly options: JsonlRendererOptions = {}) {
+    this.runId = options.runId ?? randomUUID()
+    this.writer = options.writer ?? ((line) => { process.stdout.write(line) })
+  }
+
+  public render(): void {
+    if (this.started || this.ended) return
+    this.started = true
+    this.attach(this.tasks)
+  }
+
+  public end(): void {
+    if (this.ended) return
+    this.ended = true
+    this.send({ type: 'run_end' })
+    for (const remove of this.removers) remove()
+    this.removers = []
+    this.seen.clear()
+  }
+
+  private send(record: Record<string, unknown>): void {
+    if (this.failed) return
+    try {
+      this.writer(JSON.stringify({ schemaVersion: 1, runId: this.runId, seq: ++this.seq, ...record }) + '\n')
+    } catch (error) {
+      // 输出通道故障不能改变业务异常的分类或触发业务重试。
+      this.failed = true
+      try { this.options.onError?.(error) } catch { /* 防止错误回调再次影响业务。 */ }
+    }
+  }
+
+  private attach(tasks: Task<any, any, any>[]): void {
+    for (const task of tasks) {
+      if (this.seen.has(task)) continue
+      this.seen.add(task)
+      const record = (type: 'state' | 'output', value: string) => {
+        if (this.ended) return
+        this.send({ type, taskId: task.id, parentId: task.parent?.id ?? null, title: task.title ?? '', [type]: value })
+      }
+      const state = (value: string) => record('state', value)
+      const output = (value: string) => record('output', value)
+      const subtask = (children: Task<any, any, any>[]) => { if (!this.ended) this.attach(children) }
+      task.on(ListrTaskEventType.STATE, state)
+      task.on(ListrTaskEventType.OUTPUT, output)
+      task.on(ListrTaskEventType.SUBTASK, subtask)
+      this.removers.push(() => {
+        task.off(ListrTaskEventType.STATE, state)
+        task.off(ListrTaskEventType.OUTPUT, output)
+        task.off(ListrTaskEventType.SUBTASK, subtask)
+      })
+      if (task.subtasks) this.attach(task.subtasks)
+    }
+  }
+}

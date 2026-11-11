@@ -1,0 +1,8 @@
+FROM axi-eval:20261110
+USER root
+# 只添加验收工具链，不改变被测 Axi 的运行依赖。
+WORKDIR /opt/toolchain
+RUN bun add --exact typescript@5.9.3 @types/bun@1.4.2 \
+    && chmod -R a+rX /opt/toolchain
+COPY scripts/eval/container /opt/eval
+WORKDIR /task

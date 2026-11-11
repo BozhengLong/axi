@@ -1,0 +1,4 @@
+{"time": "2026-01-01T00:00:00Z", "kind": "task_start", "data": {"input": "查看版本", "effort": "medium"}}
+{"time": "2026-01-01T00:00:00Z", "kind": "request", "data": {"callId": "sample", "attempt": 0, "body": {}}}
+{"time": "2026-01-01T00:00:00Z", "kind": "response", "data": {"callId": "sample", "attempt": 0, "content": [{"type": "text", "text": "已完成"}], "stopReason": "end_turn"}}
+{"time": "2026-01-01T00:00:00Z", "kind": "task_end", "data": {"aborted": false}}

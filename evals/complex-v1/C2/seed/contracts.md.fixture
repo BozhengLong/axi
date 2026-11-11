@@ -1,0 +1,14 @@
+# 冻结契约
+
+v1：`PRAGMA user_version=1`；tasks(id TEXT,title TEXT,status TEXT,created_at TEXT,updated_at TEXT)，所有字段非空。历史状态 todo/doing/done。
+v2：user_version=2；tasks 保留五字段，增加 deleted_at TEXT NULL，状态 open/active/done，id 唯一。保留原 ID、标题、时间戳；历史 deleted_at 为 null。合法空库也须升级。
+
+- `migrate(path, options?)` 同步导出，options 为 `{dryRun?:boolean, fail?:(stage:"after_copy"|"before_commit")=>void}`。返回 `{from,to,count,changed}`。首次真实迁移 from=1,to=2,changed=true；dry-run from=1,to=2,changed=false；已 v2 from=2,to=2,changed=false。count 为任务行数。
+- 一个事务完成数据/schema/版本变更。after_copy 在新数据已写入、原表替换前触发；before_commit 在版本改变后、提交前触发。钩子抛错必须导致整体回滚。失败后可重跑。
+- 重复迁移无业务副作用。两个进程同时迁移同一文件必须都成功，其中只有一个 changed=true，不能重复改写时间或丢数据。
+- 遇到未知状态、重复/空 ID、null 字段或非 1/2 版本，应报错并保留原逻辑数据和 schema。禁止猜测、删除非法行或以 OR IGNORE 隐藏问题。
+- dry-run 必须验证数据，不能写业务数据/schema/version。允许 SQLite 辅助文件或页面布局不同。
+- `createApp(db)` 保留 `GET /tasks`，返回五字段且使用 todo/doing/done；升级后仍一样。新增 `GET /v2/tasks` 返回六字段，使用 open/active/done。旧接口与新版接口按 id 升序，v2 默认过滤 deleted_at 非 null；旧接口也不显示已删除条目。v1 库请求 v2 返回 409 `{error:"migration_required"}`。
+- CLI `export <db>` 等同旧 GET；`export <db> --v2` 等同新 GET。CLI migrate 输出上述 JSON。失败退出 1、stderr 非空；成功退出 0。
+- 旧 export 不触发迁移，不更改数据库。提供的旧客户端应继续运行。其他 HTTP 路径 404 `{error:"not_found"}`。
+- 可扩充源码，不改既有 public 函数签名和受保护原文件；无需外部系统或新依赖。数据库操作应关闭连接。

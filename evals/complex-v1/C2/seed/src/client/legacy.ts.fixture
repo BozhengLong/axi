@@ -1,0 +1,1 @@
+export async function fetchTasks(base:string) { const r=await fetch(base+"/tasks");if(!r.ok)throw Error("list failed"); const tasks=await r.json() as {status:string}[];if(tasks.some(t=>!["todo","doing","done"].includes(t.status)))throw Error("legacy status changed");return tasks; }

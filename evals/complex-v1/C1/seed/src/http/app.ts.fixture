@@ -1,0 +1,23 @@
+import type { Database } from "bun:sqlite";
+import type { Hooks } from "../domain/types.ts";
+import { purchase } from "../domain/validation.ts";
+import { BusinessError } from "../domain/errors.ts";
+import { placeOrder } from "../services/orders.ts";
+import { listOrders } from "../storage/orders.ts";
+import { stock } from "../storage/inventory.ts";
+import { json } from "./response.ts";
+export function createApp(db: Database, hooks: Hooks = {}) {
+  return async (req: Request): Promise<Response> => {
+    try {
+      const path = new URL(req.url).pathname;
+      if(req.method === "GET" && path === "/orders") return json(listOrders(db));
+      if(req.method === "GET" && path.startsWith("/stock/")) { const sku=decodeURIComponent(path.slice(7)),available=stock(db,sku); return available === undefined ? json({error:"not_found"},404) : json({sku,available}); }
+      if(req.method === "POST" && path === "/orders") {
+        let raw: unknown; try { raw=await req.json(); } catch { throw new BusinessError(400,"invalid_request"); }
+        const key=req.headers.get("Idempotency-Key"), input=purchase(raw,key);
+        return json(await placeOrder(db,input,key!,hooks),201);
+      }
+      return json({error:"not_found"},404);
+    } catch(e) { return e instanceof BusinessError ? json({error:e.code},e.status) : json({error:"internal_error"},500); }
+  };
+}
