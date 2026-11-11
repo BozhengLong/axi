@@ -17,9 +17,11 @@ export function save(path: string, value: unknown) {
   writeFileSync(path, JSON.stringify(value, null, 2) + "\n", { mode: 0o600 }); chmodSync(path, 0o600);
 }
 export async function command(args: string[], input?: string, allowFailure = false, timeoutMs = 30000) {
+  const started = performance.now();
+  let timedOut = false;
   const proc = Bun.spawn(args, { cwd: ROOT, stdin: input === undefined ? "ignore" : "pipe", stdout: "pipe", stderr: "pipe" });
   if (input !== undefined) { proc.stdin!.write(input); proc.stdin!.end(); }
-  const timer = setTimeout(() => proc.kill("SIGKILL"), timeoutMs);
+  const timer = setTimeout(() => { timedOut = true; proc.kill("SIGKILL"); }, timeoutMs);
   let total = 0;
   const collect = async (stream: ReadableStream<Uint8Array>) => {
     const chunks: Uint8Array[] = [];
@@ -29,7 +31,7 @@ export async function command(args: string[], input?: string, allowFailure = fal
   const [stdout, stderr, exitCode] = await Promise.all([collect(proc.stdout), collect(proc.stderr), proc.exited]);
   clearTimeout(timer);
   if (exitCode && !allowFailure) throw new Error(`${args.slice(0, 3).join(" ")} failed (${exitCode}): ${stderr.slice(0, 2000)}`);
-  return { stdout, stderr, exitCode };
+  return { stdout, stderr, exitCode, timedOut, durationMs: performance.now() - started };
 }
 export const docker = (args: string[], input?: string, allowFailure = false, timeoutMs?: number) => command(["docker", ...args], input, allowFailure, timeoutMs);
 

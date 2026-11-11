@@ -1,3 +1,4 @@
+import { fatalFaults } from "../container/faults.ts";
 import { appendFileSync } from "node:fs";
 import { join } from "node:path";
 import { control, execArgs, execute, freeze, save, snapshot, type Batch, type Runtime, type Snapshot } from "../core.ts";
@@ -25,7 +26,7 @@ export async function runAxiV1(batch: Batch, runtime: Runtime, prompts: string[]
       if (output.length > 200 * 1024 * 1024 || trace.truncated) throw new Error("terminal output limit");
       const text = normalizeTerminal(output);
       state = await control(batch, "state", { id: runtime.id });
-      if (state.faults.length) throw new Error(`relay: ${state.faults.join(",")}`);
+      if (fatalFaults(state.faults).length) throw new Error(`relay: ${fatalFaults(state.faults).join(",")}`);
       if (options.interruptMarker && !interrupted && stage === "running") {
         if ((await execute(runtime, ["test", "-f", options.interruptMarker], undefined, true)).exitCode === 0) { input("\x03"); interrupted = true; }
       }

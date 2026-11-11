@@ -1,3 +1,4 @@
+import { fatalFaults } from "./faults.ts";
 import { appendFileSync, mkdirSync } from "node:fs";
 import { RequestBudget } from "./budget.ts";
 import { relayResponseHeaders } from "./response-headers.ts";
@@ -87,7 +88,7 @@ Bun.serve({ hostname: "0.0.0.0", port: 8787, idleTimeout: 255, maxRequestBodySiz
     const run = runs.get(data.id ?? url.searchParams.get("id")!);
     if (!run) return new Response("unknown", { status: 404 });
     if (url.pathname === "/control/next-round") {
-      if (run.controllers.size || run.revoked || run.faults.length) return new Response("run is not idle and healthy", { status: 409 });
+      if (run.controllers.size || run.revoked || fatalFaults(run.faults).length) return new Response("run is not idle and healthy", { status: 409 });
       try { run.budget.advance(data.expectedRound); }
       catch (error) { return new Response(String(error), { status: 409 }); }
       log(run, "round_started", { round: run.budget.round, budget: run.budget });
@@ -121,6 +122,7 @@ Bun.serve({ hostname: "0.0.0.0", port: 8787, idleTimeout: 255, maxRequestBodySiz
     if (run.mock) {
       const selected = run.mock.shift();
       if (!selected) return new Response("mock exhausted", { status: 400 });
+      if (selected.connectionError) throw new Error("simulated upstream connection failure");
       const reply = materializeMockReply(selected, body);
       if (reply.delayMs) await Bun.sleep(reply.delayMs);
       response = !body.stream && !reply.raw

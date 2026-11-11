@@ -1,4 +1,4 @@
-export type MockReply = { content: any[]; stopReason: string; delayMs?: number; raw?: string; versionFrom?: string };
+export type MockReply = { content: any[]; stopReason: string; delayMs?: number; raw?: string; versionFrom?: string; connectionError?: boolean };
 
 // 只用于控制器登记的模拟 API：让下一条 edit 引用刚刚实际读到的版本。
 export function materializeMockReply(original: MockReply, body: any): MockReply {
