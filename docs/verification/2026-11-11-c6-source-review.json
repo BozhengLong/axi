@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "reviewedDateBeijing": "2026-11-11",
+  "status": "source-reviewed-runtime-not-tested",
+  "repository": "listr2/listr2",
+  "commit": "d4e97973e06a38f5c61d34c4182f72cb8c83566b",
+  "commitTimeUtc": "2026-11-10T23:05:51Z",
+  "tree": "8dc4c740aab50c3f46b529d38fd99ef38994cdc0",
+  "treeTruncated": false,
+  "sources": {
+    "commit": "https://github.com/listr2/listr2/commit/d4e97973e06a38f5c61d34c4182f72cb8c83566b",
+    "tree": "https://api.github.com/repos/listr2/listr2/git/trees/8dc4c740aab50c3f46b529d38fd99ef38994cdc0?recursive=1"
+  },
+  "counts": {
+    "repositoryBlobFiles": 414,
+    "mainPackageNonTestTypeScriptSourceFiles": 87,
+    "mainPackageNonTestTypeScriptSourceBytes": 138292,
+    "mainPackageTestsDirectoryFiles": 67,
+    "mainPackageTestsDirectoryBytes": 452231
+  },
+  "countingRules": [
+    "文件数按 Git tree blob 计，不包含目录。",
+    "主包源文件取 packages/listr2/src/**/*.ts，排除 .spec.ts 和 .test.ts。",
+    "tests 目录包含快照、配置及辅助文件；不是测试用例数。",
+    "字节取 Git tree size；没有将字节换算成代码行数。"
+  ],
+  "reviewedFiles": [
+    {
+      "path": "LICENSE",
+      "gitBlobSha": "fa40c69152fe715a39fb297257ae70c6f3c9a3ab",
+      "readBlobSha": "fa40c69152fe715a39fb297257ae70c6f3c9a3ab",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/LICENSE"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "gitBlobSha": "494f99b0308630f9285e7c234fcc59c02ef2c7fb",
+      "readBlobSha": "494f99b0308630f9285e7c234fcc59c02ef2c7fb",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/pnpm-workspace.yaml"
+    },
+    {
+      "path": ".github/workflows/node.yml",
+      "gitBlobSha": "7cbd2aa4fc1ee77734e1ce6731e140182dea02b6",
+      "readBlobSha": "7cbd2aa4fc1ee77734e1ce6731e140182dea02b6",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/.github/workflows/node.yml"
+    },
+    {
+      "path": "packages/listr2/src/renderer/test/renderer.ts",
+      "gitBlobSha": "85e143ecee525d9e63e20e97af70030a726e575d",
+      "readBlobSha": "85e143ecee525d9e63e20e97af70030a726e575d",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/src/renderer/test/renderer.ts"
+    },
+    {
+      "path": "packages/listr2/src/renderer/test/serializer.ts",
+      "gitBlobSha": "5f12fe16777efee616a384beacc543727db0fed2",
+      "readBlobSha": "5f12fe16777efee616a384beacc543727db0fed2",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/src/renderer/test/serializer.ts"
+    },
+    {
+      "path": "packages/listr2/src/interfaces/renderer.interface.ts",
+      "gitBlobSha": "875fee05a9a7e3fc630f3b9151a6fe60bf72cf43",
+      "readBlobSha": "875fee05a9a7e3fc630f3b9151a6fe60bf72cf43",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/src/interfaces/renderer.interface.ts"
+    },
+    {
+      "path": "packages/listr2/src/lib/event-manager.ts",
+      "gitBlobSha": "f232184bc4268fa6faf2ecc5d7fa01b4a467c7dc",
+      "readBlobSha": "f232184bc4268fa6faf2ecc5d7fa01b4a467c7dc",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/src/lib/event-manager.ts"
+    },
+    {
+      "path": "packages/listr2/src/lib/task.ts",
+      "gitBlobSha": "4294b31d7cd2a8e33f1030e59843dd153f3f5ee0",
+      "readBlobSha": "4294b31d7cd2a8e33f1030e59843dd153f3f5ee0",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/src/lib/task.ts"
+    },
+    {
+      "path": "packages/listr2/src/listr.ts",
+      "gitBlobSha": "83716028f50c8b92b3e1a7c449f12d2511111ce9",
+      "readBlobSha": "83716028f50c8b92b3e1a7c449f12d2511111ce9",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/src/listr.ts"
+    },
+    {
+      "path": "packages/listr2/src/utils/ui/renderer.ts",
+      "gitBlobSha": "57f9cc1ef92b5f6c17b2290fd9e7f283ec91d801",
+      "readBlobSha": "57f9cc1ef92b5f6c17b2290fd9e7f283ec91d801",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/src/utils/ui/renderer.ts"
+    },
+    {
+      "path": "packages/listr2/tests/jest.config.ts",
+      "gitBlobSha": "a608f58810d8d582280c2831e5dc9c89f8048259",
+      "readBlobSha": "a608f58810d8d582280c2831e5dc9c89f8048259",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/tests/jest.config.ts"
+    },
+    {
+      "path": "packages/listr2/package.json",
+      "gitBlobSha": "4f40c8f9ddb49d6323c8da2554b14137d3c1b60f",
+      "readBlobSha": "4f40c8f9ddb49d6323c8da2554b14137d3c1b60f",
+      "matched": true,
+      "url": "https://github.com/listr2/listr2/blob/d4e97973e06a38f5c61d34c4182f72cb8c83566b/packages/listr2/package.json"
+    }
+  ],
+  "verifiedSourceFacts": {
+    "packageVersion": "11.4.1",
+    "nodeEngine": ">=22.13.0",
+    "license": "MIT",
+    "existingTestRendererEmitsJson": true,
+    "ciNodeMajorVersions": [
+      22,
+      24,
+      26
+    ]
+  },
+  "runtimeValidation": {
+    "dependenciesInstalled": false,
+    "baselineBuildRun": false,
+    "baselineTypecheckRun": false,
+    "baselineTestsRun": false,
+    "referenceImplemented": false,
+    "visibleOrHiddenChecksImplemented": false,
+    "liveModelRuns": 0
+  },
+  "limitations": [
+    "这是公共项目的评测选型，不是上游需求或缺陷声明。",
+    "源文件读取结果的 blob SHA 与固定 tree 核对一致；不等于已在目标容器运行。",
+    "候选仅提供不同项目背景的阅读比较；未运行跨项目性能对比。"
+  ]
+}

@@ -1,0 +1,3021 @@
+{
+  "date": "2026-11-10",
+  "batch": "b20261110152552",
+  "baseline": "b20261110144129",
+  "unit_tests": {
+    "passed": 39,
+    "failed": 0
+  },
+  "preflight_checks": 38,
+  "runs": [
+    {
+      "task": "T3",
+      "repeat": 1,
+      "agent": "axi",
+      "id": "formal-01-T3-r1-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 20658.856625,
+      "modelMs": 19884.43725800002,
+      "requests": 4,
+      "tools": 3,
+      "permissions": 3,
+      "usage": {
+        "input_tokens": 7263,
+        "output_tokens": 1643,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 check.ts",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "解析边界 1",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          }
+        },
+        {
+          "name": "解析边界 2",
+          "pass": true,
+          "actual": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          },
+          "expected": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          }
+        },
+        {
+          "name": "解析边界 3",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          }
+        },
+        {
+          "name": "原有公开校验",
+          "pass": true,
+          "actual": "公开样例通过\n"
+        }
+      ],
+      "finished": "2026-11-10T15:28:43.799Z"
+    },
+    {
+      "task": "T3",
+      "repeat": 1,
+      "agent": "claude",
+      "id": "formal-01-T3-r1-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 22960.155749999998,
+      "modelMs": 22062.20096800002,
+      "requests": 5,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 1894,
+        "cache_read_input_tokens": 34027,
+        "cache_creation_input_tokens": 2749
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 check.ts",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "解析边界 1",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          }
+        },
+        {
+          "name": "解析边界 2",
+          "pass": true,
+          "actual": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          },
+          "expected": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          }
+        },
+        {
+          "name": "解析边界 3",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          }
+        },
+        {
+          "name": "原有公开校验",
+          "pass": true,
+          "actual": "公开样例通过\n"
+        }
+      ],
+      "finished": "2026-11-10T15:29:08.342Z"
+    },
+    {
+      "task": "T3",
+      "repeat": 3,
+      "agent": "claude",
+      "id": "formal-02-T3-r3-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 27852.165707999993,
+      "modelMs": 26982.39722100005,
+      "requests": 6,
+      "tools": 5,
+      "permissions": 5,
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 2297,
+        "cache_read_input_tokens": 42565,
+        "cache_creation_input_tokens": 3559
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 check.ts",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "解析边界 1",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          }
+        },
+        {
+          "name": "解析边界 2",
+          "pass": true,
+          "actual": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          },
+          "expected": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          }
+        },
+        {
+          "name": "解析边界 3",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          }
+        },
+        {
+          "name": "原有公开校验",
+          "pass": true,
+          "actual": "公开样例通过\n"
+        }
+      ],
+      "finished": "2026-11-10T15:29:37.845Z"
+    },
+    {
+      "task": "T3",
+      "repeat": 3,
+      "agent": "axi",
+      "id": "formal-02-T3-r3-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 19004.475208000003,
+      "modelMs": 18248.418633999972,
+      "requests": 4,
+      "tools": 3,
+      "permissions": 3,
+      "usage": {
+        "input_tokens": 7172,
+        "output_tokens": 1532,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 check.ts",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "解析边界 1",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          }
+        },
+        {
+          "name": "解析边界 2",
+          "pass": true,
+          "actual": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          },
+          "expected": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          }
+        },
+        {
+          "name": "解析边界 3",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          }
+        },
+        {
+          "name": "原有公开校验",
+          "pass": true,
+          "actual": "公开样例通过\n"
+        }
+      ],
+      "finished": "2026-11-10T15:29:58.570Z"
+    },
+    {
+      "task": "T4",
+      "repeat": 2,
+      "agent": "axi",
+      "id": "formal-03-T4-r2-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 41051.46737500001,
+      "modelMs": 39715.61518500006,
+      "requests": 5,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 13577,
+        "output_tokens": 3663,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 input/01.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 input/02.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "合并正常输入 1",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          }
+        },
+        {
+          "name": "合并正常输入 2",
+          "pass": true,
+          "actual": {
+            "items": [],
+            "total": 0
+          },
+          "expected": {
+            "items": [],
+            "total": 0
+          }
+        },
+        {
+          "name": "合并正常输入 3",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          }
+        },
+        {
+          "name": "合并正常输入 4",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          }
+        },
+        {
+          "name": "非法输入保持原输出 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 4",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 5",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "缺失目录不创建输出",
+          "pass": true
+        }
+      ],
+      "finished": "2026-11-10T15:30:43.098Z"
+    },
+    {
+      "task": "T4",
+      "repeat": 2,
+      "agent": "claude",
+      "id": "formal-03-T4-r2-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [
+        "api_event:401"
+      ],
+      "wallMs": 53457.50741599998,
+      "modelMs": 49841.67252199998,
+      "requests": 6,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 4516,
+        "cache_read_input_tokens": 36159,
+        "cache_creation_input_tokens": 5697
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 input/01.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 input/02.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "合并正常输入 1",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          }
+        },
+        {
+          "name": "合并正常输入 2",
+          "pass": true,
+          "actual": {
+            "items": [],
+            "total": 0
+          },
+          "expected": {
+            "items": [],
+            "total": 0
+          }
+        },
+        {
+          "name": "合并正常输入 3",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          }
+        },
+        {
+          "name": "合并正常输入 4",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          }
+        },
+        {
+          "name": "非法输入保持原输出 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 4",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 5",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "缺失目录不创建输出",
+          "pass": true
+        }
+      ],
+      "finished": "2026-11-10T15:31:39.806Z"
+    },
+    {
+      "task": "T3",
+      "repeat": 2,
+      "agent": "claude",
+      "id": "formal-04-T3-r2-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 26132.602083000005,
+      "modelMs": 25218.839429000043,
+      "requests": 6,
+      "tools": 5,
+      "permissions": 5,
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 2270,
+        "cache_read_input_tokens": 43252,
+        "cache_creation_input_tokens": 3405
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 check.ts",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "解析边界 1",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          }
+        },
+        {
+          "name": "解析边界 2",
+          "pass": true,
+          "actual": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          },
+          "expected": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          }
+        },
+        {
+          "name": "解析边界 3",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          }
+        },
+        {
+          "name": "原有公开校验",
+          "pass": true,
+          "actual": "公开样例通过\n"
+        }
+      ],
+      "finished": "2026-11-10T15:32:07.599Z"
+    },
+    {
+      "task": "T3",
+      "repeat": 2,
+      "agent": "axi",
+      "id": "formal-04-T3-r2-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 19310.118750000023,
+      "modelMs": 18454.642425000085,
+      "requests": 4,
+      "tools": 3,
+      "permissions": 3,
+      "usage": {
+        "input_tokens": 7201,
+        "output_tokens": 1636,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 check.ts",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "解析边界 1",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 0,
+            "done": 0
+          }
+        },
+        {
+          "name": "解析边界 2",
+          "pass": true,
+          "actual": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          },
+          "expected": {
+            "todo": 1,
+            "doing": 1,
+            "done": 1
+          }
+        },
+        {
+          "name": "解析边界 3",
+          "pass": true,
+          "actual": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          },
+          "expected": {
+            "todo": 0,
+            "doing": 1,
+            "done": 2
+          }
+        },
+        {
+          "name": "原有公开校验",
+          "pass": true,
+          "actual": "公开样例通过\n"
+        }
+      ],
+      "finished": "2026-11-10T15:32:28.616Z"
+    },
+    {
+      "task": "T4",
+      "repeat": 3,
+      "agent": "axi",
+      "id": "formal-05-T4-r3-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [
+        "upstream_stream_error"
+      ],
+      "wallMs": 37894.62691699999,
+      "modelMs": 36910.33447400003,
+      "requests": 5,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 13668,
+        "output_tokens": 3634,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 input/01.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 input/02.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "合并正常输入 1",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          }
+        },
+        {
+          "name": "合并正常输入 2",
+          "pass": true,
+          "actual": {
+            "items": [],
+            "total": 0
+          },
+          "expected": {
+            "items": [],
+            "total": 0
+          }
+        },
+        {
+          "name": "合并正常输入 3",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          }
+        },
+        {
+          "name": "合并正常输入 4",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          }
+        },
+        {
+          "name": "非法输入保持原输出 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 4",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 5",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "缺失目录不创建输出",
+          "pass": true
+        }
+      ],
+      "finished": "2026-11-10T15:33:09.797Z"
+    },
+    {
+      "task": "T4",
+      "repeat": 3,
+      "agent": "claude",
+      "id": "formal-05-T4-r3-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 53275.46737500001,
+      "modelMs": 51908.50727400003,
+      "requests": 6,
+      "tools": 5,
+      "permissions": 5,
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 5334,
+        "cache_read_input_tokens": 48313,
+        "cache_creation_input_tokens": 6300
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 input/01.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 input/02.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "合并正常输入 1",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          }
+        },
+        {
+          "name": "合并正常输入 2",
+          "pass": true,
+          "actual": {
+            "items": [],
+            "total": 0
+          },
+          "expected": {
+            "items": [],
+            "total": 0
+          }
+        },
+        {
+          "name": "合并正常输入 3",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          }
+        },
+        {
+          "name": "合并正常输入 4",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          }
+        },
+        {
+          "name": "非法输入保持原输出 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 4",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 5",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "缺失目录不创建输出",
+          "pass": true
+        }
+      ],
+      "finished": "2026-11-10T15:34:06.412Z"
+    },
+    {
+      "task": "T2",
+      "repeat": 3,
+      "agent": "claude",
+      "id": "formal-06-T2-r3-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 46691.35170899995,
+      "modelMs": 45448.521768999984,
+      "requests": 7,
+      "tools": 8,
+      "permissions": 6,
+      "usage": {
+        "input_tokens": 18,
+        "output_tokens": 4230,
+        "cache_read_input_tokens": 55285,
+        "cache_creation_input_tokens": 5771
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 tasks.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "第一轮未改文件",
+          "pass": true
+        },
+        {
+          "name": "统计边界 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：3\n进行中：1\n已完成：2\n总数：6\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "3",
+            "进行中": "1",
+            "已完成": "2",
+            "总数": "6",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "统计边界 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：0\n进行中：0\n已完成：0\n总数：0\n完成率：0.0%\n"
+          },
+          "expected": {
+            "未开始": "0",
+            "进行中": "0",
+            "已完成": "0",
+            "总数": "0",
+            "完成率": "0.0%"
+          }
+        },
+        {
+          "name": "统计边界 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：1\n进行中：1\n已完成：1\n总数：3\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "1",
+            "进行中": "1",
+            "已完成": "1",
+            "总数": "3",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "第二轮初版实际可运行",
+          "pass": true,
+          "actual": "未开始：3\n进行中：1\n已完成：2\n"
+        }
+      ],
+      "finished": "2026-11-10T15:34:55.008Z"
+    },
+    {
+      "task": "T2",
+      "repeat": 3,
+      "agent": "axi",
+      "id": "formal-06-T2-r3-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 30325.92729199998,
+      "modelMs": 29011.75813900004,
+      "requests": 7,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 16671,
+        "output_tokens": 2530,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 tasks.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "第一轮未改文件",
+          "pass": true
+        },
+        {
+          "name": "统计边界 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：3\n进行中：1\n已完成：2\n总数：6\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "3",
+            "进行中": "1",
+            "已完成": "2",
+            "总数": "6",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "统计边界 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：0\n进行中：0\n已完成：0\n总数：0\n完成率：0.0%\n"
+          },
+          "expected": {
+            "未开始": "0",
+            "进行中": "0",
+            "已完成": "0",
+            "总数": "0",
+            "完成率": "0.0%"
+          }
+        },
+        {
+          "name": "统计边界 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：1\n进行中：1\n已完成：1\n总数：3\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "1",
+            "进行中": "1",
+            "已完成": "1",
+            "总数": "3",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "第二轮初版实际可运行",
+          "pass": true,
+          "actual": "未开始：3\n进行中：1\n已完成：2\n"
+        }
+      ],
+      "finished": "2026-11-10T15:35:27.044Z"
+    },
+    {
+      "task": "T2",
+      "repeat": 2,
+      "agent": "axi",
+      "id": "formal-07-T2-r2-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 31544.158624999982,
+      "modelMs": 30380.533014000044,
+      "requests": 7,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 17769,
+        "output_tokens": 2873,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 tasks.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "第一轮未改文件",
+          "pass": true
+        },
+        {
+          "name": "统计边界 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：3\n进行中：1\n已完成：2\n总数：6\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "3",
+            "进行中": "1",
+            "已完成": "2",
+            "总数": "6",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "统计边界 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：0\n进行中：0\n已完成：0\n总数：0\n完成率：0.0%\n"
+          },
+          "expected": {
+            "未开始": "0",
+            "进行中": "0",
+            "已完成": "0",
+            "总数": "0",
+            "完成率": "0.0%"
+          }
+        },
+        {
+          "name": "统计边界 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：1\n进行中：1\n已完成：1\n总数：3\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "1",
+            "进行中": "1",
+            "已完成": "1",
+            "总数": "3",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "第二轮初版实际可运行",
+          "pass": true,
+          "actual": "未开始：3\n进行中：1\n已完成：2\n"
+        }
+      ],
+      "finished": "2026-11-10T15:36:00.250Z"
+    },
+    {
+      "task": "T2",
+      "repeat": 2,
+      "agent": "claude",
+      "id": "formal-07-T2-r2-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [
+        "api_event:429"
+      ],
+      "wallMs": 46703.10629199998,
+      "modelMs": 44379.74685200001,
+      "requests": 9,
+      "tools": 5,
+      "permissions": 5,
+      "usage": {
+        "input_tokens": 20,
+        "output_tokens": 2996,
+        "cache_read_input_tokens": 63130,
+        "cache_creation_input_tokens": 3577
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 tasks.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "第一轮未改文件",
+          "pass": true
+        },
+        {
+          "name": "统计边界 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：3\n进行中：1\n已完成：2\n总数：6\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "3",
+            "进行中": "1",
+            "已完成": "2",
+            "总数": "6",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "统计边界 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：0\n进行中：0\n已完成：0\n总数：0\n完成率：0.0%\n"
+          },
+          "expected": {
+            "未开始": "0",
+            "进行中": "0",
+            "已完成": "0",
+            "总数": "0",
+            "完成率": "0.0%"
+          }
+        },
+        {
+          "name": "统计边界 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：1\n进行中：1\n已完成：1\n总数：3\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "1",
+            "进行中": "1",
+            "已完成": "1",
+            "总数": "3",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "第二轮初版实际可运行",
+          "pass": true,
+          "actual": "未开始：3\n进行中：1\n已完成：2\n"
+        }
+      ],
+      "finished": "2026-11-10T15:36:48.625Z"
+    },
+    {
+      "task": "T2",
+      "repeat": 1,
+      "agent": "claude",
+      "id": "formal-08-T2-r1-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 40706.069666999974,
+      "modelMs": 39590.92472599994,
+      "requests": 6,
+      "tools": 7,
+      "permissions": 5,
+      "usage": {
+        "input_tokens": 16,
+        "output_tokens": 3759,
+        "cache_read_input_tokens": 46881,
+        "cache_creation_input_tokens": 4913
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 tasks.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "第一轮未改文件",
+          "pass": true
+        },
+        {
+          "name": "统计边界 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：3\n进行中：1\n已完成：2\n总数：6\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "3",
+            "进行中": "1",
+            "已完成": "2",
+            "总数": "6",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "统计边界 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：0\n进行中：0\n已完成：0\n总数：0\n完成率：0.0%\n"
+          },
+          "expected": {
+            "未开始": "0",
+            "进行中": "0",
+            "已完成": "0",
+            "总数": "0",
+            "完成率": "0.0%"
+          }
+        },
+        {
+          "name": "统计边界 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：1\n进行中：1\n已完成：1\n总数：3\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "1",
+            "进行中": "1",
+            "已完成": "1",
+            "总数": "3",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "第二轮初版实际可运行",
+          "pass": true,
+          "actual": "未开始：3\n进行中：1\n已完成：2\n"
+        }
+      ],
+      "finished": "2026-11-10T15:37:31.040Z"
+    },
+    {
+      "task": "T2",
+      "repeat": 1,
+      "agent": "axi",
+      "id": "formal-08-T2-r1-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 35199.53879199992,
+      "modelMs": 33881.69468300021,
+      "requests": 7,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 18182,
+        "output_tokens": 3003,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 tasks.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "第一轮未改文件",
+          "pass": true
+        },
+        {
+          "name": "统计边界 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：3\n进行中：1\n已完成：2\n总数：6\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "3",
+            "进行中": "1",
+            "已完成": "2",
+            "总数": "6",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "统计边界 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：0\n进行中：0\n已完成：0\n总数：0\n完成率：0.0%\n"
+          },
+          "expected": {
+            "未开始": "0",
+            "进行中": "0",
+            "已完成": "0",
+            "总数": "0",
+            "完成率": "0.0%"
+          }
+        },
+        {
+          "name": "统计边界 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "未开始：1\n进行中：1\n已完成：1\n总数：3\n完成率：33.3%\n"
+          },
+          "expected": {
+            "未开始": "1",
+            "进行中": "1",
+            "已完成": "1",
+            "总数": "3",
+            "完成率": "33.3%"
+          }
+        },
+        {
+          "name": "第二轮初版实际可运行",
+          "pass": true,
+          "actual": "未开始：3\n进行中：1\n已完成：2\n"
+        }
+      ],
+      "finished": "2026-11-10T15:38:08.053Z"
+    },
+    {
+      "task": "T4",
+      "repeat": 1,
+      "agent": "axi",
+      "id": "formal-09-T4-r1-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 34238.44020900002,
+      "modelMs": 33193.360554999905,
+      "requests": 5,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 13808,
+        "output_tokens": 3655,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 input/01.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 input/02.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "合并正常输入 1",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          }
+        },
+        {
+          "name": "合并正常输入 2",
+          "pass": true,
+          "actual": {
+            "items": [],
+            "total": 0
+          },
+          "expected": {
+            "items": [],
+            "total": 0
+          }
+        },
+        {
+          "name": "合并正常输入 3",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          }
+        },
+        {
+          "name": "合并正常输入 4",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          }
+        },
+        {
+          "name": "非法输入保持原输出 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 4",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 5",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "缺失目录不创建输出",
+          "pass": true
+        }
+      ],
+      "finished": "2026-11-10T15:38:45.687Z"
+    },
+    {
+      "task": "T4",
+      "repeat": 1,
+      "agent": "claude",
+      "id": "formal-09-T4-r1-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 43214.92920799996,
+      "modelMs": 41809.914727000054,
+      "requests": 5,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 4028,
+        "cache_read_input_tokens": 36618,
+        "cache_creation_input_tokens": 5081
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 input/01.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 input/02.json",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "合并正常输入 1",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "a",
+                "amount": 1
+              },
+              {
+                "id": "b",
+                "amount": 5
+              },
+              {
+                "id": "c",
+                "amount": 0
+              }
+            ],
+            "total": 6
+          }
+        },
+        {
+          "name": "合并正常输入 2",
+          "pass": true,
+          "actual": {
+            "items": [],
+            "total": 0
+          },
+          "expected": {
+            "items": [],
+            "total": 0
+          }
+        },
+        {
+          "name": "合并正常输入 3",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "same",
+                "amount": 7
+              }
+            ],
+            "total": 7
+          }
+        },
+        {
+          "name": "合并正常输入 4",
+          "pass": true,
+          "actual": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          },
+          "expected": {
+            "items": [
+              {
+                "id": "",
+                "amount": 1
+              },
+              {
+                "id": "😀",
+                "amount": 2
+              }
+            ],
+            "total": 3
+          }
+        },
+        {
+          "name": "非法输入保持原输出 1",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 2",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 3",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 4",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "非法输入保持原输出 5",
+          "pass": true,
+          "actual": {
+            "exitCode": 1,
+            "originalPreserved": true
+          }
+        },
+        {
+          "name": "缺失目录不创建输出",
+          "pass": true
+        }
+      ],
+      "finished": "2026-11-10T15:39:32.162Z"
+    },
+    {
+      "task": "T1",
+      "repeat": 3,
+      "agent": "claude",
+      "id": "formal-10-T1-r3-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 8809.011582999956,
+      "modelMs": 8031.531793999951,
+      "requests": 3,
+      "tools": 2,
+      "permissions": 1,
+      "usage": {
+        "input_tokens": 6,
+        "output_tokens": 265,
+        "cache_read_input_tokens": 18664,
+        "cache_creation_input_tokens": 1095
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/a.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/project.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/nested/b.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "只读任务没有新增文件",
+          "pass": true
+        },
+        {
+          "name": "只读报告",
+          "pass": true,
+          "actual": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          },
+          "expected": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          }
+        }
+      ],
+      "finished": "2026-11-10T15:39:42.020Z"
+    },
+    {
+      "task": "T1",
+      "repeat": 3,
+      "agent": "axi",
+      "id": "formal-10-T1-r3-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 6463.564250000054,
+      "modelMs": 5758.79404399998,
+      "requests": 3,
+      "tools": 2,
+      "permissions": 2,
+      "usage": {
+        "input_tokens": 3640,
+        "output_tokens": 257,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/a.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/project.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/nested/b.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "只读任务没有新增文件",
+          "pass": true
+        },
+        {
+          "name": "只读报告",
+          "pass": true,
+          "actual": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          },
+          "expected": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          }
+        }
+      ],
+      "finished": "2026-11-10T15:39:49.465Z"
+    },
+    {
+      "task": "T1",
+      "repeat": 1,
+      "agent": "axi",
+      "id": "formal-11-T1-r1-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 3746.9205000000075,
+      "modelMs": 3113.6141260000877,
+      "requests": 3,
+      "tools": 2,
+      "permissions": 2,
+      "usage": {
+        "input_tokens": 3640,
+        "output_tokens": 257,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/a.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/project.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/nested/b.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "只读任务没有新增文件",
+          "pass": true
+        },
+        {
+          "name": "只读报告",
+          "pass": true,
+          "actual": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          },
+          "expected": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          }
+        }
+      ],
+      "finished": "2026-11-10T15:39:54.090Z"
+    },
+    {
+      "task": "T1",
+      "repeat": 1,
+      "agent": "claude",
+      "id": "formal-11-T1-r1-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [
+        "api_event:429",
+        "upstream_stream_error"
+      ],
+      "wallMs": 17396.91387499997,
+      "modelMs": 6835.262587000034,
+      "requests": 5,
+      "tools": 2,
+      "permissions": 1,
+      "usage": {
+        "input_tokens": 6,
+        "output_tokens": 267,
+        "cache_read_input_tokens": 18847,
+        "cache_creation_input_tokens": 912
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/a.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/project.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/nested/b.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "只读任务没有新增文件",
+          "pass": true
+        },
+        {
+          "name": "只读报告",
+          "pass": true,
+          "actual": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          },
+          "expected": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          }
+        }
+      ],
+      "finished": "2026-11-10T15:40:12.399Z"
+    },
+    {
+      "task": "T1",
+      "repeat": 2,
+      "agent": "claude",
+      "id": "formal-12-T1-r2-claude",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [
+        "api_event:429"
+      ],
+      "wallMs": 8637.240791999968,
+      "modelMs": 6871.267211999977,
+      "requests": 4,
+      "tools": 2,
+      "permissions": 1,
+      "usage": {
+        "input_tokens": 6,
+        "output_tokens": 256,
+        "cache_read_input_tokens": 18847,
+        "cache_creation_input_tokens": 912
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/a.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/project.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/nested/b.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "只读任务没有新增文件",
+          "pass": true
+        },
+        {
+          "name": "只读报告",
+          "pass": true,
+          "actual": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          },
+          "expected": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          }
+        }
+      ],
+      "finished": "2026-11-10T15:40:21.926Z"
+    },
+    {
+      "task": "T1",
+      "repeat": 2,
+      "agent": "axi",
+      "id": "formal-12-T1-r2-axi",
+      "status": "completed",
+      "pass": true,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "wallMs": 4085.3468750000466,
+      "modelMs": 3500.251292000059,
+      "requests": 3,
+      "tools": 2,
+      "permissions": 2,
+      "usage": {
+        "input_tokens": 3767,
+        "output_tokens": 211,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "checks": [
+        {
+          "name": "产品完成所有轮次",
+          "pass": true,
+          "actual": "completed"
+        },
+        {
+          "name": "保留输入 brief.md",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/a.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/project.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "保留输入 data/nested/b.txt",
+          "pass": true,
+          "actual": {
+            "type": "file",
+            "mode": 420
+          }
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "只读任务没有新增文件",
+          "pass": true
+        },
+        {
+          "name": "只读报告",
+          "pass": true,
+          "actual": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          },
+          "expected": {
+            "fileCount": 3,
+            "totalBytes": 78,
+            "project": "青松",
+            "owner": "林舟",
+            "deadline": "2026-12-01"
+          }
+        }
+      ],
+      "finished": "2026-11-10T15:40:26.892Z"
+    }
+  ],
+  "known_regressions": [
+    {
+      "id": "R1",
+      "defectReproduced": false,
+      "verified": true,
+      "expected": "allowed=false",
+      "actual": "allowed=false",
+      "commandExecuted": false
+    },
+    {
+      "id": "R2",
+      "defectReproduced": false,
+      "expected": "连接失败重试至最多 4 次请求",
+      "actual": {
+        "calls": 4,
+        "kind": "Error:ConnectionRefused"
+      }
+    },
+    {
+      "id": "R3",
+      "defectReproduced": false,
+      "expected": "日志不进入待提交文件",
+      "actual": ""
+    }
+  ],
+  "trace": {
+    "native_counts": {
+      "axi_native": 12,
+      "io": 24,
+      "claude_native": 12,
+      "claude_debug": 12,
+      "stderr": 12
+    },
+    "checksum_mismatches": [],
+    "baseline_files_unchanged": 201,
+    "baseline_mismatches": [],
+    "source_mismatches": [],
+    "source_snapshot_files": 52,
+    "size_MiB": 17.39
+  }
+}

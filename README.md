@@ -53,7 +53,7 @@ v0 只支持单行输入。请在提示出现后输入。多行粘贴中的后�
 
 ## 日志与验证
 
-原始请求体、SSE 行、工具结果、确认记录和耗时保存在工作目录的 `.axi/logs/`。日志不记录认证头，但可能包含任务文本、文件内容和命令输出。该目录已被项目的 Git 忽略规则排除。文件权限为 `0600`。
+原始请求体、SSE 行、工具结果、确认记录和耗时保存在工作目录的 `.axi/logs/`。日志不记录认证头，但可能包含任务文本、文件内容和命令输出。Axi 在该目录内维护 `.gitignore`，使日志在其他 Git 仓库中运行时也默认被忽略；不修改项目根目录的忽略规则。忽略规则不会移除已跟踪的文件，也不能阻止强制添加。日志文件权限为 `0600`。
 
 ```sh
 bun run typecheck
@@ -72,8 +72,15 @@ bun run scripts/experiments.ts --live
 实验覆盖工具参数分片、三个目录的调用形式、effort 对比和删除思考块的对照。脚本只发送 API 请求，不执行模型提出的 bash 命令。结果保存在 `.axi/experiments/`，不随 `bun test` 运行。
 
 ## 项目记录
+
 - 愿景与路线图：[docs/00-vision.md](docs/00-vision.md)
 - v0 设计：[docs/01-v0-design.md](docs/01-v0-design.md)
 - 当前状态：[docs/progress.md](docs/progress.md)
 - 协作与记录规范：[AGENTS.md](AGENTS.md)
 - 开发日报：[docs/devlog/](docs/devlog/)
+- 自动评测与 Trace：[docs/guides/automated-evaluation.md](docs/guides/automated-evaluation.md)、[docs/guides/trace-reading.md](docs/guides/trace-reading.md)
+- 复杂任务对照：[运行方法](docs/guides/complex-evaluation.md)、[2026-11-11 结果与补充复验](docs/verification/2026-11-11-complex-comparison.md)
+- 真实仓库连续任务：[C6 运行与复验](docs/guides/c6-evaluation.md)、[对照结果](docs/verification/2026-11-11-c6-comparison.md)
+- 下一阶段：[C7 缺陷修复对照设计](docs/06-c7-repair-evaluation-design.md)（设计已完成，尚未执行）
+
+评测原始 Trace 与历史镜像保存在本机私有目录，不随源码发布。报告中的本机绝对路径只在原机器可用；部分 C6 复验入口依赖这些历史产物，具体条件见对应运行指南。

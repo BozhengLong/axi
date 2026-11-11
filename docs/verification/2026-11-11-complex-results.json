@@ -1,0 +1,4362 @@
+{
+  "date": "2026-11-11",
+  "suite": "complex-v1",
+  "revision": 2,
+  "batch": "complex-20261111",
+  "image": "sha256:fff06e75a89230ece77f41ae8bc3d5fe311d9ee200457cbd857d660ca6cf862e",
+  "sourceHash": "b3be1bc8e770009906a0a8530ab7662f4133f0220eb33d762a3e8c5bba01c443",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "completed": true,
+  "summary": [
+    {
+      "task": "C1",
+      "agent": "axi",
+      "runs": 3,
+      "passed": 3,
+      "medianSeconds": 117.04,
+      "minSeconds": 99.63,
+      "maxSeconds": 147.5,
+      "requests": 31,
+      "medianRequests": 12
+    },
+    {
+      "task": "C1",
+      "agent": "claude",
+      "runs": 3,
+      "passed": 3,
+      "medianSeconds": 127.38,
+      "minSeconds": 101.03,
+      "maxSeconds": 232.74,
+      "requests": 40,
+      "medianRequests": 9
+    },
+    {
+      "task": "C2",
+      "agent": "axi",
+      "runs": 3,
+      "passed": 3,
+      "medianSeconds": 115.61,
+      "minSeconds": 110.98,
+      "maxSeconds": 123.79,
+      "requests": 22,
+      "medianRequests": 7
+    },
+    {
+      "task": "C2",
+      "agent": "claude",
+      "runs": 3,
+      "passed": 3,
+      "medianSeconds": 133.76,
+      "minSeconds": 119.54,
+      "maxSeconds": 144.75,
+      "requests": 26,
+      "medianRequests": 9
+    },
+    {
+      "task": "C4",
+      "agent": "axi",
+      "runs": 3,
+      "passed": 3,
+      "medianSeconds": 172.97,
+      "minSeconds": 149.28,
+      "maxSeconds": 186.92,
+      "requests": 40,
+      "medianRequests": 13
+    },
+    {
+      "task": "C4",
+      "agent": "claude",
+      "runs": 3,
+      "passed": 3,
+      "medianSeconds": 164.94,
+      "minSeconds": 144.72,
+      "maxSeconds": 165.49,
+      "requests": 37,
+      "medianRequests": 13
+    }
+  ],
+  "runs": [
+    {
+      "id": "formal-01-C4-r3-axi",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-01-C4-r3-axi",
+      "task": "C4",
+      "repeat": 3,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 172.972,
+      "requests": 13,
+      "tools": 12,
+      "permissions": 12,
+      "usage": {
+        "input_tokens": 286945,
+        "output_tokens": 17505,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/replay.ts",
+          "added": true,
+          "bytes": 8793,
+          "lines": 158
+        },
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 4440,
+          "lines": 103
+        },
+        {
+          "path": "tests/replay.test.ts",
+          "added": true,
+          "bytes": 12551,
+          "lines": 222
+        }
+      ],
+      "finalTestSummary": [
+        "47",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01U9ZniDB3LDwTeJFwWAwNua",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 39,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_017DGQPzAxP9Wq6JLSCoJELe",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 8,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01U3D5gHaBcXhabCmEe4gWAJ",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 47,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 5202311,
+      "initialGit": {
+        "commit": "907e04907146da0bbc0d8bfd41beaf966cc421c6",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "回放契约 empty",
+          "pass": true
+        },
+        {
+          "name": "回放契约 normal",
+          "pass": true
+        },
+        {
+          "name": "回放契约 tools",
+          "pass": true
+        },
+        {
+          "name": "回放契约 retry",
+          "pass": true
+        },
+        {
+          "name": "回放契约 unfinished",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate",
+          "pass": true
+        },
+        {
+          "name": "回放契约 orphan",
+          "pass": true
+        },
+        {
+          "name": "回放契约 invalid",
+          "pass": true
+        },
+        {
+          "name": "回放契约 interrupted",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_result",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_in_response",
+          "pass": true
+        },
+        {
+          "name": "回放契约 bad_json",
+          "pass": true
+        },
+        {
+          "name": "回放契约 crlf",
+          "pass": true
+        },
+        {
+          "name": "回放契约 usage",
+          "pass": true
+        },
+        {
+          "name": "回放契约 missing",
+          "pass": true
+        },
+        {
+          "name": "回放契约 extra",
+          "pass": true
+        },
+        {
+          "name": "离线、无工具副作用、原文件不变",
+          "pass": true
+        },
+        {
+          "name": "帮助显示回放入口",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-01-C4-r3-claude",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-01-C4-r3-claude",
+      "task": "C4",
+      "repeat": 3,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 165.491,
+      "requests": 13,
+      "tools": 14,
+      "permissions": 14,
+      "usage": {
+        "input_tokens": 26,
+        "output_tokens": 16943,
+        "cache_read_input_tokens": 276960,
+        "cache_creation_input_tokens": 32035
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 4441,
+          "lines": 99
+        },
+        {
+          "path": "src/replay.ts",
+          "added": true,
+          "bytes": 8596,
+          "lines": 163
+        },
+        {
+          "path": "tests/replay.test.ts",
+          "added": true,
+          "bytes": 14239,
+          "lines": 274
+        }
+      ],
+      "finalTestSummary": [
+        "51",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01JwerJ3veTR6DedaVBsvpWu",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 12,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01CTU2v6TDtBzgEhYzTkzzmH",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 51,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 5103335,
+      "initialGit": {
+        "commit": "907e04907146da0bbc0d8bfd41beaf966cc421c6",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "回放契约 empty",
+          "pass": true
+        },
+        {
+          "name": "回放契约 normal",
+          "pass": true
+        },
+        {
+          "name": "回放契约 tools",
+          "pass": true
+        },
+        {
+          "name": "回放契约 retry",
+          "pass": true
+        },
+        {
+          "name": "回放契约 unfinished",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate",
+          "pass": true
+        },
+        {
+          "name": "回放契约 orphan",
+          "pass": true
+        },
+        {
+          "name": "回放契约 invalid",
+          "pass": true
+        },
+        {
+          "name": "回放契约 interrupted",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_result",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_in_response",
+          "pass": true
+        },
+        {
+          "name": "回放契约 bad_json",
+          "pass": true
+        },
+        {
+          "name": "回放契约 crlf",
+          "pass": true
+        },
+        {
+          "name": "回放契约 usage",
+          "pass": true
+        },
+        {
+          "name": "回放契约 missing",
+          "pass": true
+        },
+        {
+          "name": "回放契约 extra",
+          "pass": true
+        },
+        {
+          "name": "离线、无工具副作用、原文件不变",
+          "pass": true
+        },
+        {
+          "name": "帮助显示回放入口",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-02-C4-r2-claude",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-02-C4-r2-claude",
+      "task": "C4",
+      "repeat": 2,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 164.935,
+      "requests": 13,
+      "tools": 13,
+      "permissions": 12,
+      "usage": {
+        "input_tokens": 26,
+        "output_tokens": 17731,
+        "cache_read_input_tokens": 298787,
+        "cache_creation_input_tokens": 31337
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/replay.ts",
+          "added": true,
+          "bytes": 9451,
+          "lines": 199
+        },
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 4432,
+          "lines": 102
+        },
+        {
+          "path": "tests/replay.test.ts",
+          "added": true,
+          "bytes": 13740,
+          "lines": 246
+        }
+      ],
+      "finalTestSummary": [
+        "50",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01QfRYMAmRYwhuxh6HfAm7Gf",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 50,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 5119964,
+      "initialGit": {
+        "commit": "907e04907146da0bbc0d8bfd41beaf966cc421c6",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "回放契约 empty",
+          "pass": true
+        },
+        {
+          "name": "回放契约 normal",
+          "pass": true
+        },
+        {
+          "name": "回放契约 tools",
+          "pass": true
+        },
+        {
+          "name": "回放契约 retry",
+          "pass": true
+        },
+        {
+          "name": "回放契约 unfinished",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate",
+          "pass": true
+        },
+        {
+          "name": "回放契约 orphan",
+          "pass": true
+        },
+        {
+          "name": "回放契约 invalid",
+          "pass": true
+        },
+        {
+          "name": "回放契约 interrupted",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_result",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_in_response",
+          "pass": true
+        },
+        {
+          "name": "回放契约 bad_json",
+          "pass": true
+        },
+        {
+          "name": "回放契约 crlf",
+          "pass": true
+        },
+        {
+          "name": "回放契约 usage",
+          "pass": true
+        },
+        {
+          "name": "回放契约 missing",
+          "pass": true
+        },
+        {
+          "name": "回放契约 extra",
+          "pass": true
+        },
+        {
+          "name": "离线、无工具副作用、原文件不变",
+          "pass": true
+        },
+        {
+          "name": "帮助显示回放入口",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-02-C4-r2-axi",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-02-C4-r2-axi",
+      "task": "C4",
+      "repeat": 2,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 149.284,
+      "requests": 12,
+      "tools": 11,
+      "permissions": 11,
+      "usage": {
+        "input_tokens": 214499,
+        "output_tokens": 16088,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/replay.ts",
+          "added": true,
+          "bytes": 8685,
+          "lines": 167
+        },
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 4417,
+          "lines": 101
+        },
+        {
+          "path": "tests/replay.test.ts",
+          "added": true,
+          "bytes": 12177,
+          "lines": 208
+        }
+      ],
+      "finalTestSummary": [
+        "49",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01FSGF9QzWGR6cXeLq67Dz5x",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 49,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 4516784,
+      "initialGit": {
+        "commit": "907e04907146da0bbc0d8bfd41beaf966cc421c6",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "回放契约 empty",
+          "pass": true
+        },
+        {
+          "name": "回放契约 normal",
+          "pass": true
+        },
+        {
+          "name": "回放契约 tools",
+          "pass": true
+        },
+        {
+          "name": "回放契约 retry",
+          "pass": true
+        },
+        {
+          "name": "回放契约 unfinished",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate",
+          "pass": true
+        },
+        {
+          "name": "回放契约 orphan",
+          "pass": true
+        },
+        {
+          "name": "回放契约 invalid",
+          "pass": true
+        },
+        {
+          "name": "回放契约 interrupted",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_result",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_in_response",
+          "pass": true
+        },
+        {
+          "name": "回放契约 bad_json",
+          "pass": true
+        },
+        {
+          "name": "回放契约 crlf",
+          "pass": true
+        },
+        {
+          "name": "回放契约 usage",
+          "pass": true
+        },
+        {
+          "name": "回放契约 missing",
+          "pass": true
+        },
+        {
+          "name": "回放契约 extra",
+          "pass": true
+        },
+        {
+          "name": "离线、无工具副作用、原文件不变",
+          "pass": true
+        },
+        {
+          "name": "帮助显示回放入口",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-03-C2-r1-axi",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-03-C2-r1-axi",
+      "task": "C2",
+      "repeat": 1,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 115.605,
+      "requests": 7,
+      "tools": 6,
+      "permissions": 6,
+      "usage": {
+        "input_tokens": 76803,
+        "output_tokens": 12498,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/services/list.ts",
+          "added": false,
+          "bytes": 552,
+          "lines": 15
+        },
+        {
+          "path": "src/format/legacy.ts",
+          "added": false,
+          "bytes": 537,
+          "lines": 9
+        },
+        {
+          "path": "src/cli.ts",
+          "added": false,
+          "bytes": 611,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 563,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/tasks.ts",
+          "added": false,
+          "bytes": 907,
+          "lines": 13
+        },
+        {
+          "path": "src/migrations/upgrade.ts",
+          "added": false,
+          "bytes": 3910,
+          "lines": 75
+        },
+        {
+          "path": "tests/migration.test.ts",
+          "added": true,
+          "bytes": 7801,
+          "lines": 126
+        }
+      ],
+      "finalTestSummary": [
+        "10",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01J4rbUQi7JT2mBHzJXMgmfY",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 1,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01DzZ7fsy2ovdcHC2naY7z4d",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 10,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 2812485,
+      "initialGit": {
+        "commit": "200062166f312072ee77210be67ed5914ed9bffc",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "迁移保持原数据并正确映射",
+          "pass": true
+        },
+        {
+          "name": "重复迁移不改变数据与结构",
+          "pass": true
+        },
+        {
+          "name": "迁移后 ID 唯一约束有效",
+          "pass": true
+        },
+        {
+          "name": "空库升级",
+          "pass": true
+        },
+        {
+          "name": "dry-run 无业务写入",
+          "pass": true
+        },
+        {
+          "name": "故障回滚 schema、数据和版本",
+          "pass": true
+        },
+        {
+          "name": "非法旧数据在真实和 dry-run 均拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "不支持版本拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "新旧 HTTP 和 CLI 兼容，软删除默认隐藏",
+          "pass": true
+        },
+        {
+          "name": "两个进程并发迁移且仅一次变更",
+          "pass": true
+        },
+        {
+          "name": "CLI dry-run、升级、重跑和错误退出",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-03-C2-r1-claude",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-03-C2-r1-claude",
+      "task": "C2",
+      "repeat": 1,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 119.54,
+      "requests": 7,
+      "tools": 6,
+      "permissions": 6,
+      "usage": {
+        "input_tokens": 14,
+        "output_tokens": 13347,
+        "cache_read_input_tokens": 88966,
+        "cache_creation_input_tokens": 18850
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/services/list.ts",
+          "added": false,
+          "bytes": 652,
+          "lines": 15
+        },
+        {
+          "path": "src/format/current.ts",
+          "added": false,
+          "bytes": 218,
+          "lines": 2
+        },
+        {
+          "path": "src/format/legacy.ts",
+          "added": false,
+          "bytes": 496,
+          "lines": 9
+        },
+        {
+          "path": "src/cli.ts",
+          "added": false,
+          "bytes": 610,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/schema.ts",
+          "added": true,
+          "bytes": 1082,
+          "lines": 14
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 398,
+          "lines": 4
+        },
+        {
+          "path": "src/storage/tasks.ts",
+          "added": false,
+          "bytes": 434,
+          "lines": 5
+        },
+        {
+          "path": "src/migrations/upgrade.ts",
+          "added": false,
+          "bytes": 3359,
+          "lines": 69
+        },
+        {
+          "path": "tests/migration.test.ts",
+          "added": true,
+          "bytes": 8378,
+          "lines": 144
+        }
+      ],
+      "finalTestSummary": [
+        "19",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01DHW2oPRtkCju8riSpgzdNL",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 1,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_019hAhdd5tTWzvNzxeXG9WHt",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 19,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 3196027,
+      "initialGit": {
+        "commit": "200062166f312072ee77210be67ed5914ed9bffc",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "迁移保持原数据并正确映射",
+          "pass": true
+        },
+        {
+          "name": "重复迁移不改变数据与结构",
+          "pass": true
+        },
+        {
+          "name": "迁移后 ID 唯一约束有效",
+          "pass": true
+        },
+        {
+          "name": "空库升级",
+          "pass": true
+        },
+        {
+          "name": "dry-run 无业务写入",
+          "pass": true
+        },
+        {
+          "name": "故障回滚 schema、数据和版本",
+          "pass": true
+        },
+        {
+          "name": "非法旧数据在真实和 dry-run 均拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "不支持版本拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "新旧 HTTP 和 CLI 兼容，软删除默认隐藏",
+          "pass": true
+        },
+        {
+          "name": "两个进程并发迁移且仅一次变更",
+          "pass": true
+        },
+        {
+          "name": "CLI dry-run、升级、重跑和错误退出",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-04-C2-r3-claude",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-04-C2-r3-claude",
+      "task": "C2",
+      "repeat": 3,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 144.748,
+      "requests": 10,
+      "tools": 9,
+      "permissions": 9,
+      "usage": {
+        "input_tokens": 20,
+        "output_tokens": 15065,
+        "cache_read_input_tokens": 156939,
+        "cache_creation_input_tokens": 20661
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/services/list.ts",
+          "added": false,
+          "bytes": 1082,
+          "lines": 17
+        },
+        {
+          "path": "src/cli.ts",
+          "added": false,
+          "bytes": 605,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 516,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/version.ts",
+          "added": false,
+          "bytes": 209,
+          "lines": 2
+        },
+        {
+          "path": "src/storage/tasks.ts",
+          "added": false,
+          "bytes": 1028,
+          "lines": 12
+        },
+        {
+          "path": "src/migrations/upgrade.ts",
+          "added": false,
+          "bytes": 3934,
+          "lines": 69
+        },
+        {
+          "path": "tests/migration.test.ts",
+          "added": true,
+          "bytes": 8607,
+          "lines": 122
+        }
+      ],
+      "finalTestSummary": [
+        "17",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01P4wtZmnGyqya2EtPLiE6T7",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 18,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01GuFv9wzhaa6PrG8KvDZttN",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 18,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01WQDo2BRrRfSizZqVn71vyD",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 17,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01Puqwpjhz38JYnSh6cBYDDC",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 17,
+              "fail": 0
+            },
+            {
+              "pass": 17,
+              "fail": 0
+            },
+            {
+              "pass": 17,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 3877749,
+      "initialGit": {
+        "commit": "200062166f312072ee77210be67ed5914ed9bffc",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "迁移保持原数据并正确映射",
+          "pass": true
+        },
+        {
+          "name": "重复迁移不改变数据与结构",
+          "pass": true
+        },
+        {
+          "name": "迁移后 ID 唯一约束有效",
+          "pass": true
+        },
+        {
+          "name": "空库升级",
+          "pass": true
+        },
+        {
+          "name": "dry-run 无业务写入",
+          "pass": true
+        },
+        {
+          "name": "故障回滚 schema、数据和版本",
+          "pass": true
+        },
+        {
+          "name": "非法旧数据在真实和 dry-run 均拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "不支持版本拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "新旧 HTTP 和 CLI 兼容，软删除默认隐藏",
+          "pass": true
+        },
+        {
+          "name": "两个进程并发迁移且仅一次变更",
+          "pass": true
+        },
+        {
+          "name": "CLI dry-run、升级、重跑和错误退出",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-04-C2-r3-axi",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-04-C2-r3-axi",
+      "task": "C2",
+      "repeat": 3,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 123.793,
+      "requests": 8,
+      "tools": 7,
+      "permissions": 7,
+      "usage": {
+        "input_tokens": 92414,
+        "output_tokens": 13128,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/services/list.ts",
+          "added": false,
+          "bytes": 797,
+          "lines": 16
+        },
+        {
+          "path": "src/domain/status.ts",
+          "added": true,
+          "bytes": 410,
+          "lines": 4
+        },
+        {
+          "path": "src/format/current.ts",
+          "added": false,
+          "bytes": 218,
+          "lines": 2
+        },
+        {
+          "path": "src/cli.ts",
+          "added": false,
+          "bytes": 610,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 397,
+          "lines": 4
+        },
+        {
+          "path": "src/storage/tasks.ts",
+          "added": false,
+          "bytes": 977,
+          "lines": 12
+        },
+        {
+          "path": "src/migrations/upgrade.ts",
+          "added": false,
+          "bytes": 3752,
+          "lines": 63
+        },
+        {
+          "path": "tests/migration.test.ts",
+          "added": true,
+          "bytes": 7467,
+          "lines": 112
+        }
+      ],
+      "finalTestSummary": [
+        "16",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01Tcwc1dMbNggk5SJw13Tduv",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 1,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_011U7boYeKRYkxrgJ7XLn3is",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 16,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 2967696,
+      "initialGit": {
+        "commit": "200062166f312072ee77210be67ed5914ed9bffc",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "迁移保持原数据并正确映射",
+          "pass": true
+        },
+        {
+          "name": "重复迁移不改变数据与结构",
+          "pass": true
+        },
+        {
+          "name": "迁移后 ID 唯一约束有效",
+          "pass": true
+        },
+        {
+          "name": "空库升级",
+          "pass": true
+        },
+        {
+          "name": "dry-run 无业务写入",
+          "pass": true
+        },
+        {
+          "name": "故障回滚 schema、数据和版本",
+          "pass": true
+        },
+        {
+          "name": "非法旧数据在真实和 dry-run 均拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "不支持版本拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "新旧 HTTP 和 CLI 兼容，软删除默认隐藏",
+          "pass": true
+        },
+        {
+          "name": "两个进程并发迁移且仅一次变更",
+          "pass": true
+        },
+        {
+          "name": "CLI dry-run、升级、重跑和错误退出",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-05-C4-r1-axi",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-05-C4-r1-axi",
+      "task": "C4",
+      "repeat": 1,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 186.917,
+      "requests": 15,
+      "tools": 14,
+      "permissions": 14,
+      "usage": {
+        "input_tokens": 390161,
+        "output_tokens": 19506,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/replay.ts",
+          "added": true,
+          "bytes": 9182,
+          "lines": 201
+        },
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 4444,
+          "lines": 101
+        },
+        {
+          "path": "tests/replay.test.ts",
+          "added": true,
+          "bytes": 14222,
+          "lines": 249
+        }
+      ],
+      "finalTestSummary": [
+        "49",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01E2R2ChSoiQi5wWhzgyq5Pd",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 10,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_012VUasPYSZfDZsvxxtyHefU",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 49,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 6207559,
+      "initialGit": {
+        "commit": "907e04907146da0bbc0d8bfd41beaf966cc421c6",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "回放契约 empty",
+          "pass": true
+        },
+        {
+          "name": "回放契约 normal",
+          "pass": true
+        },
+        {
+          "name": "回放契约 tools",
+          "pass": true
+        },
+        {
+          "name": "回放契约 retry",
+          "pass": true
+        },
+        {
+          "name": "回放契约 unfinished",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate",
+          "pass": true
+        },
+        {
+          "name": "回放契约 orphan",
+          "pass": true
+        },
+        {
+          "name": "回放契约 invalid",
+          "pass": true
+        },
+        {
+          "name": "回放契约 interrupted",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_result",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_in_response",
+          "pass": true
+        },
+        {
+          "name": "回放契约 bad_json",
+          "pass": true
+        },
+        {
+          "name": "回放契约 crlf",
+          "pass": true
+        },
+        {
+          "name": "回放契约 usage",
+          "pass": true
+        },
+        {
+          "name": "回放契约 missing",
+          "pass": true
+        },
+        {
+          "name": "回放契约 extra",
+          "pass": true
+        },
+        {
+          "name": "离线、无工具副作用、原文件不变",
+          "pass": true
+        },
+        {
+          "name": "帮助显示回放入口",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-05-C4-r1-claude",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-05-C4-r1-claude",
+      "task": "C4",
+      "repeat": 1,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 144.719,
+      "requests": 11,
+      "tools": 12,
+      "permissions": 12,
+      "usage": {
+        "input_tokens": 22,
+        "output_tokens": 15014,
+        "cache_read_input_tokens": 198224,
+        "cache_creation_input_tokens": 32239
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 4425,
+          "lines": 104
+        },
+        {
+          "path": "src/replay.ts",
+          "added": true,
+          "bytes": 8807,
+          "lines": 170
+        },
+        {
+          "path": "tests/replay.test.ts",
+          "added": true,
+          "bytes": 9828,
+          "lines": 164
+        }
+      ],
+      "finalTestSummary": [
+        "43",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01KKoSiCj8dcFwXGgspjCp6K",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 43,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 4367302,
+      "initialGit": {
+        "commit": "907e04907146da0bbc0d8bfd41beaf966cc421c6",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "回放契约 empty",
+          "pass": true
+        },
+        {
+          "name": "回放契约 normal",
+          "pass": true
+        },
+        {
+          "name": "回放契约 tools",
+          "pass": true
+        },
+        {
+          "name": "回放契约 retry",
+          "pass": true
+        },
+        {
+          "name": "回放契约 unfinished",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate",
+          "pass": true
+        },
+        {
+          "name": "回放契约 orphan",
+          "pass": true
+        },
+        {
+          "name": "回放契约 invalid",
+          "pass": true
+        },
+        {
+          "name": "回放契约 interrupted",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_result",
+          "pass": true
+        },
+        {
+          "name": "回放契约 duplicate_in_response",
+          "pass": true
+        },
+        {
+          "name": "回放契约 bad_json",
+          "pass": true
+        },
+        {
+          "name": "回放契约 crlf",
+          "pass": true
+        },
+        {
+          "name": "回放契约 usage",
+          "pass": true
+        },
+        {
+          "name": "回放契约 missing",
+          "pass": true
+        },
+        {
+          "name": "回放契约 extra",
+          "pass": true
+        },
+        {
+          "name": "离线、无工具副作用、原文件不变",
+          "pass": true
+        },
+        {
+          "name": "帮助显示回放入口",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110173214"
+    },
+    {
+      "id": "formal-06-C1-r3-claude-retry1",
+      "phase": "formal",
+      "recoveryAttempt": 1,
+      "originalRunId": "formal-06-C1-r3-claude",
+      "task": "C1",
+      "repeat": 3,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 127.381,
+      "requests": 9,
+      "tools": 8,
+      "permissions": 7,
+      "usage": {
+        "input_tokens": 14,
+        "output_tokens": 12592,
+        "cache_read_input_tokens": 92523,
+        "cache_creation_input_tokens": 18216
+      },
+      "transportEvents": [
+        {
+          "kind": "api_error_event",
+          "status": 429,
+          "errorType": "Claude API error"
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        }
+      ],
+      "changedFiles": [
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 482,
+          "lines": 8
+        },
+        {
+          "path": "src/services/orders.ts",
+          "added": false,
+          "bytes": 1997,
+          "lines": 38
+        },
+        {
+          "path": "src/domain/validation.ts",
+          "added": false,
+          "bytes": 714,
+          "lines": 11
+        },
+        {
+          "path": "src/http/app.ts",
+          "added": false,
+          "bytes": 1704,
+          "lines": 33
+        },
+        {
+          "path": "src/storage/schema.ts",
+          "added": false,
+          "bytes": 474,
+          "lines": 6
+        },
+        {
+          "path": "src/storage/inventory.ts",
+          "added": false,
+          "bytes": 542,
+          "lines": 6
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 630,
+          "lines": 13
+        },
+        {
+          "path": "src/storage/idempotency.ts",
+          "added": true,
+          "bytes": 613,
+          "lines": 8
+        },
+        {
+          "path": "tests/contracts.test.ts",
+          "added": true,
+          "bytes": 9110,
+          "lines": 154
+        }
+      ],
+      "finalTestSummary": [
+        "11",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_012ATBfQuWQM8osCCg9K7X9b",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 11,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_019Tutosm1K73wWXYNMRTw8k",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 11,
+              "fail": 0
+            },
+            {
+              "pass": 11,
+              "fail": 0
+            },
+            {
+              "pass": 11,
+              "fail": 0
+            },
+            {
+              "pass": 3,
+              "fail": 8
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 3202542,
+      "initialGit": {
+        "commit": "056a3e41cee80d55135ca8636f307f81e3568ad3",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "HTTP、旧读取与 CLI 契约",
+          "pass": true
+        },
+        {
+          "name": "20 次同键并发仅一次业务效果",
+          "pass": true
+        },
+        {
+          "name": "12 次竞争库存 5，无超卖残留",
+          "pass": true
+        },
+        {
+          "name": "重放与键冲突优先于库存检查",
+          "pass": true
+        },
+        {
+          "name": "三处写入故障完整回滚且同键可重试",
+          "pass": true
+        },
+        {
+          "name": "非法请求与失败键不污染后续请求",
+          "pass": true
+        },
+        {
+          "name": "两个独立进程共享库存与幂等记录",
+          "pass": true
+        },
+        {
+          "name": "提交后丢响应、跨进程重启仍可重放",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110180922"
+    },
+    {
+      "id": "formal-06-C1-r3-axi-retry1",
+      "phase": "formal",
+      "recoveryAttempt": 1,
+      "originalRunId": "formal-06-C1-r3-axi",
+      "task": "C1",
+      "repeat": 3,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 99.629,
+      "requests": 7,
+      "tools": 6,
+      "permissions": 6,
+      "usage": {
+        "input_tokens": 65706,
+        "output_tokens": 11177,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 420,
+          "lines": 7
+        },
+        {
+          "path": "src/services/orders.ts",
+          "added": false,
+          "bytes": 1500,
+          "lines": 27
+        },
+        {
+          "path": "src/domain/validation.ts",
+          "added": false,
+          "bytes": 600,
+          "lines": 8
+        },
+        {
+          "path": "src/http/app.ts",
+          "added": false,
+          "bytes": 1491,
+          "lines": 28
+        },
+        {
+          "path": "src/storage/schema.ts",
+          "added": false,
+          "bytes": 450,
+          "lines": 6
+        },
+        {
+          "path": "src/storage/inventory.ts",
+          "added": false,
+          "bytes": 522,
+          "lines": 4
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 574,
+          "lines": 12
+        },
+        {
+          "path": "src/storage/idempotency.ts",
+          "added": true,
+          "bytes": 576,
+          "lines": 8
+        },
+        {
+          "path": "tests/contracts.test.ts",
+          "added": true,
+          "bytes": 9582,
+          "lines": 161
+        },
+        {
+          "path": "tests/fixtures/worker.ts",
+          "added": true,
+          "bytes": 596,
+          "lines": 12
+        }
+      ],
+      "finalTestSummary": [
+        "14",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01VHXDYDtA1JSvMtdALsVeQi",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 14,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01V1JLbeUziaSJdwyRKUPEZj",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 5,
+              "fail": 9
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 2484621,
+      "initialGit": {
+        "commit": "056a3e41cee80d55135ca8636f307f81e3568ad3",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "HTTP、旧读取与 CLI 契约",
+          "pass": true
+        },
+        {
+          "name": "20 次同键并发仅一次业务效果",
+          "pass": true
+        },
+        {
+          "name": "12 次竞争库存 5，无超卖残留",
+          "pass": true
+        },
+        {
+          "name": "重放与键冲突优先于库存检查",
+          "pass": true
+        },
+        {
+          "name": "三处写入故障完整回滚且同键可重试",
+          "pass": true
+        },
+        {
+          "name": "非法请求与失败键不污染后续请求",
+          "pass": true
+        },
+        {
+          "name": "两个独立进程共享库存与幂等记录",
+          "pass": true
+        },
+        {
+          "name": "提交后丢响应、跨进程重启仍可重放",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110180922"
+    },
+    {
+      "id": "formal-07-C2-r2-axi",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-07-C2-r2-axi",
+      "task": "C2",
+      "repeat": 2,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 110.979,
+      "requests": 7,
+      "tools": 6,
+      "permissions": 6,
+      "usage": {
+        "input_tokens": 75773,
+        "output_tokens": 12020,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/services/list.ts",
+          "added": false,
+          "bytes": 1195,
+          "lines": 25
+        },
+        {
+          "path": "src/cli.ts",
+          "added": false,
+          "bytes": 615,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 495,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/tasks.ts",
+          "added": false,
+          "bytes": 343,
+          "lines": 5
+        },
+        {
+          "path": "src/migrations/upgrade.ts",
+          "added": false,
+          "bytes": 3957,
+          "lines": 70
+        },
+        {
+          "path": "tests/migration.test.ts",
+          "added": true,
+          "bytes": 7651,
+          "lines": 119
+        }
+      ],
+      "finalTestSummary": [
+        "17",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01TK5DfC2Vqn6MNr6kEQgvoP",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 1,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01AMeSyWp9Bqu4ss6QbaQRw2",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 1,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01AyApAWRbYTgyCyBcHzqMHS",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 17,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_018Q82gJBBCbF22oXm2nyVWi",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 17,
+              "fail": 0
+            },
+            {
+              "pass": 17,
+              "fail": 0
+            },
+            {
+              "pass": 17,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 2701838,
+      "initialGit": {
+        "commit": "200062166f312072ee77210be67ed5914ed9bffc",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "迁移保持原数据并正确映射",
+          "pass": true
+        },
+        {
+          "name": "重复迁移不改变数据与结构",
+          "pass": true
+        },
+        {
+          "name": "迁移后 ID 唯一约束有效",
+          "pass": true
+        },
+        {
+          "name": "空库升级",
+          "pass": true
+        },
+        {
+          "name": "dry-run 无业务写入",
+          "pass": true
+        },
+        {
+          "name": "故障回滚 schema、数据和版本",
+          "pass": true
+        },
+        {
+          "name": "非法旧数据在真实和 dry-run 均拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "不支持版本拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "新旧 HTTP 和 CLI 兼容，软删除默认隐藏",
+          "pass": true
+        },
+        {
+          "name": "两个进程并发迁移且仅一次变更",
+          "pass": true
+        },
+        {
+          "name": "CLI dry-run、升级、重跑和错误退出",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110180922"
+    },
+    {
+      "id": "formal-07-C2-r2-claude",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-07-C2-r2-claude",
+      "task": "C2",
+      "repeat": 2,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 133.759,
+      "requests": 9,
+      "tools": 8,
+      "permissions": 8,
+      "usage": {
+        "input_tokens": 18,
+        "output_tokens": 14055,
+        "cache_read_input_tokens": 124817,
+        "cache_creation_input_tokens": 19515
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/services/list.ts",
+          "added": false,
+          "bytes": 1159,
+          "lines": 27
+        },
+        {
+          "path": "src/format/current.ts",
+          "added": false,
+          "bytes": 218,
+          "lines": 2
+        },
+        {
+          "path": "src/cli.ts",
+          "added": false,
+          "bytes": 694,
+          "lines": 9
+        },
+        {
+          "path": "src/storage/schema.ts",
+          "added": true,
+          "bytes": 2393,
+          "lines": 36
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 608,
+          "lines": 10
+        },
+        {
+          "path": "src/storage/version.ts",
+          "added": false,
+          "bytes": 378,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/tasks.ts",
+          "added": false,
+          "bytes": 544,
+          "lines": 7
+        },
+        {
+          "path": "src/migrations/upgrade.ts",
+          "added": false,
+          "bytes": 2277,
+          "lines": 49
+        },
+        {
+          "path": "tests/migration.test.ts",
+          "added": true,
+          "bytes": 8691,
+          "lines": 126
+        }
+      ],
+      "finalTestSummary": [
+        "18",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01BKndMXkV3RK1GpX7FhYtpU",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 1,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_014ceteNjsFJ9u79ZJkVsEdj",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 18,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01UV39DK5mtMUssyzvVnHTNY",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 18,
+              "fail": 0
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 3641582,
+      "initialGit": {
+        "commit": "200062166f312072ee77210be67ed5914ed9bffc",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "迁移保持原数据并正确映射",
+          "pass": true
+        },
+        {
+          "name": "重复迁移不改变数据与结构",
+          "pass": true
+        },
+        {
+          "name": "迁移后 ID 唯一约束有效",
+          "pass": true
+        },
+        {
+          "name": "空库升级",
+          "pass": true
+        },
+        {
+          "name": "dry-run 无业务写入",
+          "pass": true
+        },
+        {
+          "name": "故障回滚 schema、数据和版本",
+          "pass": true
+        },
+        {
+          "name": "非法旧数据在真实和 dry-run 均拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "不支持版本拒绝且保留",
+          "pass": true
+        },
+        {
+          "name": "新旧 HTTP 和 CLI 兼容，软删除默认隐藏",
+          "pass": true
+        },
+        {
+          "name": "两个进程并发迁移且仅一次变更",
+          "pass": true
+        },
+        {
+          "name": "CLI dry-run、升级、重跑和错误退出",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110180922"
+    },
+    {
+      "id": "formal-08-C1-r1-claude",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-08-C1-r1-claude",
+      "task": "C1",
+      "repeat": 1,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 232.742,
+      "requests": 25,
+      "tools": 11,
+      "permissions": 11,
+      "usage": {
+        "input_tokens": 22,
+        "output_tokens": 12704,
+        "cache_read_input_tokens": 179677,
+        "cache_creation_input_tokens": 18272
+      },
+      "transportEvents": [
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        }
+      ],
+      "changedFiles": [
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 420,
+          "lines": 7
+        },
+        {
+          "path": "src/services/orders.ts",
+          "added": false,
+          "bytes": 1614,
+          "lines": 32
+        },
+        {
+          "path": "src/domain/validation.ts",
+          "added": false,
+          "bytes": 601,
+          "lines": 9
+        },
+        {
+          "path": "src/http/app.ts",
+          "added": false,
+          "bytes": 1566,
+          "lines": 28
+        },
+        {
+          "path": "src/storage/idempotency.ts",
+          "added": true,
+          "bytes": 560,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/inventory.ts",
+          "added": false,
+          "bytes": 548,
+          "lines": 4
+        },
+        {
+          "path": "src/storage/schema.ts",
+          "added": false,
+          "bytes": 446,
+          "lines": 6
+        },
+        {
+          "path": "tests/contracts.test.ts",
+          "added": true,
+          "bytes": 9547,
+          "lines": 140
+        }
+      ],
+      "finalTestSummary": [
+        "13",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01KRZSbWAE9D7vGFnnqBKgMZ",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 2,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_016bEAu7cf4KJ2jeJoLzd4sH",
+          "isError": true,
+          "observedTestSummaries": [
+            {
+              "pass": 12,
+              "fail": 1
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_017roj8JyxtVZ1ruPY8rxGKb",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 12,
+              "fail": 1
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01XkzGfasTK2YCEATVZ9zDdE",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 12,
+              "fail": 1
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_015rKredCEeqZAE8jcrhwjJX",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 13,
+              "fail": 0
+            },
+            {
+              "pass": 13,
+              "fail": 0
+            },
+            {
+              "pass": 13,
+              "fail": 0
+            },
+            {
+              "pass": 13,
+              "fail": 0
+            },
+            {
+              "pass": 13,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 4488620,
+      "initialGit": {
+        "commit": "056a3e41cee80d55135ca8636f307f81e3568ad3",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "HTTP、旧读取与 CLI 契约",
+          "pass": true
+        },
+        {
+          "name": "20 次同键并发仅一次业务效果",
+          "pass": true
+        },
+        {
+          "name": "12 次竞争库存 5，无超卖残留",
+          "pass": true
+        },
+        {
+          "name": "重放与键冲突优先于库存检查",
+          "pass": true
+        },
+        {
+          "name": "三处写入故障完整回滚且同键可重试",
+          "pass": true
+        },
+        {
+          "name": "非法请求与失败键不污染后续请求",
+          "pass": true
+        },
+        {
+          "name": "两个独立进程共享库存与幂等记录",
+          "pass": true
+        },
+        {
+          "name": "提交后丢响应、跨进程重启仍可重放",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110180922"
+    },
+    {
+      "id": "formal-08-C1-r1-axi",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-08-C1-r1-axi",
+      "task": "C1",
+      "repeat": 1,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 147.502,
+      "requests": 12,
+      "tools": 8,
+      "permissions": 8,
+      "usage": {
+        "input_tokens": 135065,
+        "output_tokens": 15298,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        }
+      ],
+      "changedFiles": [
+        {
+          "path": "src/services/orders.ts",
+          "added": false,
+          "bytes": 1839,
+          "lines": 37
+        },
+        {
+          "path": "src/domain/validation.ts",
+          "added": false,
+          "bytes": 603,
+          "lines": 9
+        },
+        {
+          "path": "src/http/app.ts",
+          "added": false,
+          "bytes": 1491,
+          "lines": 28
+        },
+        {
+          "path": "src/storage/schema.ts",
+          "added": false,
+          "bytes": 450,
+          "lines": 6
+        },
+        {
+          "path": "src/storage/orders.ts",
+          "added": false,
+          "bytes": 385,
+          "lines": 4
+        },
+        {
+          "path": "src/storage/inventory.ts",
+          "added": false,
+          "bytes": 517,
+          "lines": 6
+        },
+        {
+          "path": "src/storage/idempotency.ts",
+          "added": true,
+          "bytes": 576,
+          "lines": 8
+        },
+        {
+          "path": "tests/contracts.test.ts",
+          "added": true,
+          "bytes": 13439,
+          "lines": 261
+        }
+      ],
+      "finalTestSummary": [
+        "18",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01FGMJz1ATKYfDNAjKzEqPqh",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 2,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01XCkLQ8uFkPas9qzk8HFnPW",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 16,
+              "fail": 2
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01DQa3Kdqp2iNuPhastaqcQQ",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 16,
+              "fail": 2
+            },
+            {
+              "pass": 17,
+              "fail": 1
+            },
+            {
+              "pass": 16,
+              "fail": 2
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01NBh4UyvxC1gYPRFXfB5p7C",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 18,
+              "fail": 0
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01Tmnp97dnF1ekuc3vu5xCcW",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 5,
+              "fail": 13
+            },
+            {
+              "pass": 18,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 4004363,
+      "initialGit": {
+        "commit": "056a3e41cee80d55135ca8636f307f81e3568ad3",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "HTTP、旧读取与 CLI 契约",
+          "pass": true
+        },
+        {
+          "name": "20 次同键并发仅一次业务效果",
+          "pass": true
+        },
+        {
+          "name": "12 次竞争库存 5，无超卖残留",
+          "pass": true
+        },
+        {
+          "name": "重放与键冲突优先于库存检查",
+          "pass": true
+        },
+        {
+          "name": "三处写入故障完整回滚且同键可重试",
+          "pass": true
+        },
+        {
+          "name": "非法请求与失败键不污染后续请求",
+          "pass": true
+        },
+        {
+          "name": "两个独立进程共享库存与幂等记录",
+          "pass": true
+        },
+        {
+          "name": "提交后丢响应、跨进程重启仍可重放",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110180922"
+    },
+    {
+      "id": "formal-09-C1-r2-axi",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-09-C1-r2-axi",
+      "task": "C1",
+      "repeat": 2,
+      "agent": "axi",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 117.039,
+      "requests": 12,
+      "tools": 9,
+      "permissions": 9,
+      "usage": {
+        "input_tokens": 136901,
+        "output_tokens": 11858,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "transportEvents": [
+        {
+          "kind": "http_error",
+          "status": 429
+        },
+        {
+          "kind": "http_error",
+          "status": 429
+        }
+      ],
+      "changedFiles": [
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 421,
+          "lines": 7
+        },
+        {
+          "path": "src/services/orders.ts",
+          "added": false,
+          "bytes": 1500,
+          "lines": 30
+        },
+        {
+          "path": "src/domain/validation.ts",
+          "added": false,
+          "bytes": 569,
+          "lines": 8
+        },
+        {
+          "path": "src/http/app.ts",
+          "added": false,
+          "bytes": 1483,
+          "lines": 27
+        },
+        {
+          "path": "src/storage/idempotency.ts",
+          "added": true,
+          "bytes": 576,
+          "lines": 8
+        },
+        {
+          "path": "src/storage/inventory.ts",
+          "added": false,
+          "bytes": 517,
+          "lines": 6
+        },
+        {
+          "path": "src/storage/schema.ts",
+          "added": false,
+          "bytes": 450,
+          "lines": 6
+        },
+        {
+          "path": "tests/contracts.test.ts",
+          "added": true,
+          "bytes": 8999,
+          "lines": 166
+        }
+      ],
+      "finalTestSummary": [
+        "15",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01U5iXBqTiCaqPJFjmoNVpsr",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 2,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01JLEZ3Xq3arevV4Mzi9Djev",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 14,
+              "fail": 1
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01GYEZ5XKGoLcqdWvwPDHMtT",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 14,
+              "fail": 1
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01S1mXhwXFGuwoHPu4haEr7b",
+          "isError": true,
+          "observedTestSummaries": [
+            {
+              "pass": 15,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_01432k28JscZ8xzs3NBmVnuy",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 15,
+              "fail": 0
+            },
+            {
+              "pass": 15,
+              "fail": 0
+            },
+            {
+              "pass": 15,
+              "fail": 0
+            },
+            {
+              "pass": 15,
+              "fail": 0
+            },
+            {
+              "pass": 15,
+              "fail": 0
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 3285260,
+      "initialGit": {
+        "commit": "056a3e41cee80d55135ca8636f307f81e3568ad3",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "HTTP、旧读取与 CLI 契约",
+          "pass": true
+        },
+        {
+          "name": "20 次同键并发仅一次业务效果",
+          "pass": true
+        },
+        {
+          "name": "12 次竞争库存 5，无超卖残留",
+          "pass": true
+        },
+        {
+          "name": "重放与键冲突优先于库存检查",
+          "pass": true
+        },
+        {
+          "name": "三处写入故障完整回滚且同键可重试",
+          "pass": true
+        },
+        {
+          "name": "非法请求与失败键不污染后续请求",
+          "pass": true
+        },
+        {
+          "name": "两个独立进程共享库存与幂等记录",
+          "pass": true
+        },
+        {
+          "name": "提交后丢响应、跨进程重启仍可重放",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110180922"
+    },
+    {
+      "id": "formal-09-C1-r2-claude",
+      "phase": "formal",
+      "recoveryAttempt": 0,
+      "originalRunId": "formal-09-C1-r2-claude",
+      "task": "C1",
+      "repeat": 2,
+      "agent": "claude",
+      "pass": true,
+      "status": "completed",
+      "wallSeconds": 101.035,
+      "requests": 6,
+      "tools": 5,
+      "permissions": 5,
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 11242,
+        "cache_read_input_tokens": 73833,
+        "cache_creation_input_tokens": 10142
+      },
+      "transportEvents": [],
+      "changedFiles": [
+        {
+          "path": "src/main.ts",
+          "added": false,
+          "bytes": 421,
+          "lines": 8
+        },
+        {
+          "path": "src/services/orders.ts",
+          "added": false,
+          "bytes": 1537,
+          "lines": 30
+        },
+        {
+          "path": "src/domain/validation.ts",
+          "added": false,
+          "bytes": 595,
+          "lines": 9
+        },
+        {
+          "path": "src/http/app.ts",
+          "added": false,
+          "bytes": 1592,
+          "lines": 33
+        },
+        {
+          "path": "src/storage/schema.ts",
+          "added": false,
+          "bytes": 446,
+          "lines": 6
+        },
+        {
+          "path": "src/storage/inventory.ts",
+          "added": false,
+          "bytes": 522,
+          "lines": 4
+        },
+        {
+          "path": "src/storage/db.ts",
+          "added": false,
+          "bytes": 714,
+          "lines": 13
+        },
+        {
+          "path": "src/storage/idempotency.ts",
+          "added": true,
+          "bytes": 560,
+          "lines": 8
+        },
+        {
+          "path": "tests/regression.test.ts",
+          "added": true,
+          "bytes": 9767,
+          "lines": 162
+        }
+      ],
+      "finalTestSummary": [
+        "14",
+        "0"
+      ],
+      "validationObservations": [
+        {
+          "toolId": "toolu_01A2nS9j1kwQrqjRQEJh8js1",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 2,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_018nyUHc1cj7H7ykT5ZtDyCq",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 14,
+              "fail": 0
+            }
+          ]
+        },
+        {
+          "toolId": "toolu_018uc1CRGh4y7mWinMBjiwJN",
+          "isError": false,
+          "observedTestSummaries": [
+            {
+              "pass": 6,
+              "fail": 8
+            }
+          ]
+        }
+      ],
+      "traceStatus": "complete_observable",
+      "traceBytes": 2821850,
+      "initialGit": {
+        "commit": "056a3e41cee80d55135ca8636f307f81e3568ad3",
+        "date": "2026-01-01T00:00:00Z",
+        "synthetic": true
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": true
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true
+        },
+        {
+          "name": "HTTP、旧读取与 CLI 契约",
+          "pass": true
+        },
+        {
+          "name": "20 次同键并发仅一次业务效果",
+          "pass": true
+        },
+        {
+          "name": "12 次竞争库存 5，无超卖残留",
+          "pass": true
+        },
+        {
+          "name": "重放与键冲突优先于库存检查",
+          "pass": true
+        },
+        {
+          "name": "三处写入故障完整回滚且同键可重试",
+          "pass": true
+        },
+        {
+          "name": "非法请求与失败键不污染后续请求",
+          "pass": true
+        },
+        {
+          "name": "两个独立进程共享库存与幂等记录",
+          "pass": true
+        },
+        {
+          "name": "提交后丢响应、跨进程重启仍可重放",
+          "pass": true
+        }
+      ],
+      "sourceBatch": "b20261110180922"
+    }
+  ],
+  "pilot": {
+    "batch": "b20261110171306",
+    "summary": [
+      {
+        "task": "C1",
+        "agent": "axi",
+        "runs": 1,
+        "passed": 1,
+        "medianSeconds": 101.49,
+        "minSeconds": 101.49,
+        "maxSeconds": 101.49,
+        "requests": 6,
+        "medianRequests": 6
+      },
+      {
+        "task": "C1",
+        "agent": "claude",
+        "runs": 1,
+        "passed": 1,
+        "medianSeconds": 132.1,
+        "minSeconds": 132.1,
+        "maxSeconds": 132.1,
+        "requests": 8,
+        "medianRequests": 8
+      },
+      {
+        "task": "C2",
+        "agent": "axi",
+        "runs": 1,
+        "passed": 1,
+        "medianSeconds": 125.13,
+        "minSeconds": 125.13,
+        "maxSeconds": 125.13,
+        "requests": 10,
+        "medianRequests": 10
+      },
+      {
+        "task": "C2",
+        "agent": "claude",
+        "runs": 1,
+        "passed": 1,
+        "medianSeconds": 129.29,
+        "minSeconds": 129.29,
+        "maxSeconds": 129.29,
+        "requests": 8,
+        "medianRequests": 8
+      },
+      {
+        "task": "C4",
+        "agent": "axi",
+        "runs": 1,
+        "passed": 1,
+        "medianSeconds": 175.84,
+        "minSeconds": 175.84,
+        "maxSeconds": 175.84,
+        "requests": 13,
+        "medianRequests": 13
+      },
+      {
+        "task": "C4",
+        "agent": "claude",
+        "runs": 1,
+        "passed": 1,
+        "medianSeconds": 161.42,
+        "minSeconds": 161.42,
+        "maxSeconds": 161.42,
+        "requests": 12,
+        "medianRequests": 12
+      }
+    ]
+  },
+  "audit": {
+    "batch": "complex-20261111",
+    "phase": "formal",
+    "runs": 19,
+    "validRuns": 18,
+    "excludedRuns": 1,
+    "traceFiles": 191,
+    "traceBytes": 71228267,
+    "integrityIssues": [],
+    "credentialMatches": [],
+    "credentialsAvailableForScan": 2,
+    "pass": true,
+    "sourceAudits": [
+      "b20261110173214/audit.json",
+      "b20261110180922/audit.json"
+    ]
+  },
+  "sources": [
+    {
+      "batch": "b20261110173214",
+      "sourceHash": "b3be1bc8e770009906a0a8530ab7662f4133f0220eb33d762a3e8c5bba01c443"
+    },
+    {
+      "batch": "b20261110180922",
+      "sourceHash": "a3d7f210360fc53df4d01516934ae925cb7e16eaa46c19f2b5db9711474f0252"
+    }
+  ],
+  "actualStarted": 19,
+  "environmentIndeterminate": 1,
+  "excluded": [
+    {
+      "task": "C1",
+      "repeat": 3,
+      "agent": "claude",
+      "id": "formal-06-C1-r3-claude",
+      "phase": "formal",
+      "status": "product_or_runner_error",
+      "pass": false,
+      "modelMatched": true,
+      "faults": [],
+      "transportIssues": [],
+      "error": "Error: claude result success: \"Failed to authenticate. API Error: 403 connecting to [REDACTED]:80: connecting to [REDACTED]:80: dial tcp [REDACTED]:80: connect: operation timed out\"",
+      "wallMs": 128600.99995799991,
+      "requests": 4,
+      "deniedBudgetRequests": 0,
+      "tools": 4,
+      "permissions": 4,
+      "usage": {
+        "input_tokens": 6,
+        "output_tokens": 5191,
+        "cache_read_input_tokens": 19538,
+        "cache_creation_input_tokens": 5988
+      },
+      "checks": [
+        {
+          "name": "产品完成任务",
+          "pass": false,
+          "actual": "product_or_runner_error"
+        },
+        {
+          "name": "保留原测试与受保护文件",
+          "pass": true,
+          "actual": []
+        },
+        {
+          "name": "无符号链接或特殊文件",
+          "pass": true
+        },
+        {
+          "name": "严格类型检查",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        {
+          "name": "原测试与新增回归",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stdout": "bun test v1.3.14 (0d9b296a)\n",
+            "stderr": "\ntests/legacy.test.ts:\n(pass) 旧客户端读取库存和订单 [5.40ms]\n(pass) 无效输入不扣库存 [0.68ms]\n\n 2 pass\n 0 fail\n 5 expect() calls\nRan 2 tests across 1 file. [14.00ms]\n"
+          }
+        },
+        {
+          "name": "独立验收程序完成",
+          "pass": true,
+          "actual": {
+            "exitCode": 0,
+            "stderr": "",
+            "stdout": "2}]}},{\"stage\":\"before_commit\",\"failed\":{\"status\":500,\"body\":{\"error\":\"internal_error\"}},\"afterFailure\":{\"stock\":5,\"orders\":[]},\"recovered\":{\"status\":201,\"body\":{\"id\":\"01a1c6a1-fc82-7004-b5bc-d4308fcdef97\",\"sku\":\"tea\",\"quantity\":2}},\"final\":{\"stock\":3,\"orders\":[{\"id\":\"01a1c6a1-fc82-7004-b5bc-d4308fcdef97\",\"sku\":\"tea\",\"quantity\":2}]}}],\"invalid\":{\"invalid\":[{\"status\":400,\"body\":{\"error\":\"invalid_request\"}},{\"status\":400,\"body\":{\"error\":\"invalid_request\"}},{\"status\":400,\"body\":{\"error\":\"invalid_request\"}},{\"status\":400,\"body\":{\"error\":\"invalid_request\"}}],\"badJson\":{\"status\":400,\"body\":{\"error\":\"invalid_request\"}},\"missing\":{\"status\":400,\"body\":{\"error\":\"invalid_request\"}},\"failed\":{\"status\":409,\"body\":{\"error\":\"out_of_stock\"}},\"retry\":{\"status\":201,\"body\":{\"id\":\"01a1c6a1-fc83-7000-be55-ea7da5aea2ce\",\"sku\":\"tea\",\"quantity\":2}},\"state\":{\"stock\":1,\"orders\":[{\"id\":\"01a1c6a1-fc83-7000-be55-ea7da5aea2ce\",\"sku\":\"tea\",\"quantity\":2}]}},\"restart\":{\"codes\":[0,0,0],\"second\":{\"status\":201,\"body\":{\"id\":\"01a1c6a1-fc8b-7000-87ed-b840d66eb6d3\",\"sku\":\"tea\",\"quantity\":3}},\"third\":{\"status\":201,\"body\":{\"id\":\"01a1c6a1-fc8b-7000-87ed-b840d66eb6d3\",\"sku\":\"tea\",\"quantity\":3}},\"stock\":{\"available\":7},\"orders\":[{\"id\":\"01a1c6a1-fc8b-7000-87ed-b840d66eb6d3\",\"sku\":\"tea\",\"quantity\":3}]},\"crossProcess\":[{\"sameKey\":true,\"replies\":[{\"code\":0,\"response\":{\"status\":201,\"body\":{\"id\":\"01a1c6a1-fcae-7000-a54b-ad37f003076e\",\"sku\":\"tea\",\"quantity\":3}},\"stderr\":\"\"},{\"code\":0,\"response\":{\"status\":201,\"body\":{\"id\":\"01a1c6a1-fcae-7000-a54b-ad37f003076e\",\"sku\":\"tea\",\"quantity\":3}},\"stderr\":\"\"}],\"stock\":2,\"orders\":[{\"id\":\"01a1c6a1-fcae-7000-a54b-ad37f003076e\",\"sku\":\"tea\",\"quantity\":3}]},{\"sameKey\":false,\"replies\":[{\"code\":0,\"response\":{\"status\":201,\"body\":{\"id\":\"01a1c6a1-fcbf-7000-9053-09e3f944724c\",\"sku\":\"tea\",\"quantity\":3}},\"stderr\":\"\"},{\"code\":0,\"response\":{\"status\":409,\"body\":{\"error\":\"out_of_stock\"}},\"stderr\":\"\"}],\"stock\":2,\"orders\":[{\"id\":\"01a1c6a1-fcbf-7000-9053-09e3f944724c\",\"sku\":\"tea\",\"quantity\":3}]}]}\n"
+          }
+        },
+        {
+          "name": "HTTP、旧读取与 CLI 契约",
+          "pass": true,
+          "actual": {
+            "first": {
+              "status": 201,
+              "body": {
+                "id": "01a1c6a1-fc75-7000-b4d2-9e2e41a63ddf",
+                "sku": "tea",
+                "quantity": 2
+              }
+            },
+            "stock": {
+              "status": 200,
+              "body": {
+                "sku": "tea",
+                "available": 3
+              }
+            },
+            "orders": {
+              "status": 200,
+              "body": [
+                {
+                  "id": "01a1c6a1-fc75-7000-b4d2-9e2e41a63ddf",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              ]
+            },
+            "cli": {
+              "code": 0,
+              "value": [
+                {
+                  "id": "01a1c6a1-fc75-7000-b4d2-9e2e41a63ddf",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              ]
+            },
+            "state": {
+              "stock": 3,
+              "orders": [
+                {
+                  "id": "01a1c6a1-fc75-7000-b4d2-9e2e41a63ddf",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "20 次同键并发仅一次业务效果",
+          "pass": true,
+          "actual": {
+            "replies": [
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              }
+            ],
+            "state": {
+              "stock": 48,
+              "orders": [
+                {
+                  "id": "01a1c6a1-fc7f-7000-bdfe-df13e2a16040",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "12 次竞争库存 5，无超卖残留",
+          "pass": true,
+          "actual": {
+            "replies": [
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc80-7000-9df1-4f287a3e2010",
+                  "sku": "tea",
+                  "quantity": 1
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc80-7001-9348-8e7db315c7e6",
+                  "sku": "tea",
+                  "quantity": 1
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc80-7002-be17-7f480cd264fb",
+                  "sku": "tea",
+                  "quantity": 1
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc80-7003-97fc-736c4d02901b",
+                  "sku": "tea",
+                  "quantity": 1
+                }
+              },
+              {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc80-7004-bbf3-0ed0b6081c8b",
+                  "sku": "tea",
+                  "quantity": 1
+                }
+              },
+              {
+                "status": 409,
+                "body": {
+                  "error": "out_of_stock"
+                }
+              },
+              {
+                "status": 409,
+                "body": {
+                  "error": "out_of_stock"
+                }
+              },
+              {
+                "status": 409,
+                "body": {
+                  "error": "out_of_stock"
+                }
+              },
+              {
+                "status": 409,
+                "body": {
+                  "error": "out_of_stock"
+                }
+              },
+              {
+                "status": 409,
+                "body": {
+                  "error": "out_of_stock"
+                }
+              },
+              {
+                "status": 409,
+                "body": {
+                  "error": "out_of_stock"
+                }
+              },
+              {
+                "status": 409,
+                "body": {
+                  "error": "out_of_stock"
+                }
+              }
+            ],
+            "state": {
+              "stock": 0,
+              "orders": [
+                {
+                  "id": "01a1c6a1-fc80-7000-9df1-4f287a3e2010",
+                  "sku": "tea",
+                  "quantity": 1
+                },
+                {
+                  "id": "01a1c6a1-fc80-7001-9348-8e7db315c7e6",
+                  "sku": "tea",
+                  "quantity": 1
+                },
+                {
+                  "id": "01a1c6a1-fc80-7002-be17-7f480cd264fb",
+                  "sku": "tea",
+                  "quantity": 1
+                },
+                {
+                  "id": "01a1c6a1-fc80-7003-97fc-736c4d02901b",
+                  "sku": "tea",
+                  "quantity": 1
+                },
+                {
+                  "id": "01a1c6a1-fc80-7004-bbf3-0ed0b6081c8b",
+                  "sku": "tea",
+                  "quantity": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "重放与键冲突优先于库存检查",
+          "pass": true,
+          "actual": {
+            "a": {
+              "status": 201,
+              "body": {
+                "id": "01a1c6a1-fc81-7000-b1e0-615cff78d283",
+                "sku": "tea",
+                "quantity": 1
+              }
+            },
+            "b": {
+              "status": 409,
+              "body": {
+                "error": "idempotency_conflict"
+              }
+            },
+            "d": {
+              "status": 409,
+              "body": {
+                "error": "idempotency_conflict"
+              }
+            },
+            "replay": {
+              "status": 201,
+              "body": {
+                "id": "01a1c6a1-fc81-7000-b1e0-615cff78d283",
+                "sku": "tea",
+                "quantity": 1
+              }
+            },
+            "state": {
+              "stock": 0,
+              "orders": [
+                {
+                  "id": "01a1c6a1-fc81-7000-b1e0-615cff78d283",
+                  "sku": "tea",
+                  "quantity": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "三处写入故障完整回滚且同键可重试",
+          "pass": true,
+          "actual": [
+            {
+              "stage": "after_inventory",
+              "failed": {
+                "status": 500,
+                "body": {
+                  "error": "internal_error"
+                }
+              },
+              "afterFailure": {
+                "stock": 5,
+                "orders": []
+              },
+              "recovered": {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc82-7000-b4a4-601554da728b",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              "final": {
+                "stock": 3,
+                "orders": [
+                  {
+                    "id": "01a1c6a1-fc82-7000-b4a4-601554da728b",
+                    "sku": "tea",
+                    "quantity": 2
+                  }
+                ]
+              }
+            },
+            {
+              "stage": "after_order",
+              "failed": {
+                "status": 500,
+                "body": {
+                  "error": "internal_error"
+                }
+              },
+              "afterFailure": {
+                "stock": 5,
+                "orders": []
+              },
+              "recovered": {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc82-7002-b68e-596c188affee",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              "final": {
+                "stock": 3,
+                "orders": [
+                  {
+                    "id": "01a1c6a1-fc82-7002-b68e-596c188affee",
+                    "sku": "tea",
+                    "quantity": 2
+                  }
+                ]
+              }
+            },
+            {
+              "stage": "before_commit",
+              "failed": {
+                "status": 500,
+                "body": {
+                  "error": "internal_error"
+                }
+              },
+              "afterFailure": {
+                "stock": 5,
+                "orders": []
+              },
+              "recovered": {
+                "status": 201,
+                "body": {
+                  "id": "01a1c6a1-fc82-7004-b5bc-d4308fcdef97",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              },
+              "final": {
+                "stock": 3,
+                "orders": [
+                  {
+                    "id": "01a1c6a1-fc82-7004-b5bc-d4308fcdef97",
+                    "sku": "tea",
+                    "quantity": 2
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "非法请求与失败键不污染后续请求",
+          "pass": true,
+          "actual": {
+            "invalid": [
+              {
+                "status": 400,
+                "body": {
+                  "error": "invalid_request"
+                }
+              },
+              {
+                "status": 400,
+                "body": {
+                  "error": "invalid_request"
+                }
+              },
+              {
+                "status": 400,
+                "body": {
+                  "error": "invalid_request"
+                }
+              },
+              {
+                "status": 400,
+                "body": {
+                  "error": "invalid_request"
+                }
+              }
+            ],
+            "badJson": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request"
+              }
+            },
+            "missing": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request"
+              }
+            },
+            "failed": {
+              "status": 409,
+              "body": {
+                "error": "out_of_stock"
+              }
+            },
+            "retry": {
+              "status": 201,
+              "body": {
+                "id": "01a1c6a1-fc83-7000-be55-ea7da5aea2ce",
+                "sku": "tea",
+                "quantity": 2
+              }
+            },
+            "state": {
+              "stock": 1,
+              "orders": [
+                {
+                  "id": "01a1c6a1-fc83-7000-be55-ea7da5aea2ce",
+                  "sku": "tea",
+                  "quantity": 2
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "两个独立进程共享库存与幂等记录",
+          "pass": true,
+          "actual": [
+            {
+              "sameKey": true,
+              "replies": [
+                {
+                  "code": 0,
+                  "response": {
+                    "status": 201,
+                    "body": {
+                      "id": "01a1c6a1-fcae-7000-a54b-ad37f003076e",
+                      "sku": "tea",
+                      "quantity": 3
+                    }
+                  },
+                  "stderr": ""
+                },
+                {
+                  "code": 0,
+                  "response": {
+                    "status": 201,
+                    "body": {
+                      "id": "01a1c6a1-fcae-7000-a54b-ad37f003076e",
+                      "sku": "tea",
+                      "quantity": 3
+                    }
+                  },
+                  "stderr": ""
+                }
+              ],
+              "stock": 2,
+              "orders": [
+                {
+                  "id": "01a1c6a1-fcae-7000-a54b-ad37f003076e",
+                  "sku": "tea",
+                  "quantity": 3
+                }
+              ]
+            },
+            {
+              "sameKey": false,
+              "replies": [
+                {
+                  "code": 0,
+                  "response": {
+                    "status": 201,
+                    "body": {
+                      "id": "01a1c6a1-fcbf-7000-9053-09e3f944724c",
+                      "sku": "tea",
+                      "quantity": 3
+                    }
+                  },
+                  "stderr": ""
+                },
+                {
+                  "code": 0,
+                  "response": {
+                    "status": 409,
+                    "body": {
+                      "error": "out_of_stock"
+                    }
+                  },
+                  "stderr": ""
+                }
+              ],
+              "stock": 2,
+              "orders": [
+                {
+                  "id": "01a1c6a1-fcbf-7000-9053-09e3f944724c",
+                  "sku": "tea",
+                  "quantity": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "提交后丢响应、跨进程重启仍可重放",
+          "pass": true,
+          "actual": {
+            "codes": [
+              0,
+              0,
+              0
+            ],
+            "second": {
+              "status": 201,
+              "body": {
+                "id": "01a1c6a1-fc8b-7000-87ed-b840d66eb6d3",
+                "sku": "tea",
+                "quantity": 3
+              }
+            },
+            "third": {
+              "status": 201,
+              "body": {
+                "id": "01a1c6a1-fc8b-7000-87ed-b840d66eb6d3",
+                "sku": "tea",
+                "quantity": 3
+              }
+            },
+            "stock": {
+              "available": 7
+            },
+            "orders": [
+              {
+                "id": "01a1c6a1-fc8b-7000-87ed-b840d66eb6d3",
+                "sku": "tea",
+                "quantity": 3
+              }
+            ]
+          }
+        }
+      ],
+      "finished": "2026-11-10T18:04:27.333Z",
+      "sourceBatch": "b20261110173214",
+      "classification": "environment_indeterminate"
+    }
+  ],
+  "supplemental": {
+    "postHoc": true,
+    "newModelRuns": 0,
+    "details": "2026-11-11-complex-supplemental.json",
+    "expandedOverall": {
+      "axi": {
+        "passed": 7,
+        "total": 9
+      },
+      "claude": {
+        "passed": 7,
+        "total": 9
+      }
+    }
+  }
+}

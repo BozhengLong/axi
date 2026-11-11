@@ -1,0 +1,1578 @@
+{
+  "posthoc": true,
+  "reason": "同一次SUBTASK分发中另一监听器结束renderer，随后不应追加订阅。",
+  "referenceAndMutantCalibration": [
+    {
+      "id": "reference",
+      "phase": "calibration",
+      "sourceSha256": "115fe47e9ed160ebff2229738c89e6318519c8ab83e03948a3ad844a958f6d93",
+      "passed": true,
+      "cases": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "late-subscription-mutant",
+      "phase": "calibration",
+      "sourceSha256": "cb5cf8b76b3ec068bc065d16bb4098bbbfa83a9830f3b5a6c45fb58c500d01e8",
+      "passed": false,
+      "cases": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "childListenersAfterEnd": 3,
+            "childListenersAfterSecondEnd": 3,
+            "grandchildListenersAfterEnd": 3,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 3
+              },
+              {
+                "task": "grandchild",
+                "active": 3
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "allCompletedFinalArtifacts": [
+    {
+      "id": "pilot-C6-r1-axi",
+      "phase": "pilot",
+      "agent": "axi",
+      "repeat": 1,
+      "sourceSha256": "d31742bfd72bc8a913be0d5b733d79bbf7f82b94345afb5de22d0581336f722f",
+      "passed": true,
+      "cases": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pilot-C6-r1-claude",
+      "phase": "pilot",
+      "agent": "claude",
+      "repeat": 1,
+      "sourceSha256": "974e23cde1c8bb4fb6e521ad8accdf7070c90e1c47baa5c6be683c622385496b",
+      "passed": false,
+      "cases": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "childListenersAfterEnd": 3,
+            "childListenersAfterSecondEnd": 3,
+            "grandchildListenersAfterEnd": 3,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 3
+              },
+              {
+                "task": "grandchild",
+                "active": 3
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "formal-C6-r1-claude",
+      "phase": "formal",
+      "agent": "claude",
+      "repeat": 1,
+      "sourceSha256": "edfdd8e61ca26c429c4325db7e1d6024d348ce61a7dbd8c8c51db45a78574784",
+      "passed": false,
+      "cases": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "childListenersAfterEnd": 3,
+            "childListenersAfterSecondEnd": 3,
+            "grandchildListenersAfterEnd": 3,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 3
+              },
+              {
+                "task": "grandchild",
+                "active": 3
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "formal-C6-r2-claude",
+      "phase": "formal",
+      "agent": "claude",
+      "repeat": 2,
+      "sourceSha256": "60c688c418270503fdbdc86a4a52d2983bb2a0449a9ce87be24bcad521b0e887",
+      "passed": true,
+      "cases": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "formal-C6-r2-axi",
+      "phase": "formal",
+      "agent": "axi",
+      "repeat": 2,
+      "sourceSha256": "f581d02ed3ffdc38e8280738a2b1a9dcbdf0dc8b69d1cc81f24dd703ebdc476d",
+      "passed": false,
+      "cases": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "childListenersAfterEnd": 3,
+            "childListenersAfterSecondEnd": 3,
+            "grandchildListenersAfterEnd": 3,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 3
+              },
+              {
+                "task": "grandchild",
+                "active": 3
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "formal-C6-r3-axi",
+      "phase": "formal",
+      "agent": "axi",
+      "repeat": 3,
+      "sourceSha256": "00bd1f29652f47583b0b0156babdc0d0d2ea2cc002b0f113109113de37d8f912",
+      "passed": true,
+      "cases": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "formal-C6-r3-claude",
+      "phase": "formal",
+      "agent": "claude",
+      "repeat": 3,
+      "sourceSha256": "ea54f9b27cc4079976197d961ca9c2397b310b2fa5aaf945d520a0d89b31f305",
+      "passed": false,
+      "cases": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "childListenersAfterEnd": 3,
+            "childListenersAfterSecondEnd": 3,
+            "grandchildListenersAfterEnd": 3,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": false,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 3
+              },
+              {
+                "task": "grandchild",
+                "active": 3
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "formal-C6-r1-axi-retry1",
+      "phase": "formal-retry1",
+      "agent": "axi",
+      "repeat": 1,
+      "sourceSha256": "55d159ffe9e16d94095501c515a43bfd8bfa577f6cf90e9cf922ec22025094ff",
+      "passed": true,
+      "cases": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "formal-C6-r1-claude-retry1",
+      "phase": "formal-retry1",
+      "agent": "claude",
+      "repeat": 1,
+      "sourceSha256": "c6259f50cea1865e51489c50b99c74e52cd0b4c8700dd8c8204587c8b019b817",
+      "passed": true,
+      "cases": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "childListenersAfterEnd": 0,
+            "childListenersAfterSecondEnd": 0,
+            "grandchildListenersAfterEnd": 0,
+            "observerCalls": 2,
+            "childObserverCalls": 1,
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ],
+      "integration": [
+        {
+          "order": "before",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "after",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "state",
+              "run_end"
+            ]
+          }
+        },
+        {
+          "order": "already-ended",
+          "passed": true,
+          "observed": {
+            "context": {
+              "steps": 2
+            },
+            "observerCalls": 1,
+            "observations": [
+              {
+                "task": "child",
+                "active": 0
+              },
+              {
+                "task": "grandchild",
+                "active": 0
+              }
+            ],
+            "recordTypes": [
+              "run_end"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "adoptedFullRegrade": {
+    "complete": true,
+    "posthoc": true,
+    "suiteRevision": 3,
+    "results": [
+      {
+        "id": "formal-C6-r1-axi-retry1",
+        "agent": "axi",
+        "repeat": 1,
+        "round": 1,
+        "sourceSha256": "e1ad5d826eeedf14dc59afa9546abceb234b0be99f38db2a835c61584441bd0e",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r1-axi-retry1",
+        "agent": "axi",
+        "repeat": 1,
+        "round": 2,
+        "sourceSha256": "bd35feaa64fcd96a0951cd961e1c569a476cf55062b5fc71439955602d88ae6f",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r1-axi-retry1",
+        "agent": "axi",
+        "repeat": 1,
+        "round": 3,
+        "sourceSha256": "55d159ffe9e16d94095501c515a43bfd8bfa577f6cf90e9cf922ec22025094ff",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r1-claude-retry1",
+        "agent": "claude",
+        "repeat": 1,
+        "round": 1,
+        "sourceSha256": "2db215c4b6eca3cd1ca1e7cc8e2c9c64e0b4c8997f21edea5011d9a34b01a80e",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r1-claude-retry1",
+        "agent": "claude",
+        "repeat": 1,
+        "round": 2,
+        "sourceSha256": "70ddcf4061147a5eba011c90997c924afc87ce1f2ff5e2949593eaec07013cc3",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r1-claude-retry1",
+        "agent": "claude",
+        "repeat": 1,
+        "round": 3,
+        "sourceSha256": "c6259f50cea1865e51489c50b99c74e52cd0b4c8700dd8c8204587c8b019b817",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r2-axi",
+        "agent": "axi",
+        "repeat": 2,
+        "round": 1,
+        "sourceSha256": "c9d9d15d5c85e7a16de056b3d41a591ea5e5da15a87e38674750223b16006a9b",
+        "frozenAccepted": true,
+        "accepted": false,
+        "failures": [
+          "H-END-DURING-SUBTASK"
+        ]
+      },
+      {
+        "id": "formal-C6-r2-axi",
+        "agent": "axi",
+        "repeat": 2,
+        "round": 2,
+        "sourceSha256": "c318dbb95a5bda69ab4c9595c409f88ce0c0564ce4385415b562a03e9f91a481",
+        "frozenAccepted": true,
+        "accepted": false,
+        "failures": [
+          "H-END-DURING-SUBTASK"
+        ]
+      },
+      {
+        "id": "formal-C6-r2-axi",
+        "agent": "axi",
+        "repeat": 2,
+        "round": 3,
+        "sourceSha256": "f581d02ed3ffdc38e8280738a2b1a9dcbdf0dc8b69d1cc81f24dd703ebdc476d",
+        "frozenAccepted": true,
+        "accepted": false,
+        "failures": [
+          "H-END-DURING-SUBTASK"
+        ]
+      },
+      {
+        "id": "formal-C6-r2-claude",
+        "agent": "claude",
+        "repeat": 2,
+        "round": 1,
+        "sourceSha256": "11056890b789d260986b9fddf8126f1b881839b387e2400a69b85eefea043824",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r2-claude",
+        "agent": "claude",
+        "repeat": 2,
+        "round": 2,
+        "sourceSha256": "c6e884f5c60c95703426448d3c8f6f43f75ce57c42834fa0cc95228183283d5c",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r2-claude",
+        "agent": "claude",
+        "repeat": 2,
+        "round": 3,
+        "sourceSha256": "60c688c418270503fdbdc86a4a52d2983bb2a0449a9ce87be24bcad521b0e887",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r3-axi",
+        "agent": "axi",
+        "repeat": 3,
+        "round": 1,
+        "sourceSha256": "0af3e2768f2ff0da16c39054b3b6112deb1c5157e23dcccd4b12fb78465e2292",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r3-axi",
+        "agent": "axi",
+        "repeat": 3,
+        "round": 2,
+        "sourceSha256": "0115755c784d7c687bc292ddb8e6e868c04440e8de8ed0e63ddeb48c06c49119",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r3-axi",
+        "agent": "axi",
+        "repeat": 3,
+        "round": 3,
+        "sourceSha256": "00bd1f29652f47583b0b0156babdc0d0d2ea2cc002b0f113109113de37d8f912",
+        "frozenAccepted": true,
+        "accepted": true,
+        "failures": []
+      },
+      {
+        "id": "formal-C6-r3-claude",
+        "agent": "claude",
+        "repeat": 3,
+        "round": 1,
+        "sourceSha256": "cc8d5d33b04c34aac4c7138be37d80265799af7fd0fd0e5fecd1d429f3bce45f",
+        "frozenAccepted": true,
+        "accepted": false,
+        "failures": [
+          "H-END-DURING-SUBTASK"
+        ]
+      },
+      {
+        "id": "formal-C6-r3-claude",
+        "agent": "claude",
+        "repeat": 3,
+        "round": 2,
+        "sourceSha256": "4591a85fe31a349869e959047d120cc3d3729e52e31ffb5285de15d08d7bf4de",
+        "frozenAccepted": true,
+        "accepted": false,
+        "failures": [
+          "H-END-DURING-SUBTASK"
+        ]
+      },
+      {
+        "id": "formal-C6-r3-claude",
+        "agent": "claude",
+        "repeat": 3,
+        "round": 3,
+        "sourceSha256": "ea54f9b27cc4079976197d961ca9c2397b310b2fa5aaf945d520a0d89b31f305",
+        "frozenAccepted": true,
+        "accepted": false,
+        "failures": [
+          "H-END-DURING-SUBTASK"
+        ]
+      }
+    ]
+  }
+}

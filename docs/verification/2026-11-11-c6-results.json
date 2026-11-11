@@ -1,0 +1,3140 @@
+{
+  "dateBeijing": "2026-11-11",
+  "suite": "c6-real-v1",
+  "frozenRevision": 2,
+  "expandedRevision": 3,
+  "expandedIsPosthoc": true,
+  "upstreamCommit": "d4e97973e06a38f5c61d34c4182f72cb8c83566b",
+  "formalImage": "sha256:4cffb18662c7c0067726736b7473b50a0a7a2a82af9bc0a2f6ad9271d716db6c",
+  "formalControllerSourceHash": "f9d19e63797896cb63305f4c851c9419d3777f74d8ba9038b5222b5458865efc",
+  "postfixImage": "sha256:92840cfa30671118f34ee7d60e412ef68b7c0a713d5e5ba01a52a490f0bdc8c6",
+  "counts": {
+    "pilotTrajectories": 2,
+    "formalOriginalStarts": 6,
+    "formalRecoveryStarts": 2,
+    "formalAdoptedTrajectories": 6,
+    "environmentIndeterminate": 1,
+    "supersededPairObservations": 1,
+    "realC6TrajectoriesTotal": 10,
+    "adoptedRoundDeliveries": 18,
+    "frozenAcceptanceGroups": 378,
+    "expandedAcceptanceGroups": 396,
+    "expandedFailedGroups": 6
+  },
+  "byAgent": {
+    "axi": {
+      "trajectories": 3,
+      "frozenAllRoundsPassed": 3,
+      "expandedAllRoundsPassed": 2,
+      "frozenRoundPasses": [
+        3,
+        3,
+        3
+      ],
+      "expandedRoundPasses": [
+        2,
+        2,
+        2
+      ],
+      "visibleFeedbackRepairOpportunities": 0,
+      "generationRequests": 151,
+      "http429": 1
+    },
+    "claude": {
+      "trajectories": 3,
+      "frozenAllRoundsPassed": 3,
+      "expandedAllRoundsPassed": 2,
+      "frozenRoundPasses": [
+        3,
+        3,
+        3
+      ],
+      "expandedRoundPasses": [
+        2,
+        2,
+        2
+      ],
+      "visibleFeedbackRepairOpportunities": 0,
+      "generationRequests": 173,
+      "http429": 3
+    }
+  },
+  "selected": [
+    {
+      "id": "formal-C6-r1-axi-retry1",
+      "agent": "axi",
+      "repeat": 1,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 563.145366875,
+      "activeSeconds": 495.55045012600004,
+      "completedRoundSeconds": 495.26335174999997,
+      "generationRequests": 44,
+      "countRequests": 0,
+      "httpErrors": [],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 2392553,
+        "output_tokens": 36699,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "stopReasons": {
+        "tool_use": 41,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "summarized"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 262.52546495900003,
+          "generationRequests": 25,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 297,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 62.733796582999986,
+          "generationRequests": 4,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 297,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 170.00409020799998,
+          "generationRequests": 15,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 311,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "bytes": 64732080
+      },
+      "batch": "b20261111055531",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111055531",
+      "expandedRounds": [
+        {
+          "id": "formal-C6-r1-axi-retry1",
+          "agent": "axi",
+          "repeat": 1,
+          "round": 1,
+          "sourceSha256": "e1ad5d826eeedf14dc59afa9546abceb234b0be99f38db2a835c61584441bd0e",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        },
+        {
+          "id": "formal-C6-r1-axi-retry1",
+          "agent": "axi",
+          "repeat": 1,
+          "round": 2,
+          "sourceSha256": "bd35feaa64fcd96a0951cd961e1c569a476cf55062b5fc71439955602d88ae6f",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        },
+        {
+          "id": "formal-C6-r1-axi-retry1",
+          "agent": "axi",
+          "repeat": 1,
+          "round": 3,
+          "sourceSha256": "55d159ffe9e16d94095501c515a43bfd8bfa577f6cf90e9cf922ec22025094ff",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        }
+      ],
+      "expandedAllRoundsPassed": true,
+      "expandedFinalPassed": true
+    },
+    {
+      "id": "formal-C6-r1-claude-retry1",
+      "agent": "claude",
+      "repeat": 1,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 696.248119833,
+      "activeSeconds": 629.6512195829999,
+      "completedRoundSeconds": 629.3389047090002,
+      "generationRequests": 60,
+      "countRequests": 0,
+      "httpErrors": [],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 124,
+        "output_tokens": 46369,
+        "cache_creation_input_tokens": 113261,
+        "cache_read_input_tokens": 3905554
+      },
+      "stopReasons": {
+        "tool_use": 57,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 128000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 386.71980404199996,
+          "generationRequests": 40,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 302,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 91.15171379200008,
+          "generationRequests": 6,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 302,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 151.46738687500007,
+          "generationRequests": 14,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 316,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "bytes": 67843831
+      },
+      "batch": "b20261111055531",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111055531",
+      "expandedRounds": [
+        {
+          "id": "formal-C6-r1-claude-retry1",
+          "agent": "claude",
+          "repeat": 1,
+          "round": 1,
+          "sourceSha256": "2db215c4b6eca3cd1ca1e7cc8e2c9c64e0b4c8997f21edea5011d9a34b01a80e",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        },
+        {
+          "id": "formal-C6-r1-claude-retry1",
+          "agent": "claude",
+          "repeat": 1,
+          "round": 2,
+          "sourceSha256": "70ddcf4061147a5eba011c90997c924afc87ce1f2ff5e2949593eaec07013cc3",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        },
+        {
+          "id": "formal-C6-r1-claude-retry1",
+          "agent": "claude",
+          "repeat": 1,
+          "round": 3,
+          "sourceSha256": "c6259f50cea1865e51489c50b99c74e52cd0b4c8700dd8c8204587c8b019b817",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        }
+      ],
+      "expandedAllRoundsPassed": true,
+      "expandedFinalPassed": true
+    },
+    {
+      "id": "formal-C6-r2-axi",
+      "agent": "axi",
+      "repeat": 2,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 664.8201231249999,
+      "activeSeconds": 597.935171875,
+      "completedRoundSeconds": 597.6849243749999,
+      "generationRequests": 56,
+      "countRequests": 0,
+      "httpErrors": [
+        {
+          "time": "2026-11-11T05:21:09.316Z",
+          "status": 429
+        }
+      ],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 3323663,
+        "output_tokens": 45142,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "stopReasons": {
+        "tool_use": 52,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "summarized"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 338.05475645800004,
+          "generationRequests": 37,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 307,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 119.77462291699997,
+          "generationRequests": 8,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 308,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 139.85554499999992,
+          "generationRequests": 11,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 322,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "bytes": 73178097
+      },
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "expandedRounds": [
+        {
+          "id": "formal-C6-r2-axi",
+          "agent": "axi",
+          "repeat": 2,
+          "round": 1,
+          "sourceSha256": "c9d9d15d5c85e7a16de056b3d41a591ea5e5da15a87e38674750223b16006a9b",
+          "frozenAccepted": true,
+          "accepted": false,
+          "failures": [
+            "H-END-DURING-SUBTASK"
+          ]
+        },
+        {
+          "id": "formal-C6-r2-axi",
+          "agent": "axi",
+          "repeat": 2,
+          "round": 2,
+          "sourceSha256": "c318dbb95a5bda69ab4c9595c409f88ce0c0564ce4385415b562a03e9f91a481",
+          "frozenAccepted": true,
+          "accepted": false,
+          "failures": [
+            "H-END-DURING-SUBTASK"
+          ]
+        },
+        {
+          "id": "formal-C6-r2-axi",
+          "agent": "axi",
+          "repeat": 2,
+          "round": 3,
+          "sourceSha256": "f581d02ed3ffdc38e8280738a2b1a9dcbdf0dc8b69d1cc81f24dd703ebdc476d",
+          "frozenAccepted": true,
+          "accepted": false,
+          "failures": [
+            "H-END-DURING-SUBTASK"
+          ]
+        }
+      ],
+      "expandedAllRoundsPassed": false,
+      "expandedFinalPassed": false
+    },
+    {
+      "id": "formal-C6-r2-claude",
+      "agent": "claude",
+      "repeat": 2,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 588.2963899999999,
+      "activeSeconds": 522.9184109569999,
+      "completedRoundSeconds": 522.6789314579999,
+      "generationRequests": 57,
+      "countRequests": 0,
+      "httpErrors": [
+        {
+          "time": "2026-11-11T05:18:45.438Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:18:52.813Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:18:53.970Z",
+          "status": 429
+        }
+      ],
+      "sseErrors": [
+        {
+          "time": "2026-11-11T05:11:00.527Z",
+          "status": 429
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 110,
+        "output_tokens": 43634,
+        "cache_creation_input_tokens": 101030,
+        "cache_read_input_tokens": 3291893
+      },
+      "stopReasons": {
+        "tool_use": 50,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 128000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        },
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 279.85415770799995,
+          "generationRequests": 32,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 301,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 106.9413770829999,
+          "generationRequests": 9,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 305,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 135.88339666700003,
+          "generationRequests": 16,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 318,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "bytes": 66077936
+      },
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "expandedRounds": [
+        {
+          "id": "formal-C6-r2-claude",
+          "agent": "claude",
+          "repeat": 2,
+          "round": 1,
+          "sourceSha256": "11056890b789d260986b9fddf8126f1b881839b387e2400a69b85eefea043824",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        },
+        {
+          "id": "formal-C6-r2-claude",
+          "agent": "claude",
+          "repeat": 2,
+          "round": 2,
+          "sourceSha256": "c6e884f5c60c95703426448d3c8f6f43f75ce57c42834fa0cc95228183283d5c",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        },
+        {
+          "id": "formal-C6-r2-claude",
+          "agent": "claude",
+          "repeat": 2,
+          "round": 3,
+          "sourceSha256": "60c688c418270503fdbdc86a4a52d2983bb2a0449a9ce87be24bcad521b0e887",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        }
+      ],
+      "expandedAllRoundsPassed": true,
+      "expandedFinalPassed": true
+    },
+    {
+      "id": "formal-C6-r3-axi",
+      "agent": "axi",
+      "repeat": 3,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 619.2225973750001,
+      "activeSeconds": 552.6440339590006,
+      "completedRoundSeconds": 552.3822719169992,
+      "generationRequests": 51,
+      "countRequests": 0,
+      "httpErrors": [],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 3007699,
+        "output_tokens": 41647,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "stopReasons": {
+        "tool_use": 48,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "summarized"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 333.2076486249997,
+          "generationRequests": 34,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 304,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 73.56498674999969,
+          "generationRequests": 4,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 304,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 145.6096365419999,
+          "generationRequests": 13,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 320,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "bytes": 70589316
+      },
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "expandedRounds": [
+        {
+          "id": "formal-C6-r3-axi",
+          "agent": "axi",
+          "repeat": 3,
+          "round": 1,
+          "sourceSha256": "0af3e2768f2ff0da16c39054b3b6112deb1c5157e23dcccd4b12fb78465e2292",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        },
+        {
+          "id": "formal-C6-r3-axi",
+          "agent": "axi",
+          "repeat": 3,
+          "round": 2,
+          "sourceSha256": "0115755c784d7c687bc292ddb8e6e868c04440e8de8ed0e63ddeb48c06c49119",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        },
+        {
+          "id": "formal-C6-r3-axi",
+          "agent": "axi",
+          "repeat": 3,
+          "round": 3,
+          "sourceSha256": "00bd1f29652f47583b0b0156babdc0d0d2ea2cc002b0f113109113de37d8f912",
+          "frozenAccepted": true,
+          "accepted": true,
+          "failures": []
+        }
+      ],
+      "expandedAllRoundsPassed": true,
+      "expandedFinalPassed": true
+    },
+    {
+      "id": "formal-C6-r3-claude",
+      "agent": "claude",
+      "repeat": 3,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 692.5784867079998,
+      "activeSeconds": 620.9541340829995,
+      "completedRoundSeconds": 620.2274805009998,
+      "generationRequests": 56,
+      "countRequests": 0,
+      "httpErrors": [],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 116,
+        "output_tokens": 44299,
+        "cache_creation_input_tokens": 109189,
+        "cache_read_input_tokens": 3590626
+      },
+      "stopReasons": {
+        "tool_use": 53,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 128000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 334.9032342920001,
+          "generationRequests": 30,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 298,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 114.90824145899992,
+          "generationRequests": 10,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 299,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 170.41600474999984,
+          "generationRequests": 16,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 308,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "bytes": 65976678
+      },
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "expandedRounds": [
+        {
+          "id": "formal-C6-r3-claude",
+          "agent": "claude",
+          "repeat": 3,
+          "round": 1,
+          "sourceSha256": "cc8d5d33b04c34aac4c7138be37d80265799af7fd0fd0e5fecd1d429f3bce45f",
+          "frozenAccepted": true,
+          "accepted": false,
+          "failures": [
+            "H-END-DURING-SUBTASK"
+          ]
+        },
+        {
+          "id": "formal-C6-r3-claude",
+          "agent": "claude",
+          "repeat": 3,
+          "round": 2,
+          "sourceSha256": "4591a85fe31a349869e959047d120cc3d3729e52e31ffb5285de15d08d7bf4de",
+          "frozenAccepted": true,
+          "accepted": false,
+          "failures": [
+            "H-END-DURING-SUBTASK"
+          ]
+        },
+        {
+          "id": "formal-C6-r3-claude",
+          "agent": "claude",
+          "repeat": 3,
+          "round": 3,
+          "sourceSha256": "ea54f9b27cc4079976197d961ca9c2397b310b2fa5aaf945d520a0d89b31f305",
+          "frozenAccepted": true,
+          "accepted": false,
+          "failures": [
+            "H-END-DURING-SUBTASK"
+          ]
+        }
+      ],
+      "expandedAllRoundsPassed": false,
+      "expandedFinalPassed": false
+    }
+  ],
+  "allStarts": [
+    {
+      "id": "pilot-C6-r1-axi",
+      "agent": "axi",
+      "repeat": 1,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 586.804924833,
+      "activeSeconds": 520.545363501,
+      "completedRoundSeconds": 520.258772333,
+      "generationRequests": 66,
+      "countRequests": 0,
+      "httpErrors": [
+        {
+          "time": "2026-11-11T04:31:44.551Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:31:54.487Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:32:07.720Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:32:09.098Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:32:31.206Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:33:00.624Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:33:06.689Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:33:10.996Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:33:12.474Z",
+          "status": 429
+        }
+      ],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 3339249,
+        "output_tokens": 38586,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "stopReasons": {
+        "tool_use": 54,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "summarized"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 312.791148208,
+          "generationRequests": 46,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 302,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 70.39193337500002,
+          "generationRequests": 7,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 302,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 137.07569075,
+          "generationRequests": 13,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 314,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "bytes": 73019255
+      },
+      "phase": "pilot",
+      "batch": "b20261111043124",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111043124",
+      "adoptedFormal": false,
+      "category": "pilot",
+      "supplementalFinal": {
+        "id": "pilot-C6-r1-axi",
+        "phase": "pilot",
+        "agent": "axi",
+        "repeat": 1,
+        "sourceSha256": "d31742bfd72bc8a913be0d5b733d79bbf7f82b94345afb5de22d0581336f722f",
+        "passed": true,
+        "cases": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pilot-C6-r1-claude",
+      "agent": "claude",
+      "repeat": 1,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 598.990714666,
+      "activeSeconds": 533.2061797089998,
+      "completedRoundSeconds": 532.9323892919998,
+      "generationRequests": 54,
+      "countRequests": 0,
+      "httpErrors": [
+        {
+          "time": "2026-11-11T04:47:12.126Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:48:35.729Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T04:49:53.564Z",
+          "status": 429
+        }
+      ],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 106,
+        "output_tokens": 42064,
+        "cache_creation_input_tokens": 111965,
+        "cache_read_input_tokens": 3313535
+      },
+      "stopReasons": {
+        "tool_use": 48,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 128000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 284.5377990829999,
+          "generationRequests": 27,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 297,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 108.01458370899991,
+          "generationRequests": 12,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 298,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 140.3800065,
+          "generationRequests": 15,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 308,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "bytes": 65660193
+      },
+      "phase": "pilot",
+      "batch": "b20261111043124",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111043124",
+      "adoptedFormal": false,
+      "category": "pilot",
+      "supplementalFinal": {
+        "id": "pilot-C6-r1-claude",
+        "phase": "pilot",
+        "agent": "claude",
+        "repeat": 1,
+        "sourceSha256": "974e23cde1c8bb4fb6e521ad8accdf7070c90e1c47baa5c6be683c622385496b",
+        "passed": false,
+        "cases": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "childListenersAfterEnd": 3,
+              "childListenersAfterSecondEnd": 3,
+              "grandchildListenersAfterEnd": 3,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 3
+                },
+                {
+                  "task": "grandchild",
+                  "active": 3
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "formal-C6-r1-axi",
+      "agent": "axi",
+      "repeat": 1,
+      "status": "product_error",
+      "error": "Error: axi request failed before complete response",
+      "completedRounds": 0,
+      "allRoundsPassed": false,
+      "finalPassed": false,
+      "wallSeconds": 8.177617415999999,
+      "activeSeconds": 8.177625249999998,
+      "completedRoundSeconds": 0,
+      "generationRequests": 4,
+      "countRequests": 0,
+      "httpErrors": [
+        {
+          "time": "2026-11-11T05:01:37.795Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:01:39.044Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:01:41.261Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:01:45.454Z",
+          "status": 429
+        }
+      ],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "stopReasons": {},
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "summarized"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 10,
+        "bytes": 10398974
+      },
+      "phase": "formal",
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "adoptedFormal": false,
+      "category": "environment_indeterminate",
+      "supplementalFinal": null
+    },
+    {
+      "id": "formal-C6-r1-claude",
+      "agent": "claude",
+      "repeat": 1,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 546.5480079170001,
+      "activeSeconds": 480.75550129100003,
+      "completedRoundSeconds": 480.4602075849999,
+      "generationRequests": 49,
+      "countRequests": 0,
+      "httpErrors": [
+        {
+          "time": "2026-11-11T05:01:49.432Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:01:50.320Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:02:24.984Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:02:28.503Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:03:27.823Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:03:38.311Z",
+          "status": 429
+        }
+      ],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 90,
+        "output_tokens": 37972,
+        "cache_creation_input_tokens": 94801,
+        "cache_read_input_tokens": 2426869
+      },
+      "stopReasons": {
+        "tool_use": 40,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 128000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 269.890228917,
+          "generationRequests": 33,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 298,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 91.06648983399995,
+          "generationRequests": 7,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 300,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 119.50348883399997,
+          "generationRequests": 9,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 312,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "bytes": 61497763
+      },
+      "phase": "formal",
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "adoptedFormal": false,
+      "category": "superseded_pair_observation",
+      "supplementalFinal": {
+        "id": "formal-C6-r1-claude",
+        "phase": "formal",
+        "agent": "claude",
+        "repeat": 1,
+        "sourceSha256": "edfdd8e61ca26c429c4325db7e1d6024d348ce61a7dbd8c8c51db45a78574784",
+        "passed": false,
+        "cases": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "childListenersAfterEnd": 3,
+              "childListenersAfterSecondEnd": 3,
+              "grandchildListenersAfterEnd": 3,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 3
+                },
+                {
+                  "task": "grandchild",
+                  "active": 3
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "formal-C6-r2-claude",
+      "agent": "claude",
+      "repeat": 2,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 588.2963899999999,
+      "activeSeconds": 522.9184109569999,
+      "completedRoundSeconds": 522.6789314579999,
+      "generationRequests": 57,
+      "countRequests": 0,
+      "httpErrors": [
+        {
+          "time": "2026-11-11T05:18:45.438Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:18:52.813Z",
+          "status": 429
+        },
+        {
+          "time": "2026-11-11T05:18:53.970Z",
+          "status": 429
+        }
+      ],
+      "sseErrors": [
+        {
+          "time": "2026-11-11T05:11:00.527Z",
+          "status": 429
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 110,
+        "output_tokens": 43634,
+        "cache_creation_input_tokens": 101030,
+        "cache_read_input_tokens": 3291893
+      },
+      "stopReasons": {
+        "tool_use": 50,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 128000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        },
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 279.85415770799995,
+          "generationRequests": 32,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 301,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 106.9413770829999,
+          "generationRequests": 9,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 305,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 135.88339666700003,
+          "generationRequests": 16,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 318,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "bytes": 66077936
+      },
+      "phase": "formal",
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "adoptedFormal": true,
+      "category": "formal_adopted",
+      "supplementalFinal": {
+        "id": "formal-C6-r2-claude",
+        "phase": "formal",
+        "agent": "claude",
+        "repeat": 2,
+        "sourceSha256": "60c688c418270503fdbdc86a4a52d2983bb2a0449a9ce87be24bcad521b0e887",
+        "passed": true,
+        "cases": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "formal-C6-r2-axi",
+      "agent": "axi",
+      "repeat": 2,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 664.8201231249999,
+      "activeSeconds": 597.935171875,
+      "completedRoundSeconds": 597.6849243749999,
+      "generationRequests": 56,
+      "countRequests": 0,
+      "httpErrors": [
+        {
+          "time": "2026-11-11T05:21:09.316Z",
+          "status": 429
+        }
+      ],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 3323663,
+        "output_tokens": 45142,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "stopReasons": {
+        "tool_use": 52,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "summarized"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 338.05475645800004,
+          "generationRequests": 37,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 307,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 119.77462291699997,
+          "generationRequests": 8,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 308,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 139.85554499999992,
+          "generationRequests": 11,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 322,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "bytes": 73178097
+      },
+      "phase": "formal",
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "adoptedFormal": true,
+      "category": "formal_adopted",
+      "supplementalFinal": {
+        "id": "formal-C6-r2-axi",
+        "phase": "formal",
+        "agent": "axi",
+        "repeat": 2,
+        "sourceSha256": "f581d02ed3ffdc38e8280738a2b1a9dcbdf0dc8b69d1cc81f24dd703ebdc476d",
+        "passed": false,
+        "cases": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "childListenersAfterEnd": 3,
+              "childListenersAfterSecondEnd": 3,
+              "grandchildListenersAfterEnd": 3,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 3
+                },
+                {
+                  "task": "grandchild",
+                  "active": 3
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "formal-C6-r3-axi",
+      "agent": "axi",
+      "repeat": 3,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 619.2225973750001,
+      "activeSeconds": 552.6440339590006,
+      "completedRoundSeconds": 552.3822719169992,
+      "generationRequests": 51,
+      "countRequests": 0,
+      "httpErrors": [],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 3007699,
+        "output_tokens": 41647,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "stopReasons": {
+        "tool_use": 48,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "summarized"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 333.2076486249997,
+          "generationRequests": 34,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 304,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 73.56498674999969,
+          "generationRequests": 4,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 304,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 145.6096365419999,
+          "generationRequests": 13,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 320,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "bytes": 70589316
+      },
+      "phase": "formal",
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "adoptedFormal": true,
+      "category": "formal_adopted",
+      "supplementalFinal": {
+        "id": "formal-C6-r3-axi",
+        "phase": "formal",
+        "agent": "axi",
+        "repeat": 3,
+        "sourceSha256": "00bd1f29652f47583b0b0156babdc0d0d2ea2cc002b0f113109113de37d8f912",
+        "passed": true,
+        "cases": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "formal-C6-r3-claude",
+      "agent": "claude",
+      "repeat": 3,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 692.5784867079998,
+      "activeSeconds": 620.9541340829995,
+      "completedRoundSeconds": 620.2274805009998,
+      "generationRequests": 56,
+      "countRequests": 0,
+      "httpErrors": [],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 116,
+        "output_tokens": 44299,
+        "cache_creation_input_tokens": 109189,
+        "cache_read_input_tokens": 3590626
+      },
+      "stopReasons": {
+        "tool_use": 53,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 128000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 334.9032342920001,
+          "generationRequests": 30,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 298,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 114.90824145899992,
+          "generationRequests": 10,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 299,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 170.41600474999984,
+          "generationRequests": 16,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 308,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "bytes": 65976678
+      },
+      "phase": "formal",
+      "batch": "b20261111050133",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133",
+      "adoptedFormal": true,
+      "category": "formal_adopted",
+      "supplementalFinal": {
+        "id": "formal-C6-r3-claude",
+        "phase": "formal",
+        "agent": "claude",
+        "repeat": 3,
+        "sourceSha256": "ea54f9b27cc4079976197d961ca9c2397b310b2fa5aaf945d520a0d89b31f305",
+        "passed": false,
+        "cases": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "childListenersAfterEnd": 3,
+              "childListenersAfterSecondEnd": 3,
+              "grandchildListenersAfterEnd": 3,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 3
+                },
+                {
+                  "task": "grandchild",
+                  "active": 3
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "formal-C6-r1-axi-retry1",
+      "agent": "axi",
+      "repeat": 1,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 563.145366875,
+      "activeSeconds": 495.55045012600004,
+      "completedRoundSeconds": 495.26335174999997,
+      "generationRequests": 44,
+      "countRequests": 0,
+      "httpErrors": [],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 2392553,
+        "output_tokens": 36699,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "stopReasons": {
+        "tool_use": 41,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 64000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "summarized"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 262.52546495900003,
+          "generationRequests": 25,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 297,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 62.733796582999986,
+          "generationRequests": 4,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 297,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 170.00409020799998,
+          "generationRequests": 15,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 311,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "bytes": 64732080
+      },
+      "phase": "formal-retry1",
+      "batch": "b20261111055531",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111055531",
+      "adoptedFormal": true,
+      "category": "formal_adopted",
+      "supplementalFinal": {
+        "id": "formal-C6-r1-axi-retry1",
+        "phase": "formal-retry1",
+        "agent": "axi",
+        "repeat": 1,
+        "sourceSha256": "55d159ffe9e16d94095501c515a43bfd8bfa577f6cf90e9cf922ec22025094ff",
+        "passed": true,
+        "cases": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "formal-C6-r1-claude-retry1",
+      "agent": "claude",
+      "repeat": 1,
+      "status": "completed",
+      "completedRounds": 3,
+      "allRoundsPassed": true,
+      "finalPassed": true,
+      "wallSeconds": 696.248119833,
+      "activeSeconds": 629.6512195829999,
+      "completedRoundSeconds": 629.3389047090002,
+      "generationRequests": 60,
+      "countRequests": 0,
+      "httpErrors": [],
+      "sseErrors": [],
+      "returnedUsage": {
+        "input_tokens": 124,
+        "output_tokens": 46369,
+        "cache_creation_input_tokens": 113261,
+        "cache_read_input_tokens": 3905554
+      },
+      "stopReasons": {
+        "tool_use": 57,
+        "end_turn": 3
+      },
+      "configVariants": [
+        {
+          "model": "claude-opus-5-5",
+          "maxTokens": 128000,
+          "thinking": {
+            "type": "adaptive",
+            "display": "updates"
+          },
+          "outputConfig": {
+            "effort": "medium"
+          }
+        }
+      ],
+      "perRound": [
+        {
+          "round": 1,
+          "accepted": true,
+          "activeSeconds": 386.71980404199996,
+          "generationRequests": 40,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 302,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 2,
+          "accepted": true,
+          "activeSeconds": 91.15171379200008,
+          "generationRequests": 6,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 19,
+          "tests": {
+            "passed": 302,
+            "failed": 0,
+            "skipped": 4
+          }
+        },
+        {
+          "round": 3,
+          "accepted": true,
+          "activeSeconds": 151.46738687500007,
+          "generationRequests": 14,
+          "visibleFailures": [],
+          "hiddenFailures": [],
+          "groups": 25,
+          "tests": {
+            "passed": 316,
+            "failed": 0,
+            "skipped": 4
+          }
+        }
+      ],
+      "trace": {
+        "status": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "bytes": 67843831
+      },
+      "phase": "formal-retry1",
+      "batch": "b20261111055531",
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111055531",
+      "adoptedFormal": true,
+      "category": "formal_adopted",
+      "supplementalFinal": {
+        "id": "formal-C6-r1-claude-retry1",
+        "phase": "formal-retry1",
+        "agent": "claude",
+        "repeat": 1,
+        "sourceSha256": "c6259f50cea1865e51489c50b99c74e52cd0b4c8700dd8c8204587c8b019b817",
+        "passed": true,
+        "cases": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "integration": [
+          {
+            "order": "before",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "traceVerification": {
+    "generated": "2026-11-11T06:55:00.097Z",
+    "checkedSecrets": [
+      "configured_api_key",
+      "configured_gateway_url",
+      "configured_gateway_host"
+    ],
+    "runs": 10,
+    "files": 227,
+    "bytes": 618974123,
+    "passed": true,
+    "rows": [
+      {
+        "phase": "pilot",
+        "id": "pilot-C6-r1-axi",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "pilot",
+        "id": "pilot-C6-r1-claude",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "formal",
+        "id": "formal-C6-r1-axi",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 10,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "formal",
+        "id": "formal-C6-r1-claude",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "formal",
+        "id": "formal-C6-r2-claude",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "formal",
+        "id": "formal-C6-r2-axi",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "formal",
+        "id": "formal-C6-r3-axi",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "formal",
+        "id": "formal-C6-r3-claude",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "formal-retry1",
+        "id": "formal-C6-r1-axi-retry1",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 23,
+        "issues": [],
+        "passed": true
+      },
+      {
+        "phase": "formal-retry1",
+        "id": "formal-C6-r1-claude-retry1",
+        "traceStatus": "complete_observable",
+        "missing": [],
+        "files": 25,
+        "issues": [],
+        "passed": true
+      }
+    ]
+  },
+  "axiProductUnchanged": {
+    "files": 11,
+    "allMatchFormal": true
+  },
+  "responseHeaderFix": {
+    "appliedAfterAllC6Runs": true,
+    "e2ePassed": true,
+    "oldSelectedDelayMs": 1000,
+    "newSelectedDelayMs": 7000,
+    "syntheticRetryAfterSeconds": 7,
+    "actualSleepUsed": false,
+    "sseBytesPreserved": true,
+    "historicalUpstreamRetryAfterUnknown": true
+  },
+  "postfixValidation": {
+    "unitTestsPassed": 52,
+    "assertions": 304,
+    "preflightChecks": 44,
+    "liveConnectivity": true
+  },
+  "limits": [
+    "一个真实库的一条三轮需求序列，每方重复三次；不是18个独立任务。",
+    "双方首轮可见检查全过，没有真实失败反馈后的修复样本。",
+    "发生限流；冻结代理未记录或透传Retry-After，不能据此比较原生恢复能力或作速度排名。",
+    "同模型和medium，但保留各自原生max_tokens、thinking display、system prompt与工具策略。",
+    "试跑原镜像index已不可直接寻址；源码和全部产物保留。正式镜像独立固定并导出。"
+  ]
+}

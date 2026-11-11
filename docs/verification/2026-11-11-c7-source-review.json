@@ -1,0 +1,217 @@
+{
+  "dateBeijing": "2026-11-11",
+  "status": "design-source-verification-only",
+  "newModelRuns": 0,
+  "newRuntimeTests": 0,
+  "sourceArchivesUnmodified": true,
+  "snapshotEncoding": "原归档文件原始字节 SHA-256；保留文件清单使用路径排序 JSON，每项为 mode 和解码后的内容 SHA-256。目录节点不计源码文件。",
+  "tasks": [
+    {
+      "task": "C7-L",
+      "sourceBatch": "b20261111050133",
+      "sourceRun": "formal-C6-r2-axi",
+      "sourceAuthor": "axi",
+      "archivePath": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111050133/formal-C6-r2-axi/round-3/files.json",
+      "archiveSha256": "7e5fab90ea244178a716c9a17478bd36b09da64a95413d2caebe1545efd4f9e4",
+      "archiveBytes": 5599624,
+      "traceManifestEntryVerified": true,
+      "originalEntryCounts": {
+        "file": 445,
+        "directory": 89
+      },
+      "historicalSourceSha256": "f581d02ed3ffdc38e8280738a2b1a9dcbdf0dc8b69d1cc81f24dd703ebdc476d",
+      "proposedOmittedPaths": [
+        "c6/brief.md",
+        "c6/environment.md",
+        "c6/feedback-r1.json",
+        "c6/feedback-visible-full.json",
+        "c6/initial-changes.md",
+        "c6/protected-files.json",
+        "c6/round-2.md",
+        "packages/listr2/dist/index.d.mts",
+        "packages/listr2/dist/index.mjs",
+        "packages/listr2/junit.xml",
+        "packages/manager/dist/index.d.mts",
+        "packages/manager/dist/index.mjs",
+        "packages/manager/junit.xml",
+        "packages/prompt-adapter-enquirer/dist/index.d.mts",
+        "packages/prompt-adapter-enquirer/dist/index.mjs",
+        "packages/prompt-adapter-enquirer/junit.xml",
+        "packages/prompt-adapter-inquirer/dist/index.d.mts",
+        "packages/prompt-adapter-inquirer/dist/index.mjs",
+        "packages/prompt-adapter-inquirer/junit.xml"
+      ],
+      "retainedRegularFilesBeforeNewTaskMaterials": 426,
+      "retainedFileManifestSha256": "a9b5218b49d274aa830fffef96afa472289c389da665de9dbefe1d64c871e445",
+      "expected": "停止后不追加后代监听器；保留旁观者与业务执行。",
+      "historicalObserved": {
+        "manual": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "childListenersAfterEnd": 3,
+              "childListenersAfterSecondEnd": 3,
+              "grandchildListenersAfterEnd": 3,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "childListenersAfterEnd": 0,
+              "childListenersAfterSecondEnd": 0,
+              "grandchildListenersAfterEnd": 0,
+              "observerCalls": 2,
+              "childObserverCalls": 1,
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ],
+        "realListrRun": [
+          {
+            "order": "before",
+            "passed": false,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 3
+                },
+                {
+                  "task": "grandchild",
+                  "active": 3
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "after",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "state",
+                "run_end"
+              ]
+            }
+          },
+          {
+            "order": "already-ended",
+            "passed": true,
+            "observed": {
+              "context": {
+                "steps": 2
+              },
+              "observerCalls": 1,
+              "observations": [
+                {
+                  "task": "child",
+                  "active": 0
+                },
+                {
+                  "task": "grandchild",
+                  "active": 0
+                }
+              ],
+              "recordTypes": [
+                "run_end"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "task": "C7-O",
+      "sourceBatch": "b20261110180922",
+      "sourceRun": "formal-08-C1-r1-claude",
+      "sourceAuthor": "claude",
+      "archivePath": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261110180922/formal-08-C1-r1-claude/final-files.json",
+      "archiveSha256": "01672059fffe182fc12f52183582a48c8cffe005b460d491fce733237e656445",
+      "archiveBytes": 31659,
+      "traceManifestEntryVerified": true,
+      "originalEntryCounts": {
+        "directory": 8,
+        "file": 23
+      },
+      "historicalSourceSha256": null,
+      "proposedOmittedPaths": [
+        "brief.md"
+      ],
+      "retainedRegularFilesBeforeNewTaskMaterials": 22,
+      "retainedFileManifestSha256": "1391339042165c991e06ddc76bde1dea955b13c5383eb3c90b50a78b3bdca07d",
+      "expected": "故障钩子任何抛错均返回 500/internal_error，保持事务回滚和同键重试。",
+      "historicalObserved": {
+        "failedChecks": [
+          "故障钩子错误类型不改变 500 契约"
+        ],
+        "totalFaultCases": 12,
+        "wrongStatusCases": 6,
+        "visibleCase": {
+          "stage": "before_commit",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          }
+        }
+      }
+    }
+  ],
+  "pending": [
+    "组装候选运行包与保护清单",
+    "基于同一初态的正参考修复及错误变体",
+    "新镜像内缺陷复现与全部旧回归",
+    "可见复现脚本和独立验收实现",
+    "实际 C7 模型运行"
+  ]
+}

@@ -1,0 +1,2414 @@
+{
+  "date": "2026-11-11",
+  "postHoc": true,
+  "newModelRuns": 0,
+  "revision": 3,
+  "originalResultsUnmodified": true,
+  "reason": "公开契约要求故障钩子抛错统一返回 500；旧验收只注入普通 Error，未覆盖 BusinessError。",
+  "offlineEvidence": "offline-v3-20261110183440",
+  "sourceHash": "566c7196bd31c37ded8839acf8114cdab87fdceeb0a8cb9fb9b47ed0a99011b2",
+  "referenceControls": [
+    {
+      "name": "reference-original",
+      "pass": false,
+      "passed": 6,
+      "total": 12
+    },
+    {
+      "name": "reference-corrected",
+      "pass": true,
+      "passed": 12,
+      "total": 12
+    }
+  ],
+  "results": [
+    {
+      "sourceBatch": "b20261110180922",
+      "sourceRun": "formal-06-C1-r3-claude-retry1",
+      "agent": "claude",
+      "repeat": 3,
+      "frozenPass": true,
+      "expandedPass": true,
+      "failedChecks": [],
+      "faultTypeCases": [
+        {
+          "stage": "after_inventory",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "ee02bc3b-be22-421f-8ce5-5726f0733031",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "ee02bc3b-be22-421f-8ce5-5726f0733031",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business400",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "10da703a-e186-4890-ace3-81a5b2f48458",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "10da703a-e186-4890-ace3-81a5b2f48458",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business409",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "6c15eed4-3727-4104-a2f6-f1e36b5a32ac",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "6c15eed4-3727-4104-a2f6-f1e36b5a32ac",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "c52e1e3f-c1f2-4437-8236-6cfce5d8bd3b",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "c52e1e3f-c1f2-4437-8236-6cfce5d8bd3b",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "8563fcd8-0775-4aee-ab49-61f52eb53ac1",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "8563fcd8-0775-4aee-ab49-61f52eb53ac1",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business400",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "8e43a690-e40b-41bc-9e1a-22472ac4b5f9",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "8e43a690-e40b-41bc-9e1a-22472ac4b5f9",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business409",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "cd8a4da7-5255-4c09-8c05-6b9c0b16b2d4",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "cd8a4da7-5255-4c09-8c05-6b9c0b16b2d4",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "9f869ec9-9460-46f9-a92a-7e36057422d0",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "9f869ec9-9460-46f9-a92a-7e36057422d0",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "31abc38c-1024-4d1b-959a-5fc583206663",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "31abc38c-1024-4d1b-959a-5fc583206663",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business400",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "244c6dcd-9b60-4a60-a089-0c0065c17520",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "244c6dcd-9b60-4a60-a089-0c0065c17520",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business409",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "a654d7aa-498d-40e8-aaef-8f94b6cf38cc",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "a654d7aa-498d-40e8-aaef-8f94b6cf38cc",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "87395316-33fe-4f42-91e3-80bcabfde6c2",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "87395316-33fe-4f42-91e3-80bcabfde6c2",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sourceBatch": "b20261110180922",
+      "sourceRun": "formal-06-C1-r3-axi-retry1",
+      "agent": "axi",
+      "repeat": 3,
+      "frozenPass": true,
+      "expandedPass": false,
+      "failedChecks": [
+        "故障钩子错误类型不改变 500 契约"
+      ],
+      "faultTypeCases": [
+        {
+          "stage": "after_inventory",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "f58e020e-b78c-458c-bab0-2565bb31178b",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "f58e020e-b78c-458c-bab0-2565bb31178b",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "cbf2336a-35b3-4934-bb9b-88a475e0151e",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "cbf2336a-35b3-4934-bb9b-88a475e0151e",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "ed92721a-b493-4465-bec6-b13458003aa1",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "ed92721a-b493-4465-bec6-b13458003aa1",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "5b9f403e-72ae-4cc0-b893-f2a3646eb608",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "5b9f403e-72ae-4cc0-b893-f2a3646eb608",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "34ffb814-e3bb-4c4a-8c21-7f19a84ed20f",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "34ffb814-e3bb-4c4a-8c21-7f19a84ed20f",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "d6f2ffed-4d2b-42d5-88fd-5322458dbaef",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "d6f2ffed-4d2b-42d5-88fd-5322458dbaef",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "927ff26f-6141-453c-a928-67d3c95543fe",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "927ff26f-6141-453c-a928-67d3c95543fe",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "7901a9fa-4dff-4d8e-8ffc-238f701fa3d0",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "7901a9fa-4dff-4d8e-8ffc-238f701fa3d0",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "70d94658-9190-4450-a694-98010b41d177",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "70d94658-9190-4450-a694-98010b41d177",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "bf8d1559-3c9b-47b8-8dd5-e6b28c0bfc67",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "bf8d1559-3c9b-47b8-8dd5-e6b28c0bfc67",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "99fbc3ec-3642-4494-b3fb-5f8a0fde83e4",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "99fbc3ec-3642-4494-b3fb-5f8a0fde83e4",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "7390a0b1-a129-4d00-a81e-e64995f17164",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "7390a0b1-a129-4d00-a81e-e64995f17164",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sourceBatch": "b20261110180922",
+      "sourceRun": "formal-08-C1-r1-claude",
+      "agent": "claude",
+      "repeat": 1,
+      "frozenPass": true,
+      "expandedPass": false,
+      "failedChecks": [
+        "故障钩子错误类型不改变 500 契约"
+      ],
+      "faultTypeCases": [
+        {
+          "stage": "after_inventory",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c82-7000-810a-18f2f49f4214",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c82-7000-810a-18f2f49f4214",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c82-7001-b6c1-eabebb9c32df",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c82-7001-b6c1-eabebb9c32df",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c82-7002-bb81-8a95d92a97c1",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c82-7002-bb81-8a95d92a97c1",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c82-7003-9c57-c1ec5babd8a9",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c82-7003-9c57-c1ec5babd8a9",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c83-7001-9946-73387faade27",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c83-7001-9946-73387faade27",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c83-7003-924b-0fa430aadb15",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c83-7003-924b-0fa430aadb15",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c83-7005-baf6-7b2a72b76b28",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c83-7005-baf6-7b2a72b76b28",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c83-7007-a3b3-acc5e874651d",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c83-7007-a3b3-acc5e874651d",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c84-7001-8383-d786176c6143",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c84-7001-8383-d786176c6143",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c84-7003-9f22-1b30c9da7901",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c84-7003-9f22-1b30c9da7901",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c84-7005-8e06-249b25696548",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c84-7005-8e06-249b25696548",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "01a1c6be-1c85-7000-b816-91586b4430ea",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "01a1c6be-1c85-7000-b816-91586b4430ea",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sourceBatch": "b20261110180922",
+      "sourceRun": "formal-08-C1-r1-axi",
+      "agent": "axi",
+      "repeat": 1,
+      "frozenPass": true,
+      "expandedPass": true,
+      "failedChecks": [],
+      "faultTypeCases": [
+        {
+          "stage": "after_inventory",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "4623e6f3-cf05-4fc5-a047-1d6282203226",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "4623e6f3-cf05-4fc5-a047-1d6282203226",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business400",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "8728fc3d-daae-489c-8700-7c094838a0f7",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "8728fc3d-daae-489c-8700-7c094838a0f7",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business409",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "5a12d163-5ea0-4899-9d63-589313a02947",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "5a12d163-5ea0-4899-9d63-589313a02947",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "f02863ec-d626-4379-bf0b-98a35e80baa6",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "f02863ec-d626-4379-bf0b-98a35e80baa6",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "9ca7bba0-1593-45cf-ac49-170de34ca602",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "9ca7bba0-1593-45cf-ac49-170de34ca602",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business400",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "e4b7cf8b-7af1-4c7f-8950-e0ccaaf0c9a9",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "e4b7cf8b-7af1-4c7f-8950-e0ccaaf0c9a9",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business409",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "79402841-187a-4cb7-b90a-5f25bb4d6513",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "79402841-187a-4cb7-b90a-5f25bb4d6513",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "8647633f-a288-4c78-868c-7c9a6615fe22",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "8647633f-a288-4c78-868c-7c9a6615fe22",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "a584df2a-d230-46fd-9a6a-e820e48c0b43",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "a584df2a-d230-46fd-9a6a-e820e48c0b43",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business400",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "db8601f4-cfa9-43d5-812c-332f25c30c57",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "db8601f4-cfa9-43d5-812c-332f25c30c57",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business409",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "791cf853-97b2-4493-b5f4-1adb2e71080f",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "791cf853-97b2-4493-b5f4-1adb2e71080f",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "d0408b8a-b1e7-4c97-a1af-899937d034e6",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "d0408b8a-b1e7-4c97-a1af-899937d034e6",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sourceBatch": "b20261110180922",
+      "sourceRun": "formal-09-C1-r2-axi",
+      "agent": "axi",
+      "repeat": 2,
+      "frozenPass": true,
+      "expandedPass": false,
+      "failedChecks": [
+        "故障钩子错误类型不改变 500 契约"
+      ],
+      "faultTypeCases": [
+        {
+          "stage": "after_inventory",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "6af09e02-00dc-41d7-8b57-bcc080d0e704",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "6af09e02-00dc-41d7-8b57-bcc080d0e704",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "cad37d90-6f15-4587-b746-c1d5d95e7ef1",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "cad37d90-6f15-4587-b746-c1d5d95e7ef1",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "e7a5813a-f9ac-4917-b67e-1ff1933d9b81",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "e7a5813a-f9ac-4917-b67e-1ff1933d9b81",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "d74a7c17-d813-4853-b696-e841032a6622",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "d74a7c17-d813-4853-b696-e841032a6622",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "fade71f6-866b-4378-a4af-49780464d9da",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "fade71f6-866b-4378-a4af-49780464d9da",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "118152cf-1ee4-44bd-b491-0157441edb2c",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "118152cf-1ee4-44bd-b491-0157441edb2c",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "1ce43394-546f-4996-873a-086f896649f9",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "1ce43394-546f-4996-873a-086f896649f9",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "960de00b-18cb-420b-927f-e1fdc32eb25a",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "960de00b-18cb-420b-927f-e1fdc32eb25a",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "1ae69e5f-2c77-4513-92cd-4bc76eae1f92",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "1ae69e5f-2c77-4513-92cd-4bc76eae1f92",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "ad859206-42cf-4e9f-966a-9719d2a74795",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "ad859206-42cf-4e9f-966a-9719d2a74795",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "a2ae7e58-5380-42aa-8b86-3956da37182f",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "a2ae7e58-5380-42aa-8b86-3956da37182f",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "3f9d4dd5-1eba-4581-b78b-a4d5b17625e1",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "3f9d4dd5-1eba-4581-b78b-a4d5b17625e1",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sourceBatch": "b20261110180922",
+      "sourceRun": "formal-09-C1-r2-claude",
+      "agent": "claude",
+      "repeat": 2,
+      "frozenPass": true,
+      "expandedPass": false,
+      "failedChecks": [
+        "故障钩子错误类型不改变 500 契约"
+      ],
+      "faultTypeCases": [
+        {
+          "stage": "after_inventory",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "752e716f-a5ec-4ac4-9e8b-63d810fcfae7",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "752e716f-a5ec-4ac4-9e8b-63d810fcfae7",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "7e8684fb-82af-420e-8563-fa3947720265",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "7e8684fb-82af-420e-8563-fa3947720265",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "7ba054dd-a62d-4199-8818-4c55393da5f8",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "7ba054dd-a62d-4199-8818-4c55393da5f8",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_inventory",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "400d8b45-9190-4e23-8edb-eb73860c985f",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "400d8b45-9190-4e23-8edb-eb73860c985f",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "3f08dd0b-8fa0-4afb-903d-72a83f798301",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "3f08dd0b-8fa0-4afb-903d-72a83f798301",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "d1ac54fc-d778-4a13-acca-fafae3c197d1",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "d1ac54fc-d778-4a13-acca-fafae3c197d1",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "79454618-bfc6-42bc-8750-419f03b31bee",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "79454618-bfc6-42bc-8750-419f03b31bee",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "after_order",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "823780b8-ba63-489c-9f9b-6f73e1da5a9a",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "823780b8-ba63-489c-9f9b-6f73e1da5a9a",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "error",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "b84bcdcd-2c24-4c4b-bebd-f225b5ba1ed8",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "b84bcdcd-2c24-4c4b-bebd-f225b5ba1ed8",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business400",
+          "failed": {
+            "status": 400,
+            "body": {
+              "error": "invalid_request"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "91e95735-cd1e-4984-90de-2edf879ff1fd",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "91e95735-cd1e-4984-90de-2edf879ff1fd",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "business409",
+          "failed": {
+            "status": 409,
+            "body": {
+              "error": "out_of_stock"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "2ac3cd42-2db4-44e2-a7e7-bd23890f1ad6",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "2ac3cd42-2db4-44e2-a7e7-bd23890f1ad6",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        },
+        {
+          "stage": "before_commit",
+          "kind": "string",
+          "failed": {
+            "status": 500,
+            "body": {
+              "error": "internal_error"
+            }
+          },
+          "afterFailure": {
+            "stock": 5,
+            "orders": []
+          },
+          "retry": {
+            "status": 201,
+            "body": {
+              "id": "1c132e89-550d-4cb2-baa7-61125ae7c17f",
+              "sku": "tea",
+              "quantity": 2
+            }
+          },
+          "final": {
+            "stock": 3,
+            "orders": [
+              {
+                "id": "1c132e89-550d-4cb2-baa7-61125ae7c17f",
+                "sku": "tea",
+                "quantity": 2
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "expandedOverall": {
+    "axi": {
+      "passed": 7,
+      "total": 9
+    },
+    "claude": {
+      "passed": 7,
+      "total": 9
+    }
+  }
+}
