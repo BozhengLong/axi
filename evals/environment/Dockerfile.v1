@@ -1,0 +1,8 @@
+# 构建入口必须先核对 BASE_IMAGE 的本地 digest；最终运行固定新 image ID。
+ARG BASE_IMAGE=axi-eval-c6:headers-revision3
+FROM ${BASE_IMAGE}
+USER root
+COPY --from=v0 /src /opt/axi-v0/src
+COPY src /opt/axi/src
+COPY scripts/eval/container /opt/eval
+WORKDIR /task

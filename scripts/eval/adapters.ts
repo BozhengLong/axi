@@ -7,18 +7,19 @@ import { IOTrace } from "./trace.ts";
 
 const strip = (value: string) => value.replaceAll("\x1b[1G\x1b[0J> \x1b[3G", "").replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, "").replace(/\r/g, "");
 export type Execution = { status: string; error?: string; wallMs: number; turns: string[]; snapshots: Snapshot[]; proxy: any; stdoutPath: string; activeMs?: number; roundActiveMs?: number[] };
-type RunOptions = { maxMs?: number; roundMaxMs?: number; interruptMarker?: string; onTurn?: (index: number) => Promise<void>; onRound?: (index: number) => Promise<{ snapshot: Snapshot; nextPrompt?: string }> };
+export type RunOptions = { maxMs?: number; roundMaxMs?: number; axiEntry?: string; interruptMarker?: string; onTurn?: (index: number) => Promise<void>; onRound?: (index: number) => Promise<{ snapshot: Snapshot; nextPrompt?: string }> };
 
 export async function runAxi(batch: Batch, runtime: Runtime, prompts: string[], options: RunOptions = {}): Promise<Execution> {
+  const entry = options.axiEntry ?? "/opt/axi/src/main.ts";
   const started = performance.now(), stdoutPath = join(runtime.directory, "terminal.txt");
   let excludedMs = 0, roundStarted = started; const roundActiveMs: number[] = [];
   const turns: string[] = [], snapshots: Snapshot[] = [];
   let output = "", sent = 0, handled = 0, lastState: any, stage = "ready", actionOffset = -1, responsesAtTurn = 0, interrupted = false;
   let terminal: Bun.Terminal;
   const decoder = new TextDecoder();
-  const trace = new IOTrace(runtime.directory, "axi", ["bun", "/opt/axi/src/main.ts"]);
+  const trace = new IOTrace(runtime.directory, "axi", ["bun", entry]);
   const input = (value: string) => { trace.bytes("stdin", value); terminal.write(value); };
-  const child = Bun.spawn(execArgs(runtime, ["bun", "/opt/axi/src/main.ts"], true), {
+  const child = Bun.spawn(execArgs(runtime, ["bun", entry], true), {
     env: { ...process.env, TERM: "xterm-256color" },
     terminal: { cols: 180, rows: 50, data(term, bytes) {
       terminal = term;
@@ -90,7 +91,7 @@ export async function runAxi(batch: Batch, runtime: Runtime, prompts: string[], 
   } catch (e) { error = String(e); status = error.includes("request_budget") ? "budget_exhausted" : error.includes("deadline") ? "task_timeout" : /axi (exited|request failed)/.test(error) ? "product_error" : "runner_error"; trace.event("error", { error }); input("\x03"); }
   finally {
     // 外部回收整个容器中的用户进程；PID 1 保持到收取快照完成。
-    await execute(runtime, ["pkill", "-KILL", "-f", "/opt/axi/src/main.ts"], undefined, true).catch(() => {});
+    await execute(runtime, ["pkill", "-KILL", "-f", entry], undefined, true).catch(() => {});
     child.kill("SIGKILL"); await child.exited; terminal.close();
     trace.event("finish", { status, error, exitCode: child.exitCode, stderr: "merged_in_terminal" });
   }

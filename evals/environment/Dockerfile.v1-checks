@@ -1,0 +1,8 @@
+# 这个测试层含验收材料，绝不能用于模型候选容器。
+ARG RUNTIME_IMAGE=axi-eval-v1:development
+FROM ${RUNTIME_IMAGE}
+USER root
+COPY --from=checks / /opt/checks/
+RUN ln -s /opt/toolchain/node_modules /opt/checks/node_modules \
+    && chmod -R a+rX /opt/checks
+WORKDIR /opt/checks

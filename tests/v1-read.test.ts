@@ -45,7 +45,7 @@ test("F-02/W-01：读取中增长或改写不能签发旧快照版本", async ()
 
 test("P-01/P-03：所有工具共用项目边界及保留名，不能用大小写或相邻前缀绕过", async () => {
   const parent = fixture(), root = join(parent, "project"); mkdirSync(root); mkdirSync(join(parent, "project-other"));
-  writeFileSync(join(root, "a"), "ok"); const registry = new ToolRegistry(root);
+  writeFileSync(join(root, "a"), "ok"); writeFileSync(join(parent, "project-other/a"), "outside-secret"); const registry = new ToolRegistry(root);
   for (const path of ["../project-other/a", join(parent, "project-other/a"), "a\0b", "file:///tmp/a", ".git/config", ".GIT/config", ".axi/logs/a", ".ENV", "x/.env.local", "x/secret.KEY", ".ssh/id", ".axi-tmp-owned"]) {
     for (const name of ["read", "glob", "grep"]) await expect(registry.prepare(tool("x", name, { path, ...(name === "read" ? {} : { pattern: "x" }) }), signal())).rejects.toBeInstanceOf(Error);
   }

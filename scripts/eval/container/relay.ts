@@ -1,9 +1,10 @@
 import { appendFileSync, mkdirSync } from "node:fs";
 import { RequestBudget } from "./budget.ts";
 import { relayResponseHeaders } from "./response-headers.ts";
+import { materializeMockReply, type MockReply } from "./mock-reply.ts";
 
 type Tool = { id: string; name: string; input: Record<string, unknown>; approved?: boolean; messageComplete?: boolean };
-type Reply = { content: any[]; stopReason: string; delayMs?: number; raw?: string };
+type Reply = MockReply;
 type Run = { id: string; token: string; mock?: Reply[]; policy: string; denied: boolean; revoked: boolean; requests: number; budget: RequestBudget; events: number; evidenceBytes: number; tools: Tool[]; responses: any[]; permissions: any[]; faults: string[]; transportIssues: string[]; controllers: Set<AbortController>; started: number };
 const runs = new Map<string, Run>();
 const admin = process.env.EVAL_ADMIN_TOKEN!;
@@ -118,8 +119,9 @@ Bun.serve({ hostname: "0.0.0.0", port: 8787, idleTimeout: 255, maxRequestBodySiz
   try {
     let response: Response;
     if (run.mock) {
-      const reply = run.mock.shift();
-      if (!reply) return new Response("mock exhausted", { status: 400 });
+      const selected = run.mock.shift();
+      if (!selected) return new Response("mock exhausted", { status: 400 });
+      const reply = materializeMockReply(selected, body);
       if (reply.delayMs) await Bun.sleep(reply.delayMs);
       response = !body.stream && !reply.raw
         ? Response.json({ id: `msg_eval_${crypto.randomUUID()}`, type: "message", role: "assistant", model: "claude-opus-5-5", content: reply.content, stop_reason: reply.stopReason, stop_sequence: null, usage: { input_tokens: 10, output_tokens: 20 } })
