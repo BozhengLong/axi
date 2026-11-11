@@ -1,0 +1,17 @@
+import { test, expect } from 'bun:test';
+import { openStore, seedStock } from '../src/storage/db.ts';
+import { createApp } from '../src/http/app.ts';
+import { BusinessError } from '../src/domain/errors.ts';
+import { orderRequest } from '../src/testing/request.ts';
+test('C7：故障钩子的业务错误仍为 500，并能回滚后重试', async () => {
+  const db = openStore(':memory:'); seedStock(db, 'tea', 5); let calls = 0;
+  try {
+    const app = createApp(db, { fail(stage) { if (stage === 'before_commit') { calls++; throw new BusinessError(409, 'out_of_stock'); } } });
+    const response = await app(orderRequest('regression', 2));
+    expect(calls).toBe(1); expect(response.status).toBe(500);
+    expect(await response.json()).toEqual({ error: 'internal_error' });
+    expect(db.query('SELECT available FROM inventory WHERE sku=?').get('tea')).toEqual({ available: 5 });
+    expect(db.query('SELECT * FROM orders').all()).toEqual([]);
+    expect((await createApp(db)(orderRequest('regression', 2))).status).toBe(201);
+  } finally { db.close(); }
+});

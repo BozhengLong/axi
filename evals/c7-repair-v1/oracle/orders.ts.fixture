@@ -1,0 +1,22 @@
+import { openStore, seedStock } from '../src/storage/db.ts';
+import { createApp } from '../src/http/app.ts';
+import { BusinessError } from '../src/domain/errors.ts';
+import { orderRequest } from '../src/testing/request.ts';
+class CustomError extends Error { status = 409; code = 'out_of_stock'; }
+const cases = [];
+for (const stage of ['after_inventory', 'after_order', 'before_commit'] as const) {
+  for (const kind of ['error', 'business400', 'business409', 'string', 'object', 'subclass']) {
+    const db = openStore(':memory:'); seedStock(db, 'tea', 5); let calls = 0;
+    try {
+      const values: Record<string, unknown> = { error: new Error('fault'), business400: new BusinessError(400, 'invalid_request'), business409: new BusinessError(409, 'out_of_stock'), string: 'fault', object: { status: 409, code: 'out_of_stock' }, subclass: new CustomError('fault') };
+      const app = createApp(db, { fail(s) { if (s === stage) { calls++; throw values[kind]; } } });
+      const r = await app(orderRequest('c7-hidden', 2)); const failed = { status: r.status, body: await r.json() };
+      const state = () => ({ stock: (db.query('SELECT available FROM inventory WHERE sku=?').get('tea') as { available: number }).available, orders: db.query('SELECT id,sku,quantity FROM orders ORDER BY id').all() });
+      const afterFailure = state(); const retry = await createApp(db)(orderRequest('c7-hidden', 2)); const retryBody = await retry.json(); const final = state();
+      const passed = calls === 1 && failed.status === 500 && JSON.stringify(failed.body) === '{"error":"internal_error"}' && afterFailure.stock === 5 && afterFailure.orders.length === 0 && retry.status === 201 && final.stock === 3 && final.orders.length === 1;
+      cases.push({ stage, kind, passed, observed: { calls, failed, afterFailure, retry: { status: retry.status, body: retryBody }, final } });
+    } finally { db.close(); }
+  }
+}
+const result = { passed: cases.length === 18 && cases.every(x => x.passed), cases };
+console.log(JSON.stringify(result)); process.exitCode = result.passed ? 0 : 1;

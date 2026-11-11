@@ -1,0 +1,21 @@
+import { Listr, JsonlRenderer, ListrTaskEventType } from '@root'
+
+test('C7：分发中结束后不再为后代注册监听器，业务仍运行', async () => {
+  let renderer!: JsonlRenderer
+  let lateRegistrations = 0
+  let steps = 0
+  class Capturing extends JsonlRenderer {
+    constructor(tasks: any[], options: any) { super(tasks, options); renderer = this }
+  }
+  const root = new Listr<any, any>([{ task: (_: any, wrapper: any) => {
+    const children = wrapper.newListr([{ task: () => { steps++ } }])
+    const child = children.tasks[0]
+    const original = child.on.bind(child)
+    child.on = (event: any, handler: any) => { lateRegistrations++; return original(event, handler) }
+    return children
+  } }], { renderer: Capturing, rendererOptions: { writer: () => {} }, registerSignalListeners: false })
+  root.tasks[0]!.on(ListrTaskEventType.SUBTASK, () => renderer.end())
+  await root.run()
+  expect(steps).toBe(1)
+  expect(lateRegistrations).toBe(0)
+})

@@ -9,10 +9,11 @@ export type Check = { id: string; requirement: string; expected: string; observe
 export type Grade = { round: number; sourceSha256: string; accepted: boolean; protectionPassed: boolean; visible: Check[]; hidden: Check[]; commands: Record<string, unknown>; elapsedMs: number };
 const typeArgs = ["node", "node_modules/typescript/bin/tsc", "--ignoreConfig", "--noEmit", "--strict", "--skipLibCheck", "--target", "ESNext", "--module", "NodeNext", "--moduleResolution", "NodeNext", "c6/types-visible.mts"];
 
-export async function grade(image: string, id: string, candidate: Snapshot, round: number, directory: string, git?: { status: string; head: string; expectedHead: string }, fast = false, expectedExtras: Snapshot = {}): Promise<Grade> {
-  const started = performance.now(), seed = { ...currentSeed(round), ...expectedExtras }, visible: Check[] = [], hidden: Check[] = [], logs: Record<string, unknown> = {};
+export async function grade(image: string, id: string, candidate: Snapshot, round: number, directory: string, git?: { status: string; head: string; expectedHead: string }, fast = false, expectedExtras: Snapshot = {}, baseline?: { files: Snapshot; protectedPaths: string[] }): Promise<Grade> {
+  // 修复题复用相同功能契约，但保护基线是已完成的候选产物。
+  const started = performance.now(), seed = baseline?.files ?? { ...currentSeed(round), ...expectedExtras }, visible: Check[] = [], hidden: Check[] = [], logs: Record<string, unknown> = {};
   const record = (id: string, requirement: string, pass: boolean, observed: unknown, target = visible) => target.push({ id, requirement, expected: requirement, status: pass ? "passed" : "failed", observed });
-  const protectedPaths: string[] = JSON.parse(contents(seed["c6/protected-files.json"]!));
+  const protectedPaths: string[] = baseline ? [...baseline.protectedPaths] : JSON.parse(contents(seed["c6/protected-files.json"]!));
   protectedPaths.push(...Object.keys(expectedExtras));
   if (round === 3) protectedPaths.push("c6/contract-r3.md");
   const changed = protectedPaths.filter(p => !candidate[p] || JSON.stringify(candidate[p]) !== JSON.stringify(seed[p]));

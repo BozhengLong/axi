@@ -1,0 +1,5 @@
+import { scenario } from './reproduce.mjs';
+const cases = [];
+for (const order of ['before', 'after', 'already-ended']) cases.push(await scenario(order, 2, 3));
+const result = { passed: cases.length === 3 && cases.every(x => x.passed), cases };
+console.log(JSON.stringify(result)); process.exitCode = result.passed ? 0 : 1;

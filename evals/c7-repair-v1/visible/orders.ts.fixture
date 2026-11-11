@@ -1,0 +1,18 @@
+import { openStore, seedStock } from '../src/storage/db.ts';
+import { createApp } from '../src/http/app.ts';
+import { BusinessError } from '../src/domain/errors.ts';
+import { orderRequest } from '../src/testing/request.ts';
+const db = openStore(':memory:'); seedStock(db, 'tea', 5);
+let targetCalls = 0;
+try {
+  const app = createApp(db, { fail(stage) { if (stage === 'before_commit') { targetCalls++; throw new BusinessError(409, 'out_of_stock'); } } });
+  const response = await app(orderRequest('c7-visible', 2));
+  const failed = { status: response.status, body: await response.json() };
+  const state = () => ({ stock: (db.query('SELECT available FROM inventory WHERE sku=?').get('tea') as { available: number }).available, orders: db.query('SELECT id,sku,quantity FROM orders ORDER BY id').all() });
+  const afterFailure = state();
+  const retry = await createApp(db)(orderRequest('c7-visible', 2)), retryBody = await retry.json();
+  const final = state();
+  const passed = targetCalls === 1 && failed.status === 500 && JSON.stringify(failed.body) === '{"error":"internal_error"}' && afterFailure.stock === 5 && afterFailure.orders.length === 0 && retry.status === 201 && final.stock === 3 && final.orders.length === 1;
+  console.log(JSON.stringify({ passed, observed: { targetCalls, failed, afterFailure, retry: { status: retry.status, body: retryBody }, final } }));
+  process.exitCode = passed ? 0 : 1;
+} finally { db.close(); }

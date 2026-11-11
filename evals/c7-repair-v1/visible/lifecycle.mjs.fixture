@@ -1,0 +1,52 @@
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+const require = createRequire('/task/examples/package.json');
+const { Listr, JsonlRenderer, ListrTaskEventType: E } = await import(pathToFileURL(require.resolve('listr2')).href);
+
+// 仅观察注册/释放，不访问 renderer 的私有订阅数组。
+function observe(task) {
+  const active = [], on = task.on.bind(task), once = task.once.bind(task), off = task.off.bind(task), complete = task.complete.bind(task);
+  task.on = (event, handler) => { active.push([event, handler]); return on(event, handler); };
+  task.once = (event, handler) => { active.push([event, handler]); return once(event, handler); };
+  task.off = (event, handler) => {
+    for (let i = active.length - 1; i >= 0; i--) if (active[i][0] === event && (!handler || active[i][1] === handler)) active.splice(i, 1);
+    return off(event, handler);
+  };
+  task.complete = () => { active.length = 0; return complete(); };
+  return active;
+}
+export async function scenario(order = 'before', width = 1, depth = 2) {
+  let renderer, observerCalls = 0;
+  const records = [], observations = [];
+  class Capturing extends JsonlRenderer {
+    constructor(...args) { super(...args); renderer = this; }
+    render() { super.render(); if (order === 'already-ended') this.end(); }
+  }
+  const makeChildren = (wrapper, level) => {
+    const active = [];
+    const list = wrapper.newListr(Array.from({ length: width }, (_, index) => ({
+      title: `level-${level}-${index}`,
+      task: (context, childWrapper) => {
+        observations.push({ level, index, active: active[index].length }); context.steps++;
+        if (level < depth) return makeChildren(childWrapper, level + 1);
+      }
+    })));
+    for (const task of list.tasks) active.push(observe(task));
+    return list;
+  };
+  const root = new Listr([{ title: 'root', task: (_, wrapper) => makeChildren(wrapper, 1) }], {
+    renderer: Capturing, rendererOptions: { writer: line => records.push(JSON.parse(line)) }, registerSignalListeners: false
+  });
+  const watcher = () => { observerCalls++; renderer.end(); };
+  if (order === 'before') root.tasks[0].on(E.SUBTASK, watcher);
+  const pending = root.run({ steps: 0 });
+  if (order !== 'before') root.tasks[0].on(E.SUBTASK, watcher);
+  const context = await pending;
+  const expectedSteps = Array.from({ length: depth }, (_, i) => width ** (i + 1)).reduce((a, b) => a + b, 0);
+  const expectedTypes = order === 'already-ended' ? ['run_end'] : ['state', 'run_end'];
+  const passed = observerCalls === 1 && context.steps === expectedSteps && observations.length === expectedSteps && observations.every(x => x.active === 0) && JSON.stringify(records.map(x => x.type)) === JSON.stringify(expectedTypes);
+  return { passed, observed: { order, width, depth, observerCalls, context, observations, recordTypes: records.map(x => x.type) } };
+}
+if (process.argv[1]?.endsWith('reproduce.mjs')) {
+  const result = await scenario(); console.log(JSON.stringify(result)); process.exitCode = result.passed ? 0 : 1;
+}
