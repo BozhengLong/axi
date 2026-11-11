@@ -15,7 +15,7 @@ export async function confirmCommand(command: string, cwd: string, read: ReadLin
 
 export function permissionDisplay(tool: ToolUse, cwd: string, view: PermissionView): string {
   const path = JSON.stringify(view.path ?? tool.input.path ?? ".");
-  return `\n项目目录：${JSON.stringify(cwd)}\n${view.effect === "write" ? "修改文件" : "读取/搜索"}：${path}\n工具：${tool.name}\n${view.preview ? view.preview + "\n" : `参数：${JSON.stringify(tool.input)}\n`}`;
+  return `\n项目目录：${JSON.stringify(cwd)}\n${view.effect === "write" ? tool.name === "write" ? "新建文件" : "修改文件" : "读取/搜索"}：${path}\n工具：${tool.name}\n${view.preview ? view.preview + "\n" : `参数：${JSON.stringify(tool.input)}\n`}`;
 }
 
 export async function confirmTool(tool: ToolUse, cwd: string, view: PermissionView, read: ReadLine, write: (text: string) => void, signal: AbortSignal): Promise<Permission> {

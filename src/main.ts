@@ -16,6 +16,7 @@ const help = `Axi v1：连续对话，历史仅保留在本次运行中。
 /permissions project  项目内普通文件读取自动（默认）
 /permissions strict   所有工具逐次确认
 每次 bash 调用都需输入 y；输入 n 或直接回车拒绝。拒绝理由可留空。
+文件修改也逐次确认。自动读取的内容会发送给模型并写入本地日志。
 Ctrl+C 中止当前输入、请求或工具。再次输入可继续，已完成修改不会撤销。没有沙箱。
 不支持多行粘贴输入。未显示输入提示时，输入会被丢弃。
 `;
@@ -39,6 +40,7 @@ export async function main(): Promise<void> {
   });
   const agent = new Agent({
     cwd,
+    sessionId: log.id,
     record: log.record,
     permissionMode: () => permissionMode,
     call: async (history, options) => {

@@ -1,13 +1,11 @@
 import { createInterface, type Interface } from "node:readline";
 import { abortError, type ModelResponse } from "../api/types.ts";
 import type { ReadLine } from "./permission.ts";
+import { visibleText } from "../text.ts";
+export { visibleText } from "../text.ts";
 
 // 显示控制符时使用可见转义，避免模型输出覆盖已展示的确认命令。
 // 只处理展示副本，原始消息和实际命令不变。
-export function visibleText(text: string): string {
-  return text.replace(/[\x00-\x08\x0b-\x1f\x7f-\x9f\u202a-\u202e\u2066-\u2069]/g, char => `\\u${char.charCodeAt(0).toString(16).padStart(4, "0")}`);
-}
-
 export class Terminal {
   private rl: Interface;
   private pending?: { resolve: (value: string | null) => void; reject: (error: Error) => void; cleanup: () => void };

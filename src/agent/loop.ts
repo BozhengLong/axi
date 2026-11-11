@@ -7,6 +7,7 @@ import type { Permission, PermissionMode } from "../ui/permission.ts";
 
 export interface AgentOptions {
   cwd: string;
+  sessionId?: string;
   call: (history: readonly Message[], options: CallOptions) => Promise<ModelResponse>;
   approve: (tool: ToolUse, signal: AbortSignal, view?: PermissionView) => Promise<Permission>;
   execute?: (input: BashInput, cwd: string, signal: AbortSignal) => Promise<BashResult>;
@@ -33,7 +34,7 @@ export class Agent {
   private record: RecordLog;
   private running = false;
   private registry: ToolRegistry;
-  private sessionId = crypto.randomUUID();
+  private sessionId: string = crypto.randomUUID();
   private turn = 0;
   private logFailure = "";
   private modified = new Set<string>();
@@ -41,6 +42,7 @@ export class Agent {
   private notStarted = 0;
   constructor(private options: AgentOptions) {
     this.record = options.record ?? noLog;
+    this.sessionId = options.sessionId ?? this.sessionId;
     this.registry = options.registry ?? new ToolRegistry(options.cwd, options.execute);
   }
   get history(): Message[] { return structuredClone(this.messages); }
@@ -81,6 +83,7 @@ export class Agent {
             if (response.stopReason !== "tool_use") throw new ToolError("incomplete_call", `响应结束原因是 ${response.stopReason}，本次工具未执行。请缩短输出后重新提出调用。`);
             this.audit("tool_start", { toolUseId: tool.id, name: tool.name, input: tool.input });
             prepared = await this.registry.prepare(tool, options.signal);
+            if (prepared.effect === "write") this.audit("proposal", { toolUseId: tool.id, proposalId: prepared.proposalId, path: prepared.path, preview: prepared.preview, previewHash: prepared.previewHash, beforeHash: prepared.beforeHash, afterHash: prepared.afterHash });
             const automatic = prepared.effect === "read" && mode === "project";
             this.options.onToolStart?.(prepared.tool, prepared, automatic);
             let permission: Permission;
@@ -102,12 +105,12 @@ export class Agent {
           } catch (error) {
             if (!began) this.notStarted++;
             const code = options.signal.aborted && !began ? "cancelled_not_started" : errorCode(error);
-            executed = result(tool.name, prepared?.path ?? "", { status: code.startsWith("cancelled") ? "cancelled" : "failed", code, message: errorMessage(error) }, true);
+            executed = result(tool.name, prepared?.path ?? "", { status: code.startsWith("cancelled") ? "cancelled" : "failed", code, modified: began && prepared?.effect === "shell" ? "unknown" : false, message: errorMessage(error) }, true);
           }
           // 已写入结果不能被迟到的取消或日志失败覆盖。
           if (executed.modified === true && executed.path) this.modified.add(executed.path);
           if (executed.modified === "unknown") this.unknownEffects = true;
-          if (executed.fatal) halt = "提交状态不确定，已停止后续操作。请先检查现场。";
+          if (executed.fatal) halt = executed.status === "unknown" ? "提交状态不确定，已停止后续操作。请先检查现场。" : "操作结果已保留，但记录或清理失败，已停止后续操作。请检查现场。";
           const toolResult: ToolResult = { type: "tool_result", tool_use_id: tool.id, content: executed.content, is_error: executed.isError };
           results.push(toolResult);
           this.auditAfter("tool_end", { toolUseId: tool.id, name: tool.name, status: executed.status, modified: executed.modified, durationMs: performance.now() - toolStarted });
@@ -129,7 +132,9 @@ export class Agent {
     } finally {
       this.running = false; options.signal.removeEventListener("abort", cancelled);
       const elapsedMs = performance.now() - started;
+      const failureBeforeEnd = this.logFailure;
       this.auditAfter("task_end", { effort, elapsedMs, permissionMs, activeMs: elapsedMs - permissionMs, aborted: options.signal.aborted, modifiedPaths: [...this.modified], unknownEffects: this.unknownEffects });
+      if (!failureBeforeEnd && this.logFailure) throw new Error(`${this.logFailure}\n${this.interruptionSummary}`);
     }
   }
 }
