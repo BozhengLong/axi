@@ -42,7 +42,11 @@ export function retryAfter(value: string | null, now = Date.now()): number | und
 function retryable(error: unknown): boolean {
   if (error instanceof HTTPError) return error.status === 429 || error.status >= 500;
   if (error instanceof StreamAPIError) return ["overloaded_error", "rate_limit_error", "api_error", "connection_error"].includes(error.errorType);
-  return error instanceof TypeError || (error instanceof DOMException && ["TimeoutError", "AbortError"].includes(error.name));
+  if (error instanceof TypeError || (error instanceof DOMException && ["TimeoutError", "AbortError"].includes(error.name))) return true;
+  // Bun 1.3.14 的连接拒绝是普通 Error，不能只判断 TypeError。
+  // 仅识别明确的网络错误码，避免重试文件权限等本地错误。
+  const code = error instanceof Error ? (error as Error & { code?: unknown }).code : undefined;
+  return typeof code === "string" && ["ConnectionRefused", "ECONNREFUSED", "ECONNRESET", "ECONNABORTED", "ETIMEDOUT", "EAI_AGAIN", "EPIPE"].includes(code);
 }
 
 export class APIClient {

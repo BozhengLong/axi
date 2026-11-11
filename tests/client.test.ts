@@ -91,4 +91,12 @@ describe("API 客户端", () => {
     expect(retryAfter("Wed, 01 Jan 2025 00:00:02 GMT", Date.parse("2025-01-01T00:00:00Z"))).toBe(2000);
     expect(retryAfter("invalid")).toBeUndefined();
   });
+  test("未知普通错误和本地权限错误不进入网络重试", async () => {
+    for (const error of [new Error("local failure"), Object.assign(new Error("permission denied"), { code: "EACCES" })]) {
+      let calls = 0;
+      const client = new APIClient(config, "", { fetch: fakeFetch(() => { calls++; throw error; }), sleep: async () => {} });
+      await expect(client.call([], { effort: "medium", signal: activeSignal() })).rejects.toThrow(error.message);
+      expect(calls).toBe(1);
+    }
+  });
 });

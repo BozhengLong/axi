@@ -42,13 +42,12 @@ export class Terminal {
     this.endStream();
     if (this.closed) return Promise.resolve(null);
     if (signal?.aborted) return Promise.reject(abortError());
-    // 清除等待模型期间提前键入、但尚未回车的文本。
-    if (process.stdin.isTTY) this.rl.write(null, { ctrl: true, name: "u" });
+    this.clearInput();
     return new Promise((resolve, reject) => {
       const abort = () => {
         if (this.pending?.reject === reject) {
           this.pending = undefined;
-          this.rl.write(null, { ctrl: true, name: "u" });
+          this.clearInput();
           this.write("\n");
           reject(abortError());
         }
@@ -58,6 +57,13 @@ export class Terminal {
       this.write(prompt);
     });
   };
+
+  private clearInput(): void {
+    if (!process.stdin.isTTY) return;
+    // Ctrl+U 只删除光标左侧。先移到末尾，防止提前键入的 y 留到下一次确认。
+    this.rl.write(null, { ctrl: true, name: "e" });
+    this.rl.write(null, { ctrl: true, name: "u" });
+  }
 
   stream = (channel: "text" | "thinking", value: string): void => {
     if (!value) return;
