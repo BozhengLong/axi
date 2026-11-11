@@ -3,6 +3,11 @@ import { openStore, seedStock } from '../src/storage/db.ts';
 import { createApp } from '../src/http/app.ts';
 import { BusinessError } from '../src/domain/errors.ts';
 import { orderRequest } from '../src/testing/request.ts';
+test('C7：普通参数错误在修复前后仍为 400', async () => {
+  const db = openStore(':memory:'); seedStock(db, 'tea', 5);
+  try { expect((await createApp(db)(orderRequest('invalid', 0))).status).toBe(400); }
+  finally { db.close(); }
+});
 test('C7：故障钩子的业务错误仍为 500，并能回滚后重试', async () => {
   const db = openStore(':memory:'); seedStock(db, 'tea', 5); let calls = 0;
   try {

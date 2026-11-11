@@ -39,6 +39,14 @@ bun run scripts/eval/preflight.ts --complex --live
 
 正式活动期间冻结 src、scripts/eval、evals、tests 及依赖配置。可以记录进展，但不能一边改验收器或题目一边继续计同一批。
 
+### 本次验收器修正后的续跑
+
+原批次在 5 份完整交付后停止，原因是 JUnit 混合结果计数错误。原机判保留，修复后的完整离线复验写入研究目录 offline-v2/。入口为 `bun run scripts/eval/c7/regrade.ts`，不请求模型。
+
+修复版通过重新校准、模拟和完整前置后，设置 `AXI_C7_CONTINUE_FROM` 为原批次目录，保持原 `AXI_C7_DEADLINE=1794441634754` 和镜像，再执行 run.ts --live。程序校验原始交付前缀、输入及限定源码差异，只执行剩余 7 次。使用独立 continuation.claim 与 continuation-batch.json；不得删除原 formal.claim，也不得把原截止改成新的 13 小时。
+
+最终结果同时读取原 formal-batch.json、offline-v2/results.json 和 continuation-batch.json。原错误机判不能作为有效的候选失败；5 份原代码与新批产物使用同一修复版验收，原始文件不覆盖。
+
 ## 查看结果
 
 研究目录的 formal-batch.json 指向正式批次。批次内包含：

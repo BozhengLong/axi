@@ -23,16 +23,30 @@ if (!preflight.pass || !preflight.complete || !preflight.live || preflight.image
 const inputs = Object.fromEntries(TASKS.map(task => [task, snapshotHash(taskFiles(task))]));
 for (const task of TASKS) for (const n of [1, 2]) if (calibration.results.find((r: any) => r.name === `${task}-baseline-${n}`)?.sourceSha256 !== inputs[task]) throw new Error("正式输入与校准基线不同");
 if (smoke.results.some((r: any) => r.result.inputSha256 !== inputs[r.result.task])) throw new Error("正式输入与模拟检查不同");
-writeFileSync(join(STUDY, "formal.claim"), JSON.stringify({ sourceHash: frozen.sourceHash, deadline: new Date(deadline).toISOString(), time: new Date().toISOString() }) + "\n", { flag: "wx", mode: 0o600 });
+const priorDirectory = process.env.AXI_C7_CONTINUE_FROM;
+let priorRows: any[] = [];
+if (priorDirectory) {
+  const old = read(join(priorDirectory, "manifest.json")), completion = read(join(priorDirectory, "completion.json")), regrade = read(join(STUDY, "offline-v2/results.json"));
+  if (completion.stopReason !== "evaluation_infrastructure_error" || completion.modelInterrupted !== false || old.image !== IMAGE || old.deadline !== new Date(deadline).toISOString() || JSON.stringify(old.inputs) !== JSON.stringify(inputs)) throw new Error("续跑必须保持原任务、镜像与截止时间，且没有中断模型");
+  priorRows = read(join(priorDirectory, "results.json"));
+  if (completion.starts !== priorRows.length || priorRows.some(r => r.status !== "completed" || r.classification !== "completed")) throw new Error("续跑仅接受已正常交付的原模型运行");
+  if (!regrade.complete || regrade.sourceHash !== frozen.sourceHash || regrade.results.length !== priorRows.length || priorRows.some(r => !regrade.results.some((x: any) => x.id === r.id && x.sourceSha256 === r.finalSourceSha256))) throw new Error("原产物尚未完成当前版本统一复验");
+  const allowed = new Set(["scripts/eval/c7/regression.ts", "scripts/eval/c7/infrastructure.test.ts", "scripts/eval/c7/run.ts", "scripts/eval/c7/regrade.ts", "evals/c7-repair-v1/reference/orders-test.ts.fixture"]);
+  for (const path of new Set([...Object.keys(old.hashes), ...Object.keys(frozen.hashes)])) if (old.hashes[path] !== frozen.hashes[path] && !allowed.has(path)) throw new Error("续跑改变了验收修复范围之外的文件：" + path);
+  const planned = schedule.flatMap(s => s.agents.map(a => `formal-${s.task}-r${s.repeat}-${a}`));
+  if (priorRows.some((r, i) => r.id !== planned[i])) throw new Error("原记录不是固定计划的连续前缀");
+}
+writeFileSync(join(STUDY, priorDirectory ? "continuation.claim" : "formal.claim"), JSON.stringify({ sourceHash: frozen.sourceHash, priorDirectory, deadline: new Date(deadline).toISOString(), time: new Date().toISOString() }) + "\n", { flag: "wx", mode: 0o600 });
 const batch = await initialize(), results: any[] = [], selection: any[] = [], health: any[] = [], attempts: any[] = [];
 let recoveryUsed = false, stopReason: string | undefined;
 const gitHeads: Record<string, string> = {};
-save(join(STUDY, "formal-batch.json"), { id: batch.id, directory: batch.directory });
+for (const row of priorRows) gitHeads[row.task] = row.initialCommit;
+save(join(STUDY, priorDirectory ? "continuation-batch.json" : "formal-batch.json"), { id: batch.id, directory: batch.directory });
 for (const path of Object.keys(frozen.hashes)) {
   const target = join(batch.directory, "source-snapshot", path); mkdirSync(dirname(target), { recursive: true, mode: 0o700 });
   writeFileSync(target, readFileSync(join(ROOT, path)), { mode: 0o600 });
 }
-const manifest = { batch: batch.id, suite: "c7-repair-v1", suiteRevision: 1, traceVersion: 2, created: new Date().toISOString(), deadline: new Date(deadline).toISOString(), hostDiskReserveBytes: 4 * 1024 ** 3, image: IMAGE, model: "claude-opus-5-5", effort: "medium", schedule, inputs, calibration, smoke: { batch: smoke.batch, results: smoke.results.map((x: any) => ({ task: x.task, agent: x.agent, kind: x.kind, passed: x.passed })) }, preflight, ...frozen };
+const manifest = { batch: batch.id, suite: "c7-repair-v1", suiteRevision: 2, traceVersion: 2, priorDirectory, priorIds: priorRows.map(r => r.id), created: new Date().toISOString(), deadline: new Date(deadline).toISOString(), hostDiskReserveBytes: 4 * 1024 ** 3, image: IMAGE, model: "claude-opus-5-5", effort: "medium", schedule, inputs, calibration, smoke: { batch: smoke.batch, results: smoke.results.map((x: any) => ({ task: x.task, agent: x.agent, kind: x.kind, passed: x.passed })) }, preflight, ...frozen };
 save(join(batch.directory, "manifest.json"), manifest);
 const persist = () => { save(join(batch.directory, "results.json"), results); save(join(batch.directory, "selection.json"), selection); save(join(batch.directory, "attempts.json"), attempts); };
 async function healthCheck() {
@@ -50,10 +64,13 @@ async function healthCheck() {
 async function pair(index: number, retry: boolean) {
   const spec = schedule[index]!, rows: any[] = [];
   for (const agent of spec.agents) {
+    const id = `formal-${spec.task}-r${spec.repeat}-${agent}${retry ? "-retry1" : ""}`;
+    const prior = priorRows.find(r => r.id === id);
+    if (prior) { rows.push({ ...prior, originDirectory: priorDirectory }); continue; }
     if (fingerprint().sourceHash !== frozen.sourceHash) throw new Error("C7 正式源码在运行中改变");
     if (snapshotHash(taskFiles(spec.task)) !== inputs[spec.task]) throw new Error("C7 固定输入改变");
     if (Date.now() + 45 * 60_000 >= deadline) throw new Error("无法在全局截止前容纳完整单次运行与验收");
-    const id = `formal-${spec.task}-r${spec.repeat}-${agent}${retry ? "-retry1" : ""}`;
+    if (priorRows.length + attempts.length >= 14) throw new Error("达到整个 C7 研究的启动上限");
     attempts.push({ id, task: spec.task, agent, repeat: spec.repeat, retry, time: new Date().toISOString() }); persist();
     let row: any;
     try { row = await job(batch, spec.task, agent, spec.repeat, id, { deadline }); }
@@ -69,11 +86,12 @@ async function pair(index: number, retry: boolean) {
 }
 try {
   for (let index = 0; index < schedule.length; index++) {
-    if (Date.now() + 130 * 60_000 > deadline) { stopReason = "insufficient_pair_window"; break; }
+    const spec = schedule[index]!, remaining = spec.agents.some(agent => !priorRows.some(r => r.id === `formal-${spec.task}-r${spec.repeat}-${agent}`));
+    if (remaining && Date.now() + 130 * 60_000 > deadline) { stopReason = "insufficient_pair_window"; break; }
     const disk = statfsSync(STUDY);
     if (disk.bavail * disk.bsize < manifest.hostDiskReserveBytes) { stopReason = "host_disk_headroom"; break; }
     const original = await pair(index, false);
-    if (!original.some(r => r.classification === "environment_indeterminate")) { selection.push({ pair: index + 1, ids: original.map(r => r.id), retry: false }); persist(); continue; }
+    if (!original.some(r => r.classification === "environment_indeterminate")) { selection.push({ pair: index + 1, ids: original.map(r => r.id), sources: original.map(r => ({ id: r.id, directory: r.originDirectory ?? batch.directory })), retry: false }); persist(); continue; }
     save(join(batch.directory, `incident-pair-${index + 1}.json`), { classification: "environment_indeterminate", pair: index + 1, originalIds: original.map(r => r.id), sourceHash: frozen.sourceHash, time: new Date().toISOString() });
     if (recoveryUsed || Date.now() + 132 * 60_000 > deadline) { stopReason = recoveryUsed ? "recovery_limit" : "insufficient_recovery_window"; break; }
     recoveryUsed = true;
@@ -81,12 +99,12 @@ try {
     if (!await healthCheck()) { stopReason = "recovery_health_failed"; break; }
     const retry = await pair(index, true);
     if (retry.some(r => r.classification === "environment_indeterminate")) { stopReason = "recovery_failed"; break; }
-    selection.push({ pair: index + 1, ids: retry.map(r => r.id), retry: true, supersededIds: original.map(r => r.id) }); persist();
+    selection.push({ pair: index + 1, ids: retry.map(r => r.id), sources: retry.map(r => ({ id: r.id, directory: batch.directory })), retry: true, supersededIds: original.map(r => r.id) }); persist();
   }
 } catch (error) {
   stopReason = "infrastructure_or_protocol_error"; save(join(batch.directory, "run-error.json"), { error: String(error), time: new Date().toISOString() }); throw error;
 } finally {
-  persist(); save(join(batch.directory, "completion.json"), { complete: selection.length === 6, starts: attempts.length, gradedResults: results.length, adoptedRuns: selection.length * 2, recoveryUsed, stopReason, time: new Date().toISOString() });
+  persist(); save(join(batch.directory, "completion.json"), { complete: selection.length === 6, starts: attempts.length, priorStarts: priorRows.length, totalStudyStarts: priorRows.length + attempts.length, gradedResults: results.length, adoptedRuns: selection.length * 2, recoveryUsed, stopReason, time: new Date().toISOString() });
   writeTraceIndex(batch.directory); await docker(["rm", "-f", batch.relay], undefined, true);
 }
 console.log(JSON.stringify({ batch: batch.id, starts: results.length, adoptedRuns: selection.length * 2, complete: selection.length === 6, stopReason }));

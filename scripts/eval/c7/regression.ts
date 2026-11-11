@@ -14,8 +14,14 @@ export function parseTestRun(task: TaskId, result: { exitCode: number; stdout: s
       assertionFailure = messages.some((m: string) => /expect\(|AssertionError|Expected:/.test(m));
     } catch { /* 缺失或不可解析的报告不是有效测试。 */ }
   } else {
-    const cases = [...reportText.matchAll(/<testcase\b[^>]*(?:\/>|>[\s\S]*?<\/testcase>)/g)].map(m => m[0]);
+    // 非贪婪地结束开标签，避免把自闭合的通过项吞进后面的失败项。
+    const cases = [...reportText.matchAll(/<testcase\b[^>]*?(?:\/>|>[\s\S]*?<\/testcase>)/g)].map(m => m[0]);
     total = cases.length; failed = cases.filter(c => /<failure\b/.test(c)).length; skipped = cases.filter(c => /<skipped\b/.test(c)).length;
+    const root = reportText.match(/<testsuites\b[^>]*>/)?.[0];
+    if (root) {
+      const attributes = Object.fromEntries([...root.matchAll(/\b(tests|failures|skipped)="(\d+)"/g)].map(m => [m[1]!, Number(m[2])]));
+      if ((attributes.tests !== undefined && attributes.tests !== total) || (attributes.failures !== undefined && attributes.failures !== failed) || (attributes.skipped !== undefined && attributes.skipped !== skipped)) throw new Error("JUnit 报告计数不一致：验收器不可判定，不能算候选失败");
+    }
     passed = total - failed - skipped;
     assertionFailure = failed > 0 && /expect\(|AssertionError|Expected:/.test(result.stderr + result.stdout + reportText);
   }

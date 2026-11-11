@@ -19,6 +19,14 @@ test("Bun JUnit 回归识别断言失败，不把跳过当成通过", () => {
   const skipped = parseTestRun("C7-O", { exitCode: 0, stdout: "", stderr: "" }, '<testsuite><testcase name="status"><skipped/></testcase></testsuite>');
   expect(regressionValid(old, skipped)).toBe(false);
 });
+test("JUnit 混合通过与失败时不吞掉自闭合项，并核对报告总数", () => {
+  const xml = '<testsuites tests="4" failures="2" skipped="0"><testsuite><testcase name="pass1"/><testcase name="fail1"><failure>Expected: 500</failure></testcase><testcase name="pass2"/><testcase name="fail2"><failure>Expected: 500</failure></testcase></testsuite></testsuites>';
+  const old = parseTestRun("C7-O", { exitCode: 1, stdout: "", stderr: "Expected: 500" }, xml);
+  expect(old.total).toBe(4); expect(old.passed).toBe(2); expect(old.failed).toBe(2);
+  const fixed = parseTestRun("C7-O", { exitCode: 0, stdout: "", stderr: "" }, '<testsuites tests="4" failures="0" skipped="0"><testsuite><testcase/><testcase/><testcase/><testcase/></testsuite></testsuites>');
+  expect(regressionValid(old, fixed)).toBe(true);
+  expect(() => parseTestRun("C7-O", { exitCode: 1, stdout: "", stderr: "" }, xml.replace('tests="4"', 'tests="5"'))).toThrow("计数不一致");
+});
 test("环境分类只看最终生成请求，不因曾经出现 429 覆盖后续正常请求失败", () => {
   const request = { kind: "request", data: { path: "/v1/messages" } };
   const limit = { kind: "response_headers", data: { status: 429 } };
