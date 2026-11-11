@@ -1,0 +1,470 @@
+{
+  "date": "2026-11-12",
+  "status": "stopped_infrastructure_error",
+  "plan": "docs/08-v1-evaluation-completion-plan.md D1-D3",
+  "productCommit": "0bde7650ea7fca4da40852f598f672a6c460ba18",
+  "oldProductCommit": "963704be97150e268edd3fda484d68e0a18a1f8b",
+  "branch": "codex/v1-tools",
+  "batch": "b20261111190456",
+  "image": "sha256:5d82c0e27b4d9eeab57ab7b000f03526e1326685ba6f272cf9ed00d244ee6007",
+  "formalSourceHash": "3017a262d02223854e8c267c45d71ef26b4f719994ae48906984a93c600690df",
+  "authorization": {
+    "start": "2026-11-11T18:55:54.598685+00:00",
+    "deadline": "2026-11-12T12:55:54.598685+00:00",
+    "plannedStarts": 18,
+    "maxStarts": 21
+  },
+  "completion": {
+    "complete": false,
+    "starts": 3,
+    "graded": 3,
+    "adopted": 0,
+    "recoveryUsed": false,
+    "stopReason": "infrastructure_or_protocol_error",
+    "time": "2026-11-11T19:19:30.988Z"
+  },
+  "fullyGradedRuns": 2,
+  "adoptedTriples": 0,
+  "priorV1FormalStarts": 6,
+  "priorKnownRegressions": {
+    "passed": 2,
+    "total": 2,
+    "adoptedForCurrentComparison": false,
+    "productUnchanged": true
+  },
+  "records": [
+    {
+      "id": "formal-V1-A-r1-old",
+      "task": "V1-A",
+      "variant": "old",
+      "repeat": 1,
+      "executionStatus": "completed",
+      "formalStatus": "completed",
+      "classification": "completed",
+      "adoptedForComparison": false,
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "rawMachineFlags": {
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "rawMachineFlagsMeaning": "原始机判",
+      "checks": [
+        {
+          "id": "DELIVERY",
+          "passed": true
+        },
+        {
+          "id": "PROTECT",
+          "passed": true
+        },
+        {
+          "id": "GIT",
+          "passed": true
+        },
+        {
+          "id": "DOCS",
+          "passed": true
+        },
+        {
+          "id": "upstream",
+          "passed": true
+        },
+        {
+          "id": "upstreamTypes",
+          "passed": true
+        },
+        {
+          "id": "CONTRACT",
+          "passed": true
+        },
+        {
+          "id": "TYPES",
+          "passed": true
+        }
+      ],
+      "activeMs": 368442.05154099996,
+      "wallMs": 368874.63925,
+      "forwardedGenerationRequests": 15,
+      "tools": {
+        "bash": 14
+      },
+      "permissions": 14,
+      "automaticProjectReads": 0,
+      "usageOfCompleteResponses": {
+        "input_tokens": 322733,
+        "output_tokens": 25127,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "modelResponseMs": 230205.38218499997,
+      "transportFaultCount": 0,
+      "configValid": true,
+      "trace": {
+        "status": "complete_observable",
+        "files": 14,
+        "hashFailures": []
+      },
+      "inputSha256": "c63cf4dc89fef01dd22e826100717874594ec4daf7509c791d715fe886cd51ef",
+      "initialCommit": "0a349141a251f0bdf78196c4d9bae57ecaa61e9b",
+      "sourceSnapshot": "source-snapshot/",
+      "manualReview": {
+        "reviewer": "本会话主助手",
+        "codeReviewPassed": true,
+        "regressionSemanticPassed": true,
+        "reportAccurate": true,
+        "fullDeliveryPassed": true,
+        "basis": [
+          "保留原队列、map、limitFunction与异步上下文路径，增加取消计数和pending/reserved/started/cleared状态；实际任务开始后移除监听，不提前释放运行槽。",
+          "读完14项新增回归：真实AbortSignal、受控Promise、同步预留槽、排队/运行取消、清队、监听、失败释放、并发和多轮idle均覆盖。无法固定时序的补充场景明确允许两种合法结果，另有确定性预留槽断言。",
+          "独立8组验收通过；上游30项/TSD/保留7契约/外部类型通过。新增14/14，旧代码14个API缺失断言失败，没有跳过。",
+          "核对14条bash实际输出：四个最终变体分别失败2/3/5/2，初次挂起后补充超时的过程与报告一致。用户字节/640与600模式/HEAD及index哈希保持，报告未声称可选XO通过。",
+          "14份Trace文件哈希一致，实际模型/effort符合冻结配置。"
+        ],
+        "limitations": [
+          "回归对所列错误有效，不将其扩展为能检出任意缺陷；补充非确定时序场景不单独作为取消保证证据。"
+        ]
+      },
+      "regression": {
+        "current": {
+          "total": 14,
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "exitCode": 0
+        },
+        "previous": {
+          "total": 14,
+          "passed": 0,
+          "failed": 14,
+          "skipped": 0,
+          "cancelled": 0,
+          "exitCode": 1
+        }
+      }
+    },
+    {
+      "id": "formal-V1-A-r1-new",
+      "task": "V1-A",
+      "variant": "new",
+      "repeat": 1,
+      "executionStatus": "completed",
+      "formalStatus": "completed",
+      "classification": "completed",
+      "adoptedForComparison": false,
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "rawMachineFlags": {
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "rawMachineFlagsMeaning": "原始机判",
+      "checks": [
+        {
+          "id": "DELIVERY",
+          "passed": true
+        },
+        {
+          "id": "PROTECT",
+          "passed": true
+        },
+        {
+          "id": "GIT",
+          "passed": true
+        },
+        {
+          "id": "DOCS",
+          "passed": true
+        },
+        {
+          "id": "upstream",
+          "passed": true
+        },
+        {
+          "id": "upstreamTypes",
+          "passed": true
+        },
+        {
+          "id": "CONTRACT",
+          "passed": true
+        },
+        {
+          "id": "TYPES",
+          "passed": true
+        }
+      ],
+      "activeMs": 179575.580708,
+      "wallMs": 179994.484208,
+      "forwardedGenerationRequests": 19,
+      "tools": {
+        "read": 8,
+        "bash": 9,
+        "edit": 9,
+        "write": 1
+      },
+      "permissions": 18,
+      "automaticProjectReads": 8,
+      "usageOfCompleteResponses": {
+        "input_tokens": 383793,
+        "output_tokens": 17336,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "modelResponseMs": 165791.1511169999,
+      "transportFaultCount": 0,
+      "configValid": true,
+      "trace": {
+        "status": "complete_observable",
+        "files": 14,
+        "hashFailures": []
+      },
+      "inputSha256": "c63cf4dc89fef01dd22e826100717874594ec4daf7509c791d715fe886cd51ef",
+      "initialCommit": "0a349141a251f0bdf78196c4d9bae57ecaa61e9b",
+      "sourceSnapshot": "source-snapshot/",
+      "manualReview": {
+        "reviewer": "本会话主助手",
+        "codeReviewPassed": true,
+        "regressionSemanticPassed": true,
+        "reportAccurate": true,
+        "fullDeliveryPassed": true,
+        "basis": [
+          "读完队列实现、类型、文档和10项新增测试；pending/reserved/running/cleared状态和取消计数保留原队列与异步上下文。",
+          "新增测试使用真实AbortSignal、受控Promise及确定性预留槽；覆盖原始原因、FIFO、运行槽、清队两模式、监听释放、并发和多轮idle。第一次测试错误已修正，最终没有通过跳过测试来回避问题。",
+          "独立8组验收通过，上游30项、TSD、7组保留契约及外部类型通过。新增10/10通过，旧代码10个API缺失断言失败。",
+          "9条bash输出支持最终报告，临时严格类型检查通过，用户文件字节/模式和HEAD/index保留；可选XO未运行已说明。",
+          "14份Trace文件哈希一致，实际模型/effort符合冻结配置。一次edit因stale_version被拒绝且modified:false，随后使用bash修改并完成验证。"
+        ],
+        "limitations": [
+          "失败的edit属于版本保护触发，未单独推断为产品缺陷；使用bash完成修订保留在工具效率统计。"
+        ]
+      },
+      "regression": {
+        "current": {
+          "total": 10,
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "exitCode": 0
+        },
+        "previous": {
+          "total": 10,
+          "passed": 0,
+          "failed": 10,
+          "skipped": 0,
+          "cancelled": 0,
+          "exitCode": 1
+        }
+      }
+    },
+    {
+      "id": "formal-V1-A-r1-claude",
+      "task": "V1-A",
+      "variant": "claude",
+      "repeat": 1,
+      "executionStatus": "completed",
+      "formalStatus": "infrastructure_error",
+      "classification": "evaluation_invalid",
+      "adoptedForComparison": false,
+      "codePassed": null,
+      "regressionPassed": null,
+      "fullDeliveryPassed": null,
+      "rawMachineFlags": {
+        "codePassed": false,
+        "regressionPassed": false
+      },
+      "rawMachineFlagsMeaning": "设施异常时原机判false并不表示候选代码失败",
+      "checks": [
+        {
+          "id": "DELIVERY",
+          "passed": true
+        },
+        {
+          "id": "PROTECT",
+          "passed": true
+        },
+        {
+          "id": "GIT",
+          "passed": true
+        },
+        {
+          "id": "DOCS",
+          "passed": true
+        },
+        {
+          "id": "upstream",
+          "passed": true
+        },
+        {
+          "id": "upstreamTypes",
+          "passed": true
+        },
+        {
+          "id": "CONTRACT",
+          "passed": true
+        }
+      ],
+      "activeMs": 239154.54083399998,
+      "wallMs": 239468.14087499992,
+      "forwardedGenerationRequests": 17,
+      "tools": {
+        "Bash": 11,
+        "Read": 2,
+        "Write": 2,
+        "Edit": 6
+      },
+      "permissions": 19,
+      "automaticProjectReads": null,
+      "usageOfCompleteResponses": {
+        "input_tokens": 34,
+        "output_tokens": 24866,
+        "cache_creation_input_tokens": 44333,
+        "cache_read_input_tokens": 475979
+      },
+      "modelResponseMs": 220755.359392,
+      "transportFaultCount": 0,
+      "configValid": true,
+      "trace": {
+        "status": "complete_observable",
+        "files": 17,
+        "hashFailures": []
+      },
+      "inputSha256": "c63cf4dc89fef01dd22e826100717874594ec4daf7509c791d715fe886cd51ef",
+      "initialCommit": "0a349141a251f0bdf78196c4d9bae57ecaa61e9b",
+      "sourceSnapshot": "source-snapshot/",
+      "manualReview": {
+        "reviewer": "本会话主助手",
+        "codeReviewPassed": true,
+        "regressionSemanticPassed": true,
+        "reportAccurate": true,
+        "fullDeliveryPassed": null,
+        "offlineDiagnosticFullDeliveryPassed": true,
+        "formalStatus": "evaluation_invalid",
+        "basis": [
+          "读完队列实现、类型、文档及14项新增回归。原yocto-queue保留，取消计数、预留槽、运行监听和idle等待者处理符合公开契约。",
+          "新增测试实际覆盖原始falsy原因、排队/预留/运行取消、FIFO、槽保持、异步上下文、清队两模式、监听释放、多个idle等待者及升降并发。均无skip。",
+          "核对11条Bash输出与最终说明。初次python3不可用后改用其他工具，测试/类型均实际运行；最终AVA30/TSD/新增14通过，原实现14个API缺失断言失败。可选XO类型缓存报错与剩余max-params警告如实披露。",
+          "正式独立验收DELIVERY/PROTECT/GIT/DOCS/upstream/upstreamTypes/CONTRACT七组通过；TYPES被60秒计时器终止，未跑到独立新增回归复验。不能把原始布尔false当作候选错误。",
+          "同一产物、同一评分源码、同一镜像在另一个离线容器复验：八组全部通过，新增14通过、旧14断言失败，TYPES约354ms退出0；仅作诊断，不覆盖原机判或纳入正式对照。",
+          "17份Trace文件哈希一致，模型/effort符合固定配置，CLI正常完成且无传输fault。"
+        ],
+        "limitations": [
+          "正式类型验收超时原因尚未确定；完整交付在原正式口径保持不可判定，离线通过单列。"
+        ]
+      },
+      "verificationError": "Error: verification_indeterminate:types:exit=137:timedOut=true",
+      "typesInterruption": {
+        "stdout": "",
+        "stderr": "",
+        "exitCode": 137,
+        "timedOut": true,
+        "durationMs": 60013.13179199991
+      },
+      "offlineDiagnostic": {
+        "adoptedForComparison": false,
+        "sameImageAndUnchangedVerifier": true,
+        "codePassed": true,
+        "regressionPassed": true,
+        "fullDeliveryPassed": true,
+        "types": {
+          "stdout": "",
+          "stderr": "",
+          "exitCode": 0,
+          "timedOut": false,
+          "durationMs": 353.9334169999993
+        },
+        "currentTests": 14,
+        "oldFailedTests": 14
+      }
+    }
+  ],
+  "preflightProbes": [
+    {
+      "id": "live-claude",
+      "batch": "b20261111190300",
+      "traceStatus": "complete_observable",
+      "files": 9,
+      "hashFailures": []
+    },
+    {
+      "id": "live-new",
+      "batch": "b20261111190300",
+      "traceStatus": "complete_observable",
+      "files": 7,
+      "hashFailures": []
+    },
+    {
+      "id": "live-old",
+      "batch": "b20261111190300",
+      "traceStatus": "complete_observable",
+      "files": 7,
+      "hashFailures": []
+    }
+  ],
+  "diagnosis": {
+    "unmodifiedExactTypeChecksPassed": 12,
+    "silentDockerCommandsPassed": 80,
+    "subsequentUnmodifiedTypeCheckTimedOut": true,
+    "pairedRuns": [
+      {
+        "variant": "original",
+        "runs": 50,
+        "hangs": 4,
+        "hangsAfterExitZeroMarker": 4
+      },
+      {
+        "variant": "flags",
+        "runs": 50,
+        "hangs": 0,
+        "hangsAfterExitZeroMarker": 0
+      }
+    ],
+    "flags": [
+      "--no-concurrent-sparkplug",
+      "--no-concurrent-recompilation"
+    ],
+    "upstreamIssue": "https://github.com/nodejs/node/issues/64274",
+    "scope": "本地复现确认Node退出阶段卡住；原正式进程没有原生调用栈，不能倒填精确栈或证明每次137同因",
+    "pairedDiagnosticTimeoutMs": 5000
+  },
+  "limitations": [
+    "没有完整采用三方组，不能排名或比较总体效率",
+    "固定题复验，题目及审查由同一助手完成，不是独立盲评",
+    "完整Trace限于约定可观察记录；不含服务端未返回的内部推理和认证头",
+    "原正式评分与离线诊断分开，旧轮零散样本不拼接成功率"
+  ],
+  "offlineRepair": {
+    "sourceHash": "fb5b180cc5419694605f18db594a676269bf88ca06fa78a9dcd40cd6208bc0ce",
+    "sourceFiles": 258,
+    "image": "sha256:5d82c0e27b4d9eeab57ab7b000f03526e1326685ba6f272cf9ed00d244ee6007",
+    "scope": "只调整独立TYPES的tsc；候选CLI/命令和AVA/TSD/node:test/C7不变",
+    "typecheckPassed": true,
+    "localTests": {
+      "passed": 92,
+      "assertions": 601,
+      "failed": 0
+    },
+    "stability": {
+      "checks": 100,
+      "passed": 100,
+      "expectedSuccesses": 50,
+      "expectedTypeErrors": 50,
+      "arguments": [
+        "node",
+        "--no-concurrent-sparkplug",
+        "--no-concurrent-recompilation"
+      ]
+    },
+    "calibration": {
+      "checks": 14,
+      "passed": 14,
+      "publicRecipes": 8,
+      "publicRecipesPassed": 8
+    },
+    "initialRejectedAttempt": "把参数用于AVA时Worker拒绝execArgv；未用于任何正式样本",
+    "newModelCallsAfterStop": 0
+  }
+}

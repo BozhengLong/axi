@@ -35,3 +35,21 @@ authorization.json记录用户确认与截止；任务输入及衍生关系在ta
 formal-batch.json指向本轮批次，包含manifest/source-snapshot、attempts/results/selection/completion、各次CLI输入输出、原生日志、API事件、文件/Git快照及验收。codePassed与regressionPassed是机判；最终说明和回归含义另行审查后才判断完整交付。
 
 旧轮两道C7作为相同产品的已知回归单列；旧轮零散新题不混入本轮对照。比较按完整三方组采用。时间、用量和权限次数只报告本批观察，不据此给产品总体排名，也不把控制器的确认时间当成人的思考时间。
+
+
+## 本轮停止与离线复查
+
+本轮已于北京时间03:19:30停止。实际3次正式启动，2次完整验收、0个采用组三方。Claude正常交付后的独立TYPES命令超时，原结果不可判定。详见[补全结果](../verification/2026-11-12-v1-completion.md)与[数据](../verification/2026-11-12-v1-completion-results.json)。不要删除formal.claim或把下面的离线验证当作恢复正式运行的授权。
+
+私有研究目录中的 `reviews.json` 记录人工审查，`diagnostics/` 保存原命令重复、退出标记对照和同产物离线复验。`node-exit-diagnostic-latest.json` 指向50对诊断，`offline-grade-latest.json` 指向未修改验收器的复验。原始result、grade-error和Trace不覆盖。
+
+独立tsc缓解与校准另存 `~/.local/share/axi-evals/v1-verifier-repair-20261112/`。使用固定镜像与对应已冻结输入时，可运行以下离线门槛；不会调用真实模型：
+
+```sh
+AXI_V1_STUDY=/绝对路径/离线研究目录 \
+AXI_V1_IMAGE=sha256:已核对的完整镜像ID \
+AXI_EVAL_IMAGE=sha256:同一个完整镜像ID \
+bun scripts/eval/v1/node-stability.ts --offline
+```
+
+它要求两题各25次正确类型与25次故意错误类型均符合预期。正式启动器还要求门槛的完整源码、镜像和输入一致。这里只关闭独立tsc的V8并发编译；不能把相同参数直接加到AVA，AVA Worker不接受这些execArgv。候选原始Node命令的稳定化尚待下一轮冻结方案。

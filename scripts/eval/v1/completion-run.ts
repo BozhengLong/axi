@@ -9,6 +9,7 @@ import {writeTraceIndex} from '../trace.ts';
 import {taskFiles,snapshotHash} from './tasks.ts';
 import {job} from './job.ts';
 import {STUDY,IMAGE,schedule,type TaskId,type Variant} from './settings.ts';
+import {TYPECHECK_NODE} from './node-verifier.ts';
 
 const read=(path:string)=>JSON.parse(readFileSync(path,'utf8'));
 if(!['--check','--live'].includes(process.argv[2]??'')||!process.env.AXI_V1_STUDY||process.env.AXI_EVAL_IMAGE!==IMAGE)throw Error('补全轮次需要独立study、固定image及显式执行方式');
@@ -25,6 +26,8 @@ for(const [name,report,count,key] of [['校准',calibration,14,'results'],['流�
 if(!preflight.complete||preflight.image!==IMAGE||preflight.sourceHash!==frozen.sourceHash||preflight.runtimeHash!==runtime.runtimeHash||preflight.checks.some((r:any)=>!r.pass))throw Error('完整前置未通过');
 if(calibration.results.filter((r:any)=>r.task.startsWith('V1-')&&r.kind==='reference').some((r:any)=>r.publicRecipes?.length!==4||r.publicRecipes.some((c:any)=>c.exitCode!==0)))throw Error('公开命令校准缺失');
 const inputs=Object.fromEntries(['V1-A','V1-B'].map(t=>[t,snapshotHash(taskFiles(t as TaskId))]));
+const stability=read(join(STUDY,'node-stability-latest.json'));
+if(!stability.complete||stability.image!==IMAGE||stability.sourceHash!==frozen.sourceHash||JSON.stringify(stability.nodeArguments)!==JSON.stringify(TYPECHECK_NODE)||stability.results.length!==100||stability.results.some((r:any)=>!r.passed)||Object.entries(inputs).some(([t,h])=>stability.inputs[t]!==h))throw Error('当前独立验收 Node 稳定性门槛未通过');
 for(const row of calibration.results)if(row.task in inputs&&row.inputSha256!==inputs[row.task])throw Error('校准输入不一致');
 for(const row of pipeline.results)if(row.task in inputs&&row.result.inputSha256!==inputs[row.task])throw Error('流水线输入不一致');
 if(process.argv[2]==='--check'){console.log(JSON.stringify({ready:true,study:STUDY,image:IMAGE,inputs,sourceHash:frozen.sourceHash,deadline:authorization.deadline,maxStarts:21}));process.exit(0);}
@@ -34,7 +37,7 @@ let recoveryUsed=false,stopReason:string|undefined;
 const heads:Record<string,string>={};
 save(join(STUDY,'formal-batch.json'),{id:batch.id,directory:batch.directory,deadline:authorization.deadline});
 for(const path of Object.keys(frozen.hashes)){const target=join(batch.directory,'source-snapshot',path);mkdirSync(dirname(target),{recursive:true,mode:0o700});writeFileSync(target,readFileSync(join(ROOT,path)),{mode:0o600});}
-save(join(batch.directory,'manifest.json'),{batch:batch.id,suite:'v1-completion-v1',traceVersion:2,authorization,image:IMAGE,productCommit:authorization.productCommit,model:'claude-opus-5-5',effort:'medium',deadline:authorization.deadline,workDeadline:new Date(workDeadline).toISOString(),schedule,inputs,priorKnownRegressions:join(authorization.sourceStudy,'reviews.json'),preflight,calibration:{directory:calibration.directory,results:calibration.results},pipeline:{directory:pipeline.directory},transport:{directory:transport.directory},...frozen,...runtime});
+save(join(batch.directory,'manifest.json'),{batch:batch.id,suite:'v1-completion-v1',traceVersion:2,authorization,image:IMAGE,productCommit:authorization.productCommit,model:'claude-opus-5-5',effort:'medium',deadline:authorization.deadline,workDeadline:new Date(workDeadline).toISOString(),schedule,inputs,priorKnownRegressions:join(authorization.sourceStudy,'reviews.json'),preflight,calibration:{directory:calibration.directory,results:calibration.results},pipeline:{directory:pipeline.directory},transport:{directory:transport.directory},nodeStability:{directory:stability.directory,nodeArguments:stability.nodeArguments},...frozen,...runtime});
 const persist=()=>{save(join(batch.directory,'results.json'),results);save(join(batch.directory,'attempts.json'),attempts);save(join(batch.directory,'selection.json'),selection);};
 function enoughWindow(minutes:number){if(Date.now()+minutes*60_000>deadline){stopReason='insufficient_triple_window';return false;}const disk=statfsSync(STUDY);if(disk.bavail*disk.bsize<4*1024**3){stopReason='host_disk_headroom';return false;}return true;}
 async function runOne(task:TaskId,variant:Variant,repeat:number,retry:boolean){

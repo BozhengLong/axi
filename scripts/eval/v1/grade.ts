@@ -6,6 +6,7 @@ import {grade as c7Grade,type GitState} from '../c7/grade.ts';
 import {isolated} from './runtime.ts';
 import {clean,file,fixture,taskManifest} from './tasks.ts';
 import {GRADE_MS,type TaskId} from './settings.ts';
+import {TYPECHECK_NODE} from './node-verifier.ts';
 export function parseTests(r:{exitCode:number;stdout:string;stderr:string}){
  const n=(k:string)=>Number(r.stdout.match(new RegExp('^# '+k+' (\\d+)','m'))?.[1]??-1);
  return {...r,total:n('tests'),passed:n('pass'),failed:n('fail'),skipped:n('skipped'),cancelled:n('cancelled'),assertionFailure:/ERR_ASSERTION|AssertionError/.test(r.stdout+r.stderr)};
@@ -40,7 +41,7 @@ export async function grade(image:string,task:TaskId,id:string,seed:Snapshot,can
   const hidden={'eval-oracle/contract.test.mjs':file(fixture(`oracle/${task.slice(-1)}-test.mjs`)),'eval-oracle/types.mts':file(fixture(`oracle/${task.slice(-1)}-types.mts`))};
   const patch=await helper(image,current.volume,['bun','/opt/eval/c6-files.ts','patch'],true,JSON.stringify(hidden));if(patch.exitCode)throw Error(patch.stderr);
   deadline();const contract=await nodeTests(current.name,['eval-oracle/contract.test.mjs']);logs.contract=contract;assertVerificationCompleted(contract,'contract');check('CONTRACT',completeTests(contract,task==='V1-A'?7:8),contract);
-  const types=await execute(current,['node','/opt/toolchain/node_modules/typescript/bin/tsc','--noEmit','--strict','--skipLibCheck','--target','ESNext','--module','NodeNext','--moduleResolution','NodeNext','eval-oracle/types.mts'],undefined,true,60000);logs.types=types;assertVerificationCompleted(types,'types');check('TYPES',types.exitCode===0,types);
+  const types=await execute(current,[...TYPECHECK_NODE,'/opt/toolchain/node_modules/typescript/bin/tsc','--noEmit','--strict','--skipLibCheck','--target','ESNext','--module','NodeNext','--moduleResolution','NodeNext','eval-oracle/types.mts'],undefined,true,60000);logs.types=types;assertVerificationCompleted(types,'types');check('TYPES',types.exitCode===0,types);
   deadline();
   if(options.regression!==false&&newTests.length){
    const now=await nodeTests(current.name,newTests);logs.regressionCurrent=now;assertVerificationCompleted(now,'regression-current');const old=await isolated(image,task,`${id}-old`,{...clean(seed),...regressionFiles});
