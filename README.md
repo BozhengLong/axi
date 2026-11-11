@@ -2,7 +2,7 @@
 
 从零手写的终端 coding agent。不用官方 SDK，也不用 agent 框架。
 
-当前分支已实现 v1 文件工具、权限与中断。整体验收状态见[进度](docs/progress.md)。使用 Bun + TypeScript，手写 HTTP 请求、SSE 解析和工具循环。默认模型为 `claude-opus-5-5`。
+当前分支已实现 v1 文件工具、权限与中断。确定性验证与两道已知回归通过，完整三方对照尚未完成；见[阶段报告](docs/verification/2026-11-12-v1-results.md)。使用 Bun + TypeScript，手写 HTTP 请求、SSE 解析和工具循环。默认模型为 `claude-opus-5-5`。
 
 ## 运行
 
@@ -88,6 +88,7 @@ bun run scripts/experiments.ts --live
 - 复杂任务对照：[运行方法](docs/guides/complex-evaluation.md)、[2026-11-11 结果与补充复验](docs/verification/2026-11-11-complex-comparison.md)
 - 真实仓库连续任务：[C6 运行与复验](docs/guides/c6-evaluation.md)、[对照结果](docs/verification/2026-11-11-c6-comparison.md)
 - 缺陷修复对照：[C7 设计](docs/06-c7-repair-evaluation-design.md)、[运行与复查](docs/guides/c7-evaluation.md)、[对照结果](docs/verification/2026-11-11-c7-comparison.md)
-- v1 已确认方案：[文件工具、权限与中断设计](docs/07-v1-design.md)、[自动验收矩阵](evals/specs/v1-tools-v1/acceptance-matrix.md)（实施中，完成范围见进度）
+- v1 当前结果：[阶段报告](docs/verification/2026-11-12-v1-results.md)、[逐次数据](docs/verification/2026-11-12-v1-results.json)、[待确认补全方案](docs/08-v1-evaluation-completion-plan.md)
+- v1 已确认方案：[文件工具、权限与中断设计](docs/07-v1-design.md)、[自动验收矩阵](evals/specs/v1-tools-v1/acceptance-matrix.md)（产品已实现，完整评测未通过，完成范围见阶段报告）
 
 评测原始 Trace 与历史镜像保存在本机私有目录，不随源码发布。报告中的本机绝对路径只在原机器可用；部分 C6 复验入口依赖这些历史产物，具体条件见对应运行指南。

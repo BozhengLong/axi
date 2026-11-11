@@ -1,0 +1,411 @@
+{
+  "study": "v1-20261112",
+  "status": "incomplete_environment",
+  "date": "2026-11-12",
+  "productCommit": "0bde7650ea7fca4da40852f598f672a6c460ba18",
+  "oldProductCommit": "963704be97150e268edd3fda484d68e0a18a1f8b",
+  "formalImage": "sha256:89533abd22cabe73692800a8b7a48ea0849edc6fddd8435cd85898d7938f21cf",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "formalPlan": 20,
+  "formalMaximum": 23,
+  "actualStarts": 6,
+  "knownRegressions": {
+    "planned": 2,
+    "completedAndReviewed": 2
+  },
+  "holdoutComparison": {
+    "plannedValidRuns": 18,
+    "actualStarts": 4,
+    "completedTriples": 0,
+    "adoptedComparableRuns": 0,
+    "claudeFormalStarts": 0
+  },
+  "recoveryConsumed": true,
+  "deadline": "2026-11-12T11:55:22.455Z",
+  "stopReason": "upstream_connection interrupted product retry by evaluator; no recovery allocation remains",
+  "evidence": {
+    "formalTraces": 6,
+    "formalEvidenceFiles": 85,
+    "allFormalHashesValid": true,
+    "realConnectionProbes": 6,
+    "allProbeTracesComplete": true,
+    "runtimeUnchangedAcrossFormalBatches": true,
+    "sourceMatchesFreezeAtFormalClose": true,
+    "deadlineUnchanged": true
+  },
+  "usageNote": "仅累计完整API响应返回的用量；失败请求没有返回的token不能补推。活动时间含模型/工具/控制器时间，不等于人的确认等待。零完整三方组，不能据此作效率或能力排名。",
+  "runs": [
+    {
+      "id": "formal-C7-L-r1-new",
+      "task": "C7-L",
+      "variant": "new",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "failureChecks": [],
+      "activeMs": 658613.417374,
+      "wallMs": 659168.470125,
+      "requests": 16,
+      "usage": {
+        "input_tokens": 299421,
+        "output_tokens": 8815,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "tools": {
+        "read": 7,
+        "glob": 2,
+        "bash": 8,
+        "grep": 1,
+        "edit": 2,
+        "write": 1
+      },
+      "permissions": 11,
+      "automaticReads": 10,
+      "inputSha256": "bbc622e91b125799a1248be35eaa1ed697b721871c3e74414bb354fc625743c7",
+      "initialCommit": "8a6828c96c6a462a86554c6c95785d0984750afa",
+      "finalSourceSha256": "f1b8d0b5f32e5b7c013ab6da5c7ac2bbeae086791abf3145c5f2c7315976dcbd",
+      "configValid": true,
+      "batch": "b20261111175522",
+      "use": "known_regression",
+      "functionalChecksPassed": true,
+      "fullDeliveryReview": true,
+      "reportReview": "passed",
+      "regressionCurrent": 6,
+      "regressionOldFailed": 2,
+      "trace": {
+        "status": "complete_observable",
+        "files": 15,
+        "hashFailures": []
+      },
+      "review": {
+        "id": "formal-C7-L-r1-new",
+        "reviewer": "本会话主助手",
+        "codeReviewPassed": true,
+        "regressionSemanticPassed": true,
+        "reportAccurate": true,
+        "fullDeliveryPassed": true,
+        "basis": [
+          "源码仅在 subscribe 入口/循环、listen 入口增加 ended 守卫，保留正常订阅与已有按所有权移除逻辑。",
+          "新增六项真实 Listr 场景，通过公开 task API 观察订阅；顺序前/后、宽深、正常多层、重复结束/渲染与旁观者保护覆盖有效。",
+          "独立复验旧代码 6 项中 2 项在活动订阅为零断言失败；新代码 6/6。31 个独立验收组全部通过。",
+          "核对 8 次 bash 的实际输出：构建、类型、可见契约/消费者均执行；原测试数 301/3/16+4 skipped/8 与报告一致。",
+          "15 份 Trace 清单文件 SHA-256 一致，无缺口；原用户文件及 Git 初态保护通过。"
+        ],
+        "limitations": [
+          "单次已知题回归，不作为新题泛化样本；该用例模型主动用 bash 临时切回旧源码再恢复，最终字节及 Git 状态已核对。"
+        ]
+      },
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111175522/formal-C7-L-r1-new"
+    },
+    {
+      "id": "formal-C7-O-r1-new",
+      "task": "C7-O",
+      "variant": "new",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "failureChecks": [],
+      "activeMs": 72089.30262500013,
+      "wallMs": 72390.46362499997,
+      "requests": 13,
+      "usage": {
+        "input_tokens": 162962,
+        "output_tokens": 6252,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "tools": {
+        "read": 13,
+        "glob": 1,
+        "grep": 1,
+        "bash": 4,
+        "edit": 3,
+        "write": 1
+      },
+      "permissions": 8,
+      "automaticReads": 15,
+      "inputSha256": "d6dd80e1359ce4ac0306b942ca4adb89448c1b2ddd0132785f899a54f38978de",
+      "initialCommit": "9d1cd291185814cd8ec71fd9f8c640ff085b69aa",
+      "finalSourceSha256": "b38f52caeac78222ef7a14922ccaa22b1a897c583cf565e1a8a436cecc4d6d90",
+      "configValid": true,
+      "batch": "b20261111175522",
+      "use": "known_regression",
+      "functionalChecksPassed": true,
+      "fullDeliveryReview": true,
+      "reportReview": "passed",
+      "regressionCurrent": 34,
+      "regressionOldFailed": 15,
+      "trace": {
+        "status": "complete_observable",
+        "files": 15,
+        "hashFailures": []
+      },
+      "review": {
+        "id": "formal-C7-O-r1-new",
+        "reviewer": "本会话主助手",
+        "codeReviewPassed": true,
+        "regressionSemanticPassed": true,
+        "reportAccurate": true,
+        "fullDeliveryPassed": true,
+        "basis": [
+          "源码将三个同步钩子阶段经 fire 包装为非 BusinessError 的 HookFailure，在原事务内抛出，真实业务错误路径未改变。",
+          "新增三阶段×11抛出值，以及业务分类保持，共34项；检查调用次序、500响应、数据库回滚、同键重试与重放。使用真实SQLite临时数据库并清理。",
+          "独立验收 20 组全部通过；旧代码34项有15项断言失败，新代码34/34。",
+          "逐项核对4条bash实际输出：复现前后、类型、全量47测试以及旧实现15失败/19通过均与报告相符。Git与保护项通过。",
+          "15份Trace清单文件校验一致，模型/effort符合冻结配置。"
+        ],
+        "limitations": [
+          "仍为已知题单次回归；报告有一处乱码短语，不改变可核对的修改/测试结论。异步钩子不在本题契约内。"
+        ]
+      },
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111175522/formal-C7-O-r1-new"
+    },
+    {
+      "id": "formal-V1-A-r1-old",
+      "task": "V1-A",
+      "variant": "old",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "failureChecks": [],
+      "activeMs": 205758.91183400003,
+      "wallMs": 206210.42912500002,
+      "requests": 16,
+      "usage": {
+        "input_tokens": 329593,
+        "output_tokens": 20820,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "tools": {
+        "bash": 16
+      },
+      "permissions": 16,
+      "automaticReads": 0,
+      "inputSha256": "d4f63460950d3f16a531cfdb8fc9742baf6c25483f5d29f861ed1dfa724d1c70",
+      "initialCommit": "06232453b0ea2753c48382f9760db717399205b1",
+      "finalSourceSha256": "90bdbf3eb81373241d8fac6181115359ab02c966c4067e8a685d66d162dc0bba",
+      "configValid": true,
+      "batch": "b20261111175522",
+      "use": "excluded_environment_setup",
+      "functionalChecksPassed": true,
+      "fullDeliveryReview": null,
+      "reportReview": "not_reviewed",
+      "regressionCurrent": 12,
+      "regressionOldFailed": 12,
+      "trace": {
+        "status": "complete_observable",
+        "files": 14,
+        "hashFailures": []
+      },
+      "review": null,
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111175522/formal-V1-A-r1-old"
+    },
+    {
+      "id": "formal-V1-A-r1-new",
+      "task": "V1-A",
+      "variant": "new",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": false,
+      "regressionPassed": true,
+      "failureChecks": [
+        "TYPES"
+      ],
+      "activeMs": 191749.46845799987,
+      "wallMs": 192017.5654170001,
+      "requests": 19,
+      "usage": {
+        "input_tokens": 453285,
+        "output_tokens": 19943,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "tools": {
+        "read": 6,
+        "bash": 7,
+        "edit": 9,
+        "write": 1
+      },
+      "permissions": 15,
+      "automaticReads": 6,
+      "inputSha256": "d4f63460950d3f16a531cfdb8fc9742baf6c25483f5d29f861ed1dfa724d1c70",
+      "initialCommit": "06232453b0ea2753c48382f9760db717399205b1",
+      "finalSourceSha256": "26c196f311617619943a3ae04754931a15bcb21b5fe950e6eb339581da67de51",
+      "configValid": true,
+      "batch": "b20261111175522",
+      "use": "excluded_environment_setup",
+      "functionalChecksPassed": false,
+      "fullDeliveryReview": null,
+      "reportReview": "not_reviewed",
+      "regressionCurrent": 13,
+      "regressionOldFailed": 13,
+      "trace": {
+        "status": "complete_observable",
+        "files": 14,
+        "hashFailures": []
+      },
+      "review": null,
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111175522/formal-V1-A-r1-new"
+    },
+    {
+      "id": "formal-V1-A-r1-old",
+      "task": "V1-A",
+      "variant": "old",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "failureChecks": [],
+      "activeMs": 185230.32620799995,
+      "wallMs": 185649.15566599998,
+      "requests": 15,
+      "usage": {
+        "input_tokens": 273520,
+        "output_tokens": 17680,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "tools": {
+        "bash": 14
+      },
+      "permissions": 14,
+      "automaticReads": 0,
+      "inputSha256": "ff27158d0112bb399fbdc1cfbf67b13dfab1983fbe8490b50231f9f29d4de3c3",
+      "initialCommit": "333a29ba1ab8c2259d9be0aa928319ce4026b740",
+      "finalSourceSha256": "20a7da873abf243156e29ed99af208439c7dd45adee90058e1942f875172bc86",
+      "configValid": true,
+      "batch": "b20261111182038",
+      "use": "incomplete_triple_diagnostic",
+      "functionalChecksPassed": true,
+      "fullDeliveryReview": true,
+      "reportReview": "passed",
+      "regressionCurrent": 12,
+      "regressionOldFailed": 11,
+      "trace": {
+        "status": "complete_observable",
+        "files": 14,
+        "hashFailures": []
+      },
+      "review": {
+        "id": "formal-V1-A-r1-old",
+        "originDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111182038",
+        "reviewer": "本会话主助手",
+        "codeReviewPassed": true,
+        "regressionSemanticPassed": true,
+        "reportAccurate": true,
+        "fullDeliveryPassed": true,
+        "basis": [
+          "保留原队列与异步上下文方式；pending/reserved/started/cancelled/cleared 状态分别处理，运行中不提前释放槽，取消与清队清理监听。onIdle 同时检查有效等待与活动数。",
+          "读完新增12项回归：真实微任务/受控Promise屏障覆盖队列取消、预留槽、运行中、成功失败、监听、清队、并发调整及多次idle；保留独立旧API兼容测试。",
+          "原AVA30项、TSD、保留7契约组及外部类型通过。新回归12/12，旧实现11断言失败/1兼容通过。",
+          "核对14条bash输出，最终报告中的测试、旧实现反证、用户哈希/权限与Git状态一致。首次python不可用后已用Node完成实际类型修改，不把该失败当成功。",
+          "格式检查明确记为可选未完成，XO源文件仅1警告，测试风格/只读缓存问题未宣称通过。14份Trace文件哈希一致。"
+        ],
+        "limitations": [
+          "可选lint非全通过；临时验证副本在容器/tmp保留至清理，报告已说明。报告有一处不影响语义的乱码短语。"
+        ]
+      },
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111182038/formal-V1-A-r1-old"
+    },
+    {
+      "id": "formal-V1-A-r1-new",
+      "task": "V1-A",
+      "variant": "new",
+      "status": "runner_error",
+      "classification": "environment_indeterminate",
+      "codePassed": false,
+      "regressionPassed": true,
+      "failureChecks": [
+        "DELIVERY"
+      ],
+      "activeMs": 567867.487792,
+      "wallMs": 567867.487459,
+      "requests": 18,
+      "usage": {
+        "input_tokens": 409679,
+        "output_tokens": 21008,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "tools": {
+        "read": 8,
+        "bash": 6,
+        "edit": 8,
+        "write": 1
+      },
+      "permissions": 15,
+      "automaticReads": 8,
+      "inputSha256": "ff27158d0112bb399fbdc1cfbf67b13dfab1983fbe8490b50231f9f29d4de3c3",
+      "initialCommit": "333a29ba1ab8c2259d9be0aa928319ce4026b740",
+      "finalSourceSha256": "668d08199d78127befc98bff4bee73c8dbb3f7a76b9d23fec0be24216cc91034",
+      "configValid": true,
+      "batch": "b20261111182038",
+      "use": "incomplete_triple_diagnostic",
+      "functionalChecksPassed": true,
+      "fullDeliveryReview": false,
+      "reportReview": "未产生最终交付说明",
+      "regressionCurrent": 22,
+      "regressionOldFailed": 22,
+      "trace": {
+        "status": "complete_observable",
+        "files": 13,
+        "hashFailures": []
+      },
+      "review": {
+        "id": "formal-V1-A-r1-new",
+        "originDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111182038",
+        "reviewer": "本会话主助手",
+        "codeReviewPassed": true,
+        "regressionSemanticPassed": true,
+        "reportAccurate": null,
+        "reportReview": "未产生最终交付说明",
+        "fullDeliveryPassed": false,
+        "comparisonClassification": "environment_indeterminate",
+        "basis": [
+          "落盘实现区分排队/预留/开始，保持实际槽位与取消计数；取消较多时整理队列并释放内部等待引用。运行中移除监听且不改结果，清队保留旧策略。",
+          "读完22项新增回归：真实AbortSignal与受控Promise，涵盖取消各时点、higher concurrency、200次取消中的FIFO/计数、清队、idle新轮与原API。",
+          "原上游30测试、类型、7组独立契约、外部类型、保护和Git均通过；新增22/22，旧实现22个断言失败。原总codePassed=false仅因DELIVERY未完成，不改写原机判。",
+          "第18请求在上游连接错误后收到502；原生终端显示Axi进入1秒重试，控制器因全局faults中断，最终turns为空。无资格判报告真实性或完整交付。",
+          "13份Trace清单文件哈希一致，记录完整到中断；没有伪造未返回的最终回答。"
+        ],
+        "limitations": [
+          "没有最终交付。源代码与回归虽通过，不能算任务完成或用于产品胜负。"
+        ]
+      },
+      "evidenceDirectory": "/Users/spidey0o0zheng/.local/share/axi-evals/b20261111182038/formal-V1-A-r1-new"
+    }
+  ],
+  "excludedTypesRecheck": {
+    "originalBatch": "b20261111175522",
+    "run": "formal-V1-A-r1-new",
+    "originalExit": 137,
+    "offlineSameArtifactExit": 0,
+    "offlineMs": 436,
+    "originalGradePreserved": true,
+    "cause": "undetermined"
+  },
+  "productReleaseGatePassed": false,
+  "offlineRepair": {
+    "commit": "4077146",
+    "image": "sha256:5d82c0e27b4d9eeab57ab7b000f03526e1326685ba6f272cf9ed00d244ee6007",
+    "typecheckPassed": true,
+    "hostTests": 91,
+    "hostAssertions": 595,
+    "transportMockChecks": 7,
+    "interactionMockChecks": 9,
+    "newRealModelStarts": 0,
+    "appliedToFormalRuns": false,
+    "mockTraces": 16,
+    "mockEvidenceFiles": 132,
+    "allMockHashesValid": true,
+    "newProductFilesMatched": 17,
+    "oldProductFilesMatched": 11,
+    "noChecksLayer": true
+  }
+}

@@ -53,3 +53,11 @@ AXI_EVAL_IMAGE=sha256:89533abd22cabe73692800a8b7a48ea0849edc6fddd8435cd85898d793
 ## 公开命令修复后的续跑
 
 首批因公开 AVA 命令误收集新测试而停止。详情见[任务规格修订](../../evals/specs/v1-holdout-v1/README.md#公开命令修订设施-revision-2)和[日报](../devlog/2026-11-12.md)。重新冻结使用 AXI_V1_CONTINUE_FROM 指向原批次。控制器只接受已完整交付的固定四条记录、同一产品/镜像/截止，以及仅公开命令的输入差异；复用 C7 两条，排除原首组两条。之后执行原六组三方计划，累计预计 22 次，且关闭进一步恢复。不能用该入口重跑普通失败。
+
+## 当前收尾状态
+
+首批4次、修订批次2次，共6次正式启动。修订批次因连接异常与观察器提前中断重试停止，0个完整三方组。见[结果](../verification/2026-11-12-v1-results.md)。4077146已离线修复观察器，新验证镜像与传输模拟单列；没有用于原样本。
+
+smoke-before-transport.json保留正式运行前的9项模拟入口；smoke-latest.json现指向设施修复后的9项交互回归，transport-smoke-latest.json指向7项传输模拟。正式批次manifest保存当时准确来源，不能拿最新指针替换旧证据。evidence-formal-close.json记录正式结束时的指纹与85文件校验。
+
+当前源码的运行器已经改变，旧study的正式启动检查应拒绝继续。下一轮只有在[新预算方案](../08-v1-evaluation-completion-plan.md)确认后才能建立，不能通过改product-freeze或删除claim绕过。
