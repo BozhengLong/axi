@@ -1,3 +1,4 @@
+import { STUDY } from "./settings.ts";
 import { join, dirname } from "node:path";
 import { readFileSync, mkdirSync, writeFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
@@ -7,15 +8,16 @@ import { runAxiV1 } from "./adapter.ts";
 import { runtimeFingerprint } from "./fingerprint.ts";
 import { fingerprint } from "../complex/fingerprint.ts";
 
-const study = join(STORE, "v1-20261112"), image = process.env.AXI_EVAL_IMAGE;
+const study = STUDY, image = process.env.AXI_EVAL_IMAGE;
 if (process.argv[2] !== "--live" || !image?.startsWith("sha256:")) throw new Error("完整前置必须显式 --live 和固定 image ID");
 const smoke = JSON.parse(readFileSync(join(study, "smoke-latest.json"), "utf8"));
 if (!smoke.complete || smoke.image !== image || smoke.checks.length !== 9 || smoke.checks.some((x: any) => !x.passed)) throw new Error("当前镜像模拟检查未完成");
-const frozen = fingerprint(), runtime = runtimeFingerprint(), batch = await initialize(), checks: any[] = [];
+const frozen = fingerprint(), runtime = runtimeFingerprint(), checks: any[] = [];
 for (const [path, hash] of Object.entries(runtime.runtimeHashes)) {
   if (path === "scripts/eval/v1/fingerprint.ts") continue;
   if (smoke.hashes[path] !== hash) throw new Error("模拟检查后运行组件发生变化：" + path);
 }
+const batch = await initialize();
 for (const path of Object.keys(frozen.hashes)) { const dest = join(batch.directory, "source-snapshot", path); mkdirSync(dirname(dest), { recursive: true, mode: 0o700 }); writeFileSync(dest, readFileSync(join(ROOT, path)), { mode: 0o600 }); }
 save(join(batch.directory, "manifest.json"), { batch: batch.id, suite: "v1-preflight", image, traceVersion: 2, ...frozen, ...runtime });
 function check(name: string, pass: boolean, evidence?: unknown) {
@@ -59,6 +61,10 @@ try {
       const remoteHashes = JSON.parse((await execute(r, ["bun", "-e", script, remote!])).stdout), localHashes = sourceHashes(local!);
       check(name + "镜像源码逐文件一致", Object.keys(remoteHashes).length === Object.keys(localHashes).length && Object.entries(localHashes).every(([p, h]) => remoteHashes[p] === h), { files: Object.keys(localHashes).length });
     }
+    const helpers = Object.fromEntries(Object.entries(runtime.runtimeHashes).filter(([p]) => p.startsWith("scripts/eval/container/")).map(([p,h]) => [p.replace("scripts/eval/container/", ""), h]));
+    const helperScript = 'import{readFileSync}from"node:fs";import{createHash}from"node:crypto";const names=JSON.parse(await Bun.stdin.text());console.log(JSON.stringify(Object.fromEntries(names.map(p=>[p,createHash("sha256").update(readFileSync("/opt/eval/"+p)).digest("hex")]))));';
+    const helperHashes=JSON.parse((await execute(r,["bun","-e",helperScript],JSON.stringify(Object.keys(helpers)))).stdout);
+    check("转发器与容器辅助源码逐文件一致",Object.entries(helpers).every(([p,h])=>helperHashes[p]===h),{files:Object.keys(helpers).length});
     const envInput = await execute(r, ["sh", "-c", 'printf checked > /task/write-check; cat /task/write-check; printf "%s" "$HOME"']); check("独立可写目录和HOME", envInput.stdout === "checked/home/eval");
   });
   for (const variant of ["old", "new", "claude"] as const) {

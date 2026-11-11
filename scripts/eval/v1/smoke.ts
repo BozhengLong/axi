@@ -1,3 +1,4 @@
+import { STUDY } from "./settings.ts";
 import { join, dirname } from "node:path";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { ROOT, STORE, initialize, createRuntime, destroyRuntime, execute, save, docker, type SeedFiles } from "../core.ts";
@@ -6,7 +7,7 @@ import { runAxiV1, type V1Options } from "./adapter.ts";
 import { writeTraceIndex } from "../trace.ts";
 import { fingerprint } from "../complex/fingerprint.ts";
 
-const study = join(STORE, "v1-20261112");
+const study = STUDY;
 if (!process.env.AXI_EVAL_IMAGE?.startsWith("sha256:")) throw new Error("模拟前置必须显式固定镜像 ID");
 const batch = await initialize(), results: any[] = [], frozen = fingerprint();
 for (const path of Object.keys(frozen.hashes)) { const dest = join(batch.directory, "source-snapshot", path); mkdirSync(dirname(dest), { recursive: true, mode: 0o700 }); writeFileSync(dest, readFileSync(join(ROOT, path)), { mode: 0o600 }); }

@@ -1,4 +1,5 @@
 import {join} from 'node:path';
+import {assertVerificationCompleted} from './verification-status.ts';
 import {execute,docker,save,type Snapshot} from '../core.ts';
 import {helper} from '../c6/runtime.ts';
 import {grade as c7Grade,type GitState} from '../c7/grade.ts';
@@ -35,15 +36,15 @@ export async function grade(image:string,task:TaskId,id:string,seed:Snapshot,can
   for(const [key,args] of [
    ['upstream',['node','node_modules/ava/entrypoints/cli.mjs','--config','eval/ava.config.mjs',task==='V1-A'?'test.js':'test/index.js']],
    ['upstreamTypes',['node','node_modules/tsd/dist/cli.js']],
-  ] as const){deadline();const r=await execute(current,[...args],undefined,true,120000);logs[key]=r;check(key,r.exitCode===0,r);}
+  ] as const){deadline();const r=await execute(current,[...args],undefined,true,120000);logs[key]=r;assertVerificationCompleted(r,key);check(key,r.exitCode===0,r);}
   const hidden={'eval-oracle/contract.test.mjs':file(fixture(`oracle/${task.slice(-1)}-test.mjs`)),'eval-oracle/types.mts':file(fixture(`oracle/${task.slice(-1)}-types.mts`))};
   const patch=await helper(image,current.volume,['bun','/opt/eval/c6-files.ts','patch'],true,JSON.stringify(hidden));if(patch.exitCode)throw Error(patch.stderr);
-  deadline();const contract=await nodeTests(current.name,['eval-oracle/contract.test.mjs']);logs.contract=contract;check('CONTRACT',completeTests(contract,task==='V1-A'?7:8),contract);
-  const types=await execute(current,['node','/opt/toolchain/node_modules/typescript/bin/tsc','--noEmit','--strict','--skipLibCheck','--target','ESNext','--module','NodeNext','--moduleResolution','NodeNext','eval-oracle/types.mts'],undefined,true,60000);logs.types=types;check('TYPES',types.exitCode===0,types);
+  deadline();const contract=await nodeTests(current.name,['eval-oracle/contract.test.mjs']);logs.contract=contract;assertVerificationCompleted(contract,'contract');check('CONTRACT',completeTests(contract,task==='V1-A'?7:8),contract);
+  const types=await execute(current,['node','/opt/toolchain/node_modules/typescript/bin/tsc','--noEmit','--strict','--skipLibCheck','--target','ESNext','--module','NodeNext','--moduleResolution','NodeNext','eval-oracle/types.mts'],undefined,true,60000);logs.types=types;assertVerificationCompleted(types,'types');check('TYPES',types.exitCode===0,types);
   deadline();
   if(options.regression!==false&&newTests.length){
-   const now=await nodeTests(current.name,newTests),old=await isolated(image,task,`${id}-old`,{...clean(seed),...regressionFiles});
-   try{const previous=await nodeTests(old.name,newTests);testReplay={paths:newTests,helperFiles:Object.keys(regressionFiles),current:now,previous,valid:completeTests(now)&&previous.exitCode!==0&&previous.total===now.total&&previous.failed>0&&previous.skipped===0&&previous.cancelled===0&&previous.assertionFailure,semanticReview:'pending'};}
+   const now=await nodeTests(current.name,newTests);logs.regressionCurrent=now;assertVerificationCompleted(now,'regression-current');const old=await isolated(image,task,`${id}-old`,{...clean(seed),...regressionFiles});
+   try{const previous=await nodeTests(old.name,newTests);logs.regressionPrevious=previous;assertVerificationCompleted(previous,'regression-old');testReplay={paths:newTests,helperFiles:Object.keys(regressionFiles),current:now,previous,valid:completeTests(now)&&previous.exitCode!==0&&previous.total===now.total&&previous.failed>0&&previous.skipped===0&&previous.cancelled===0&&previous.assertionFailure,semanticReview:'pending'};}
    finally{await old.close();}
   }else testReplay={valid:false,reason:options.regression===false?'本次未运行回归复验':'没有新增独立回归',paths:newTests};
   deadline();const result={task,checks,codePassed:checks.every(c=>c.pass),regressionPassed:testReplay.valid,fullDeliveryPassed:null,reportReview:'pending',testReplay,logs,elapsedMs:Date.now()-start,complete:true};save(join(directory,'grade.json'),result);return result;

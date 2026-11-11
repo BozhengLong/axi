@@ -1,3 +1,4 @@
+import { STUDY } from "./settings.ts";
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import {join,dirname} from 'node:path';
 import {ROOT,STORE,initialize,createRuntime,destroyRuntime,control,save,docker} from '../core.ts';
@@ -6,7 +7,7 @@ import {runAxiV1} from './adapter.ts';
 import {fingerprint} from '../complex/fingerprint.ts';
 import {classifyExecution} from '../c7/outcome.ts';
 if(!process.env.AXI_EVAL_IMAGE?.startsWith('sha256:'))throw Error('模拟需要显式固定镜像');
-const study=join(STORE,'v1-20261112'),batch=await initialize(),frozen=fingerprint(),results:any[]=[];
+const study=STUDY,batch=await initialize(),frozen=fingerprint(),results:any[]=[];
 for(const path of Object.keys(frozen.hashes)){const target=join(batch.directory,'source-snapshot',path);mkdirSync(dirname(target),{recursive:true,mode:0o700});writeFileSync(target,readFileSync(join(ROOT,path)),{mode:0o600});}
 save(join(batch.directory,'manifest.json'),{suite:'v1-transport-repair',batch:batch.id,image:batch.image,mockOnly:true,traceVersion:2,...frozen});
 const failure=()=>({content:[],stopReason:'end_turn',connectionError:true});
