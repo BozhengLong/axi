@@ -2,7 +2,7 @@ import type { APIConfig } from "../config.ts";
 import { SSEParser } from "./sse.ts";
 import { MessageAssembler, ProtocolError, StreamAPIError } from "./stream.ts";
 import { abortError, errorMessage, noLog, type Effort, type Message, type ModelResponse, type RecordLog, type StreamCallbacks } from "./types.ts";
-import { bashTool } from "../tools/bash.ts";
+import { toolDefinitions } from "../tools/registry.ts";
 
 export class HTTPError extends Error {
   constructor(public status: number, message: string, public retryAfterMs?: number) { super(message); }
@@ -64,7 +64,7 @@ export class APIClient {
       system: this.system,
       thinking: { type: "adaptive", display: "summarized" },
       output_config: { effort: options.effort },
-      tools: [{ ...bashTool, eager_input_streaming: this.options.eagerInputStreaming ?? true }],
+      tools: toolDefinitions.map(tool => ({ ...tool, eager_input_streaming: this.options.eagerInputStreaming ?? true })),
       messages: history,
     });
     const callId = crypto.randomUUID();

@@ -82,6 +82,6 @@ bun run scripts/experiments.ts --live
 - 复杂任务对照：[运行方法](docs/guides/complex-evaluation.md)、[2026-11-11 结果与补充复验](docs/verification/2026-11-11-complex-comparison.md)
 - 真实仓库连续任务：[C6 运行与复验](docs/guides/c6-evaluation.md)、[对照结果](docs/verification/2026-11-11-c6-comparison.md)
 - 缺陷修复对照：[C7 设计](docs/06-c7-repair-evaluation-design.md)、[运行与复查](docs/guides/c7-evaluation.md)、[对照结果](docs/verification/2026-11-11-c7-comparison.md)
-- v1 待确认方案：[文件工具、权限与中断设计](docs/07-v1-design.md)、[自动验收矩阵](evals/specs/v1-tools-v1/acceptance-matrix.md)（仅设计，尚未实现）
+- v1 已确认方案：[文件工具、权限与中断设计](docs/07-v1-design.md)、[自动验收矩阵](evals/specs/v1-tools-v1/acceptance-matrix.md)（实施中，完成范围见进度）
 
 评测原始 Trace 与历史镜像保存在本机私有目录，不随源码发布。报告中的本机绝对路径只在原机器可用；部分 C6 复验入口依赖这些历史产物，具体条件见对应运行指南。

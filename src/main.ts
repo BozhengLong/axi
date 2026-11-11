@@ -3,26 +3,31 @@ import { errorMessage, type Effort } from "./api/types.ts";
 import { Agent, systemPrompt } from "./agent/loop.ts";
 import { loadConfig } from "./config.ts";
 import { SessionLog } from "./log.ts";
-import { confirmCommand } from "./ui/permission.ts";
+import { confirmTool, type PermissionMode } from "./ui/permission.ts";
 import { Terminal } from "./ui/terminal.ts";
+import { realpathSync } from "node:fs";
 
-const help = `Axi v0：连续对话，历史仅保留在本次运行中。
+const help = `Axi v1：连续对话，历史仅保留在本次运行中。
 /effort medium  设置下一轮为 medium（默认）
 /effort high    设置下一轮为 high
 /help          显示帮助
 /exit          退出
+/permissions   查看权限模式
+/permissions project  项目内普通文件读取自动（默认）
+/permissions strict   所有工具逐次确认
 每次 bash 调用都需输入 y；输入 n 或直接回车拒绝。拒绝理由可留空。
-Ctrl+C 中止当前输入、请求或命令。再次输入可继续。v0 没有沙箱。
+Ctrl+C 中止当前输入、请求或工具。再次输入可继续，已完成修改不会撤销。没有沙箱。
 不支持多行粘贴输入。未显示输入提示时，输入会被丢弃。
 `;
 
 export async function main(): Promise<void> {
   if (process.argv.includes("--help") || process.argv.includes("-h")) { process.stdout.write(help); return; }
   const config = loadConfig();
-  const cwd = process.cwd();
+  const cwd = realpathSync(process.cwd());
   const log = new SessionLog(cwd);
   const ui = new Terminal();
   let effort: Effort = "medium";
+  let permissionMode: PermissionMode = "project";
   let active: AbortController | undefined;
   const interrupt = () => active?.abort();
   ui.onInterrupt = interrupt;
@@ -35,6 +40,7 @@ export async function main(): Promise<void> {
   const agent = new Agent({
     cwd,
     record: log.record,
+    permissionMode: () => permissionMode,
     call: async (history, options) => {
       ui.endStream();
       ui.write("正在处理…\n");
@@ -43,8 +49,19 @@ export async function main(): Promise<void> {
       ui.usage(response, performance.now() - start);
       return response;
     },
-    approve: (tool, signal) => { ui.endStream(); return confirmCommand(tool.input.command as string, cwd, ui.read, ui.write, signal); },
-    onToolResult: result => ui.write(`\n工具结果${result.is_error ? "（未成功）" : ""}：\n${result.content}\n`),
+    approve: (tool, signal, view) => { ui.endStream(); return confirmTool(tool, cwd, view!, ui.read, ui.write, signal); },
+    onToolStart: (tool, view, automatic) => { if (automatic) { ui.endStream(); ui.write(`\n自动读取：${tool.name} ${JSON.stringify(view.path)}\n`); } },
+    onToolResult: result => {
+      let display = result.content;
+      try {
+        const data = JSON.parse(display);
+        if (data.operation === "read" && typeof data.content === "string") {
+          const rows: string[] = data.content.match(/[^\n]*\n|[^\n]+$/g) ?? [];
+          display = `${JSON.stringify({ ...data, content: undefined })}\n` + rows.map((line, i) => `${data.start_line + i}: ${line}`).join("");
+        }
+      } catch {}
+      ui.write(`\n工具结果${result.is_error ? "（未成功）" : ""}：\n${display}\n`);
+    },
   });
   ui.write(`${help}\n工作目录：${cwd}\n日志：${log.path}\n`);
   try {
@@ -56,6 +73,10 @@ export async function main(): Promise<void> {
         const text = input.trim();
         if (!text) continue;
         if (text === "/help") { ui.write(help); continue; }
+        if (text === "/permissions" || text === "/permissions project" || text === "/permissions strict") {
+          if (text !== "/permissions") permissionMode = text.endsWith("strict") ? "strict" : "project";
+          ui.write(`权限模式：${permissionMode}。修改和 bash 始终逐次确认；文件工具的路径限制不变。\n`); continue;
+        }
         if (text === "/effort medium" || text === "/effort high") {
           effort = text.endsWith("high") ? "high" : "medium";
           ui.write(`下一轮使用 ${effort}。\n`);
@@ -77,6 +98,7 @@ export async function main(): Promise<void> {
       } catch (error) {
         ui.endStream();
         ui.write(active.signal.aborted ? "已中止。\n" : `错误：${errorMessage(error)}\n`);
+        if (active.signal.aborted) ui.write(agent.interruptionSummary + "\n");
       } finally { active = undefined; }
     }
   } finally {
