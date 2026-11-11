@@ -1,0 +1,9 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import pLimit from '../index.js';
+test('等待取消保留其他任务，onIdle 观察真正结束',async()=>{
+ const limit=pLimit(1);assert.equal(typeof limit.withOptions,'function');assert.equal(typeof limit.onIdle,'function');let release;const gate=new Promise(r=>release=r);const first=limit(()=>gate);await Promise.resolve();const ac=new AbortController();let ran=false;const cancelled=limit.withOptions({signal:ac.signal},()=>ran=true).catch(e=>e);ac.abort('cancel');assert.equal(await cancelled,'cancel');assert.equal(limit.pendingCount,0);let idle=false;const wait=limit.onIdle().then(()=>idle=true);await Promise.resolve();assert.equal(idle,false);release();await first;await wait;assert.equal(ran,false);
+});
+test('运行中取消保持结果；异常后继续处理；清队空闲',async()=>{
+ const l=pLimit({concurrency:1,rejectOnClear:true});assert.equal(typeof l.withOptions,'function');const ac=new AbortController();const value=await l.withOptions({signal:ac.signal},()=>{ac.abort();return 7});assert.equal(value,7);await assert.rejects(l.withOptions({},()=>{throw Error('sync')}),/sync/);assert.equal(await l(()=>9),9);let release;const p=l(()=>new Promise(r=>release=r));await Promise.resolve();const q=l.withOptions({},()=>0).catch(e=>e);l.clearQueue();assert.equal((await q).name,'AbortError');release();await p;await l.onIdle();assert.equal(l.activeCount,0);
+});

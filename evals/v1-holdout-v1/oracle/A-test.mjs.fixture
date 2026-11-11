@@ -1,0 +1,50 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {getEventListeners} from 'node:events';
+import {AsyncLocalStorage} from 'node:async_hooks';
+import pLimit, {limitFunction} from '../index.js';
+const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}};
+const tick=()=>new Promise(r=>setImmediate(r));
+const outcome=p=>p.then(value=>({value}),error=>({error}));
+const bounded=async p=>{let timer;try{return await Promise.race([p,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new assert.AssertionError({message:'操作未在边界内结束'})),1200)})]);}finally{clearTimeout(timer)}};
+function api(n=1){const x=pLimit(n);assert.equal(typeof x.withOptions,'function');assert.equal(typeof x.onIdle,'function');return x;}
+test('A01 取消前与预留槽取消不调用函数，保留所有 reason',async()=>{
+ for(const reason of [new Error('stop'),0,false,'',null]){
+  const limit=api();let calls=0;const ac=new AbortController();ac.abort(reason);
+  assert.equal((await outcome(limit.withOptions({signal:ac.signal},()=>calls++))).error,reason);assert.equal(calls,0);assert.equal(limit.activeCount,0);assert.equal(limit.pendingCount,0);
+  const bc=new AbortController(),r=outcome(limit.withOptions({signal:bc.signal},()=>calls++));bc.abort(reason);assert.equal((await bounded(r)).error,reason);await bounded(limit.onIdle());assert.equal(calls,0);assert.equal(limit.activeCount,0);assert.equal(getEventListeners(bc.signal,'abort').length,0);
+ }
+});
+test('A02 等待队列取消立即减少 pending，先进先出不变',async()=>{
+ const limit=api(),gate=deferred(),started=deferred(),order=[];
+ const first=limit(async()=>{started.resolve();await gate.promise;return 'first'});await started.promise;
+ const controllers=Array.from({length:8},()=>new AbortController());
+ const ps=controllers.map((ac,i)=>outcome(limit.withOptions({signal:ac.signal},()=>{order.push(i);return i})));
+ assert.equal(limit.pendingCount,8);controllers[3].abort('middle');controllers[0].abort('first');controllers[7].abort('last');assert.equal(limit.pendingCount,5);assert.equal((await bounded(ps[3])).error,'middle');
+ gate.resolve();await first;await bounded(Promise.all(ps));await bounded(limit.onIdle());assert.deepEqual(order,[1,2,4,5,6]);assert.equal(limit.activeCount,0);assert.equal(limit.pendingCount,0);for(const ac of controllers)assert.equal(getEventListeners(ac.signal,'abort').length,0);
+});
+test('A03 运行中取消保留槽与实际结果',async()=>{
+ for(const fail of [false,true]){const limit=api(),gate=deferred(),started=deferred(),ac=new AbortController(),error=new Error('original');let nextRan=false;
+ const active=outcome(limit.withOptions({signal:ac.signal},async()=>{started.resolve();await gate.promise;if(fail)throw error;return 42}));await started.promise;
+ const second=limit(()=>{nextRan=true});ac.abort('late');await tick();assert.equal(limit.activeCount,1);assert.equal(limit.pendingCount,1);assert.equal(nextRan,false);
+ gate.resolve();const r=await bounded(active);assert.equal(fail?r.error:r.value,fail?error:42);await second;await bounded(limit.onIdle());assert.equal(getEventListeners(ac.signal,'abort').length,0);}
+});
+test('A04 clearQueue 两种策略与监听清理',async()=>{
+ for(const rejectOnClear of [false,true]){const limit=pLimit({concurrency:1,rejectOnClear});assert.equal(typeof limit.withOptions,'function');const gate=deferred(),started=deferred(),ac=new AbortController();
+ const active=limit(async()=>{started.resolve();await gate.promise});await started.promise;
+ let settled=false,called=false;const pending=outcome(limit.withOptions({signal:ac.signal},()=>{called=true})).then(r=>{settled=true;return r});
+ let idle=false;const waiting=limit.onIdle().then(()=>idle=true);limit.clearQueue();assert.equal(limit.pendingCount,0);assert.equal(getEventListeners(ac.signal,'abort').length,0);ac.abort('after-clear');await tick();assert.equal(called,false);assert.equal(idle,false);assert.equal(settled,rejectOnClear);
+ if(rejectOnClear)assert.equal((await bounded(pending)).error.name,'AbortError');gate.resolve();await active;await bounded(waiting);assert.equal(idle,true);}
+});
+test('A05 多空闲等待者、异常及并发调整',async()=>{
+ const limit=api();await bounded(limit.onIdle());const gate=deferred(),started=deferred();const active=limit(async()=>{started.resolve();await gate.promise});await started.promise;
+ const waiting=[limit.onIdle(),limit.onIdle()];let done=false;waiting[0].then(()=>done=true);const failure=new Error('sync');const bad=outcome(limit.withOptions({},()=>{throw failure}));let ran=0;const ok=limit.withOptions({},()=>++ran);limit.concurrency=3;assert.equal((await bounded(bad)).error,failure);await ok;await tick();assert.equal(done,false);gate.resolve();await active;await bounded(Promise.all(waiting));assert.equal(ran,1);assert.equal(limit.activeCount,0);
+ const g2=deferred();const later=limit(()=>g2.promise);let idle2=false;const w2=limit.onIdle().then(()=>idle2=true);await tick();assert.equal(idle2,false);g2.resolve();await later;await bounded(w2);
+});
+test('A06 args、异步上下文、旧 map 和 wrapper',async()=>{
+ const limit=api(2),store=new AsyncLocalStorage();const r=await store.run('ctx',()=>limit.withOptions({},(a,b)=>[a,b,store.getStore()],17,'x'));assert.deepEqual(r,[17,'x','ctx']);assert.deepEqual(await limit.map([2,3],(n,i)=>n+i),[2,4]);const wrapped=limitFunction(async n=>n*2,{concurrency:1});assert.equal(await wrapped(4),8);await bounded(limit.onIdle());
+});
+test('A07 正常完成与等待取消释放监听；实例隔离',async()=>{
+ const a=api(),b=api();const ac=new AbortController();assert.equal(await a.withOptions({signal:ac.signal},()=>1),1);await bounded(a.onIdle());assert.equal(getEventListeners(ac.signal,'abort').length,0);
+ const gate=deferred(),start=deferred();const p=a(async()=>{start.resolve();await gate.promise});await start.promise;await bounded(b.onIdle());const ac2=new AbortController(),q=outcome(a.withOptions({signal:ac2.signal},()=>0));assert.equal(getEventListeners(ac2.signal,'abort').length,1);ac2.abort();await q;assert.equal(getEventListeners(ac2.signal,'abort').length,0);gate.resolve();await p;await bounded(a.onIdle());
+});

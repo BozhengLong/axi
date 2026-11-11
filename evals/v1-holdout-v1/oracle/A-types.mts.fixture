@@ -1,0 +1,9 @@
+import pLimit from '../index.js';
+const limit=pLimit(2);
+const result:Promise<number>=limit.withOptions({signal:new AbortController().signal},(x:number,y:string)=>x+y.length,3,'x');
+const idle:Promise<void>=limit.onIdle();
+// @ts-expect-error 参数类型必须保留
+limit.withOptions({},(n:number)=>n,'bad');
+// @ts-expect-error signal 不接受字符串
+limit.withOptions({signal:'bad'},()=>1);
+void result;void idle;

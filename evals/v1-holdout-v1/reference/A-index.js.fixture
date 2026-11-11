@@ -1,0 +1,162 @@
+import Queue from 'yocto-queue';
+
+export default function pLimit(concurrency) {
+	let rejectOnClear = false;
+
+	if (typeof concurrency === 'object') {
+		({concurrency, rejectOnClear = false} = concurrency);
+	}
+
+	validateConcurrency(concurrency);
+
+	if (typeof rejectOnClear !== 'boolean') {
+		throw new TypeError('Expected `rejectOnClear` to be a boolean');
+	}
+
+	const queue = new Queue();
+	let activeCount = 0;
+	let pendingCount = 0;
+	const idleWaiters = new Set();
+	const notifyIdle = () => {
+		if (activeCount !== 0 || pendingCount !== 0) return;
+		for (const resolve of idleWaiters) resolve();
+		idleWaiters.clear();
+	};
+	const detach = item => item.signal?.removeEventListener('abort', item.abort);
+
+	const resumeNext = () => {
+		while (activeCount < concurrency && queue.size > 0) {
+			const item = queue.dequeue();
+			if (item.state !== 'queued') continue;
+			pendingCount--;
+			activeCount++;
+			item.state = 'reserved';
+			item.run();
+		}
+	};
+	const next = () => { activeCount--; resumeNext(); notifyIdle(); };
+	const run = async (item, function_, resolve, arguments_) => {
+		if (item.state !== 'reserved') return;
+		item.state = 'running';
+		detach(item);
+		const result = (async () => function_(...arguments_))();
+		resolve(result);
+		try { await result; } catch {}
+		item.state = 'done';
+		next();
+	};
+	const enqueue = (signal, function_, resolve, reject, arguments_) => {
+		if (signal?.aborted) { reject(signal.reason); return; }
+		const item = {reject, signal, state: 'queued'};
+		item.abort = () => {
+			if (!['queued', 'reserved'].includes(item.state)) return;
+			if (item.state === 'queued') pendingCount--; else activeCount--;
+			item.state = 'cancelled';
+			detach(item);
+			reject(signal.reason);
+			resumeNext();
+			notifyIdle();
+		};
+		new Promise(internalResolve => {
+			item.run = internalResolve;
+			queue.enqueue(item);
+			pendingCount++;
+		}).then(run.bind(undefined, item, function_, resolve, arguments_));
+		signal?.addEventListener('abort', item.abort, {once: true});
+		if (signal?.aborted) item.abort();
+		resumeNext();
+	};
+	const generator = (function_, ...arguments_) => new Promise((resolve, reject) => {
+		enqueue(undefined, function_, resolve, reject, arguments_);
+	});
+
+	Object.defineProperties(generator, {
+		activeCount: {
+			get: () => activeCount,
+		},
+		pendingCount: {
+			get: () => pendingCount,
+		},
+		withOptions: {
+			value({signal} = {}, function_, ...arguments_) {
+				return new Promise((resolve, reject) => enqueue(signal, function_, resolve, reject, arguments_));
+			},
+		},
+		onIdle: {
+			value() {
+				if (activeCount === 0 && pendingCount === 0) return Promise.resolve();
+				return new Promise(resolve => idleWaiters.add(resolve));
+			},
+		},
+		clearQueue: {
+			value() {
+				const error = AbortSignal.abort().reason;
+				while (queue.size > 0) {
+					const item = queue.dequeue();
+					if (item.state !== 'queued') continue;
+					item.state = 'cleared';
+					pendingCount--;
+					detach(item);
+					if (rejectOnClear) item.reject(error);
+				}
+				notifyIdle();
+			},
+		},
+		concurrency: {
+			get: () => concurrency,
+
+			set(newConcurrency) {
+				validateConcurrency(newConcurrency);
+				concurrency = newConcurrency;
+
+				queueMicrotask(() => {
+					// eslint-disable-next-line no-unmodified-loop-condition
+					while (activeCount < concurrency && queue.size > 0) {
+						resumeNext();
+					}
+				});
+			},
+		},
+		map: {
+			async value(iterable, function_) {
+				const promises = [];
+
+				try {
+					Array.from(iterable, (value, index) => {
+						const promise = generator(function_, value, index);
+						promises.push(promise);
+						return promise;
+					});
+				} catch (error) {
+					// The iterable threw, so `Promise.all` never observes the already scheduled promises. Observe them here to avoid unhandled rejections.
+					for (const promise of promises) {
+						promise.catch(() => {}); // eslint-disable-line promise/prefer-await-to-then
+					}
+
+					throw error;
+				}
+
+				return Promise.all(promises);
+			},
+		},
+	});
+
+	return generator;
+}
+
+export function limitFunction(function_, options) {
+	const limit = pLimit(options);
+
+	const limitedFunction = (...arguments_) => limit(() => function_(...arguments_));
+	Object.defineProperty(limitedFunction, 'clearQueue', {
+		value: limit.clearQueue,
+	});
+
+	return limitedFunction;
+}
+
+function validateConcurrency(concurrency) {
+	if (!((Number.isInteger(concurrency) || concurrency === Number.POSITIVE_INFINITY) && concurrency > 0)) {
+		throw new TypeError('Expected `concurrency` to be a number from 1 and up');
+	}
+}

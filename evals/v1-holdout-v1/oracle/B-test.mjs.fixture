@@ -1,0 +1,32 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {getEventListeners} from 'node:events';
+import Emittery from '../index.js';
+const outcome=p=>p.then(value=>({value}),error=>({error}));
+const bounded=async p=>{let timer;try{return await Promise.race([p,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new assert.AssertionError({message:'操作未在边界内结束'})),1200)})]);}finally{clearTimeout(timer)}};
+test('B01 大小和策略验证不残留订阅',()=>{
+ for(const highWaterMark of [0,-1,1.2,NaN,-Infinity,'2',null]){const e=new Emittery();assert.throws(()=>e.events('x',{highWaterMark}),TypeError);assert.throws(()=>e.anyEvent({highWaterMark}),TypeError);assert.equal(e.listenerCount(),0)}
+ const e=new Emittery();assert.throws(()=>e.events('x',{overflow:'wat'}),TypeError);assert.throws(()=>e.anyEvent({overflow:'wat'}),TypeError);assert.equal(e.listenerCount(),0);
+});
+test('B02 两种丢弃策略、默认有限策略与实例隔离',async()=>{
+ for(const [overflow,expected] of [['drop-oldest',[3,4]],['drop-newest',[1,2]],[undefined,[3,4]]]){const e=new Emittery(),i=e.events('x',{highWaterMark:2,overflow}),other=e.events('x');for(let n=1;n<=4;n++)await e.emit('x',n);assert.deepEqual([(await i.next()).value,(await i.next()).value],expected);const all=[];for(let n=0;n<4;n++)all.push((await other.next()).value);assert.deepEqual(all,[1,2,3,4]);await i.return();await other.return();assert.equal(e.listenerCount(),0)}
+});
+test('B03 anyEvent 支持数字和 Symbol 及 emitSerial',async()=>{
+ const e=new Emittery(),symbol=Symbol('x'),i=e.anyEvent({highWaterMark:2});await e.emit('a',1);await e.emitSerial(9,2);await e.emit(symbol,3);assert.deepEqual((await i.next()).value,[9,2]);assert.deepEqual((await i.next()).value,[symbol,3]);await i.return();assert.equal(e.listenerCount(),0);
+});
+test('B04 溢出只关闭自身，后续错误直至 return',async()=>{
+ const e=new Emittery(),ac=new AbortController(),i=e.events(['x','y'],{highWaterMark:1,overflow:'error',signal:ac.signal}),other=e.events('x');let calls=0;const off=e.on('x',()=>calls++);await e.emit('x',1);await e.emit('y',2);assert.equal(e.listenerCount('y'),0);assert.equal(getEventListeners(ac.signal,'abort').length,0);assert.equal((await outcome(i.next())).error instanceof RangeError,true);assert.equal((await outcome(i.next())).error instanceof RangeError,true);await e.emit('x',3);assert.equal(calls,2);assert.deepEqual([(await other.next()).value,(await other.next()).value],[1,3]);assert.deepEqual(await i.return(Promise.resolve(7)),{done:true,value:7});assert.equal((await i.next()).done,true);await other.return();off();assert.equal(e.listenerCount(),0);
+});
+test('B05 已取消及运行中取消保留 falsy reason',async()=>{
+ for(const reason of [0,false,'',null,new Error('stop')]){for(const already of [true,false]){const e=new Emittery(),ac=new AbortController();if(already)ac.abort(reason);const i=e.events(['x','y'],{signal:ac.signal}),p=outcome(i.next()),q=outcome(i.next());if(!already)ac.abort(reason);assert.equal((await bounded(p)).error,reason);assert.equal((await bounded(q)).error,reason);assert.equal((await outcome(i.next())).error,reason);assert.equal(e.listenerCount(),0);assert.equal(getEventListeners(ac.signal,'abort').length,0);await i.return();assert.equal((await i.next()).done,true);}}
+});
+test('B06 next 并发 FIFO 与缓存上限分开',async()=>{
+ const e=new Emittery(),i=e.events('x',{highWaterMark:1,overflow:'error'});const first=i.next(),second=i.next(),third=i.next();await e.emit('x',1);await e.emit('x',2);await e.emit('x',3);assert.deepEqual((await bounded(Promise.all([first,second,third]))).map(r=>r.value),[1,2,3]);const waiting=[i.next(),i.next()];await i.return();assert.deepEqual((await bounded(Promise.all(waiting))).map(r=>r.done),[true,true]);assert.equal(e.listenerCount(),0);
+});
+test('B07 clear 单事件关闭整个多事件订阅，排空缓存',async()=>{
+ const e=new Emittery(),ac=new AbortController(),i=e.events(['x','y'],{signal:ac.signal,highWaterMark:3});await e.emit('x',1);await e.emit('y',2);e.clearListeners('x');assert.equal(e.listenerCount(),0);assert.equal(getEventListeners(ac.signal,'abort').length,0);ac.abort('late');await e.emit('y',3);assert.deepEqual([(await i.next()).value,(await i.next()).value],[1,2]);assert.equal((await bounded(i.next())).done,true);
+ const j=e.anyEvent({signal:new AbortController().signal});const ps=[j.next(),j.next()];e.clearListeners();assert.deepEqual((await bounded(Promise.all(ps))).map(r=>r.done),[true,true]);assert.equal(e.listenerCount(),0);
+});
+test('B08 return 清缓存、取消不改终态、默认无界',async()=>{
+ const e=new Emittery(),ac=new AbortController(),i=e.anyEvent({signal:ac.signal});for(let n=0;n<25;n++)await e.emit('x',n);for(let n=0;n<25;n++)assert.deepEqual((await i.next()).value,['x',n]);await e.emit('x',99);assert.deepEqual(await i.return(Promise.resolve('bye')),{done:true,value:'bye'});ac.abort('late');assert.equal((await i.next()).done,true);assert.equal(getEventListeners(ac.signal,'abort').length,0);assert.equal(e.listenerCount(),0);assert.deepEqual(await i.return(),{done:true});
+});

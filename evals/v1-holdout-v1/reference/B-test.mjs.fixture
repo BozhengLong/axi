@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import Emittery from '../index.js';
+test('有界缓存两种策略和溢出',async()=>{
+ for(const [overflow,expected] of [['drop-oldest',2],['drop-newest',1]]){const e=new Emittery(),i=e.events('x',{highWaterMark:1,overflow});await e.emit('x',1);await e.emit('x',2);assert.equal((await i.next()).value,expected);await i.return()}
+ const e=new Emittery(),i=e.anyEvent({highWaterMark:1,overflow:'error'});await e.emit('x',1);await e.emit('x',2);await assert.rejects(i.next(),RangeError);await i.return();assert.equal(e.listenerCount(),0);
+});
+test('取消、并发 next、多事件 clear 释放订阅',async()=>{
+ const e=new Emittery(),ac=new AbortController(),i=e.events(['x','y'],{signal:ac.signal});const p=i.next().catch(e=>e),q=i.next().catch(e=>e);ac.abort('cancel');assert.equal(e.listenerCount(),0);assert.equal(await p,'cancel');assert.equal(await q,'cancel');const j=e.events(['x','y']);const a=j.next(),b=j.next();await e.emit('x',1);await e.emit('y',2);assert.deepEqual((await Promise.all([a,b])).map(x=>x.value),[1,2]);e.clearListeners('x');assert.equal(e.listenerCount(),0);assert.equal((await j.next()).done,true);
+});

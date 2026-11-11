@@ -1,0 +1,15 @@
+import Emittery from '../index.js';
+const sym:unique symbol=Symbol();
+const e=new Emittery<{one:number;two:string;3:boolean;[sym]:Date}>();
+const a:AsyncIterableIterator<number>=e.events('one',{signal:new AbortController().signal,highWaterMark:2,overflow:'drop-newest'});
+const b:AsyncIterableIterator<number|string>=e.events(['one','two'],{highWaterMark:Infinity});
+const c:AsyncIterableIterator<Date>=e.events(sym,{overflow:'error'});
+const d:AsyncIterableIterator<boolean>=e.events(3);
+e.anyEvent({signal:new AbortController().signal,overflow:'drop-oldest'});
+// @ts-expect-error 不存在的事件
+ e.events('missing',{});
+// @ts-expect-error 非法策略
+ e.anyEvent({overflow:'something'});
+// @ts-expect-error signal 类型
+ e.events('one',{signal:2});
+void a;void b;void c;void d;
