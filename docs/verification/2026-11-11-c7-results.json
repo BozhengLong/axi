@@ -1,0 +1,1370 @@
+{
+  "dateBeijing": "2026-11-11",
+  "suite": "c7-repair-v1",
+  "gradeRevision": 2,
+  "revisionReason": "修正 JUnit 混合自闭合通过项与失败项的总数解析；没有新增行为契约",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "image": "sha256:92840cfa30671118f34ee7d60e412ef68b7c0a713d5e5ba01a52a490f0bdc8c6",
+  "controllerSourceHashes": {
+    "original": "9fd7adb057a3d409e99bec17ba89281725152612d57094a47170eb718eebd7d8",
+    "uniformGradingAndContinuation": "8abc35d39907a8554dd0db11407f4b2aa4a9ed6e2c424fb68b862a01fa6959cc"
+  },
+  "batches": {
+    "original": "b20261111110034",
+    "continuation": "b20261111113304",
+    "v2Preflight": "b20261111112900"
+  },
+  "deadline": "2026-11-12T00:00:34.754Z",
+  "completion": {
+    "complete": true,
+    "starts": 7,
+    "priorStarts": 5,
+    "totalStudyStarts": 12,
+    "gradedResults": 7,
+    "adoptedRuns": 12,
+    "recoveryUsed": false,
+    "time": "2026-11-11T11:47:02.453Z"
+  },
+  "counts": {
+    "distinctTasks": 2,
+    "formalModelStarts": 12,
+    "environmentRetries": 0,
+    "formalModelCompleted": 12,
+    "uniformAcceptanceGroups": 306,
+    "traceFilesVerified": 192,
+    "traceBytesVerified": 170258682
+  },
+  "byAgent": {
+    "axi": {
+      "runs": 6,
+      "codePassed": 6,
+      "regressionPassed": 6,
+      "fullDeliveryPassed": 6,
+      "byTask": {
+        "C7-L": {
+          "runs": 3,
+          "passed": 3
+        },
+        "C7-O": {
+          "runs": 3,
+          "passed": 3
+        }
+      },
+      "generationRequests": 68,
+      "pythonUnavailableRuns": 6,
+      "totalActiveSeconds": 591.7878351660001,
+      "medianActiveSeconds": 97.87651566650004
+    },
+    "claude": {
+      "runs": 6,
+      "codePassed": 6,
+      "regressionPassed": 6,
+      "fullDeliveryPassed": 6,
+      "byTask": {
+        "C7-L": {
+          "runs": 3,
+          "passed": 3
+        },
+        "C7-O": {
+          "runs": 3,
+          "passed": 3
+        }
+      },
+      "generationRequests": 73,
+      "pythonUnavailableRuns": 5,
+      "totalActiveSeconds": 659.677650042,
+      "medianActiveSeconds": 104.07697360449998
+    }
+  },
+  "selected": [
+    {
+      "id": "formal-C7-L-r1-axi",
+      "pair": 1,
+      "task": "C7-L",
+      "agent": "axi",
+      "repeat": 1,
+      "batch": "b20261111110034",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "offline-v2",
+      "originalMachineGrade": {
+        "revision": 1,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "bbc622e91b125799a1248be35eaa1ed697b721871c3e74414bb354fc625743c7",
+      "initialCommit": "8a6828c96c6a462a86554c6c95785d0984750afa",
+      "finalSourceSha256": "eae3ef99a2ab75d541065308a2961e9919285c8d912b64d2b05c07d546c47748",
+      "activeSeconds": 122.278621375,
+      "wallSeconds": 122.806809458,
+      "generationRequests": 12,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 12
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 12
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 64000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "summarized",
+              "type": "adaptive"
+            }
+          },
+          "requests": 12
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 220432,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 9211
+      },
+      "toolCounts": {
+        "bash": 13
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_01JwvJb2NajUEAc8thrr16WV"
+      ],
+      "checks": 31,
+      "failedChecks": [],
+      "newTestFiles": [
+        "packages/listr2/tests/renderer/jsonl/jsonl-end-cleanup.e2e-spec.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 7,
+        "passed": 5,
+        "failed": 2,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "曾尝试不存在的 python3，读取错误后改用 Node 成功修复；属于一次环境工具假设，已自行恢复。",
+          "部分 shell 复合命令最后退出码为0；本次实际输出明确展示内部失败/成功，未把首次失败说成通过。",
+          "报告列出的旧代码2失败/新代码7通过、全量测试数量、类型及消费者成功与工具结果一致。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_011hXMdBEqSPbJFCN9pTcxKp",
+          "oldCodeNewTests": "toolu_01UAuh6NGetXJPnXa5kSuphD",
+          "fixedTargetTests": "toolu_013XMwVPWgQrYxPjj1DnJZPr",
+          "fixedReproductionAndTypes": "toolu_019WAVKy8cw3mhRJPC84DWx2",
+          "fullOriginalTests": "toolu_01QDt3Pc4NBzUK2c9LQuibvK",
+          "publicTypesAndConsumer": "toolu_014o3wksdrJvNtYEFatWkWq1",
+          "gitAndProtection": "toolu_01X63bskoiV9i1KAExaXWX4w"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-L-r1-axi",
+        "files": 15,
+        "status": "complete_observable",
+        "manifestSha256": "ebdd7c4a9930af120839c874b12205d71e3e1759a801a0f39f395e3ccd04a539"
+      }
+    },
+    {
+      "id": "formal-C7-L-r1-claude",
+      "pair": 1,
+      "task": "C7-L",
+      "agent": "claude",
+      "repeat": 1,
+      "batch": "b20261111110034",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "offline-v2",
+      "originalMachineGrade": {
+        "revision": 1,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "bbc622e91b125799a1248be35eaa1ed697b721871c3e74414bb354fc625743c7",
+      "initialCommit": "8a6828c96c6a462a86554c6c95785d0984750afa",
+      "finalSourceSha256": "b3d46c9d896e392733ed9fb6ad90f187cf9eb3dac46ec25ad40b94f86acd6d80",
+      "activeSeconds": 128.22528879200001,
+      "wallSeconds": 128.631443833,
+      "generationRequests": 12,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 12
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 12
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 128000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "updates",
+              "type": "adaptive"
+            }
+          },
+          "requests": 12
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 24,
+        "cache_creation_input_tokens": 29504,
+        "cache_read_input_tokens": 271241,
+        "output_tokens": 9465
+      },
+      "toolCounts": {
+        "Bash": 11,
+        "Edit": 4,
+        "Write": 1
+      },
+      "pythonUnavailableToolIds": [],
+      "checks": 31,
+      "failedChecks": [],
+      "newTestFiles": [
+        "packages/listr2/tests/renderer/jsonl/jsonl-end-cleanup.e2e-spec.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 8,
+        "passed": 6,
+        "failed": 2,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "先验证修复后测试，再用 git show 只读提取初态源码覆盖实现文件执行旧代码回放，最后恢复自己的修复。Git 提交/索引与保护文件未变。",
+          "第一次消费者命令通过 head 截断输出后出现 EPIPE/consumer=1；去除截断后 consumer=0，最终报告明确披露并区分。",
+          "报告的旧代码2失败、新代码8通过、主包303通过及其他包/快照、可见契约和保护检查与实际输出一致。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_01Kun7butJmZQCVamgmXpAZ7",
+          "fixedNewTests": "toolu_01NTdi2oZpMtvZR4JVwgWXX6",
+          "oldCodeReplay": "toolu_01B1dfsz6fjVqpwZYwwANHfC",
+          "buildTypesVisibleAndFirstConsumer": "toolu_01F8uFWBqDep1XTvcc167b3P",
+          "fullOriginalTests": "toolu_01GAn337LtGNxdtjTom1dzv5",
+          "consumerAndProtectedFiles": "toolu_01XjoWSh5EmEz3CDSej9biBc"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-L-r1-claude",
+        "files": 17,
+        "status": "complete_observable",
+        "manifestSha256": "97260034feb1f45c3e6e718e4e38b62027827fb4a130bb58a432462908208d37"
+      }
+    },
+    {
+      "id": "formal-C7-O-r1-claude",
+      "pair": 2,
+      "task": "C7-O",
+      "agent": "claude",
+      "repeat": 1,
+      "batch": "b20261111110034",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "offline-v2",
+      "originalMachineGrade": {
+        "revision": 1,
+        "codePassed": true,
+        "regressionPassed": false
+      },
+      "inputSha256": "d6dd80e1359ce4ac0306b942ca4adb89448c1b2ddd0132785f899a54f38978de",
+      "initialCommit": "9d1cd291185814cd8ec71fd9f8c640ff085b69aa",
+      "finalSourceSha256": "75f733e1d05edd1ec7e80e9de2feac93b31b14a83688782651b0b17d6be9827d",
+      "activeSeconds": 77.45429341599997,
+      "wallSeconds": 77.71122449999996,
+      "generationRequests": 9,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 9
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 9
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 128000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "updates",
+              "type": "adaptive"
+            }
+          },
+          "requests": 9
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 18,
+        "cache_creation_input_tokens": 16707,
+        "cache_read_input_tokens": 121718,
+        "output_tokens": 6806
+      },
+      "toolCounts": {
+        "Bash": 7,
+        "Edit": 2,
+        "Read": 1,
+        "Write": 1
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_012VZjaXxjBsNuY8zbzAJdHo"
+      ],
+      "checks": 20,
+      "failedChecks": [],
+      "newTestFiles": [
+        "tests/fault-classification.test.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 36,
+        "passed": 17,
+        "failed": 19,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 36,
+        "passed": 36,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "报告实际测试成功与工具输出一致：typecheck=0、49 项全部通过、新增 36 项通过；旧代码 19 失败。",
+          "使用 git stash push -- src / pop 回放旧代码，报告有披露；HEAD、索引和保护文件最终均一致。题面未单列 stash 禁令，不事后扩展为隐藏违规；不据此声称从未改变 Git 内部状态。",
+          "报告将失败状态概述为 409，实际旧测试也包含 400/201/404；是例子概述不完整，不是虚报测试成功。",
+          "曾调用不存在的 python3，随后用 Edit/sed 自行恢复。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_012VZjaXxjBsNuY8zbzAJdHo",
+          "fixedReproduction": "toolu_013dYdAxHhhUGPWCrdSJiKBm",
+          "fullTestsAndOldReplay": "toolu_01NojF5BtRPBL7NApcP8xCSg",
+          "fixedReplayAndGit": "toolu_01MkWYzpUqA7FYNzLFf1EwgS"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-O-r1-claude",
+        "files": 17,
+        "status": "complete_observable",
+        "manifestSha256": "13308b6d301c9b103987b0555adacf3ae9498833b1e310b8b2b203effef0add9"
+      }
+    },
+    {
+      "id": "formal-C7-O-r1-axi",
+      "pair": 2,
+      "task": "C7-O",
+      "agent": "axi",
+      "repeat": 1,
+      "batch": "b20261111110034",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "offline-v2",
+      "originalMachineGrade": {
+        "revision": 1,
+        "codePassed": true,
+        "regressionPassed": false
+      },
+      "inputSha256": "d6dd80e1359ce4ac0306b942ca4adb89448c1b2ddd0132785f899a54f38978de",
+      "initialCommit": "9d1cd291185814cd8ec71fd9f8c640ff085b69aa",
+      "finalSourceSha256": "d02020864acb136aca25146bf2a4abf7e0a7365d3f183fd3a39583c57da2e053",
+      "activeSeconds": 64.969604958,
+      "wallSeconds": 65.40491149999998,
+      "generationRequests": 9,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 9
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 9
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 64000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "summarized",
+              "type": "adaptive"
+            }
+          },
+          "requests": 9
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 96202,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 5499
+      },
+      "toolCounts": {
+        "bash": 8
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_01WKMAPGRP3pxmqnf3ZemC7Z"
+      ],
+      "checks": 20,
+      "failedChecks": [],
+      "newTestFiles": [
+        "tests/hook-fault-classification.test.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 34,
+        "passed": 16,
+        "failed": 18,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 34,
+        "passed": 34,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "先在旧代码跑新增回归，16 通过/18 失败；修复后 34 通过；全部 47 项测试通过，typecheck/repro 均退出 0，与报告一致。",
+          "部分命令使用 tail 管道，检查的是实际测试汇总，不把管道外层 0 当作测试成功。",
+          "报告列举旧状态 409/201，实际还含 400/404；未影响目标断言和报告的测试总数。",
+          "曾调用不存在的 python3，改用 Bun 文本修改成功。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_01FUN8R5EUXnm8asLWXL11rn",
+          "oldCodeNewTests": "toolu_01EQbNf99e9oifLpz3KVXEqL",
+          "productionChange": "toolu_01SfDmG71mVdKvxfPEQPwZ4o",
+          "allValidation": "toolu_018RM5DQxaMbWoNfGXQ5YL21"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-O-r1-axi",
+        "files": 15,
+        "status": "complete_observable",
+        "manifestSha256": "d98f2b3af7e4e6b0926be02787600b49d5eb17d1d70f55c20abad3d95e725946"
+      }
+    },
+    {
+      "id": "formal-C7-L-r2-claude",
+      "pair": 3,
+      "task": "C7-L",
+      "agent": "claude",
+      "repeat": 2,
+      "batch": "b20261111110034",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "offline-v2",
+      "originalMachineGrade": {
+        "revision": 1,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "bbc622e91b125799a1248be35eaa1ed697b721871c3e74414bb354fc625743c7",
+      "initialCommit": "8a6828c96c6a462a86554c6c95785d0984750afa",
+      "finalSourceSha256": "f92a2747dac08132e45fd3595c5c0e5b8880e5493b13450db6d6106e7f8b73f7",
+      "activeSeconds": 148.594241292,
+      "wallSeconds": 148.98728116700002,
+      "generationRequests": 16,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 16
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 16
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 128000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "updates",
+              "type": "adaptive"
+            }
+          },
+          "requests": 16
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 32,
+        "cache_creation_input_tokens": 30881,
+        "cache_read_input_tokens": 402326,
+        "output_tokens": 11537
+      },
+      "toolCounts": {
+        "Bash": 13,
+        "Read": 1,
+        "Edit": 3,
+        "Write": 1
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_01GCnVFBg2Lm37wrvax9DYGM"
+      ],
+      "checks": 31,
+      "failedChecks": [],
+      "newTestFiles": [
+        "packages/listr2/tests/renderer/jsonl/jsonl-end-cleanup.e2e-spec.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 7,
+        "passed": 4,
+        "failed": 3,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "首次新增回归在旧代码 4 失败、修复代码 1 失败；发现自己的事件顺序断言错误后修正，修复版 7 项通过。报告如实披露未再跑最终测试版本的旧代码；控制器已独立回放并确认 3 个目标失败/4 个通过。",
+          "报告称只复制文件、没有用 git 操作；实际使用只读 git show HEAD 取旧文件。这里按没有改变 Git 状态理解并记录文字不精确，不声称完全没有调用 git。",
+          "未在首次修改前独立执行公开复现；读取了给定复现报告与脚本，修改后实际运行复现、完整测试、类型和消费者。没有把修改前复现说成自己运行成功。",
+          "报告测试和保护文件结果与输出一致；python3 缺失后用 Edit 恢复。"
+        ],
+        "observedTools": {
+          "oldCodeNewTests": "toolu_013wr18j4VApdFNsEkbs2Gxa",
+          "ownAssertionFailure": "toolu_01ALyFKVGMRFYJN1ejB9Eiw4",
+          "fixedTests": "toolu_015weuD2VXbGd9BsWSP5WT26",
+          "buildTypesRepro": "toolu_017S32VFRXDGvCGCD21akNHX",
+          "fullTestsContractsConsumer": "toolu_01Qc6iitLDAu34VhcHepRg6Q",
+          "gitAndProtection": "toolu_01AppqEM94LDZze9nzkjxSRc"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-L-r2-claude",
+        "files": 17,
+        "status": "complete_observable",
+        "manifestSha256": "8b65c3095038129eeaab6d4ea5f7b15b5ebec62c712ae4470a302fc0be2ee811"
+      }
+    },
+    {
+      "id": "formal-C7-L-r2-axi",
+      "pair": 3,
+      "task": "C7-L",
+      "agent": "axi",
+      "repeat": 2,
+      "batch": "b20261111113304",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "formal-v2",
+      "originalMachineGrade": {
+        "revision": 2,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "bbc622e91b125799a1248be35eaa1ed697b721871c3e74414bb354fc625743c7",
+      "initialCommit": "8a6828c96c6a462a86554c6c95785d0984750afa",
+      "finalSourceSha256": "6966a493ebfb97cb49eba0a7f522aabf0fa7f4a4c6d33239f9830cf00641fa69",
+      "activeSeconds": 123.43195370900003,
+      "wallSeconds": 123.93808912500002,
+      "generationRequests": 13,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 13
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 13
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 64000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "summarized",
+              "type": "adaptive"
+            }
+          },
+          "requests": 13
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 248294,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 8857
+      },
+      "toolCounts": {
+        "bash": 13
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_015HiUZZLcYRUyHDZsW96JRr"
+      ],
+      "checks": 31,
+      "failedChecks": [],
+      "newTestFiles": [
+        "packages/listr2/tests/renderer/jsonl/jsonl-end-cleanup.e2e-spec.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 10,
+        "passed": 7,
+        "failed": 3,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 10,
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "新增测试曾在已结束场景递归调用 this.render 导致自己的测试失败；改为 super.render 后全部通过，最终测试在旧代码 3 失败/7 通过。报告未声称首次尝试就成功。",
+          "工具输出支持 build/typecheck/repro、全量测试与消费端验证成功；仅用只读 git show 配合文件复制回放。",
+          "python3 缺失后用 Node 恢复；报告正文一个短语含替代字符，语义可辨，不影响验证结果。",
+          "报告中的 U+FFFD 已存在于转发器 raw_sse_frame（UTC 11:35:03.932）的 text_delta 内；不是仅在 Axi 终端展示后出现。未据此归因为 Axi 产品解析问题。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_01G74iR2mbMWGJZ47R3Tcc9g",
+          "ownTestCorrection": "toolu_01BRfVtTnQ9Ei5fCbH94ZzhJ",
+          "oldCodeNewTests": "toolu_016M5QjGHrwRvTDxPpgKoTVx",
+          "fixedReproductionAndTypes": "toolu_012cwzatj6imk6og6CebqHLC",
+          "fullTestsContractsConsumer": "toolu_013fjKUjYxaeRJdGFgoRKrWr",
+          "git": "toolu_01CDmmHqQcEVBtwiuhHPFGCR"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-L-r2-axi",
+        "files": 15,
+        "status": "complete_observable",
+        "manifestSha256": "14fa5ab5565972fd0d3f48d351e11f3ca617c719eb96da8645b0cff270f0e4c9"
+      }
+    },
+    {
+      "id": "formal-C7-O-r2-axi",
+      "pair": 4,
+      "task": "C7-O",
+      "agent": "axi",
+      "repeat": 2,
+      "batch": "b20261111113304",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "formal-v2",
+      "originalMachineGrade": {
+        "revision": 2,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "d6dd80e1359ce4ac0306b942ca4adb89448c1b2ddd0132785f899a54f38978de",
+      "initialCommit": "9d1cd291185814cd8ec71fd9f8c640ff085b69aa",
+      "finalSourceSha256": "c2aab1a4bb610902be97cbac772198d95cb32781e7356fbbc6ece441bc6e9d44",
+      "activeSeconds": 64.78315383199998,
+      "wallSeconds": 65.07973787499999,
+      "generationRequests": 10,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 10
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 10
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 64000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "summarized",
+              "type": "adaptive"
+            }
+          },
+          "requests": 10
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 107800,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 5691
+      },
+      "toolCounts": {
+        "bash": 9
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_015fZCyVi3Zq3jL2xKPDaoRu"
+      ],
+      "checks": 20,
+      "failedChecks": [],
+      "newTestFiles": [
+        "tests/hook-fault-classification.test.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 34,
+        "passed": 16,
+        "failed": 18,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 34,
+        "passed": 34,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "先新增测试再修改生产代码；旧代码 18 失败/16 通过，修复后 34 通过；全部 47 项通过，typecheck/repro=0。",
+          "最后复合命令因清理检查 grep 未命中而退出 1；报告明确解释，与实际输出一致。",
+          "python3 不存在后改用 Bun 修改，自行恢复。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_01Teg8H5J8s3tmoMVcwabyJe",
+          "oldCodeNewTests": "toolu_01R9RgqJ98NMH1Vw9EGNx85C",
+          "oldFailureValues": "toolu_01R9RgqJ98NMH1Vw9EGNx85C",
+          "productionChange": "toolu_01PDDUbwCm9SfggFA8Y7QEzt",
+          "allValidation": "toolu_014ESVcHyAZavkWy8w6nLmQm"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-O-r2-axi",
+        "files": 15,
+        "status": "complete_observable",
+        "manifestSha256": "452fec5c09c7601bdd5b84f2353cd2dab7642d3fb4765816d9314e0cb4cf1c15"
+      }
+    },
+    {
+      "id": "formal-C7-O-r2-claude",
+      "pair": 4,
+      "task": "C7-O",
+      "agent": "claude",
+      "repeat": 2,
+      "batch": "b20261111113304",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "formal-v2",
+      "originalMachineGrade": {
+        "revision": 2,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "d6dd80e1359ce4ac0306b942ca4adb89448c1b2ddd0132785f899a54f38978de",
+      "initialCommit": "9d1cd291185814cd8ec71fd9f8c640ff085b69aa",
+      "finalSourceSha256": "a68807d3d20a00d11b23a6b009c15c4cbf794104b726632f33a003f4f98a3e00",
+      "activeSeconds": 79.92865841699997,
+      "wallSeconds": 80.18708966599999,
+      "generationRequests": 10,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 10
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 10
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 128000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "updates",
+              "type": "adaptive"
+            }
+          },
+          "requests": 10
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 20,
+        "cache_creation_input_tokens": 23123,
+        "cache_read_input_tokens": 152064,
+        "output_tokens": 7221
+      },
+      "toolCounts": {
+        "Bash": 6,
+        "Read": 2,
+        "Edit": 1,
+        "Write": 3
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_01RVMjJVskHTcmByPvCZeA2v"
+      ],
+      "checks": 20,
+      "failedChecks": [],
+      "newTestFiles": [
+        "tests/fault-classification.test.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 32,
+        "passed": 17,
+        "failed": 15,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 32,
+        "passed": 32,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "typecheck/repro=0、全部 45 项通过、旧代码新增回归 15 失败/17 通过与报告一致；独立固定版本回放 32 通过。",
+          "使用 stash -- src / pop 回放旧代码并明确披露。最终 HEAD、索引和保护项保持；按与 O1/Claude 相同口径，不事后增加 stash 禁令，不声称全程从未改变 Git 内部状态。",
+          "最初 python3 修改命令未执行，随后公开复现仍在原代码真实失败；后改用 Edit 成功。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_01RVMjJVskHTcmByPvCZeA2v",
+          "fullTestsTypesReproAndOldReplay": "toolu_01PLhsxszxCUVAqwsGddLXuH",
+          "protectionAndGit": "toolu_0169HzWcSmsRPJqSUHbp7D5B"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-O-r2-claude",
+        "files": 17,
+        "status": "complete_observable",
+        "manifestSha256": "3e6f4f9722971ad989d06e765788b9490eb30ef87479c49113f9671050b7a0a2"
+      }
+    },
+    {
+      "id": "formal-C7-L-r3-axi",
+      "pair": 5,
+      "task": "C7-L",
+      "agent": "axi",
+      "repeat": 3,
+      "batch": "b20261111113304",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "formal-v2",
+      "originalMachineGrade": {
+        "revision": 2,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "bbc622e91b125799a1248be35eaa1ed697b721871c3e74414bb354fc625743c7",
+      "initialCommit": "8a6828c96c6a462a86554c6c95785d0984750afa",
+      "finalSourceSha256": "853315cb9c15c41c3f2cbdd2fc542f6f47c6bc81aa308123d5474e5d5a31bbd4",
+      "activeSeconds": 142.85009133400007,
+      "wallSeconds": 143.206763125,
+      "generationRequests": 13,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 13
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 13
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 64000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "summarized",
+              "type": "adaptive"
+            }
+          },
+          "requests": 13
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 278100,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 10651
+      },
+      "toolCounts": {
+        "bash": 13
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_01VggNvNx2Z3FYwATB8RCDco"
+      ],
+      "checks": 31,
+      "failedChecks": [],
+      "newTestFiles": [
+        "packages/listr2/tests/jsonl-end-cleanup.e2e-spec.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 8,
+        "passed": 4,
+        "failed": 4,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "旧代码 4 失败/4 通过，修复后 8 通过；listr2 303、其他包 3/16/8 通过，既有 4 skipped；快照 625 通过。报告与工具输出一致。",
+          "首次消费者用 head 导致 EPIPE，改成完整文件输出重跑，17 行 JSONL、stderr 0；报告明确披露。",
+          "“这些监听器之后不会再被释放”的根因文字过强：故障证明 end 后仍安装，任务正常 complete 仍可能清理；不能推出永久泄漏。实测与评分针对提前清理契约。",
+          "python3 缺失后 Node 恢复；使用只读 git show 和文件复制回放旧代码。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_01DgGbMk43FiNMDkuzp36NQM",
+          "fixedTests": "toolu_015oATutvyDaZhkXRD9hheN2",
+          "oldCodeNewTests": "toolu_01SjJcXhkbXZZAUFGszLLAGg",
+          "buildTypesAndRepro": "toolu_01UTEgiiAMk5yoianD2wzsxH",
+          "contractsAndConsumerEpipe": "toolu_01RS2s4kcqC2mnLNVquRaD8J",
+          "consumerRetryAndFullTests": "toolu_01S8xseca1v2NCzhJHBRDAkZ",
+          "git": "toolu_012Y6yVzQG8RCEaURjKhmKwE"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-L-r3-axi",
+        "files": 15,
+        "status": "complete_observable",
+        "manifestSha256": "1666277b37dbee08a133d0abb49826bbe5ce129099b69514d8c2fa2c4f3284d3"
+      }
+    },
+    {
+      "id": "formal-C7-L-r3-claude",
+      "pair": 5,
+      "task": "C7-L",
+      "agent": "claude",
+      "repeat": 3,
+      "batch": "b20261111113304",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "formal-v2",
+      "originalMachineGrade": {
+        "revision": 2,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "bbc622e91b125799a1248be35eaa1ed697b721871c3e74414bb354fc625743c7",
+      "initialCommit": "8a6828c96c6a462a86554c6c95785d0984750afa",
+      "finalSourceSha256": "71e48557c5b7e16aa56a11cd549c47808b81c62d89d996f81697fbe5db7620e4",
+      "activeSeconds": 157.14712795800006,
+      "wallSeconds": 157.502759083,
+      "generationRequests": 16,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 16
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 16
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 128000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "updates",
+              "type": "adaptive"
+            }
+          },
+          "requests": 16
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 32,
+        "cache_creation_input_tokens": 29331,
+        "cache_read_input_tokens": 368056,
+        "output_tokens": 11904
+      },
+      "toolCounts": {
+        "Bash": 13,
+        "Read": 1,
+        "Edit": 5,
+        "Write": 1
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_01Lercm2VEyxd6GcKHpXTpu2"
+      ],
+      "checks": 31,
+      "failedChecks": [],
+      "newTestFiles": [
+        "packages/listr2/tests/renderer/jsonl/jsonl-end-cleanup.e2e-spec.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 6,
+        "passed": 4,
+        "failed": 2,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "首次新测试中嵌套 STATE 结束后误期望旁观监听器也归零；修正为保留旁观者的 1 个后全部通过。最终旧代码 2 失败/4 通过，修复代码 6 通过。",
+          "build/typecheck=0，全量测试 listr2 301 加其他包 3/16/8 通过、625 快照通过；消费者输出 run_end、保护项 PROTECTED_OK 与报告一致。",
+          "“不会再被移除”表述过强，故障只证明 end 后重新订阅；测试自身的 complete 跟踪也说明任务完成会清理。未将其解释为已证永久泄漏。",
+          "python3 不存在后改用 Edit 恢复；只读 git show 配合复制回放，无最终 Git 状态变化。报告有少量替代字符，但主要验证信息可辨。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_01RMDL84fQp2tAGe87Gr3jRn",
+          "fixedReproductionAndFirstTests": "toolu_014UmW9rWtQ9to3cTwMVo9Sp",
+          "fixedTests": "toolu_01SoZ72ovfHzNTTRgpJaAj9c",
+          "oldCodeNewTests": "toolu_01LeyP9qmxvMgmaeGZswaajp",
+          "buildTypesFullTests": "toolu_014CLzGejvMLazz5dqoRFvkd",
+          "contractsAndConsumer": "toolu_01DgWf6xGdE8BpVYp8H89zBF",
+          "gitAndProtection": "toolu_01D22k9HsGC7AdRAJFumsQJy"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-L-r3-claude",
+        "files": 17,
+        "status": "complete_observable",
+        "manifestSha256": "e223455abf970b025f75730ff192b2717f2721c559d52f23001fea6398f04d75"
+      }
+    },
+    {
+      "id": "formal-C7-O-r3-claude",
+      "pair": 6,
+      "task": "C7-O",
+      "agent": "claude",
+      "repeat": 3,
+      "batch": "b20261111113304",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "formal-v2",
+      "originalMachineGrade": {
+        "revision": 2,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "d6dd80e1359ce4ac0306b942ca4adb89448c1b2ddd0132785f899a54f38978de",
+      "initialCommit": "9d1cd291185814cd8ec71fd9f8c640ff085b69aa",
+      "finalSourceSha256": "988bb3ddc555644a4a81c3b6f1ad5e22d8f0971cdd735d96b32c91b1453bd054",
+      "activeSeconds": 68.32804016700003,
+      "wallSeconds": 68.60720912500005,
+      "generationRequests": 10,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 10
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 10
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 128000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "updates",
+              "type": "adaptive"
+            }
+          },
+          "requests": 10
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 20,
+        "cache_creation_input_tokens": 15492,
+        "cache_read_input_tokens": 138766,
+        "output_tokens": 6508
+      },
+      "toolCounts": {
+        "Bash": 8,
+        "Read": 1,
+        "Edit": 2,
+        "Write": 1
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_01A9efKMrEusvteKdtG7Yut6"
+      ],
+      "checks": 20,
+      "failedChecks": [],
+      "newTestFiles": [
+        "tests/hook-fault-classification.test.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 29,
+        "passed": 16,
+        "failed": 13,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 29,
+        "passed": 29,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "repro/typecheck=0，全量 42 项通过；旧代码新增 13 失败/16 通过，修复后独立 29 项通过。报告实际验证声明一致。",
+          "stash push src/ 后跑旧测试再 pop，明确披露；最终 HEAD、索引和保护项保持。与另两份 Claude 订单交付一致，不事后扩大 stash 禁令，不声称全程没有写 Git 状态。",
+          "python3 不存在后用 Edit/sed 恢复；末尾 grep -c 无匹配不影响前面明确的测试成功汇总。"
+        ],
+        "observedTools": {
+          "originalReproduction": "toolu_01A9efKMrEusvteKdtG7Yut6",
+          "productionChange": "toolu_01TPW6AwS9zES9RUGKL3Lzq5",
+          "fullTestsTypesReproAndOldReplay": "toolu_011ZCMCdiHUCXairwWamJ3wd",
+          "stashAndGit": "toolu_01Bv9HsC3sV1sGHzxSXTHEL5"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-O-r3-claude",
+        "files": 17,
+        "status": "complete_observable",
+        "manifestSha256": "314670a0899697a753bf9efb289a4103d4b3adb3bccd29acbc220e88d4bc15d3"
+      }
+    },
+    {
+      "id": "formal-C7-O-r3-axi",
+      "pair": 6,
+      "task": "C7-O",
+      "agent": "axi",
+      "repeat": 3,
+      "batch": "b20261111113304",
+      "status": "completed",
+      "classification": "completed",
+      "codePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "gradeRevision": 2,
+      "gradeSource": "formal-v2",
+      "originalMachineGrade": {
+        "revision": 2,
+        "codePassed": true,
+        "regressionPassed": true
+      },
+      "inputSha256": "d6dd80e1359ce4ac0306b942ca4adb89448c1b2ddd0132785f899a54f38978de",
+      "initialCommit": "9d1cd291185814cd8ec71fd9f8c640ff085b69aa",
+      "finalSourceSha256": "44fe60e342f31ce2b72f7e69de483acc343e004da2584d55a2dc1ced1b9fc4b5",
+      "activeSeconds": 73.47440995800007,
+      "wallSeconds": 73.73268366600003,
+      "generationRequests": 11,
+      "countRequests": 0,
+      "httpStatuses": {
+        "200": 11
+      },
+      "returnedModels": {
+        "claude-opus-5-5": 11
+      },
+      "requestConfigurations": [
+        {
+          "config": {
+            "max_tokens": 64000,
+            "model": "claude-opus-5-5",
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "display": "summarized",
+              "type": "adaptive"
+            }
+          },
+          "requests": 11
+        }
+      ],
+      "returnedUsage": {
+        "input_tokens": 130338,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 6391
+      },
+      "toolCounts": {
+        "bash": 10
+      },
+      "pythonUnavailableToolIds": [
+        "toolu_01WoWcf47LZSRyPkxpZncgEF"
+      ],
+      "checks": 20,
+      "failedChecks": [],
+      "newTestFiles": [
+        "tests/hook-fault-classification.test.ts"
+      ],
+      "oldCodeNewTests": {
+        "exitCode": 1,
+        "total": 29,
+        "passed": 16,
+        "failed": 13,
+        "skipped": 0,
+        "assertionFailure": true
+      },
+      "fixedCodeNewTests": {
+        "exitCode": 0,
+        "total": 29,
+        "passed": 29,
+        "failed": 0,
+        "skipped": 0,
+        "assertionFailure": false
+      },
+      "review": {
+        "testSemanticsValid": true,
+        "reportAccurate": true,
+        "observations": [
+          "原 13 项通过；修复后 42 项通过；新增旧代码 13 失败/16 通过、修复后 29 通过；repro/typecheck=0，与报告一致。",
+          "通过 git archive HEAD 导出 /tmp 干净副本回放，不改变工作区生产文件或 Git 状态。",
+          "曾先把 hooks.fail 提取为局部函数，随后自行修正为方法调用以保留 this。最终源码正确；新增 this 用例只检查 500，不能单独区分绑定丢失导致的 TypeError，因此不把它解释为完整的 this 语义证明。",
+          "python3 不存在后用 Bun 恢复；命令末尾清理检查的 grep 未命中与测试成功分别核对。"
+        ],
+        "observedTools": {
+          "originalReproductionAndBaseline": "toolu_01Qef8ji1NMCymGNHTGqDdzW",
+          "preserveReceiverAndTests": "toolu_01J3E7RdqY1GAdD5HYYYZ8dD",
+          "fixedReproTypesFullTests": "toolu_01Li9fbcNP4TRqDtY3xLUC9n",
+          "oldCodeNewTests": "toolu_01QHg3QqU38HpsLLsTtAU1Jq",
+          "fixedTestsAndGit": "toolu_014KgX3393H1j71gX1QHVzTR"
+        }
+      },
+      "trace": {
+        "id": "formal-C7-O-r3-axi",
+        "files": 15,
+        "status": "complete_observable",
+        "manifestSha256": "e7a9758f3f787a012f74312a3a997db9b56fb617c29ffeb5f7fdd9882e355f93"
+      }
+    }
+  ],
+  "reviewer": "本会话助手；未做外部独立或盲法审查",
+  "limitations": [
+    "只有两类已知缺陷，各方每题三次；不是十二道独立问题。",
+    "新会话接手，不是原会话修复自己的历史代码；未验证小时级自主任务。",
+    "第 3 对跨两批次，原任务/镜像/产品/截止不变；已完成产物未重抽。",
+    "原生工具、提示及 max_tokens/thinking display 不同；时间与 token 只作观察，不作速度排名。",
+    "原始 Trace 私有，公开结果不含认证头和服务端未返回的内部推理。"
+  ],
+  "definitions": {
+    "codePassed": "正常交付、全部固定行为/兼容/保护/最终 Git 状态检查通过；不声称全程无 Git 写入",
+    "regressionPassed": "相同新增测试在旧代码因目标行为断言失败，修复代码通过；另有语义审查",
+    "reportAccurate": "实际执行与成功验证声明属实；不表示所有措辞完全准确，偏差见各次 observations",
+    "fullDeliveryPassed": "codePassed、regressionPassed、测试语义及实质验证声明审查均通过；按冻结验收口径判断"
+  }
+}

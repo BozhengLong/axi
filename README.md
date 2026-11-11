@@ -81,6 +81,6 @@ bun run scripts/experiments.ts --live
 - 自动评测与 Trace：[docs/guides/automated-evaluation.md](docs/guides/automated-evaluation.md)、[docs/guides/trace-reading.md](docs/guides/trace-reading.md)
 - 复杂任务对照：[运行方法](docs/guides/complex-evaluation.md)、[2026-11-11 结果与补充复验](docs/verification/2026-11-11-complex-comparison.md)
 - 真实仓库连续任务：[C6 运行与复验](docs/guides/c6-evaluation.md)、[对照结果](docs/verification/2026-11-11-c6-comparison.md)
-- 缺陷修复对照：[C7 设计](docs/06-c7-repair-evaluation-design.md)、[运行与复查](docs/guides/c7-evaluation.md)（当前进展见进度记录）
+- 缺陷修复对照：[C7 设计](docs/06-c7-repair-evaluation-design.md)、[运行与复查](docs/guides/c7-evaluation.md)、[对照结果](docs/verification/2026-11-11-c7-comparison.md)
 
 评测原始 Trace 与历史镜像保存在本机私有目录，不随源码发布。报告中的本机绝对路径只在原机器可用；部分 C6 复验入口依赖这些历史产物，具体条件见对应运行指南。

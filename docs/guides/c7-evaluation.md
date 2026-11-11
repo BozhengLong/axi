@@ -49,6 +49,8 @@ bun run scripts/eval/preflight.ts --complex --live
 
 ## 查看结果
 
+本研究已完成。先看[结果报告](../verification/2026-11-11-c7-comparison.md)与[统一逐次数据](../verification/2026-11-11-c7-results.json)。本机研究目录的 `TRACE-INDEX.md` 汇总两批正式 Trace、前 5 份离线复验和 12 份语义/报告审查；`trace-verification.json` 保存逐文件核对结果。不要用原批次的误判字段重新统计能力失败。
+
 研究目录的 formal-batch.json 指向正式批次。批次内包含：
 
 | 文件 | 用途 |
