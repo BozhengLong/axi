@@ -53,3 +53,12 @@ setup的早期兼容验证不代替最终门槛。正式启动要求所有门槛
 同执行profile、同最终评分版本的完整三方组才能进入比较。人工另行核对代码、回归有效性和最终说明，机判通过不直接等于完整交付。
 
 C7标记为历史模型执行加本轮离线检查；前两轮9个正式样本不混入新环境成绩。正式未结束前，以state和当前日报为准，不填写完成率或发布通过结论。
+
+
+## 本轮已收尾
+
+正式批次为`b20261112092413`。实际15次启动、14次完整评分，采用4个三方组；第15次在首请求收到非标准字符串限流事件后按D3停止。当前不能再次执行`--live`，也不能使用只适用于评分故障的`--resume`来修改执行协议后续跑。原claim保留。结果见[报告](../verification/2026-11-12-v1-stable-comparison.md)和[逐次数据](../verification/2026-11-12-v1-stable-results.json)。
+
+私有研究中的`reviews.json`保存15份审查记录，其中未交付的一份能力字段为null；`review/<运行ID>/`为不覆盖原件的审查导出。`supplemental-thenable-review/controlled-v3-results.json`保存对全部6份Emittery交付和原/参考实现的统一补充诊断，初版诊断同样保留。它不改写冻结自动评分。`final-evidence-check.json`、`final-freeze-check.json`保存Trace/执行seal/评分/源码以及正式资源清理校验。
+
+公共结果中的`codePassed`是冻结自动功能判定；`fullDeliveryPassed`合并人工代码、文档和报告审查，包含明确单列的事后公开契约边界诊断。`adoptedForComparison=false`的第三次A组不得混入前四组比较。原适配器`product_error`不直接等于产品能力失败，需同时看原分类及人工原因说明。
