@@ -1,0 +1,7 @@
+# 构建前核对 BASE_IMAGE 的本地 digest；node22 为校验过官方 SHA-256 的解包目录。
+ARG BASE_IMAGE=axi-eval-v1:transport-repair
+FROM ${BASE_IMAGE}
+USER root
+COPY --from=node22 /bin/node /usr/local/bin/node
+RUN node --version && npm --version && pnpm --version && claude --version
+WORKDIR /task

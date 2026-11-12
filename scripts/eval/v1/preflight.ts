@@ -44,7 +44,8 @@ try {
     const host = JSON.parse((await docker(["inspect", r.name, "--format", "{{json .HostConfig}}"])).stdout);
     check("固定CPU内存和只读根", host.NanoCpus === 2000000000 && host.Memory === 4 * 1024 ** 3 && host.ReadonlyRootfs && host.PidsLimit === 256);
     const versions = await execute(r, ["sh", "-c", "bun --version; claude --version; node --version; pnpm --version"]);
-    check("固定工具版本", versions.stdout.includes("1.3.14") && versions.stdout.includes("2.1.322") && versions.stdout.includes("v24.22.2") && versions.stdout.includes("10.34.9"), versions.stdout);
+    const nodeVersion = process.env.AXI_V1_NODE_PROFILE === "node22" ? "v22.23.5" : "v24.22.2";
+    check("固定工具版本", versions.stdout.includes("1.3.14") && versions.stdout.includes("2.1.322") && versions.stdout.includes(nodeVersion) && versions.stdout.includes("10.34.9"), versions.stdout);
     const prohibited: [string, string[]][] = [
       ["公网IP", ["curl", "-sS", "--max-time", "2", "http://1.1.1.1"]], ["公网域名", ["curl", "-sS", "--max-time", "2", "https://example.com"]],
       ["宿主访问", ["curl", "-sS", "--max-time", "2", "http://host.docker.internal:80"]], ["非代理端口", ["curl", "-sS", "--max-time", "2", `http://${r.ip}:80`]],
