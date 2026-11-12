@@ -1,6 +1,6 @@
 import { readFileSync, appendFileSync, statfsSync } from "node:fs";
 import { join } from "node:path";
-import { control, docker, save, type Batch, type Snapshot } from "../core.ts";
+import { control, docker, save, freeze, type Batch, type Snapshot } from "../core.ts";
 import { runAxi, runClaude } from "../adapters.ts";
 import { runAxiV1 } from "./adapter.ts";
 import { helper } from "../c6/runtime.ts";
@@ -10,7 +10,7 @@ import { grade } from "./grade.ts";
 import { classifyExecution } from "../c7/outcome.ts";
 import { RUN_MS, STUDY, type TaskId, type Variant } from "./settings.ts";
 
-export async function job(batch: Batch, task: TaskId, variant: Variant, repeat: number, id: string, options: { mock?: unknown[]; maxMs?: number; grade?: boolean; deadline?: number } = {}) {
+export async function job(batch: Batch, task: TaskId, variant: Variant, repeat: number, id: string, options: { mock?: unknown[]; maxMs?: number; grade?: boolean; deadline?: number; freezeBeforeFinal?: boolean } = {}) {
   const agent = variant === "claude" ? "claude" : "axi";
   const seed = taskFiles(task), r = await runtime(batch, task, id, seed, options.mock);
   let busy = false, ended = false, resourceFailure = "";
@@ -47,16 +47,17 @@ export async function job(batch: Batch, task: TaskId, variant: Variant, repeat: 
       }
     });
     ended = true; clearInterval(watchdog); while (busy) await Bun.sleep(25);
+    if (options.freezeBeforeFinal) await freeze(r);
     const finalFiles: Snapshot = await snapshot(batch, r), finalGit = await gitState(r);
     save(join(r.directory, "final-files.json"), finalFiles); save(join(r.directory, "final-git.json"), finalGit);
     const events = readFileSync(join(batch.directory, "relay", id + ".jsonl"), "utf8").trim().split("\n").filter(Boolean).map(l => JSON.parse(l));
     const status = resourceFailure || execution.status, classification = classifyExecution(status, events);
     const evaluated = options.grade === false ? undefined : await grade(batch.image, task, `${batch.id}-${id}`, seed, finalFiles, join(r.directory, "verification"), { executionStatus: status, git: finalGit, initialGit, deadline: options.deadline });
-    record = { id, task, agent, variant, repeat, status, classification, error: execution.error, codePassed: evaluated?.codePassed ?? false, regressionPassed: evaluated?.regressionPassed ?? false, fullDeliveryPassed: null, reportReview: "pending", wallMs: execution.wallMs, activeMs: execution.activeMs, budget: execution.proxy.budget, requests: execution.proxy.requests, forwardedGenerationRequests: events.filter(e => e.kind === "request" && e.data?.path === "/v1/messages").length, faults: execution.proxy.faults, config: execution.proxy.configs, transportIssues: execution.proxy.transportIssues, inputSha256: snapshotHash(seed), initialCommit: initialGit.head, finalSourceSha256: snapshotHash(finalFiles), failureChecks: evaluated?.checks.filter(c => !c.pass).map(c => c.id) ?? [], turns: execution.turns };
+    record = { id, task, agent, variant, repeat, status, classification, error: execution.error, gradeStatus: options.grade === false ? "not_run" : "complete", codePassed: evaluated?.codePassed ?? null, regressionPassed: evaluated?.regressionPassed ?? null, fullDeliveryPassed: null, reportReview: "pending", wallMs: execution.wallMs, activeMs: execution.activeMs, budget: execution.proxy.budget, requests: execution.proxy.requests, forwardedGenerationRequests: events.filter(e => e.kind === "request" && e.data?.path === "/v1/messages").length, faults: execution.proxy.faults, config: execution.proxy.configs, transportIssues: execution.proxy.transportIssues, inputSha256: snapshotHash(seed), initialCommit: initialGit.head, finalSourceSha256: snapshotHash(finalFiles), failureChecks: evaluated?.checks.filter(c => !c.pass).map(c => c.id) ?? [], turns: execution.turns };
     save(join(r.directory, "result.json"), record);
     return record;
   } catch (error) {
-    const failed = { id, task, agent, variant, repeat, status: "infrastructure_error", classification: "evaluation_invalid", codePassed: false, regressionPassed: false, fullDeliveryPassed: null, error: String(error) };
+    const failed = { id, task, agent, variant, repeat, status: "infrastructure_error", classification: "evaluation_invalid", gradeStatus: options.grade === false ? "not_run" : "indeterminate", codePassed: null, regressionPassed: null, fullDeliveryPassed: null, error: String(error) };
     save(join(r.directory, "job-error.json"), failed);
     save(join(r.directory, "result.json"), failed); throw error;
   } finally {

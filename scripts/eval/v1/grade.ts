@@ -7,6 +7,7 @@ import {isolated} from './runtime.ts';
 import {clean,file,fixture,taskManifest} from './tasks.ts';
 import {GRADE_MS,type TaskId} from './settings.ts';
 import {TYPECHECK_NODE} from './node-verifier.ts';
+import {gradeDiagnostics} from './grade-diagnostics.ts';
 export function parseTests(r:{exitCode:number;stdout:string;stderr:string}){
  const n=(k:string)=>Number(r.stdout.match(new RegExp('^# '+k+' (\\d+)','m'))?.[1]??-1);
  return {...r,total:n('tests'),passed:n('pass'),failed:n('fail'),skipped:n('skipped'),cancelled:n('cancelled'),assertionFailure:/ERR_ASSERTION|AssertionError/.test(r.stdout+r.stderr)};
@@ -49,6 +50,6 @@ export async function grade(image:string,task:TaskId,id:string,seed:Snapshot,can
    finally{await old.close();}
   }else testReplay={valid:false,reason:options.regression===false?'本次未运行回归复验':'没有新增独立回归',paths:newTests};
   deadline();const result={task,checks,codePassed:checks.every(c=>c.pass),regressionPassed:testReplay.valid,fullDeliveryPassed:null,reportReview:'pending',testReplay,logs,elapsedMs:Date.now()-start,complete:true};save(join(directory,'grade.json'),result);return result;
- }catch(error){save(join(directory,'grade-error.json'),{error:String(error),checks,logs,expired});throw error;}
+ }catch(error){save(join(directory,'grade-error.json'),{error:String(error),checks,logs,expired});await gradeDiagnostics(current.name,directory).catch(()=>{});throw error;}
  finally{clearTimeout(timer);await current.close();}
 }
