@@ -1,0 +1,66 @@
+{
+  "previousRevision": "c0824918b6b6a894cd2575a5736b29ddde00517905c25cfa02e16ddeb203e27d",
+  "newRevision": "fc603e9d719315264d6175b64cb58609a9ca437c0e1af3fb5d128a8bd1e601f7",
+  "sourceHash": "e2f72e08b2ef271d376527505481f39c699f9f140b0ca2f6f9ef162fd45e15af",
+  "executionProfileHash": "abf5e27f462a38cc244d3860e05b5bde26e9c2b69961a4dbccff7346866ff782",
+  "oracleHash": "ae110e6b31ce02207b91576d69db634075bc943dd70a5dcd8f1b2874d803bc98",
+  "semanticsUnchanged": true,
+  "reviewedBy": "current-assistant",
+  "commit": "b80874225f3ddee21ff577d1acd9252c87765568",
+  "remoteVerified": true,
+  "reason": "仅排除原库tsimp的进程缓存以重建源码；保护检查、业务断言、输入、执行及候选封存保持。初始化失败清理仅作用于评分进程自建资源。",
+  "offline": {
+    "complete": true,
+    "image": "sha256:29f97703ac548452a9fae858a46c3f8de0dfa9759f7cbef0516b513dfb41f68f",
+    "sourceHash": "e2f72e08b2ef271d376527505481f39c699f9f140b0ca2f6f9ef162fd45e15af",
+    "executionProfileHash": "abf5e27f462a38cc244d3860e05b5bde26e9c2b69961a4dbccff7346866ff782",
+    "results": [
+      {
+        "name": "tests",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "durationMs": 9168.226208999999
+      },
+      {
+        "name": "types",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "durationMs": 954.8492920000008
+      },
+      {
+        "name": "calibration",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "durationMs": 68449.548958
+      },
+      {
+        "name": "pipeline",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "durationMs": 62312.242750000005
+      },
+      {
+        "name": "grader-fault",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "durationMs": 5708.195917000005
+      }
+    ]
+  },
+  "initializationChecks": [
+    {
+      "mode": "cache",
+      "passed": true
+    },
+    {
+      "mode": "unknown",
+      "passed": true
+    }
+  ],
+  "time": "2026-11-14T13:32:52.204Z"
+}
