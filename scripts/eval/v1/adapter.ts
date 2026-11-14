@@ -11,7 +11,7 @@ export const normalizeTerminal = (value: string) => value.replaceAll("\x1b[1G\x1
 export type V1Options = RunOptions & { reviewMode?: "auto" | "off"; observeReview?: boolean; onReviewCheckpoint?: (state: any) => Promise<void>; interruptOnReview?: boolean; beforeInspect?: (runtime: Runtime) => Promise<void>; beforeApprove?: (tool: ToolUse, runtime: Runtime) => Promise<void> };
 
 export async function runAxiV1(batch: Batch, runtime: Runtime, prompts: string[], options: V1Options = {}): Promise<Execution> {
-  const entry = "/opt/axi/src/main.ts", started = performance.now(), stdoutPath = join(runtime.directory, "terminal.txt");
+  const entry = options.axiEntry ?? "/opt/axi/src/main.ts", started = performance.now(), stdoutPath = join(runtime.directory, "terminal.txt");
   const trace = new IOTrace(runtime.directory, "axi", ["bun", entry]);
   let output = "", sent = 0, excludedMs = 0, roundStarted = started, responsesAtTurn = 0, actionOffset = 0, lastPermission = -1;
   let configuredReview = false, checkpointTurn = 0, requestsAtTurn = 0;

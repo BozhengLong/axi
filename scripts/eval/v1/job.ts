@@ -10,7 +10,7 @@ import { grade } from "./grade.ts";
 import { classifyExecution } from "../c7/outcome.ts";
 import { RUN_MS, STUDY, type TaskId, type Variant } from "./settings.ts";
 
-export async function job(batch: Batch, task: TaskId, variant: Variant, repeat: number, id: string, options: { mock?: unknown[]; maxMs?: number; grade?: boolean; deadline?: number; freezeBeforeFinal?: boolean; reviewMode?: "auto" | "off"; observeReview?: boolean } = {}) {
+export async function job(batch: Batch, task: TaskId, variant: Variant, repeat: number, id: string, options: { mock?: unknown[]; maxMs?: number; grade?: boolean; deadline?: number; freezeBeforeFinal?: boolean; reviewMode?: "auto" | "off"; observeReview?: boolean; axiEntry?: string } = {}) {
   const agent = variant === "claude" ? "claude" : "axi";
   const seed = taskFiles(task), r = await runtime(batch, task, id, seed, options.mock);
   let busy = false, ended = false, resourceFailure = "";
@@ -35,7 +35,7 @@ export async function job(batch: Batch, task: TaskId, variant: Variant, repeat: 
     if (!initialGit.valid || snapshotHash(initialFiles) !== snapshotHash(seed)) throw new Error("v1 初始工作目录与固定输入不符");
     save(join(r.directory, "initial-files.json"), seed);
     const prompt = task.startsWith("V1-") ? "请在 /task 完成真实仓库任务。先读 eval/brief.md、eval/environment.md 和 eval/protected-files.json。按公开契约修改现有库，保留用户文件与 Git 状态，实际运行测试并新增有效回归。最后用中文准确报告修改、测试文件、执行命令和结果及未完成项。不得启动其他agent、联网安装依赖或后台服务。" : `请在 /task 修复这份已有项目。先读 ${task === "C7-L" ? "c7/brief.md" : "brief.md"}、c7/environment.md、c7/reproduction.json 与 c7/protected-files.json，再自行复现、修复并补充有效回归。保护已有文件和 Git 状态，只处理当前公开要求。最后用中文报告实际修改、测试文件、执行命令和结果。不得启动其他agent、联网安装依赖或后台服务。`;
-    save(join(r.directory, "input.json"), { task, prompt, reviewMode: options.reviewMode, sourceSha256: snapshotHash(seed) });
+    save(join(r.directory, "input.json"), { task, prompt, reviewMode: options.reviewMode, axiEntry: options.axiEntry, sourceSha256: snapshotHash(seed) });
     const execution = await (variant === "new" ? runAxiV1 : variant === "old" ? runAxi : runClaude)(batch, r, [prompt], {
       maxMs: options.maxMs ?? RUN_MS,
       ...(variant === "new" ? { reviewMode: options.reviewMode, observeReview: options.observeReview,
@@ -52,7 +52,7 @@ export async function job(batch: Batch, task: TaskId, variant: Variant, repeat: 
           } finally { await docker(["unpause", r.name]); }
         }
       } : {}),
-      ...(variant === "old" ? { axiEntry: "/opt/axi-v0/src/main.ts" } : {}),
+      ...(options.axiEntry ? { axiEntry: options.axiEntry } : variant === "old" ? { axiEntry: "/opt/axi-v0/src/main.ts" } : {}),
       onRound: async () => {
         for (let i = 0; ; i++) { const state = await control(batch, "state", { id }); if (!state.activeRequests) break; if (i >= 50) throw new Error("交付后仍有活动请求"); await Bun.sleep(100); }
         await docker(["pause", r.name]);
@@ -67,7 +67,7 @@ export async function job(batch: Batch, task: TaskId, variant: Variant, repeat: 
     const events = readFileSync(join(batch.directory, "relay", id + ".jsonl"), "utf8").trim().split("\n").filter(Boolean).map(l => JSON.parse(l));
     const status = resourceFailure || execution.status, classification = classifyExecution(status, events);
     const evaluated = options.grade === false ? undefined : await grade(batch.image, task, `${batch.id}-${id}`, seed, finalFiles, join(r.directory, "verification"), { executionStatus: status, git: finalGit, initialGit, deadline: options.deadline });
-    record = { id, task, agent, variant, repeat, reviewMode: options.reviewMode, status, classification, error: execution.error, gradeStatus: options.grade === false ? "not_run" : "complete", codePassed: evaluated?.codePassed ?? null, regressionPassed: evaluated?.regressionPassed ?? null, fullDeliveryPassed: null, reportReview: "pending", wallMs: execution.wallMs, activeMs: execution.activeMs, budget: execution.proxy.budget, requests: execution.proxy.requests, forwardedGenerationRequests: events.filter(e => e.kind === "request" && e.data?.path === "/v1/messages").length, faults: execution.proxy.faults, config: execution.proxy.configs, transportIssues: execution.proxy.transportIssues, inputSha256: snapshotHash(seed), initialCommit: initialGit.head, finalSourceSha256: snapshotHash(finalFiles), failureChecks: evaluated?.checks.filter(c => !c.pass).map(c => c.id) ?? [], turns: execution.turns };
+    record = { id, task, agent, variant, repeat, reviewMode: options.reviewMode, axiEntry: options.axiEntry, status, classification, error: execution.error, gradeStatus: options.grade === false ? "not_run" : "complete", codePassed: evaluated?.codePassed ?? null, regressionPassed: evaluated?.regressionPassed ?? null, fullDeliveryPassed: null, reportReview: "pending", wallMs: execution.wallMs, activeMs: execution.activeMs, budget: execution.proxy.budget, requests: execution.proxy.requests, forwardedGenerationRequests: events.filter(e => e.kind === "request" && e.data?.path === "/v1/messages").length, faults: execution.proxy.faults, config: execution.proxy.configs, transportIssues: execution.proxy.transportIssues, inputSha256: snapshotHash(seed), initialCommit: initialGit.head, finalSourceSha256: snapshotHash(finalFiles), failureChecks: evaluated?.checks.filter(c => !c.pass).map(c => c.id) ?? [], turns: execution.turns };
     save(join(r.directory, "result.json"), record);
     return record;
   } catch (error) {

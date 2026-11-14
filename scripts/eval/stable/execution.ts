@@ -30,7 +30,7 @@ export function verifyExecution(run:string,expectedProfile?:string){
  for(const[p,h]of Object.entries(seal.files))if(digestBytes(readFileSync(within(run,p)))!==h)throw Error('执行证据被改变:'+p);
  return seal;
 }
-export async function executeCandidate(batch:Batch,task:TaskId,variant:Variant,repeat:number,id:string,executionProfileHash:string,options:{mock?:unknown[];maxMs?:number;deadline?:number;reviewMode?:"auto"|"off";observeReview?:boolean}={}){
+export async function executeCandidate(batch:Batch,task:TaskId,variant:Variant,repeat:number,id:string,executionProfileHash:string,options:{mock?:unknown[];maxMs?:number;deadline?:number;reviewMode?:"auto"|"off";observeReview?:boolean;axiEntry?:string}={}){
  const row=await job(batch,task,variant,repeat,id,{...options,grade:false,freezeBeforeFinal:true});
  const seal=sealExecution(join(batch.directory,id),executionProfileHash);
  return {id,task,agent:variant==='claude'?'claude':'axi',variant,repeat,runDirectory:join(batch.directory,id),executionStatus:row.status,classification:row.classification,artifactHash:seal.artifactHash,initialCommit:row.initialCommit,activeMs:row.activeMs,wallMs:row.wallMs,forwardedGenerationRequests:row.forwardedGenerationRequests};

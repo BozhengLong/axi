@@ -1,0 +1,7 @@
+# 构建前核对该标签指向计划中0330626的固定镜像。
+FROM axi-eval-v1:trust-baseline-20261115
+USER root
+RUN cp -a /opt/axi /opt/axi-current
+COPY src /opt/axi/src
+COPY scripts/eval/container /opt/eval
+WORKDIR /task

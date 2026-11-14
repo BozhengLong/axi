@@ -1,0 +1,124 @@
+import nodeTest from 'node:test';
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+import assert from 'node:assert/strict';
+import * as api from '../dist/index.js';
+const childCase=process.env.AXI_FRESH_ORACLE_CHILD==='1';
+function test(name,body) {
+ if(childCase) return nodeTest(name,body);
+ return nodeTest(name,()=>{
+  const environment={...process.env,AXI_FRESH_ORACLE_CHILD:'1'};delete environment.NODE_TEST_CONTEXT;
+  const child=spawnSync(process.execPath,['--test','--test-reporter=tap','--test-name-pattern','^'+name.split(' ',1)[0]+' ',fileURLToPath(import.meta.url)],{env:environment,encoding:'utf8',timeout:6000});
+  if(child.error||child.signal)process.stderr.write('TRUST_ORACLE_INFRA:'+String(child.error?.code??child.signal)+'\n');
+  const summary={};for(const key of ['tests','pass','fail','cancelled','skipped','todo']){const hits=[...child.stdout.matchAll(new RegExp('^# '+key+' (\\d+)\\s*$','gm'))];summary[key]=hits.length===1?Number(hits[0][1]):-1}
+  if(summary.cancelled>0)process.stderr.write('TRUST_ORACLE_INFRA:TEST_CANCELLED\n');
+  if(Object.values(summary).some(n=>n<0)||summary.tests<1||summary.tests!==summary.pass+summary.fail+summary.cancelled+summary.skipped+summary.todo)process.stderr.write('TRUST_ORACLE_INFRA:INCONSISTENT_REPORT\n');
+  if((child.status===0&&summary.fail>0)||(child.status!==0&&summary.fail===0&&summary.cancelled===0))process.stderr.write('TRUST_ORACLE_INFRA:EXIT_REPORT_MISMATCH\n');
+  assert.equal(child.status,0,(child.error?.message??'')+'\n'+child.stdout+'\n'+child.stderr);
+  assert.match(child.stdout,/^# pass 1$/m);assert.match(child.stdout,/^# fail 0$/m);
+ });
+}
+const memo=api.default,del=(...args)=>api.pMemoizeDelete(...args);
+const ready=()=>assert.equal(typeof api.pMemoizeDelete,'function','pMemoizeDelete must be exported');
+const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}};
+const turn=()=>new Promise(r=>setImmediate(r));
+const observed=p=>p.then(value=>({value}),error=>({error}));
+const rejectsAs=async(p,e)=>assert.equal((await observed(p)).error,e);
+async function until(predicate){for(let i=0;i<100&&!predicate();i++)await turn();assert.ok(predicate(),'deferred operation did not start')}
+
+test('E01 validation always returns a promise',async()=>{
+ ready();for(const fn of [()=>1,memo(async()=>1,{cache:false}),memo(async()=>1,{cache:{has:()=>false,get:()=>0,set:()=>{}}})]){let p;assert.doesNotThrow(()=>{p=del(fn,'x')});assert.ok(p instanceof Promise);await assert.rejects(p,TypeError)}
+});
+test('E02 original key function copied arguments backend this and return',async()=>{
+ ready();let keys=0,calls=0,received,backendThis;const cache=new Map();cache.delete=function(key){backendThis=this;Map.prototype.delete.call(this,key);return {then:resolve=>resolve(99)}};
+ const fn=memo(async function(a,b){calls++;received=[this,a,b];return 7},{cache,cacheKey:args=>{keys++;return args.sort().join(':')}}),owner={};
+ assert.equal(await fn.call(owner,'z','a'),7);assert.deepEqual(received,[owner,'z','a']);const before=keys,args=['z','a'];assert.equal(await del(fn,...args),undefined);assert.equal(keys,before+1);assert.equal(calls,1);assert.deepEqual(args,['z','a']);assert.equal(backendThis,cache);assert.equal(cache.size,0);
+});
+test('E03 identity keys remain distinct and delete never clears',async()=>{
+ ready();const cache=new Map(),keys=[{}, {},Symbol('a'),undefined];cache.clear=()=>assert.fail('clear called');let n=0;const fn=memo(async()=>++n,{cache});for(const key of keys)await fn(key);
+ await del(fn,keys[0]);assert.equal(cache.size,3);for(const key of keys.slice(1))assert.ok(cache.has(key));assert.equal(await fn(keys[0]),5);
+});
+test('E04 old computation loses write permission and new calls deduplicate',async()=>{
+ ready();const old=deferred(),fresh=deferred(),cache=new Map();let calls=0;const fn=memo(()=>++calls===1?old.promise:fresh.promise,{cache});const p=fn('x');await until(()=>calls===1);const deletion=del(fn,'x'),a=fn('x'),b=fn('x');assert.notEqual(p,a);assert.equal(a,b);await deletion;await until(()=>calls===2);fresh.resolve('new');assert.equal(await a,'new');old.resolve('old');assert.equal(await p,'old');assert.equal(cache.get('x'),'new');
+});
+test('E05 old cleanup cannot remove newer in flight registration',async()=>{
+ ready();const old=deferred(),fresh=deferred();let calls=0;const fn=memo(()=>++calls===1?old.promise:fresh.promise);const p=fn('x');await until(()=>calls===1);await del(fn,'x');const a=fn('x');await until(()=>calls===2);old.resolve(1);await p;const b=fn('x');assert.equal(a,b);assert.equal(calls,2);fresh.resolve(2);await b;
+});
+test('E06 invalidation during shouldCache prevents stale write',async()=>{
+ ready();const gate=deferred(),cache=new Map();let entered=false;const fn=memo(async()=>1,{cache,shouldCache:()=>{entered=true;return gate.promise}});const p=fn('x');await until(()=>entered);await del(fn,'x');gate.resolve(true);assert.equal(await p,1);assert.equal(cache.has('x'),false);
+});
+test('E07 asynchronous cache reads cannot return invalidated hit',async()=>{
+ ready();for(const method of ['has','get']){const gate=deferred(),cache=new Map([['x','stale']]);let entered=false,calls=0;cache[method]=function(k){if(!entered){entered=true;return gate.promise}return Map.prototype[method].call(this,k)};const fn=memo(async()=>{calls++;return 'computed'},{cache});const p=fn('x');await until(()=>entered);await del(fn,'x');gate.resolve(method==='has'?true:'stale');assert.equal(await p,'computed');assert.equal(calls,1);assert.equal(cache.has('x'),false)}
+});
+test('E08 pending deletion blocks new reads computation and writes',async()=>{
+ ready();const gate=deferred(),cache=new Map([['x','old']]);let deleting=false,reads=0,calls=0;cache.delete=async function(k){deleting=true;await gate.promise;return Map.prototype.delete.call(this,k)};cache.has=function(k){reads++;return Map.prototype.has.call(this,k)};const fn=memo(async()=>++calls,{cache});const d=del(fn,'x');await until(()=>deleting);const a=fn('x'),b=fn('x');await turn();assert.equal(a,b);assert.equal(reads,0);assert.equal(calls,0);gate.resolve();await d;assert.equal(await a,1);assert.equal(cache.get('x'),1);
+});
+test('E09 same key deletes serialize and later delete survives failure',async()=>{
+ ready();const one=deferred(),two=deferred(),reason={failure:1},cache=new Map();let deletes=0,calls=0;cache.delete=()=>++deletes===1?one.promise:two.promise;const fn=memo(async()=>++calls,{cache});const first=observed(del(fn,'x')),second=del(fn,'x'),p=fn('x');await until(()=>deletes===1);assert.equal(deletes,1);one.reject(reason);assert.equal((await first).error,reason);await until(()=>deletes===2);assert.equal(calls,0);two.resolve();await second;assert.equal(await p,1);
+});
+test('E10 a waiter cannot cross a later pending deletion',async()=>{
+ ready();const one=deferred(),two=deferred(),cache=new Map();let deletes=0,calls=0;cache.delete=()=>++deletes===1?one.promise:two.promise;const fn=memo(async()=>++calls,{cache});const d1=del(fn,'x');await until(()=>deletes===1);const p=fn('x');await turn();const d2=del(fn,'x');one.resolve();await d1;await until(()=>deletes===2);await turn();assert.equal(calls,0);two.resolve();await d2;assert.equal(await p,1);
+});
+test('E11 other keys and cache objects stay independent',async()=>{
+ ready();const writing=deferred(),deletion=deferred(),cache=new Map();let started=false,removing=false;cache.delete=async()=>{removing=true;await deletion.promise};const fn=memo(async k=>{if(k==='b'){started=true;return writing.promise}return 'a'},{cache});const b=fn('b');await until(()=>started);const d=del(fn,'a');await until(()=>removing);writing.resolve('B');assert.equal(await b,'B');assert.equal(cache.get('b'),'B');const other=memo(async()=>9);assert.equal(await other('a'),9);await del(other,'a');deletion.resolve();await d;
+});
+test('E12 shared cache invalidates old writes but only target deduplication',async()=>{
+ ready();const ga=deferred(),gb=deferred(),cache=new Map();let ca=0,cb=0;const a=memo(()=>++ca===1?ga.promise:Promise.resolve('fresh'),{cache}),b=memo(()=>{cb++;return gb.promise},{cache});const pa=a('x'),pb=b('x');await until(()=>ca===1&&cb===1);await del(a,'x');assert.equal(b('x'),pb);const restarted=a('x');assert.notEqual(restarted,pa,'target deduplication is invalidated');assert.equal(await restarted,'fresh');ga.resolve('a-old');gb.resolve('b-old');assert.equal(await pa,'a-old');assert.equal(await pb,'b-old');assert.equal(cache.get('x'),'fresh');assert.equal(cb,1);
+});
+test('E13 delete waits for already started async shared cache set',async()=>{
+ ready();const gate=deferred(),cache=new Map(),order=[];cache.set=async function(k,v){order.push('set-start');await gate.promise;Map.prototype.set.call(this,k,v);order.push('set-end')};cache.delete=function(k){order.push('delete');return Map.prototype.delete.call(this,k)};const writer=memo(async()=>7,{cache}),target=memo(async()=>8,{cache});const p=writer('x');await until(()=>order.length===1);const d=del(target,'x');await turn();assert.deepEqual(order,['set-start']);gate.resolve();await p;await d;assert.deepEqual(order,['set-start','set-end','delete']);assert.equal(cache.has('x'),false);assert.equal(await target('x'),8);assert.equal(cache.get('x'),8);
+});
+test('E14 a failed old write does not cancel backend deletion',async()=>{
+ ready();const gate=deferred(),reason=Symbol('write'),cache=new Map();let sets=0,deletes=0;cache.set=()=>{sets++;return gate.promise};cache.delete=()=>{deletes++};const fn=memo(async()=>1,{cache});const p=observed(fn('x'));await until(()=>sets===1);const d=del(fn,'x');await turn();assert.equal(deletes,0);gate.reject(reason);assert.equal((await p).error,reason);await d;assert.equal(deletes,1);
+});
+test('E15 set reentry is registered before invoking user cache',async()=>{
+ ready();const gate=deferred(),cache=new Map();let fn,d,deletes=0;cache.set=async function(k,v){d=del(fn,k);await gate.promise;Map.prototype.set.call(this,k,v)};cache.delete=function(k){deletes++;return Map.prototype.delete.call(this,k)};fn=memo(async()=>1,{cache});const p=fn('x');await until(()=>!!d);await turn();assert.equal(deletes,0);gate.resolve();await p;await d;assert.equal(deletes,1);assert.equal(cache.has('x'),false);
+});
+test('E16 failed deletion releases waiting calls and permits retry',async()=>{
+ ready();const gate=deferred(),reason={raw:true},cache=new Map();let deletes=0;cache.delete=()=>++deletes===1?gate.promise:true;const fn=memo(async()=>42,{cache});const d=observed(del(fn,'x'));await until(()=>deletes===1);const p=observed(fn('x'));gate.reject(reason);assert.equal((await d).error,reason);assert.equal((await p).error,reason);assert.equal(await fn('x'),42);await del(fn,'x');assert.equal(deletes,2);
+});
+test('E17 raw callback errors and invalid capability preserve existing work',async()=>{
+ ready();const raw=Object.freeze({raw:1}),cache=new Map(),fn=memo(async()=>1,{cache,cacheKey:()=>{throw raw}});await rejectsAs(del(fn,'x'),raw);
+ for(const behavior of [()=>{throw null},()=>Promise.reject(0),()=>({get then(){throw false}})]){const c=new Map();c.delete=behavior;await rejectsAs(del(memo(async()=>1,{cache:c}),'x'),behavior===undefined?undefined:await (async()=>{try{await behavior()}catch(e){return e}})())}
+ const gate=deferred(),c=new Map();let calls=0;const f=memo(()=>{calls++;return gate.promise},{cache:c}),p=f('x');await until(()=>calls===1);Object.defineProperty(c,'delete',{get(){throw raw}});await rejectsAs(del(f,'x'),raw);assert.equal(f('x'),p);gate.resolve(3);assert.equal(await p,3);
+});
+test('E18 clear keeps synchronous semantics and started set caveat',async()=>{
+ ready();const gate=deferred(),cache=new Map();let started=false;cache.set=async function(k,v){started=true;await gate.promise;Map.prototype.set.call(this,k,v)};const fn=memo(async()=>1,{cache}),p=fn('x');await until(()=>started);assert.equal(api.pMemoizeClear(fn),undefined);gate.resolve();await p;assert.equal(cache.get('x'),1);await del(fn,'x');assert.equal(cache.size,0);
+ const removal=deferred(),old=deferred(),c=new Map();let run=false;c.delete=()=>removal.promise;const f=memo(()=>{run=true;return old.promise},{cache:c}),q=f('x');await until(()=>run);const d=del(f,'x');api.pMemoizeClear(f);old.resolve(2);await q;removal.resolve();await d;assert.equal(c.size,0);
+});
+test('E19 delete hook reentry waits without starting duplicate work',async()=>{
+ ready();const gate=deferred(),cache=new Map();let fn,reentered,calls=0;cache.delete=function(k){assert.equal(this,cache);reentered=fn(k);return gate.promise};fn=memo(async()=>++calls,{cache});const d=del(fn,'x');await until(()=>!!reentered);assert.equal(calls,0);assert.equal(fn('x'),reentered);gate.resolve();await d;assert.equal(await reentered,1);assert.equal(calls,1);
+});
+test('E20 default node has no orphan internal rejection',async()=>{
+ ready();const script=`import assert from 'node:assert/strict';import * as api from ${JSON.stringify(new URL('../dist/index.js',import.meta.url).href)};
+ const defer=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}};
+ const gate=defer(),write=defer(),cache=new Map();let started=false,deletes=0;cache.set=()=>{started=true;return write.promise};cache.delete=()=>++deletes===1?gate.promise:undefined;
+ const fn=api.default(async()=>1,{cache});const p=fn('x').catch(e=>assert.equal(e,7));while(!started)await new Promise(r=>setImmediate(r));
+ const d1=api.pMemoizeDelete(fn,'x').catch(e=>assert.equal(e,8));write.reject(7);await p;while(deletes===0)await new Promise(r=>setImmediate(r));
+ const waiting=fn('x').catch(e=>assert.equal(e,8));gate.reject(8);await Promise.all([d1,waiting]);await api.pMemoizeDelete(fn,'x');await new Promise(r=>setImmediate(r));console.log('clean');`;
+ const environment={...process.env};delete environment.NODE_TEST_CONTEXT;delete environment.AXI_FRESH_ORACLE_CHILD;
+ const child=spawnSync(process.execPath,['--input-type=module','-e',script],{env:environment,encoding:'utf8',timeout:3000});if(child.error||child.signal){console.error('TRUST_ORACLE_INFRA:'+String(child.error?.code??child.signal).toUpperCase());process.exit(97)}assert.equal(child.status,0,child.stderr);assert.match(child.stdout,/clean/);
+});
+
+test('E22 native promise observation preserves the original rejection',async()=>{
+ ready();const script=`import assert from 'node:assert/strict';
+import memo from ${JSON.stringify(new URL('../dist/index.js',import.meta.url).href)};
+const rejection={reason:'backend write failure'},getterError={reason:'unexpected then access'};
+const cache=new Map();
+cache.set=()=>{const returned=Promise.reject(rejection);Object.defineProperty(returned,'then',{get(){throw getterError}});return returned};
+const fn=memo(async()=>1,{cache});let caught;try{await fn('x')}catch(error){caught=error}
+console.log(JSON.stringify({originalWriteError:caught===rejection,thenGetterError:caught===getterError}));
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(caught,rejection,'preserve original cache.set rejection');
+`;
+ const environment={...process.env};delete environment.NODE_TEST_CONTEXT;delete environment.AXI_FRESH_ORACLE_CHILD;
+ const child=spawnSync(process.execPath,['--input-type=module','-e',script],{env:environment,encoding:'utf8',timeout:3000});
+ if(child.error||child.signal)process.stderr.write('TRUST_ORACLE_INFRA:'+String(child.error?.code??child.signal)+'\n');
+ assert.equal(child.status,0,child.stderr);assert.match(child.stdout,/originalWriteError":true/);
+});
+
+test('E21 key callback keeps the original unbound receiver',async()=>{
+ ready();let calls=0;const receivers=[],cache=new Map();
+ const fn=memo(async()=>++calls,{cache,cacheKey:function([key]){receivers.push(this);return this===undefined?key:'wrong-key'}});
+ assert.equal(await fn('x'),1);assert.equal(await fn('y'),2);await del(fn,'x');assert.equal(await fn('x'),3);assert.equal(await fn('y'),2);assert.ok(receivers.every(x=>x===undefined));
+});
