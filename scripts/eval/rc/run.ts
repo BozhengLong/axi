@@ -16,7 +16,7 @@ save(join(batch.directory,'manifest.json'),{suite:'v1-rc-development',traceVersi
 const persist=()=>save(join(STUDY,'pilots.json'),state);persist();
 try{
  for(const task of ['V1-A','V1-B']as const){
-  if(profile().executionProfileHash!==p.executionProfileHash)throw Error('开发试跑之间源码发生改变');
+  const now=profile();if(now.executionProfileHash!==p.executionProfileHash||now.oracleHash!==p.oracleHash||now.graderRevision!==p.graderRevision)throw Error('开发试跑之间源码发生改变');
   const id='pilot-'+task;claimStart(id,'pilot',{task,variant:'new',batch:batch.id,profile:p.executionProfileHash});
   const x=await executeCandidate(batch,task,'new',1,id,p.executionProfileHash,{deadline:a.workDeadline});rows.push({execution:x});persist();
   if(!['completed','candidate_unfinished'].includes(x.classification))throw Error('开发运行环境或协议中断，不补跑：'+x.classification);

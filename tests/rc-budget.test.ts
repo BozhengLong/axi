@@ -14,3 +14,12 @@ test('发布候选台账跨进程拒绝重用ID、超额、过期及错误授权
   writeFileSync(join(dir,'authorization.json'),JSON.stringify({...a,maxStarts:32}));expect((await claim('unauthorized')).error).toContain('授权');
  }finally{rmSync(dir,{recursive:true,force:true})}
 });
+
+import {splitHashes} from '../scripts/eval/rc/profile.ts';
+test('执行、验收契约和评分实现独立冻结，评分修复不改变执行身份',()=>{
+ const base={'src/main.ts':'product','scripts/eval/rc/grade-one.ts':'grader','evals/a.fixture':'oracle','scripts/eval/container/relay.ts':'relay'};
+ const original=splitHashes(base),repaired=splitHashes({...base,'scripts/eval/rc/grade-one.ts':'repair'});
+ expect(repaired.execution).toEqual(original.execution);expect(repaired.oracle).toEqual(original.oracle);expect(repaired.grader).not.toEqual(original.grader);
+ expect(splitHashes({...base,'src/main.ts':'changed'}).execution).not.toEqual(original.execution);
+ expect(splitHashes({...base,'evals/a.fixture':'changed'}).oracle).not.toEqual(original.oracle);
+});
