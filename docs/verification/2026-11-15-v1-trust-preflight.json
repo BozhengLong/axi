@@ -1,0 +1,177 @@
+{
+  "complete": true,
+  "image": "sha256:e9cb06278d78394368209a01abd962388ba57068719b28d61f9466f3b5e7a491",
+  "batch": "b20261114202036",
+  "sourceHash": "68074c688d051ec283c522d0472f4ce25bb4086c9bd9814e89c3de9bafcd9808",
+  "executionProfileHash": "0a88f5a7f6cefd816cc377bf286ea8b170dacc0670c8fd5d83878aaa6f041a09",
+  "checks": [
+    {
+      "name": "非root且无额外能力",
+      "passed": true
+    },
+    {
+      "name": "固定CPU内存和只读根",
+      "passed": true
+    },
+    {
+      "name": "固定工具版本",
+      "passed": true
+    },
+    {
+      "name": "阻止公网IP",
+      "passed": true
+    },
+    {
+      "name": "阻止公网域名",
+      "passed": true
+    },
+    {
+      "name": "阻止宿主访问",
+      "passed": true
+    },
+    {
+      "name": "阻止非代理端口",
+      "passed": true
+    },
+    {
+      "name": "阻止修改网络",
+      "passed": true
+    },
+    {
+      "name": "阻止写产品源码",
+      "passed": true
+    },
+    {
+      "name": "阻止DockerSocket",
+      "passed": true
+    },
+    {
+      "name": "阻止宿主源码",
+      "passed": true
+    },
+    {
+      "name": "阻止测试镜像材料",
+      "passed": true
+    },
+    {
+      "name": "候选没有真实凭据",
+      "passed": true
+    },
+    {
+      "name": "管理接口拒绝候选",
+      "passed": true
+    },
+    {
+      "name": "候选v1镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "当前v1镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "v0镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "转发器与容器辅助源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "独立可写目录和HOME",
+      "passed": true
+    },
+    {
+      "name": "v0真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "v0模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-v0 Trace",
+      "passed": true
+    },
+    {
+      "name": "current真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "current模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-current Trace",
+      "passed": true
+    },
+    {
+      "name": "candidate真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "candidate模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-candidate Trace",
+      "passed": true
+    },
+    {
+      "name": "claude真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "claude模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-claude Trace",
+      "passed": true
+    }
+  ],
+  "evidence": {
+    "complete": true,
+    "traces": 4,
+    "files": 48,
+    "rows": [
+      {
+        "id": "live-v0",
+        "task": "health-v0",
+        "repeat": 1,
+        "agent": "axi",
+        "product": "v0",
+        "status": "completed",
+        "requests": 2
+      },
+      {
+        "id": "live-current",
+        "task": "health-current",
+        "repeat": 1,
+        "agent": "axi",
+        "product": "current",
+        "status": "completed",
+        "requests": 6
+      },
+      {
+        "id": "live-candidate",
+        "task": "health-candidate",
+        "repeat": 1,
+        "agent": "axi",
+        "product": "candidate",
+        "status": "completed",
+        "requests": 7
+      },
+      {
+        "id": "live-claude",
+        "task": "health-claude",
+        "repeat": 1,
+        "agent": "claude",
+        "product": "claude",
+        "status": "completed",
+        "requests": 3
+      }
+    ],
+    "time": "2026-11-14T20:23:44.011Z"
+  }
+}
