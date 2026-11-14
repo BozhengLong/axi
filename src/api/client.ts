@@ -41,7 +41,7 @@ export function retryAfter(value: string | null, now = Date.now()): number | und
 
 function retryable(error: unknown): boolean {
   if (error instanceof HTTPError) return error.status === 429 || error.status >= 500;
-  if (error instanceof StreamAPIError) return ["overloaded_error", "rate_limit_error", "api_error", "connection_error"].includes(error.errorType);
+  if (error instanceof StreamAPIError) return error.normalized?.retryable ?? ["overloaded_error", "rate_limit_error", "api_error", "connection_error"].includes(error.errorType);
   if (error instanceof TypeError || (error instanceof DOMException && ["TimeoutError", "AbortError"].includes(error.name))) return true;
   // Bun 1.3.14 的连接拒绝是普通 Error，不能只判断 TypeError。
   // 仅识别明确的网络错误码，避免重试文件权限等本地错误。
@@ -109,11 +109,16 @@ export class APIClient {
         return result;
       } catch (error) {
         // 不把 API key 或包含连接地址的底层错误直接打印到终端。
-        const reason = errorMessage(error).replaceAll(this.config.apiKey, "[认证信息已隐藏]").replaceAll(this.config.url, "[API 地址]");
-        this.record("request_error", { callId, attempt, durationMs: performance.now() - started, reason });
+        const sanitize = (text: string) => text.replaceAll(this.config.apiKey, "[认证信息已隐藏]").replaceAll(this.config.url, "[API 地址]");
+        const reason = sanitize(errorMessage(error));
+        const canRetry = retryable(error);
+        const willRetry = !options.signal.aborted && attempt < (this.options.maxRetries ?? 3) && canRetry;
+        const details = error instanceof StreamAPIError ? JSON.parse(sanitize(JSON.stringify({ normalizedError: error.normalized, rawError: error.rawError, errorType: error.errorType }))) : {};
+        this.record("request_error", { callId, attempt, durationMs: performance.now() - started, reason, ...details, retryable: canRetry, willRetry });
         if (options.signal.aborted) throw abortError();
-        if (attempt >= (this.options.maxRetries ?? 3) || !retryable(error)) throw new Error(reason);
+        if (!willRetry) throw new Error(reason);
         const delayMs = error instanceof HTTPError && error.retryAfterMs !== undefined ? error.retryAfterMs : 1000 * 2 ** attempt;
+        this.record("retry_scheduled", { callId, attempt: attempt + 1, delayMs, reason });
         options.onRetry?.(attempt + 1, delayMs, reason);
         // 释放当前连接，再等待重试。工具只在完整响应之后执行。
         if (reader) { await reader.cancel().catch(() => {}); reader.releaseLock(); reader = undefined; }

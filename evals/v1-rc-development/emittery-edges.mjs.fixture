@@ -1,0 +1,24 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {getEventListeners} from 'node:events';
+import Emittery from './index.js';
+for(const overflow of ['drop-oldest','drop-newest','error']) test(`丢弃值异常隔离及清理 ${overflow}`,async()=>{
+ const e=new Emittery();let ordinary=0;const off=e.on('a',()=>ordinary++);
+ const ac=new AbortController(),it=e.events(['a','b'],{highWaterMark:1,overflow,signal:ac.signal});
+ // 先登记普通监听，再建立并消费旁路，避免元事件及无人消费拒绝干扰断言。
+ const sink=e.anyEvent(),bad={get then(){throw new Error('throwing getter')}};
+ const first=sink.next().catch(()=>{});await e.emit('a',overflow==='drop-oldest'?bad:1);await first;
+ const second=sink.next().catch(()=>{});let error;
+ try{await e.emit('a',overflow==='drop-oldest'?2:bad)}catch(e){error=e}
+ try{
+  assert.equal(error,undefined,'溢出处理不得使emit失败');assert.equal(ordinary,2,'普通监听不得丢事件');
+  await second;
+  if(overflow==='error'){
+   assert.equal(getEventListeners(ac.signal,'abort').length,0);assert.equal(e.listenerCount('b'),1); // 只有anyEvent旁路
+   await assert.rejects(it.next(),RangeError);await assert.rejects(it.next(),RangeError);
+  }else assert.equal((await it.next()).value,overflow==='drop-oldest'?2:1);
+ }finally{
+  await it.return();await sink.return();await second;off();
+ }
+ ac.abort('late');assert.equal((await it.next()).done,true);assert.equal(getEventListeners(ac.signal,'abort').length,0);assert.equal(e.listenerCount(),0);
+});

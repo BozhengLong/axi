@@ -1,9 +1,10 @@
 import { isObject, type ContentBlock, type JsonObject, type ModelResponse, type StreamCallbacks } from "./types.ts";
 import type { SSEEvent } from "./sse.ts";
+import { normalizeAPIError, type NormalizedAPIError } from "./errors.ts";
 
 export class ProtocolError extends Error {}
 export class StreamAPIError extends Error {
-  constructor(public errorType: string, message: string) { super(message); }
+  constructor(public errorType: string, message: string, public normalized?: NormalizedAPIError, public rawError?: unknown) { super(message); }
 }
 
 interface BlockState { block: ContentBlock; json: string; hasJson: boolean; closed: boolean }
@@ -27,8 +28,8 @@ export class MessageAssembler {
     const type = value.type;
     if (type === "ping") return;
     if (type === "error") {
-      const error = isObject(value.error) ? value.error : {};
-      throw new StreamAPIError(String(error.type ?? "unknown_error"), String(error.message ?? "流式 API 错误"));
+      const error = normalizeAPIError(value.error);
+      throw new StreamAPIError(error.errorType, error.message, error, value.error);
     }
     // 新增的顶层事件可以忽略。已知消息事件必须满足顺序约束。
     if (!["message_start", "content_block_start", "content_block_delta", "content_block_stop", "message_delta", "message_stop"].includes(type)) return;

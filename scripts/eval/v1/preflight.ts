@@ -69,6 +69,7 @@ try {
     const envInput = await execute(r, ["sh", "-c", 'printf checked > /task/write-check; cat /task/write-check; printf "%s" "$HOME"']); check("独立可写目录和HOME", envInput.stdout === "checked/home/eval");
   });
   for (const variant of ["old", "new", "claude"] as const) {
+    if (process.env.AXI_RC_STUDY) { const {claimStart} = await import("../rc/config.ts"); claimStart("initial-probe-" + variant, "probe", {batch:batch.id,variant}); }
     await inspect("live-" + variant, async r => {
       const prompt = "在当前目录创建 hello.ts，使 bun run hello.ts 只输出 V1-READY。读取文件确认内容，实际运行并报告。不安装依赖，不联网，不运行后台任务或其他 agent。";
       save(join(r.directory, "input.json"), { variant, prompt });

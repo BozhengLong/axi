@@ -1,0 +1,11 @@
+import {join} from 'node:path';
+import {command} from '../core.ts';
+import {exclusive} from '../stable/execution.ts';
+import {authorization,STUDY,IMAGE,read} from './config.ts';
+import {profile} from './profile.ts';
+if(process.argv[2]!=='--live')throw Error('需要 --live');
+const a=authorization(),p=profile(),g=read(join(STUDY,'offline-gates.json'));
+if(!g.complete||g.sourceHash!==p.sourceHash||g.image!==IMAGE||g.results.length!==9||g.results.some((r:any)=>!r.passed))throw Error('离线门槛未通过');
+if(Date.now()+6*60000>a.workDeadline)throw Error('初始探针窗口不足');
+exclusive(join(STUDY,'initial-probes.claim'),{time:new Date().toISOString(),planned:3,sourceHash:p.sourceHash,deadline:a.deadline});
+const r=await command(['bun','scripts/eval/v1/preflight.ts','--live'],undefined,true,15*60000);process.stdout.write(r.stdout);process.stderr.write(r.stderr);if(r.exitCode)process.exitCode=r.exitCode;

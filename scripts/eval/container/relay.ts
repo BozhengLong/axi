@@ -3,6 +3,7 @@ import { appendFileSync, mkdirSync } from "node:fs";
 import { RequestBudget } from "./budget.ts";
 import { relayResponseHeaders } from "./response-headers.ts";
 import { materializeMockReply, type MockReply } from "./mock-reply.ts";
+import { observeAPIError } from "./api-error.ts";
 
 type Tool = { id: string; name: string; input: Record<string, unknown>; approved?: boolean; messageComplete?: boolean };
 type Reply = MockReply;
@@ -171,7 +172,8 @@ Bun.serve({ hostname: "0.0.0.0", port: 8787, idleTimeout: 255, maxRequestBodySiz
         if (!payload) continue;
         if (payload.trim() === "[DONE]") { log(run, "sse_marker", { value: "[DONE]" }); continue; }
         const e = JSON.parse(payload); log(run, "sse", e);
-        if (e.error || e.type === "error") { run.transportIssues.push(`api_event:${e.status ?? e.error?.type ?? "unknown"}`); }
+        const apiError = observeAPIError(e);
+        if (apiError) { run.transportIssues.push(`api_event:${apiError.errorType}`); log(run, "api_error", { sequence: requestSequence, round: requestRound, normalizedError: apiError }); }
         if (e.type === "message_start") { result.model = e.message.model; Object.assign(result.usage, e.message.usage); }
         if (e.type === "content_block_start") blocks[e.index] = structuredClone(e.content_block);
         if (e.type === "content_block_delta") {

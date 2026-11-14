@@ -1,0 +1,6 @@
+# 保留已校验的Node22及CLI二进制，只替换当前产品和容器观察器。
+FROM axi-eval-v1:node22-stable
+USER root
+COPY src /opt/axi/src
+COPY scripts/eval/container /opt/eval
+WORKDIR /task
