@@ -1,0 +1,269 @@
+{
+  "date": "2026-11-14",
+  "status": "stopped_after_development",
+  "releaseReady": false,
+  "productCommit": "3d95acbf4e96469790e5995ff93918855b9c179e",
+  "productHash": "329ce8045748917efe228c9f5f6c91a2465a303ca9b38ee1497a5e268b77de02",
+  "infrastructureCommit": "04781873d9162f0a418b586edf05532c821b97c4",
+  "sourceHash": "d6e4101b2480145b99eef053919aea5aa74d72faf4a1c1d99fa746122f5bfbcd",
+  "image": "sha256:4357d27f192b0db00b15461820a3b57a6f76216374810545ac52d04b6a805d8d",
+  "executionProfileHash": "36242c493c6afa568de61e0f0fb8110d72a951fceab6bf78240a77141feaa7fa",
+  "graderRevision": "e61beabe342993e083bc05707db5b562695f1cf0d88c4f6ac87d344c80665399",
+  "budget": {
+    "maxRealStarts": 31,
+    "actualRealStarts": 5,
+    "probeStarts": 3,
+    "developmentStarts": 2,
+    "currentCandidateC7Starts": 0,
+    "formalStarts": 0,
+    "recoveryStarts": 0
+  },
+  "results": [
+    {
+      "id": "pilot-V1-A",
+      "task": "V1-A",
+      "variant": "new",
+      "purpose": "development-only",
+      "executionStatus": "completed",
+      "forwardedGenerationRequests": 26,
+      "activeMs": 460135.885001,
+      "artifactHash": "c7572c2cfb81f74db4fe9f8b28eae9dcd5ab1b4ea973a3f6d77f51e2d4c17d5e",
+      "frozenAutomaticCodePassed": true,
+      "regressionPassed": true,
+      "reviewCodePassed": true,
+      "docsPassed": true,
+      "reportValidationPassed": true,
+      "riskAttributionAccurate": true,
+      "fullDeliveryPassed": true
+    },
+    {
+      "id": "pilot-V1-B",
+      "task": "V1-B",
+      "variant": "new",
+      "purpose": "development-only",
+      "executionStatus": "completed",
+      "forwardedGenerationRequests": 43,
+      "activeMs": 369678.14795899997,
+      "artifactHash": "a1c681628e4fd2122860f841a997ca2d80debb3f9879e3c0d1aec73de1f5d560",
+      "frozenAutomaticCodePassed": true,
+      "regressionPassed": true,
+      "reviewCodePassed": false,
+      "docsPassed": true,
+      "reportValidationPassed": true,
+      "riskAttributionAccurate": false,
+      "fullDeliveryPassed": false
+    }
+  ],
+  "supplementalDiagnostic": {
+    "postHoc": true,
+    "frozenGradesChanged": false,
+    "artifacts": 9,
+    "strategiesPerArtifact": 3,
+    "observerRuns": 27,
+    "processRuns": 27,
+    "results": [
+      {
+        "id": "baseline",
+        "artifactHash": null,
+        "strategy": "drop-oldest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "baseline",
+        "artifactHash": null,
+        "strategy": "drop-newest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "baseline",
+        "artifactHash": null,
+        "strategy": "error",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "reference",
+        "artifactHash": null,
+        "strategy": "drop-oldest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "reference",
+        "artifactHash": null,
+        "strategy": "drop-newest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "reference",
+        "artifactHash": null,
+        "strategy": "error",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "pilot-V1-B",
+        "artifactHash": "a1c681628e4fd2122860f841a997ca2d80debb3f9879e3c0d1aec73de1f5d560",
+        "strategy": "drop-oldest",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "pilot-V1-B",
+        "artifactHash": "a1c681628e4fd2122860f841a997ca2d80debb3f9879e3c0d1aec73de1f5d560",
+        "strategy": "drop-newest",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "pilot-V1-B",
+        "artifactHash": "a1c681628e4fd2122860f841a997ca2d80debb3f9879e3c0d1aec73de1f5d560",
+        "strategy": "error",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-claude",
+        "artifactHash": "39944c9ba0579816087e9a3c08462707c46a37448a0b4b94ea2a39c63673c672",
+        "strategy": "drop-oldest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-claude",
+        "artifactHash": "39944c9ba0579816087e9a3c08462707c46a37448a0b4b94ea2a39c63673c672",
+        "strategy": "drop-newest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-claude",
+        "artifactHash": "39944c9ba0579816087e9a3c08462707c46a37448a0b4b94ea2a39c63673c672",
+        "strategy": "error",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-old",
+        "artifactHash": "38446f8d60877facb0d42d8ee84f0743d7cd75a40d8099c703f46b90cfb30b9f",
+        "strategy": "drop-oldest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-old",
+        "artifactHash": "38446f8d60877facb0d42d8ee84f0743d7cd75a40d8099c703f46b90cfb30b9f",
+        "strategy": "drop-newest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-old",
+        "artifactHash": "38446f8d60877facb0d42d8ee84f0743d7cd75a40d8099c703f46b90cfb30b9f",
+        "strategy": "error",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-new",
+        "artifactHash": "e829866d75e2cb2790e951dcf9eedeecde66367e380c3cafd5e6f81a622ce556",
+        "strategy": "drop-oldest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-new",
+        "artifactHash": "e829866d75e2cb2790e951dcf9eedeecde66367e380c3cafd5e6f81a622ce556",
+        "strategy": "drop-newest",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r1-new",
+        "artifactHash": "e829866d75e2cb2790e951dcf9eedeecde66367e380c3cafd5e6f81a622ce556",
+        "strategy": "error",
+        "exitCode": 0,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-old",
+        "artifactHash": "9502cb622d42989d9cbb1fe15d8cbea4cc3f61dc29d3aaff32d1fb2b79777b6f",
+        "strategy": "drop-oldest",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-old",
+        "artifactHash": "9502cb622d42989d9cbb1fe15d8cbea4cc3f61dc29d3aaff32d1fb2b79777b6f",
+        "strategy": "drop-newest",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-old",
+        "artifactHash": "9502cb622d42989d9cbb1fe15d8cbea4cc3f61dc29d3aaff32d1fb2b79777b6f",
+        "strategy": "error",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-new",
+        "artifactHash": "89c6aedd47474925e8038a101667dd29d5abb88ed73bdba7d945c7c788f842bc",
+        "strategy": "drop-oldest",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-new",
+        "artifactHash": "89c6aedd47474925e8038a101667dd29d5abb88ed73bdba7d945c7c788f842bc",
+        "strategy": "drop-newest",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-new",
+        "artifactHash": "89c6aedd47474925e8038a101667dd29d5abb88ed73bdba7d945c7c788f842bc",
+        "strategy": "error",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-claude",
+        "artifactHash": "76049e1778f1b0db94a5c09fb6a0fbf555acac9c0eaaab619fbfbe462da3c99a",
+        "strategy": "drop-oldest",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-claude",
+        "artifactHash": "76049e1778f1b0db94a5c09fb6a0fbf555acac9c0eaaab619fbfbe462da3c99a",
+        "strategy": "drop-newest",
+        "exitCode": 1,
+        "timedOut": false
+      },
+      {
+        "id": "formal-V1-B-r2-claude",
+        "artifactHash": "76049e1778f1b0db94a5c09fb6a0fbf555acac9c0eaaab619fbfbe462da3c99a",
+        "strategy": "error",
+        "exitCode": 1,
+        "timedOut": false
+      }
+    ]
+  },
+  "trace": {
+    "realRuns": 5,
+    "realFiles": 49,
+    "allRealComplete": true,
+    "auditedManifests": 38,
+    "auditedFiles": 343,
+    "allHashesValid": true,
+    "nonAgentDiagnosticsWithoutNativeSession": [
+      "raw-bytes",
+      "isolation"
+    ]
+  },
+  "closedAt": "2026-11-14T08:56:47.464324+00:00"
+}
