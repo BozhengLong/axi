@@ -1,0 +1,146 @@
+{
+  "scope": "E1三方最终产物与新Axi初稿；冻结后补充诊断，原机判不改",
+  "nativePromise": {
+    "probeSha256": "47f26e486216ab2fa41790494fca6f6955c5712200e2f215f00294e4db3514fe",
+    "rows": [
+      {
+        "id": "baseline",
+        "exitCode": 0,
+        "observation": {
+          "originalWriteError": true,
+          "thenGetterError": false
+        }
+      },
+      {
+        "id": "reference",
+        "exitCode": 1,
+        "observation": {
+          "originalWriteError": false,
+          "thenGetterError": true
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-old",
+        "exitCode": 1,
+        "observation": {
+          "originalWriteError": false,
+          "thenGetterError": true
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-new",
+        "exitCode": 0,
+        "observation": {
+          "originalWriteError": true,
+          "thenGetterError": false
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-new-checkpoint",
+        "exitCode": 0,
+        "observation": {
+          "originalWriteError": true,
+          "thenGetterError": false
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-claude",
+        "exitCode": 0,
+        "observation": {
+          "originalWriteError": true,
+          "thenGetterError": false
+        }
+      }
+    ]
+  },
+  "keyReceiver": {
+    "probeSha256": "4efbc88bcc5873600a409d30ebbff71346fff04f5a7d6cf1d74826f6722ec3c7",
+    "rows": [
+      {
+        "id": "baseline",
+        "exitCode": 0,
+        "observation": {
+          "supported": false,
+          "receivers": [
+            "undefined",
+            "undefined"
+          ],
+          "keys": [
+            "x",
+            "y"
+          ]
+        }
+      },
+      {
+        "id": "reference",
+        "exitCode": 0,
+        "observation": {
+          "supported": true,
+          "receivers": [
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined"
+          ],
+          "next": 3
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-old",
+        "exitCode": 1,
+        "observation": {
+          "supported": true,
+          "receivers": [
+            "undefined",
+            "undefined",
+            "object",
+            "undefined"
+          ],
+          "next": 1
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-new",
+        "exitCode": 1,
+        "observation": {
+          "supported": true,
+          "receivers": [
+            "undefined",
+            "undefined",
+            "object",
+            "undefined"
+          ],
+          "next": 1
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-new-checkpoint",
+        "exitCode": 1,
+        "observation": {
+          "supported": true,
+          "receivers": [
+            "undefined",
+            "undefined",
+            "object",
+            "undefined"
+          ],
+          "next": 1
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-claude",
+        "exitCode": 1,
+        "observation": {
+          "supported": true,
+          "receivers": [
+            "undefined",
+            "undefined",
+            "object",
+            "undefined"
+          ],
+          "next": 1
+        }
+      }
+    ]
+  }
+}
