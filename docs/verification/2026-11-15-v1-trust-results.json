@@ -1,0 +1,569 @@
+{
+  "study": "v1-trust-20261115",
+  "status": "closed_no_qualified_development_version",
+  "releaseThresholdMet": false,
+  "selectedVersion": null,
+  "reason": "两版均未达到完整交付2/2，按已确认D3停止",
+  "startedAt": "2026-11-14T19:00:28+00:00",
+  "authorizedDeadline": "2026-11-15T13:00:28+00:00",
+  "recordedAt": "2026-11-14T21:40:22.235115+00:00",
+  "realStarts": 8,
+  "probeStarts": 4,
+  "developmentStarts": 4,
+  "c7Starts": 0,
+  "formalStarts": 0,
+  "formalTasksChosen": false,
+  "maximumStarts": 34,
+  "unusedStarts": 26,
+  "generationRequests": 177,
+  "developmentGenerationRequests": 159,
+  "upstreamRecoveryUsed": false,
+  "gradingRepairUsed": true,
+  "versionSummary": {
+    "current": {
+      "fullDelivery": 1,
+      "total": 2,
+      "machineCode": 2,
+      "regression": 2
+    },
+    "candidate": {
+      "fullDelivery": 1,
+      "total": 2,
+      "machineCode": 1,
+      "regression": 2
+    }
+  },
+  "rows": [
+    {
+      "id": "development-V1-E-current",
+      "task": "V1-E",
+      "product": "current",
+      "artifactHash": "a0f794015bcaad36db696ad6403fc99d218d2942ef4a9abd70f23828810f9c28",
+      "executionStatus": "completed",
+      "requests": 42,
+      "workRequests": 40,
+      "reviewRequests": 2,
+      "checkpointKind": "draft",
+      "originalCodePassed": true,
+      "adoptedCodePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": false,
+      "productionChangesAfterCheckpoint": [],
+      "blockingReasons": [
+        "cache.has重入删除后，旧Promise重新登记，新调用复用且未等待删除"
+      ],
+      "activeMs": 530413.468583
+    },
+    {
+      "id": "development-V1-E-candidate",
+      "task": "V1-E",
+      "product": "candidate",
+      "artifactHash": "4c9813d60d0085cb337c20216fd33dd5ed63ceaba524d788de076bc3967f02ad",
+      "executionStatus": "completed",
+      "requests": 33,
+      "workRequests": 31,
+      "reviewRequests": 2,
+      "checkpointKind": "draft",
+      "originalCodePassed": false,
+      "adoptedCodePassed": false,
+      "regressionPassed": true,
+      "fullDeliveryPassed": false,
+      "productionChangesAfterCheckpoint": [],
+      "blockingReasons": [
+        "cache.has重入删除后，旧Promise重新登记，新调用复用且未等待删除",
+        "E15写入重入登记晚；E22额外then读取引入未处理拒绝"
+      ],
+      "activeMs": 443906.7226239999
+    },
+    {
+      "id": "development-V1-D-candidate",
+      "task": "V1-D",
+      "product": "candidate",
+      "artifactHash": "fc3dd3b567a5b77c14c14f38dbc3425c3e307afa9b1b05d91089df5dc548f48c",
+      "executionStatus": "completed",
+      "requests": 42,
+      "workRequests": 40,
+      "reviewRequests": 2,
+      "checkpointKind": "work_in_progress",
+      "originalCodePassed": false,
+      "adoptedCodePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "productionChangesAfterCheckpoint": [],
+      "blockingReasons": [],
+      "activeMs": 467067.86420800013
+    },
+    {
+      "id": "development-V1-D-current",
+      "task": "V1-D",
+      "product": "current",
+      "artifactHash": "763f0c64f0ae84236d706b0c8f2cb44ee4e4acc16c49cbfc1188e63b8f04d68b",
+      "executionStatus": "completed",
+      "requests": 42,
+      "workRequests": 40,
+      "reviewRequests": 2,
+      "checkpointKind": "work_in_progress",
+      "originalCodePassed": true,
+      "adoptedCodePassed": true,
+      "regressionPassed": true,
+      "fullDeliveryPassed": true,
+      "productionChangesAfterCheckpoint": [],
+      "blockingReasons": [],
+      "activeMs": 375114.82791800005
+    }
+  ],
+  "versions": {
+    "executionImplementationCommit": "c7180bf0d6eeb297917a6b25194861d186102e60",
+    "measurementRepairCommit": "542ea0da497b8f251f50534eeabd5fde87ab36d3",
+    "currentV1Commit": "0330626249c916bf81612299cd6b58955ad8b8d9",
+    "v0Commit": "963704be97150e268edd3fda484d68e0a18a1f8b",
+    "candidateProductHash": "20e1d611c50ae6e9bca0647068af1c429dd03dd7f9a9c609b2ad8fbda27fdb9a",
+    "image": "sha256:e9cb06278d78394368209a01abd962388ba57068719b28d61f9466f3b5e7a491",
+    "executionProfileHash": "0a88f5a7f6cefd816cc377bf286ea8b170dacc0670c8fd5d83878aaa6f041a09",
+    "frozenOracleHash": "f9a0b0f8c681dedf0042878e66841c05ba05da20e4d4c1366bb43f7f6dd120fd",
+    "initialGraderRevision": "02414f973a6fb8ac3efca7abd9437056396864af75aa2b0eb78e63586e7c8b45",
+    "adoptedGraderRevision": "59a4344eb22d2f4fb9676a37fbd886bb974ef34895d6abe320c9bcb0d4b59c1a",
+    "sourceHashAfterRepair": "cd4eddd00e77312aae55026ec8309bd23846d0a1d9d19343ed6c1c3918f3eb6d"
+  },
+  "qualification": {
+    "groups": 14,
+    "allPassed": true,
+    "unitTests": 134,
+    "unitAssertions": 886,
+    "compatibilityCases": 6,
+    "calibrationCases": 20,
+    "predeclaredRepeats": 35,
+    "historicalSnapshots": 8,
+    "cliPipelineMocks": 8,
+    "graderFaultChecks": 19,
+    "livePreflightChecks": 31
+  },
+  "traceAudit": {
+    "traces": 8,
+    "traceFiles": 116,
+    "executionSeals": 4,
+    "scoreRecords": 16,
+    "scoreFiles": 56,
+    "requests": 177,
+    "starts": 8
+  },
+  "sourceAudit": {
+    "complete": true,
+    "sourceFilesVerified": 1247,
+    "baselineArchives": [
+      {
+        "name": "current",
+        "commit": "0330626249c916bf81612299cd6b58955ad8b8d9",
+        "files": 19
+      },
+      {
+        "name": "baseline",
+        "commit": "963704be97150e268edd3fda484d68e0a18a1f8b",
+        "files": 11
+      }
+    ],
+    "batchSourceSnapshots": 3,
+    "batchTypes": [
+      "preflight",
+      "development",
+      "grading-recovery"
+    ]
+  },
+  "measurementDiagnostic": [
+    {
+      "id": "development-V1-D-candidate",
+      "passed": true,
+      "observation": {
+        "before": {
+          "tracked": 1,
+          "native": 1
+        },
+        "after": {
+          "tracked": 1,
+          "native": 0,
+          "timers": 0,
+          "explicitRemoves": 0,
+          "sameReason": true
+        }
+      }
+    },
+    {
+      "id": "development-V1-D-current",
+      "passed": true,
+      "observation": {
+        "before": {
+          "tracked": 1,
+          "native": 1
+        },
+        "after": {
+          "tracked": 0,
+          "native": 0,
+          "timers": 0,
+          "explicitRemoves": 1,
+          "sameReason": true
+        }
+      }
+    },
+    {
+      "id": "reference-explicit-remove",
+      "passed": true,
+      "observation": {
+        "before": {
+          "tracked": 1,
+          "native": 1
+        },
+        "after": {
+          "tracked": 0,
+          "native": 0,
+          "timers": 0,
+          "explicitRemoves": 1,
+          "sameReason": true
+        }
+      }
+    },
+    {
+      "id": "reference-native-once",
+      "passed": true,
+      "observation": {
+        "before": {
+          "tracked": 1,
+          "native": 1
+        },
+        "after": {
+          "tracked": 1,
+          "native": 0,
+          "timers": 0,
+          "explicitRemoves": 0,
+          "sameReason": true
+        }
+      }
+    }
+  ],
+  "reentrancyDiagnostic": {
+    "probeSha256": "845ef6c66548b309045984f0d63e76763198e42f9981ee23230e2934ef58883f",
+    "rows": [
+      {
+        "id": "development-V1-E-current-final",
+        "group": "current-study",
+        "scope": "final",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "development-V1-E-current-checkpoint",
+        "group": "current-study",
+        "scope": "checkpoint",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "development-V1-E-candidate-final",
+        "group": "current-study",
+        "scope": "final",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "development-V1-E-candidate-checkpoint",
+        "group": "current-study",
+        "scope": "checkpoint",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-old-final",
+        "group": "historical",
+        "scope": "final",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-new-final",
+        "group": "historical",
+        "scope": "final",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-new-checkpoint",
+        "group": "historical",
+        "scope": "checkpoint",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "formal-V1-E-r1-claude-final",
+        "group": "historical",
+        "scope": "final",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "reference-primary",
+        "group": "human-reference",
+        "scope": "final",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "reference-alternative",
+        "group": "human-reference",
+        "scope": "final",
+        "pass": false,
+        "observation": {
+          "before": {
+            "samePromise": true,
+            "freshSettledBeforeDelete": true,
+            "deleteStarted": true,
+            "calls": 1
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      },
+      {
+        "id": "human-repair-control",
+        "group": "human-repair-control",
+        "scope": "diagnostic-only",
+        "pass": true,
+        "observation": {
+          "before": {
+            "samePromise": false,
+            "freshSettledBeforeDelete": false,
+            "deleteStarted": true,
+            "calls": 0
+          },
+          "outcomes": [
+            {
+              "status": "fulfilled"
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            },
+            {
+              "status": "fulfilled",
+              "value": 1
+            }
+          ],
+          "calls": 1
+        }
+      }
+    ],
+    "humanControlAlsoPassedFrozenChecks": true,
+    "originalScoresRewritten": false
+  },
+  "limitations": [
+    "E/D为已暴露开发材料；没有新的正式迁移样本",
+    "人工审查由同一实施助手完成，不是独立盲审",
+    "完整Trace指约定的可观察渠道，不含服务端未返回的内部推理；工具自身截断仍适用",
+    "本轮Claude Code仅完成真实探针；历史Claude产物诊断不算新模型运行",
+    "人工修复副本仅是诊断正例，不计agent成功",
+    "候选提示保留在实验分支，没有选为发布版本，也未合并main或发布"
+  ],
+  "closedAt": "2026-11-14T21:45:14.992447+00:00",
+  "closedAtBeijing": "2026-11-15T05:45:14.992447+08:00",
+  "elapsedSeconds": 9886.992447,
+  "measurementProbeSha256": "a2c2617e8d424e4725cc495e907b692f7d85faa03d1909e8b137c0c3a675b051"
+}

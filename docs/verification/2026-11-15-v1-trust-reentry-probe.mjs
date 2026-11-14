@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import memo, {pMemoizeDelete} from './dist/index.js';
+const gate={};gate.promise=new Promise(resolve=>{gate.resolve=resolve});
+const cache=new Map();let fn,deletion,entered=false,calls=0,deleteStarted=false;
+cache.has=function(key){if(!entered){entered=true;deletion=pMemoizeDelete(fn,key)}return Map.prototype.has.call(this,key)};
+cache.delete=async function(key){deleteStarted=true;await gate.promise;return Map.prototype.delete.call(this,key)};
+fn=memo(async()=>++calls,{cache});
+const old=fn('x'),fresh=fn('x');let freshSettled=false;fresh.then(()=>{freshSettled=true},()=>{freshSettled=true});
+await new Promise(resolve=>setImmediate(resolve));
+const before={samePromise:old===fresh,freshSettledBeforeDelete:freshSettled,deleteStarted,calls};
+gate.resolve();const outcomes=await Promise.allSettled([deletion,old,fresh]);
+console.log(JSON.stringify({before,outcomes,calls}));
+assert.equal(before.deleteStarted,true,'deletion reached backend');
+assert.equal(before.samePromise,false,'new call after deletion must not rejoin old promise');
+assert.equal(before.freshSettledBeforeDelete,false,'new call must wait for active deletion');
+assert.ok(outcomes.every(x=>x.status==='fulfilled'));
