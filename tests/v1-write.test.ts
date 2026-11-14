@@ -127,7 +127,7 @@ test("I-03/I-04：各个提交前屏障取消都不修改目标，提交后取�
 test("P-05/I-05/I-07：第一项已写入，第二项确认时取消，后续调用补齐且下一轮可继续", async () => {
   for (const mode of ["project", "strict"] as const) {
     const { root } = fixture(), c = new AbortController(); let calls = 0, approvals = 0;
-    const a = new Agent({ cwd: root, permissionMode: () => mode, call: async () => ++calls === 1 ? response([tool("one", "write", { path: "one", content: "1" }), tool("two", "write", { path: "two", content: "2" }), tool("three", "write", { path: "three", content: "3" })], "tool_use") : textResponse(), approve: async t => { approvals++; if (t.id === "two") c.abort(); return { allowed: true }; } });
+    const a = new Agent({ reviewMode: () => "off", cwd: root, permissionMode: () => mode, call: async () => ++calls === 1 ? response([tool("one", "write", { path: "one", content: "1" }), tool("two", "write", { path: "two", content: "2" }), tool("three", "write", { path: "three", content: "3" })], "tool_use") : textResponse(), approve: async t => { approvals++; if (t.id === "two") c.abort(); return { allowed: true }; } });
     await expect(a.run("任务", { signal: c.signal, effort: "medium" })).rejects.toHaveProperty("name", "AbortError");
     expect(calls).toBe(1); expect(approvals).toBe(2); expect(readFileSync(join(root, "one"), "utf8")).toBe("1"); expect(readdirSync(root).sort()).toEqual(["a.txt", "one"]);
     const rs = a.history[2]!.content as ToolResult[]; expect(rs.map(x => x.is_error)).toEqual([false, true, true]); expect(data(rs[0]!).modified).toBe(true); expect(data(rs[2]!).code).toBe("cancelled_not_started");
@@ -138,7 +138,7 @@ test("P-05/I-05/I-07：第一项已写入，第二项确认时取消，后续调
 test("F-10：同批两项使用同一旧版本，第二项必须拒绝且保留第一项", async () => {
   const { root, registry } = fixture(); const version = data(await registry.workspace.read("a.txt", 1, 200, signal())).version;
   const input = { path: "a.txt", base_version: version, old_text: "before", new_text: "after" }; let calls = 0;
-  const a = new Agent({ cwd: root, registry, call: async () => ++calls === 1 ? response([tool("a", "edit", input), tool("b", "edit", input)], "tool_use") : textResponse(), approve: async () => ({ allowed: true }) });
+  const a = new Agent({ reviewMode: () => "off", cwd: root, registry, call: async () => ++calls === 1 ? response([tool("a", "edit", input), tool("b", "edit", input)], "tool_use") : textResponse(), approve: async () => ({ allowed: true }) });
   await a.run("edit", { signal: signal(), effort: "medium" }); const rs = a.history[2]!.content as ToolResult[];
   expect(data(rs[0]!).status).toBe("applied"); expect(data(rs[1]!).code).toBe("stale_version"); expect(readFileSync(join(root, "a.txt"), "utf8")).toBe("after\n");
 });
@@ -146,7 +146,7 @@ test("F-10：同批两项使用同一旧版本，第二项必须拒绝且保留�
 test("E-02/W-07：提交前日志失败不写入；提交后日志失败保留成功且停止后续模型调用", async () => {
   for (const failure of ["commit_prepared", "commit_result"]) {
     const { root } = fixture(); let calls = 0;
-    const a = new Agent({ cwd: root, call: async () => { calls++; return response([tool("w", "write", { path: "new", content: "new" }), tool("next", "write", { path: "next", content: "next" })], "tool_use"); }, approve: async () => ({ allowed: true }), record: kind => { if (kind === failure) throw new Error("log failed"); } });
+    const a = new Agent({ reviewMode: () => "off", cwd: root, call: async () => { calls++; return response([tool("w", "write", { path: "new", content: "new" }), tool("next", "write", { path: "next", content: "next" })], "tool_use"); }, approve: async () => ({ allowed: true }), record: kind => { if (kind === failure) throw new Error("log failed"); } });
     const notice = await a.run("write", { signal: signal(), effort: "medium" }); expect(notice).toContain("日志写入失败"); expect(calls).toBe(1);
     const rs = a.history[2]!.content as ToolResult[]; expect(data(rs[0]!).modified).toBe(failure === "commit_result"); expect(data(rs[1]!).code).toBe("not_started");
     expect(readdirSync(root).includes("new")).toBe(failure === "commit_result"); expect(readdirSync(root).includes("next")).toBe(false); noTemps(root);
@@ -156,7 +156,7 @@ test("E-02/W-07：提交前日志失败不写入；提交后日志失败保留�
 
 test("W-07/I-08：提交后目标又变化，报告未知状态并停止，不自动重放", async () => {
   let root = ""; const f = fixture({ checkpoint(phase) { if (phase === "after_commit") writeFileSync(join(root, "new"), "external"); } }); root = f.root; let calls = 0;
-  const a = new Agent({ cwd: root, registry: f.registry, call: async () => { calls++; return response([tool("w", "write", { path: "new", content: "ours" }), tool("next", "write", { path: "next", content: "bad" })], "tool_use"); }, approve: async () => ({ allowed: true }) });
+  const a = new Agent({ reviewMode: () => "off", cwd: root, registry: f.registry, call: async () => { calls++; return response([tool("w", "write", { path: "new", content: "ours" }), tool("next", "write", { path: "next", content: "bad" })], "tool_use"); }, approve: async () => ({ allowed: true }) });
   expect(await a.run("write", { signal: signal(), effort: "medium" })).toContain("状态不确定"); expect(calls).toBe(1);
   expect(data((a.history[2]!.content as ToolResult[])[0]!).status).toBe("unknown"); expect(readFileSync(join(root, "new"), "utf8")).toBe("external"); expect(readdirSync(root).includes("next")).toBe(false);
 });
@@ -164,13 +164,13 @@ test("W-07/I-08：提交后目标又变化，报告未知状态并停止，不�
 test("P-06/P-09：文件确认默认拒绝并带理由，后续 bash 不自动获批", async () => {
   const { root, registry } = fixture(); const p = await edit(registry); const answers = ["", "保留原文件"]; let output = "";
   const permission = await confirmTool(p.tool, root, p, async prompt => { output += prompt; return answers.shift()!; }, t => output += t, signal()); expect(permission.allowed).toBe(false); expect(permission.reason).toBe("保留原文件"); expect(output).toContain("应用这次修改？[y/N]");
-  let calls = 0, approvals = 0; const a = new Agent({ cwd: root, call: async () => ++calls === 1 ? response([tool("deny", "write", { path: "new", content: "x" }), tool("bypass", "bash", { command: "touch new" })], "tool_use") : textResponse(), approve: async () => { approvals++; return { allowed: false, reason: "保留原文件" }; } });
+  let calls = 0, approvals = 0; const a = new Agent({ reviewMode: () => "off", cwd: root, call: async () => ++calls === 1 ? response([tool("deny", "write", { path: "new", content: "x" }), tool("bypass", "bash", { command: "touch new" })], "tool_use") : textResponse(), approve: async () => { approvals++; return { allowed: false, reason: "保留原文件" }; } });
   await a.run("task", { signal: signal(), effort: "medium" }); expect(approvals).toBe(2); expect(readdirSync(root).includes("new")).toBe(false);
 });
 
 test("E-02：仅在task_end日志失败也提示用户，不谎报所有记录已保存", async () => {
   const { root } = fixture();
-  const a = new Agent({ cwd: root, call: async () => textResponse(), approve: async () => ({ allowed: true }), record: kind => { if (kind === "task_end") throw new Error("closed log"); } });
+  const a = new Agent({ reviewMode: () => "off", cwd: root, call: async () => textResponse(), approve: async () => ({ allowed: true }), record: kind => { if (kind === "task_end") throw new Error("closed log"); } });
   await expect(a.run("hello", { signal: signal(), effort: "medium" })).rejects.toThrow("日志写入失败");
   expect(a.history).toHaveLength(2);
 });

@@ -1,0 +1,6 @@
+# 构建前核对固定RC基础镜像；保留Node22和既有工具链。
+FROM axi-eval-v1:rc-20261114
+USER root
+COPY src /opt/axi/src
+COPY scripts/eval/container /opt/eval
+WORKDIR /task

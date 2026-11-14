@@ -94,3 +94,5 @@ bun run scripts/experiments.ts --live
 - v1 已确认方案：[文件工具、权限与中断设计](docs/07-v1-design.md)、[自动验收矩阵](evals/specs/v1-tools-v1/acceptance-matrix.md)（产品已实现，完整评测未通过，完成范围见阶段报告）
 
 评测原始 Trace 与历史镜像保存在本机私有目录，不随源码发布。报告中的本机绝对路径只在原机器可用；部分 C6 复验入口依赖这些历史产物，具体条件见对应运行指南。
+
+有界收尾复核的开关、预算与Trace范围见[使用说明](docs/guides/bounded-review.md)。功能实现不代表已通过v1发布验收，当前状态见[进度](docs/progress.md)。

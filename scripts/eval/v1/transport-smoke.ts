@@ -20,7 +20,7 @@ try{
   save(join(runtime.directory,'input.json'),{kind,variant,prompt:'执行恢复测试',mock,maxTotal:kind==='budget'?1:12});
   let row:any;
   try{
-   const execution=await(variant==='new'?runAxiV1:variant==='old'?runAxi:runClaude)(batch,runtime,['执行恢复测试'],{maxMs:60000,...(variant==='old'?{axiEntry:'/opt/axi-v0/src/main.ts'}:{})});
+   const execution=await(variant==='new'?runAxiV1:variant==='old'?runAxi:runClaude)(batch,runtime,['执行恢复测试'],{maxMs:60000,...(variant==='new'?{reviewMode:'off' as const}:{}),...(variant==='old'?{axiEntry:'/opt/axi-v0/src/main.ts'}:{})});
    const proxy=execution.proxy;
    const events=readFileSync(join(batch.directory,'relay',id+'.jsonl'),'utf8').trim().split('\n').map(x=>JSON.parse(x));
    let passed:boolean,roundAdvanced=false;

@@ -4,6 +4,7 @@ import { type BashInput, type BashResult } from "../tools/bash.ts";
 import { ToolRegistry, type PermissionView, type PreparedTool } from "../tools/registry.ts";
 import { ToolError, errorCode, result, type ToolExecution } from "../tools/common.ts";
 import type { Permission, PermissionMode } from "../ui/permission.ts";
+import { GenerationBudget, RequestBudgetError, reviewPrompt, type ReviewMode } from "./review.ts";
 
 export interface AgentOptions {
   cwd: string;
@@ -15,6 +16,8 @@ export interface AgentOptions {
   permissionMode?: () => PermissionMode;
   record?: RecordLog;
   maxCalls?: number;
+  reviewMode?: () => ReviewMode;
+  onReviewStart?: (reason: "draft" | "work_budget") => void;
   onToolStart?: (tool: ToolUse, view: PermissionView, automatic: boolean) => void;
   onToolResult?: (result: ToolResult) => void;
 }
@@ -28,6 +31,7 @@ bash 每次使用新 shell，stdin 关闭，不能启动交互程序或后台服
 实现前读取现有接口、测试和约束，明确兼容要求。按实际改动检查状态转换、异常传播、取消和清理，并补充能暴露缺陷的行为测试。
 检查新增或修改的完整文档示例。最后一次相关修改后，重新执行受影响的检查；保留检查本身的退出码，不能把管道中 tail 等命令的成功当成测试通过。
 最终报告区分实际执行且通过、执行但失败、未执行的检查，并说明剩余问题。检查被拒绝时如实报告未执行。
+关于“旧问题”“与本次无关”“不会影响调用方”的重大风险判断，应有同输入及可信基线的对照证据；没有证据则明确未验证。基线是接手时实际代码，不能把Git HEAD冒充用户脏改，也不能覆盖用户文件做实验。
 用户拒绝时，操作没有执行。遵守拒绝理由中的约束，可以解释、询问或提出符合约束的方案；不能改用另一工具或改写命令绕过拒绝。
 取消不撤销已完成的修改，未知提交状态不能盲目重放。优先使用范围明确的操作。`;
 }
@@ -65,15 +69,24 @@ export class Agent {
     options.signal.throwIfAborted();
     this.running = true; this.turn++; this.modified.clear(); this.unknownEffects = false; this.notStarted = 0;
     const started = performance.now(), effort = options.effort, mode = this.options.permissionMode?.() ?? "project";
-    let permissionMs = 0, halt = "";
+    const reviewMode = this.options.reviewMode?.() ?? "auto", budget = new GenerationBudget(reviewMode);
+    let permissionMs = 0, halt = "", eligible = false, outcome = "failed";
+    const enterReview = (reason: "draft" | "work_budget") => {
+      budget.beginReview();
+      const prompt = reviewPrompt(reason, budget);
+      this.audit("review_start", { reason, source: "axi", checkpointKind: reason === "draft" ? "draft" : "work_in_progress", budget: budget.snapshot() });
+      this.messages.push({ role: "user", content: prompt });
+      this.audit("internal_input", { source: "axi", purpose: "delivery_review", content: prompt });
+      this.options.onReviewStart?.(reason);
+    };
     const cancelled = () => this.auditAfter("cancel_requested", { modifiedPaths: [...this.modified] });
     options.signal.addEventListener("abort", cancelled, { once: true });
     this.messages.push({ role: "user", content: input });
     try {
-      this.audit("task_start", { input, effort, permissionMode: mode });
+      this.audit("task_start", { input, effort, permissionMode: mode, reviewMode, budget: budget.snapshot() });
       for (let count = 0; count < (this.options.maxCalls ?? 50); count++) {
         options.signal.throwIfAborted();
-        const response = await this.options.call(this.history, { ...options, effort });
+        const response = await this.options.call(this.history, { ...options, effort, budget });
         const tools = response.content.filter(block => block.type === "tool_use") as ToolUse[];
         this.messages.push({ role: "assistant", content: structuredClone(response.content) });
         const results: ToolResult[] = [];
@@ -103,6 +116,7 @@ export class Agent {
               executed = tool.name === "bash" ? { content: message, isError: true, status: "denied", modified: false } : result(tool.name, prepared.path ?? "", { status: "denied", code: "user_denied", message }, true);
             } else {
               options.signal.throwIfAborted(); began = true;
+              if (prepared.effect === "shell") eligible = true;
               executed = await prepared.execute(options.signal, (kind, data) => this.audit(kind, { toolUseId: tool.id, ...(data as object) }));
             }
           } catch (error) {
@@ -111,7 +125,7 @@ export class Agent {
             executed = result(tool.name, prepared?.path ?? "", { status: code.startsWith("cancelled") ? "cancelled" : "failed", code, modified: began && prepared?.effect === "shell" ? "unknown" : false, message: errorMessage(error) }, true);
           }
           // 已写入结果不能被迟到的取消或日志失败覆盖。
-          if (executed.modified === true && executed.path) this.modified.add(executed.path);
+          if (executed.modified === true && executed.path) { this.modified.add(executed.path); eligible = true; }
           if (executed.modified === "unknown") this.unknownEffects = true;
           if (executed.fatal) halt = executed.status === "unknown" ? "提交状态不确定，已停止后续操作。请先检查现场。" : "操作结果已保留，但记录或清理失败，已停止后续操作。请检查现场。";
           const toolResult: ToolResult = { type: "tool_result", tool_use_id: tool.id, content: executed.content, is_error: executed.isError };
@@ -121,22 +135,36 @@ export class Agent {
         // 即使取消或日志故障，也先补齐整个已接收的工具批次。
         if (results.length) this.messages.push({ role: "user", content: results });
         for (const r of results) { this.auditAfter("tool_result", r); this.options.onToolResult?.(r); }
-        if (this.logFailure || halt) return `${this.logFailure || halt}\n${this.interruptionSummary}`;
+        if (this.logFailure || halt) { outcome = "tool_failure"; return `${this.logFailure || halt}\n${this.interruptionSummary}`; }
         options.signal.throwIfAborted();
-        if (response.stopReason === "tool_use" && tools.length) continue;
-        if (response.stopReason === "max_tokens" && tools.length) continue;
+        if (response.stopReason === "tool_use" && tools.length) {
+          if (reviewMode === "auto" && eligible && budget.phase === "work" && budget.remaining === 0) enterReview("work_budget");
+          continue;
+        }
         if (response.stopReason === "tool_use") throw new Error("API 返回 tool_use，但没有工具调用");
-        if (response.stopReason === "max_tokens") return "回答达到输出上限，本轮已结束。可以要求模型缩短回答。";
-        if (response.stopReason === "refusal") return "模型拒绝了本轮任务。";
-        if (!["end_turn", "stop_sequence"].includes(response.stopReason)) return `本轮已结束，API 原因：${response.stopReason}`;
+        if (response.stopReason === "max_tokens") { outcome = "truncated"; return "回答达到输出上限，本轮未完成。可以要求模型缩短回答。"; }
+        if (response.stopReason === "refusal") { outcome = "refused"; return "模型拒绝了本轮任务。"; }
+        if (!["end_turn", "stop_sequence"].includes(response.stopReason)) { outcome = "unexpected_stop"; return `本轮未完成，API 原因：${response.stopReason}`; }
+        if (reviewMode === "auto" && eligible && budget.phase === "work") {
+          if (response.stopReason !== "end_turn") { outcome = "review_incomplete"; return "响应未正常结束，未进入收尾复核，本轮未完成。"; }
+          enterReview("draft");
+          continue;
+        }
+        outcome = "completed";
         return "";
       }
-      return `本轮达到 ${this.options.maxCalls ?? 50} 次模型调用上限，已停止。`;
+      outcome = "budget_exhausted";
+      return `本轮达到 ${this.options.maxCalls ?? 50} 次模型调用上限，未完成，已停止。`;
+    } catch (error) {
+      outcome = options.signal.aborted ? "interrupted" : error instanceof RequestBudgetError ? "budget_exhausted" : "failed";
+      throw error;
     } finally {
       this.running = false; options.signal.removeEventListener("abort", cancelled);
       const elapsedMs = performance.now() - started;
       const failureBeforeEnd = this.logFailure;
-      this.auditAfter("task_end", { effort, elapsedMs, permissionMs, activeMs: elapsedMs - permissionMs, aborted: options.signal.aborted, modifiedPaths: [...this.modified], unknownEffects: this.unknownEffects });
+      if (budget.phase === "review") this.auditAfter("review_end", { outcome, budget: budget.snapshot() });
+      if (this.logFailure) outcome = "logging_error";
+      this.auditAfter("task_end", { outcome, reviewMode, reviewEligible: eligible, reviewed: budget.phase === "review", budget: budget.snapshot(), effort, elapsedMs, permissionMs, activeMs: elapsedMs - permissionMs, aborted: options.signal.aborted, modifiedPaths: [...this.modified], unknownEffects: this.unknownEffects });
       if (!failureBeforeEnd && this.logFailure) throw new Error(`${this.logFailure}\n${this.interruptionSummary}`);
     }
   }

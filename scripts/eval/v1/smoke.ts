@@ -19,7 +19,7 @@ async function check(id: string, variant: "old" | "new" | "claude", files: SeedF
   save(join(r.directory, "input.json"), { id, variant, files, mock, policy, prompts });
   let execution: any;
   try {
-    execution = await (variant === "new" ? runAxiV1 : variant === "old" ? runAxi : runClaude)(batch, r, prompts, { maxMs: 30000, ...options, ...(variant === "old" ? { axiEntry: "/opt/axi-v0/src/main.ts" } : {}) });
+    execution = await (variant === "new" ? runAxiV1 : variant === "old" ? runAxi : runClaude)(batch, r, prompts, { maxMs: 30000, ...options, ...(variant === "new" ? { reviewMode: "off" as const } : {}), ...(variant === "old" ? { axiEntry: "/opt/axi-v0/src/main.ts" } : {}) });
     const passed = await verify(execution, r);
     const entry = { id, task: id, repeat: 1, agent: variant === "claude" ? "claude" : "axi", variant, passed, execution };
     results.push(entry); save(join(r.directory, "smoke-result.json"), { id, variant, passed });

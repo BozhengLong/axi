@@ -2,7 +2,7 @@ import { observeAPIError } from "../container/api-error.ts";
 
 export function classifyExecution(status: string, events: any[]): string {
   if (status === "completed") return "completed";
-  if (["budget_exhausted", "task_timeout", "workspace_disk_budget"].includes(status)) return "candidate_unfinished";
+  if (["budget_exhausted", "task_timeout", "workspace_disk_budget", "candidate_unfinished"].includes(status)) return "candidate_unfinished";
   let last = -1;
   for (let i = 0; i < events.length; i++) if (events[i].kind === "request" && events[i].data?.path?.endsWith("/messages")) last = i;
   const current = events.slice(last + 1);

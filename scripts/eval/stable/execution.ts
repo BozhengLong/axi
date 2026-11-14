@@ -12,6 +12,7 @@ export function sealExecution(run:string,executionProfileHash:string){
  const trace=read(join(run,'trace-manifest.json'));if(trace.status!=='complete_observable'||trace.missing.length)throw Error('执行Trace不完整');
  const required=['input.json','execution.json','initial-files.json','final-files.json','initial-git.json','final-git.json','result.json','trace-manifest.json'];
  if(existsSync(join(run,'delivery-files.json')))required.push('delivery-files.json');
+ for(const name of ['review-checkpoint.json','review-checkpoint-files.json','review-checkpoint-git.json','native-turn-1.json'])if(existsSync(join(run,name)))required.push(name);
  const paths=[...new Set([...required,...trace.files.map((x:any)=>x.path)])].sort();
  const hashes=Object.fromEntries(paths.map(p=>[p,digestBytes(readFileSync(within(run,p)))]));
  for(const f of trace.files){const actual=new Bun.CryptoHasher('sha256').update(readFileSync(within(run,f.path))).digest('hex');if(actual!==f.sha256)throw Error('Trace校验失败:'+f.path)}
@@ -29,7 +30,7 @@ export function verifyExecution(run:string,expectedProfile?:string){
  for(const[p,h]of Object.entries(seal.files))if(digestBytes(readFileSync(within(run,p)))!==h)throw Error('执行证据被改变:'+p);
  return seal;
 }
-export async function executeCandidate(batch:Batch,task:TaskId,variant:Variant,repeat:number,id:string,executionProfileHash:string,options:{mock?:unknown[];maxMs?:number;deadline?:number}={}){
+export async function executeCandidate(batch:Batch,task:TaskId,variant:Variant,repeat:number,id:string,executionProfileHash:string,options:{mock?:unknown[];maxMs?:number;deadline?:number;reviewMode?:"auto"|"off";observeReview?:boolean}={}){
  const row=await job(batch,task,variant,repeat,id,{...options,grade:false,freezeBeforeFinal:true});
  const seal=sealExecution(join(batch.directory,id),executionProfileHash);
  return {id,task,agent:variant==='claude'?'claude':'axi',variant,repeat,runDirectory:join(batch.directory,id),executionStatus:row.status,classification:row.classification,artifactHash:seal.artifactHash,initialCommit:row.initialCommit,activeMs:row.activeMs,wallMs:row.wallMs,forwardedGenerationRequests:row.forwardedGenerationRequests};

@@ -3,6 +3,7 @@ import { SSEParser } from "./sse.ts";
 import { MessageAssembler, ProtocolError, StreamAPIError } from "./stream.ts";
 import { abortError, errorMessage, noLog, type Effort, type Message, type ModelResponse, type RecordLog, type StreamCallbacks } from "./types.ts";
 import { toolDefinitions } from "../tools/registry.ts";
+import type { GenerationBudget } from "../agent/review.ts";
 
 export class HTTPError extends Error {
   constructor(public status: number, message: string, public retryAfterMs?: number) { super(message); }
@@ -12,6 +13,7 @@ export interface CallOptions extends StreamCallbacks {
   signal: AbortSignal;
   effort: Effort;
   onRetry?: (attempt: number, delayMs: number, reason: string) => void;
+  budget?: GenerationBudget;
 }
 export interface ClientOptions {
   fetch?: typeof fetch;
@@ -70,13 +72,15 @@ export class APIClient {
     const callId = crypto.randomUUID();
     for (let attempt = 0; ; attempt++) {
       options.signal.throwIfAborted();
+      // 预算异常在请求try外抛出，不能被网络重试或错误脱敏包装丢失类型。
+      options.budget?.consume();
       const started = performance.now();
       const deadline = new AbortController();
       const timer = setTimeout(() => deadline.abort(new DOMException("请求超过 5 分钟", "TimeoutError")), this.config.timeoutMs);
       const signal = AbortSignal.any([options.signal, deadline.signal]);
       let reader: { read(): Promise<{ done: boolean; value?: Uint8Array }>; cancel(): Promise<void>; releaseLock(): void } | undefined;
       try {
-        this.record("request", { callId, attempt, body: JSON.parse(body) });
+        this.record("request", { callId, attempt, budget: options.budget?.snapshot(), body: JSON.parse(body) });
         const response = await (this.options.fetch ?? fetch)(this.config.url, {
           method: "POST",
           headers: { "content-type": "application/json", "x-api-key": this.config.apiKey, "anthropic-version": "2023-06-01", accept: "text/event-stream" },

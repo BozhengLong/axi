@@ -51,7 +51,7 @@ test('部分工具错误后重试保持请求快照；已执行工具不重做�
  const wires=[streamFixture([tool('once','side-effect')],'tool_use'),partial,streamFixture()];
  const bodies:string[]=[],logs:any[]=[];let executed=0;
  const client=new APIClient(config,'',{fetch:(async(_url: string | URL | Request,init?: RequestInit)=>{bodies.push(init!.body as string);return sse(wires.shift()!);}) as unknown as typeof fetch,sleep:async()=>{},record:(kind,data)=>logs.push({kind,data})});
- const agent=new Agent({cwd:'/test',call:(history,options)=>client.call(history,options),approve:async()=>({allowed:true}),execute:async()=>{executed++;return {content:'done',isError:false,exitCode:0,outcome:'completed'}}});
+ const agent=new Agent({ reviewMode: () => "off",cwd:'/test',call:(history,options)=>client.call(history,options),approve:async()=>({allowed:true}),execute:async()=>{executed++;return {content:'done',isError:false,exitCode:0,outcome:'completed'}}});
  await agent.run('run',{signal:activeSignal(),effort:'medium'});
  expect(executed).toBe(1);expect(bodies).toHaveLength(3);expect(bodies[1]).toBe(bodies[2]);
  expect(agent.history.map(x=>x.role)).toEqual(['user','assistant','user','assistant']);

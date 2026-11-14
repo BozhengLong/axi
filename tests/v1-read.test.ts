@@ -123,7 +123,7 @@ test("P-04/P-08：project自动读取与strict拒绝；模型参数不能切换�
   const d = fixture(); writeFileSync(join(d, "a"), "data");
   for (const mode of ["project", "strict"] as const) {
     const replies = [response([tool("r", "read", { path: "a" })], "tool_use"), textResponse()]; let approvals = 0; const events: any[] = [];
-    const a = new Agent({ cwd: d, call: async () => replies.shift()!, permissionMode: () => mode, approve: async () => { approvals++; return { allowed: false }; }, record: (kind, data) => events.push({ kind, data }) });
+    const a = new Agent({ reviewMode: () => "off", cwd: d, call: async () => replies.shift()!, permissionMode: () => mode, approve: async () => { approvals++; return { allowed: false }; }, record: (kind, data) => events.push({ kind, data }) });
     await a.run("read", { signal: signal(), effort: "medium" });
     expect(approvals).toBe(mode === "project" ? 0 : 1);
     const results = a.history[2]!.content as any[];

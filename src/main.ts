@@ -6,6 +6,7 @@ import { SessionLog } from "./log.ts";
 import { confirmTool, type PermissionMode } from "./ui/permission.ts";
 import { Terminal } from "./ui/terminal.ts";
 import { realpathSync } from "node:fs";
+import type { ReviewMode } from "./agent/review.ts";
 
 const help = `Axi v1：连续对话，历史仅保留在本次运行中。
 /effort medium  设置下一轮为 medium（默认）
@@ -15,6 +16,8 @@ const help = `Axi v1：连续对话，历史仅保留在本次运行中。
 /permissions   查看权限模式
 /permissions project  项目内普通文件读取自动（默认）
 /permissions strict   所有工具逐次确认
+/review auto    有修改或bash执行时，结束前复核一次（默认）
+/review off     关闭自动收尾复核；本进程后续任务生效
 每次 bash 调用都需输入 y；输入 n 或直接回车拒绝。拒绝理由可留空。
 文件修改也逐次确认。自动读取的内容会发送给模型并写入本地日志。
 Ctrl+C 中止当前输入、请求或工具。再次输入可继续，已完成修改不会撤销。没有沙箱。
@@ -29,6 +32,7 @@ export async function main(): Promise<void> {
   const ui = new Terminal();
   let effort: Effort = "medium";
   let permissionMode: PermissionMode = "project";
+  let reviewMode: ReviewMode = "auto";
   let active: AbortController | undefined;
   const interrupt = () => active?.abort();
   ui.onInterrupt = interrupt;
@@ -43,6 +47,8 @@ export async function main(): Promise<void> {
     sessionId: log.id,
     record: log.record,
     permissionMode: () => permissionMode,
+    reviewMode: () => reviewMode,
+    onReviewStart: reason => { ui.endStream(); ui.write(`\nAxi：收尾复核（${reason === "draft" ? "待复核初稿" : "工作中检查点"}）。本阶段最多10次生成请求，重试计入，权限要求不变。\n`); },
     call: async (history, options) => {
       ui.endStream();
       ui.write("正在处理…\n");
@@ -75,6 +81,10 @@ export async function main(): Promise<void> {
         const text = input.trim();
         if (!text) continue;
         if (text === "/help") { ui.write(help); continue; }
+        if (["/review", "/review auto", "/review off"].includes(text)) {
+          if (text !== "/review") reviewMode = text.endsWith("off") ? "off" : "auto";
+          ui.write(`收尾复核模式：${reviewMode}。修改和bash仍逐次确认。\n`); continue;
+        }
         if (text === "/permissions" || text === "/permissions project" || text === "/permissions strict") {
           if (text !== "/permissions") permissionMode = text.endsWith("strict") ? "strict" : "project";
           ui.write(`权限模式：${permissionMode}。修改和 bash 始终逐次确认；文件工具的路径限制不变。\n`); continue;

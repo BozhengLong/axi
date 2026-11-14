@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+import {getEventListeners} from 'node:events';
+const [scenario,kind,mode='plain']=process.argv.slice(2);
+const observed=[];
+if(mode==='observe')process.on('unhandledRejection',error=>observed.push(error));
+const hooks=()=>['unhandledRejection','uncaughtException'].map(k=>process.listeners(k));
+const before=hooks();
+const {default:Emittery}=await import('./index.js');
+assert.deepEqual(hooks(),before,'库不得添加全局错误兜底处理器');
+const reason=new Error('boundary-value');
+const value=()=>{
+ if(kind==='plain')return 41;
+ if(kind==='resolved')return Promise.resolve(41);
+ if(kind==='rejected'){const p=Promise.reject(reason);p.catch(()=>{});return p}
+ if(kind==='then-reject')return {then(_ok,fail){fail(reason)}};
+ if(kind==='then-getter')return {get then(){throw reason}};
+ throw new Error('unknown kind');
+};
+const bad=['rejected','then-reject','then-getter'].includes(kind);
+const outcome=p=>p.then(value=>({value}),error=>({error}));
+const bounded=async p=>{let timer;try{return await Promise.race([p,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new assert.AssertionError({message:'操作未在边界内结束'})),800)})])}finally{clearTimeout(timer)}};
+const e=new Emittery();let ordinary=0;const off=e.on('a',()=>{ordinary++});
+const controller=new AbortController();let it,sink;
+if(['drop-oldest','drop-newest','error'].includes(scenario)){
+ it=e.anyEvent({signal:controller.signal,highWaterMark:1,overflow:scenario});
+ const datum=value();
+ await e.emit('a',scenario==='drop-oldest'?datum:1);
+ await e.emit('a',scenario==='drop-oldest'?99:datum);
+ assert.equal(ordinary,2);
+ if(scenario==='error'){
+  const a=await bounded(outcome(it.next())),b=await bounded(outcome(it.next()));
+  assert.ok(a.error instanceof RangeError);assert.equal(b.error,a.error);
+  assert.equal(getEventListeners(controller.signal,'abort').length,0);
+ }else assert.deepEqual((await bounded(it.next())).value,['a',scenario==='drop-oldest'?99:1]);
+ await it.return();controller.abort('late');assert.equal((await bounded(it.next())).done,true);
+}else if(scenario.startsWith('consume-')||scenario.startsWith('pending-')){
+ const eventOnly=scenario.endsWith('-events');
+ it=eventOnly?e.events(['a','b'],{signal:controller.signal,highWaterMark:1,overflow:'error'}):e.anyEvent({signal:controller.signal,highWaterMark:1,overflow:'error'});
+ // events侧用独立消费者处理原库既有的anyEvent内部Promise，不将该旧问题算作新路径失败。
+ if(eventOnly)sink=e.anyEvent();
+ let first,second;
+ if(scenario.startsWith('pending-')){first=outcome(it.next());second=outcome(it.next())}
+ let side=sink?outcome(sink.next()):undefined;
+ await e.emit('a',value());if(side)await bounded(side);
+ first??=outcome(it.next());const result=await bounded(first);
+ if(bad)assert.equal(result.error,reason,'正常消费者必须收到原错误');else assert.deepEqual(result.value,{done:false,value:eventOnly?41:['a',41]});
+ second??=outcome(it.next());side=sink?outcome(sink.next()):undefined;
+ await e.emit('a',7);if(side)await bounded(side);
+ assert.deepEqual((await bounded(second)).value,{done:false,value:eventOnly?7:['a',7]});assert.equal(ordinary,2);
+ await it.return();if(sink)await sink.return();
+}else if(['abort','return','clear'].includes(scenario)){
+ it=e.anyEvent({signal:controller.signal,highWaterMark:2});await e.emit('a',value());
+ if(scenario==='abort'){
+  controller.abort(0);assert.equal((await bounded(outcome(it.next()))).error,0);assert.equal((await bounded(outcome(it.next()))).error,0);await it.return();
+ }else if(scenario==='return')assert.deepEqual(await it.return(Promise.resolve('done')),{done:true,value:'done'});
+ else{
+  e.clearListeners();controller.abort('late');const r=await bounded(outcome(it.next()));
+  if(bad)assert.equal(r.error,reason);else assert.deepEqual(r.value,{done:false,value:['a',41]});
+ }
+ assert.equal((await bounded(it.next())).done,true);await it.return();
+}else throw Error('unknown scenario');
+assert.equal(getEventListeners(controller.signal,'abort').length,0);
+// 晚到事件不能重新注册已结束的迭代器。clear已移除普通监听，其余应仍正常工作。
+await e.emit('a',100);if(scenario!=='clear')assert.equal(e.listenerCount(),1);else assert.equal(e.listenerCount(),0);
+off();assert.equal(e.listenerCount(),0);
+await new Promise(resolve=>setTimeout(resolve,20));
+assert.equal(observed.length,0,'库内部出现无人处理的拒绝');assert.deepEqual(hooks(),before,'库不得安装或移除全局兜底处理器');
+console.log(JSON.stringify({passed:true,scenario,kind,mode}));

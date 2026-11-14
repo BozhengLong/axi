@@ -42,6 +42,7 @@ test("真实 CLI + 本地 HTTP：多轮、逐次确认、跳过理由、effort �
   async function send(text: string) { child.stdin.write(text + "\n"); await child.stdin.flush(); }
   try {
     await waitFor("你 [medium] > ");
+    await send("/review off"); await waitFor("你 [medium] > ");
     await send("第一轮\ny"); // 提前粘贴的 y 不能批准稍后出现的调用。
     await waitFor("执行这次调用？[y/N] ");
     expect(output).toContain("思考摘要：");

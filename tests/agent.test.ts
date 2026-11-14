@@ -27,7 +27,7 @@ test("D1/D4：历史只追加，思考签名不改；本轮 effort 固定，下�
   const calls: { history: readonly Message[]; effort: string }[] = [];
   const thinking: ContentBlock = { type: "thinking", thinking: "摘要", signature: "original-signature" };
   const replies = [response([thinking, tool("one", "pwd")], "tool_use"), textResponse(), textResponse(), textResponse()];
-  const agent = new Agent({ cwd: "/test", call: async (history, options) => { calls.push({ history, effort: options.effort }); return replies.shift()!; }, approve: async () => ({ allowed: true }), execute: async () => success });
+  const agent = new Agent({ reviewMode: () => "off", cwd: "/test", call: async (history, options) => { calls.push({ history, effort: options.effort }); return replies.shift()!; }, approve: async () => ({ allowed: true }), execute: async () => success });
   const options = runOptions();
   await agent.run("第一个任务", options);
   const previous = agent.history;
@@ -45,7 +45,7 @@ test("多个工具分别确认；拒绝理由回传；同一条消息返回所�
   const replies = [response([tool("one", "touch original"), tool("two", "pwd")], "tool_use"), textResponse()];
   const approvals: string[] = [];
   const executed: string[] = [];
-  const agent = new Agent({ cwd: "/test", call: async () => replies.shift()!, approve: async call => {
+  const agent = new Agent({ reviewMode: () => "off", cwd: "/test", call: async () => replies.shift()!, approve: async call => {
     approvals.push(call.id);
     return call.id === "one" ? { allowed: false, reason: "保留原文件，另存为新文件" } : { allowed: true };
   }, execute: async input => { executed.push(input.command); return success; } });
@@ -63,7 +63,7 @@ test("在第二次确认时中断，补齐全部结果；下轮可继续", async
   const controller = new AbortController();
   let calls = 0;
   let executed = 0;
-  const agent = new Agent({ cwd: "/test", call: async () => ++calls === 1 ? response([tool("a", "pwd"), tool("b", "pwd"), tool("c", "pwd")], "tool_use") : textResponse(),
+  const agent = new Agent({ reviewMode: () => "off", cwd: "/test", call: async () => ++calls === 1 ? response([tool("a", "pwd"), tool("b", "pwd"), tool("c", "pwd")], "tool_use") : textResponse(),
     approve: async tool => { if (tool.id === "b") controller.abort(); return { allowed: true }; }, execute: async () => { executed++; return success; } });
   await expect(agent.run("任务", { effort: "medium", signal: controller.signal })).rejects.toThrow();
   expect(executed).toBe(1);
@@ -75,12 +75,12 @@ test("在第二次确认时中断，补齐全部结果；下轮可继续", async
 });
 
 test("API 失败不会追加半截 assistant；未知工具与截断工具不能执行", async () => {
-  const agent = new Agent({ cwd: "/test", call: async () => { throw new Error("broken stream"); }, approve: async () => { throw new Error("不应调用"); } });
+  const agent = new Agent({ reviewMode: () => "off", cwd: "/test", call: async () => { throw new Error("broken stream"); }, approve: async () => { throw new Error("不应调用"); } });
   await expect(agent.run("任务", runOptions())).rejects.toThrow("broken stream");
   expect(agent.history).toEqual([{ role: "user", content: "任务" }]);
   for (const reply of [response([{ ...tool("x", "pwd"), name: "unknown" }], "tool_use"), response([tool("x", "pwd")], "max_tokens")]) {
     const replies = [reply, textResponse()];
-    const next = new Agent({ cwd: "/test", call: async () => replies.shift()!, approve: async () => { throw new Error("不应调用"); } });
+    const next = new Agent({ reviewMode: () => "off", cwd: "/test", call: async () => replies.shift()!, approve: async () => { throw new Error("不应调用"); } });
     await next.run("任务", runOptions());
     expect((next.history[2]!.content as ContentBlock[])[0]!.is_error).toBe(true);
   }
@@ -88,7 +88,7 @@ test("API 失败不会追加半截 assistant；未知工具与截断工具不能
 
 test("工具失败仍返回结果；调用上限保留完整历史", async () => {
   let calls = 0;
-  const agent = new Agent({ cwd: "/test", maxCalls: 2, call: async () => response([tool(`call-${++calls}`, "pwd")], "tool_use"), approve: async () => ({ allowed: true }), execute: async () => { throw new Error("无法启动"); } });
+  const agent = new Agent({ reviewMode: () => "off", cwd: "/test", maxCalls: 2, call: async () => response([tool(`call-${++calls}`, "pwd")], "tool_use"), approve: async () => ({ allowed: true }), execute: async () => { throw new Error("无法启动"); } });
   expect(await agent.run("任务", runOptions())).toContain("2 次");
   expect(calls).toBe(2);
   expect((agent.history.at(-1)!.content as ContentBlock[])[0]!.content).toContain("无法启动");
