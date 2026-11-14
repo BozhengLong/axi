@@ -1,0 +1,12 @@
+import QuickLRU, {type EvictionTiming, type Options} from '../index.js';
+const timing: EvictionTiming='after';
+const options:Options<object,number>={maxSize:3,evictionTiming:timing};
+const c=new QuickLRU<object,number>(options);
+const same:QuickLRU<object,number>=c.set({},1);
+const count:number=c.prune();
+const value:number|undefined=c.get({});
+// @ts-expect-error invalid timing
+new QuickLRU({maxSize:2,evictionTiming:'later'});
+// @ts-expect-error wrong value type
+c.set({},'wrong');
+void [same,count,value];

@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import * as api from '../index.js';
+test('超时错误参与重试且每次信号独立',async()=>{
+ assert.equal(typeof api.AttemptTimeoutError,'function');const signals=[];
+ const result=await api.default((n,c)=>{signals.push(c.signal);return n===1?new Promise(()=>{}):'ok'},{attemptTimeout:8,retries:1,minTimeout:0});
+ assert.equal(result,'ok');assert.notEqual(signals[0],signals[1]);assert.equal(signals[0].aborted,true);assert.ok(signals[0].reason instanceof api.AttemptTimeoutError);assert.equal(signals[1].aborted,false);
+});
+test('外部取消终止不响应操作并保留原reason',async()=>{
+ assert.equal(typeof api.AttemptTimeoutError,'function');const c=new AbortController();let signal;const run=api.default((n,ctx)=>{signal=ctx.signal;return new Promise(()=>{})},{attemptTimeout:Infinity,signal:c.signal});c.abort(0);
+ await assert.rejects(run,e=>e===0);assert.equal(signal.reason,0);
+});
+test('未开启时保持旧调用参数',async()=>{
+ let count;const value=await api.default(function(){count=arguments.length;return 9},{retries:0});assert.equal(value,9);assert.equal(count,1);
+});

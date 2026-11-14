@@ -1,0 +1,116 @@
+import {spawnSync} from 'node:child_process';
+import nodeTest from 'node:test';
+import {fileURLToPath} from 'node:url';
+import assert from 'node:assert/strict';
+const childCase=process.env.AXI_FRESH_ORACLE_CHILD==='1';
+function test(name,body) {
+ if(childCase) return nodeTest(name,body);
+ return nodeTest(name,()=>{
+  const pattern='^'+name.split(' ',1)[0]+' ';
+  const environment={...process.env,AXI_FRESH_ORACLE_CHILD:'1'};delete environment.NODE_TEST_CONTEXT;
+  const child=spawnSync(process.execPath,['--test','--test-reporter=tap','--test-name-pattern',pattern,fileURLToPath(import.meta.url)],{env:environment,encoding:'utf8',timeout:3000});
+  if((child.error&&child.error.code!=='ETIMEDOUT')||(child.signal&&!child.error)) process.stderr.write('FRESH_ORACLE_INFRA:'+String(child.error?.code??child.signal)+'\n');
+  assert.equal(child.status,0,(child.error?.message??'')+'\n'+child.stdout+'\n'+child.stderr);
+  assert.match(child.stdout,/^# pass 1$/m);assert.match(child.stdout,/^# fail 0$/m);
+ });
+}
+
+import QuickLRU from '../index.js';
+
+function clock(fn) {
+ const original=Date.now;let now=1000,calls=0;
+ Date.now=()=>{calls++;return now};
+ try{return fn({at:v=>{now=v},calls:()=>calls,reset:()=>{calls=0}})}finally{Date.now=original}
+}
+function thrown(fn) {let caught=false,value;try{fn()}catch(error){caught=true;value=error}return {caught,value}}
+const safe=(options={})=>new QuickLRU({maxSize:10,evictionTiming:'after',...options});
+const fill=(cache,keys)=>{for(const key of keys)cache.set(key,key);return cache};
+
+test('C01 default compatibility and timing validation',()=>{
+ for(const timing of [undefined,'before']){
+  const seen=[];const c=new QuickLRU({maxSize:4,evictionTiming:timing,onEviction:k=>seen.push([k,c.has(k),c.size])});fill(c,['a','b','c']);c.evict(2);
+  assert.deepEqual(seen,[['a',true,3],['b',true,3]]);assert.deepEqual([...c.keys()],['c']);
+ }
+ for(const timing of [null,'later',0,{},true])assert.throws(()=>new QuickLRU({maxSize:2,evictionTiming:timing}),TypeError);
+});
+test('C02 prune uses one cutoff and preserves order and capacity',()=>clock(t=>{
+ const seen=[];const c=safe({onEviction:k=>seen.push(k)});assert.equal(typeof c.prune,'function');
+ c.set('early',1,{maxAge:4}).set('edge',2,{maxAge:5}).set('later',3,{maxAge:6}).set('forever',4);t.at(1005);t.reset();
+ assert.equal(c.prune(),2);assert.equal(t.calls(),1);assert.deepEqual(seen,['early','edge']);assert.equal(c.maxSize,10);
+ assert.deepEqual([...c.entriesAscending()],[['later',3],['forever',4]]);assert.equal(c.prune(),0);
+}));
+test('C03 overlapping generations do not resurrect an expired current value',()=>clock(t=>{
+ const seen=[];const c=safe({maxSize:3,onEviction:(k,v)=>seen.push([k,v])});assert.equal(typeof c.prune,'function');
+ c.set('same','old').set('b',2).set('c',3);c.set('same','new',{maxAge:1}).set('d',4);t.at(1002);
+ assert.equal(c.prune(),1);assert.deepEqual(seen,[['same','new']]);assert.equal(c.has('same'),false);
+ assert.deepEqual([...c.entriesAscending()],[['b',2],['c',3],['d',4]]);assert.equal(c.size,3);
+}));
+test('C04 expired reads commit before callback and preserve reinsertion',()=>{
+ for(const method of ['get','peek','has'])clock(t=>{
+  let calls=0;const c=safe({onEviction:(key,value)=>{calls++;assert.equal(value,'old');assert.equal(c.has(key),false);c.set(key,'new')}});
+  c.set('x','old',{maxAge:1});t.at(1002);assert.equal(c[method]('x'),method==='has'?false:undefined);assert.equal(c.get('x'),'new');assert.equal(calls,1);
+ });
+});
+test('C05 every traversal expires before notification',()=>{
+ for(const method of ['iterator','keys','values','entries','entriesAscending','entriesDescending','forEach'])clock(t=>{
+  const seen=[];const c=safe({onEviction:k=>{seen.push(k);assert.equal(c.has(k),false)}});c.set('gone',1,{maxAge:1}).set('live',2);t.at(1002);
+  let values;if(method==='forEach'){values=[];c.forEach((v,k)=>values.push([k,v]))}else values=[...(method==='iterator'?c:c[method]())];
+  assert.deepEqual(seen,['gone']);assert.equal(values.length,1);assert.equal(c.size,1);assert.equal(c.get('live'),2);
+ });
+});
+test('C06 rotation commits before callbacks and retains callback writes',()=>{
+ const seen=[];const c=safe({maxSize:2,onEviction:(k,v)=>{seen.push([k,v]);assert.equal(c.has(k),false);assert.equal(c.size,2);if(k==='a')c.set('a','reborn')}});
+ fill(c,['a','b','c','d']);assert.deepEqual(seen,[['a','a'],['b','b']]);assert.equal(c.get('a'),'reborn');assert.equal(c.has('c'),true);assert.equal(c.has('d'),true);
+});
+test('C07 rotation does not notify a shadow retained in the new generation',()=>{
+ const seen=[];const c=safe({maxSize:2,onEviction:(k,v)=>seen.push([k,v])});c.set('a','old').set('b',2).set('a','new').set('c',3);
+ assert.deepEqual(seen,[['b',2]]);assert.equal(c.get('a'),'new');
+});
+test('C08 resize commits size and maxSize before all throwing callbacks',()=>{
+ const seen=[];const first={reason:'first'};const c=safe({onEviction:k=>{seen.push(k);assert.equal(c.maxSize,2);assert.deepEqual([...c.entriesAscending()],[['c','c'],['d','d']]);throw k==='a'?first:'later'}});fill(c,['a','b','c','d']);
+ const result=thrown(()=>c.resize(2));assert.equal(result.caught,true);assert.equal(result.value,first);assert.deepEqual(seen,['a','b']);assert.equal(c.size,2);
+});
+test('C09 evict preserves callback changes and its original notification batch',()=>{
+ const seen=[];const c=safe({onEviction:k=>{seen.push(k);if(k==='a')c.set('new',99);if(k==='b')c.delete('d')}});fill(c,['a','b','c','d']);c.evict(Infinity);
+ assert.deepEqual(seen,['a','b','c']);assert.deepEqual([...c.entriesAscending()],[['new',99]]);assert.equal(c.maxSize,10);
+});
+test('C10 prune continues notifications and rethrows any first exception verbatim',()=>{
+ for(const reason of [undefined,null,false,0,'',Symbol('first')])clock(t=>{
+  const seen=[];const c=safe({onEviction:(k,v)=>{seen.push([k,v]);if(k==='a'){c.set('b','reborn');throw reason}throw new Error('later')}});assert.equal(typeof c.prune,'function');
+  c.set('a','old-a',{maxAge:1}).set('b','old-b',{maxAge:1});t.at(1002);
+  const result=thrown(()=>c.prune());assert.equal(result.caught,true);assert.equal(result.value,reason);assert.deepEqual(seen,[['a','old-a'],['b','old-b']]);assert.equal(c.get('b'),'reborn');assert.equal(c.has('a'),false);
+ });
+});
+test('C11 prune return counts its batch and not callback removals',()=>clock(t=>{
+ const seen=[];const c=safe({onEviction:k=>{seen.push(k);assert.equal(c.has('a'),false);if(k==='a')c.delete('live');if(k==='b')c.set('b','fresh')}});assert.equal(typeof c.prune,'function');
+ c.set('a',1,{maxAge:1}).set('b',2,{maxAge:1}).set('live',3);t.at(1002);assert.equal(c.prune(),2);assert.deepEqual(seen,['a','b']);assert.deepEqual([...c],[['b','fresh']]);
+}));
+test('C12 resize and evict batch expiration before capacity notifications',()=>{
+ for(const operation of ['resize','evict'])clock(t=>{
+  const seen=[];const c=safe({onEviction:k=>{seen.push(k);assert.equal(c.has('e1'),false);assert.equal(c.has('e2'),false);assert.equal(c.has('a'),false)}});
+  c.set('e1',1,{maxAge:1}).set('a','a').set('e2',2,{maxAge:1}).set('b','b').set('c','c');t.at(1002);c[operation](1);
+  assert.deepEqual(seen,operation==='resize'?['e1','e2','a','b']:['e1','e2','a']);assert.deepEqual([...c.keys()],operation==='resize'?['c']:['b','c']);
+ });
+});
+test('C13 nested resize survives the outer resize',()=>{
+ const seen=[];const c=safe({onEviction:k=>{seen.push(k);if(k==='a')c.resize(1)}});fill(c,['a','b','c','d']);c.resize(3);
+ assert.deepEqual(seen,['a','b','c']);assert.equal(c.maxSize,1);assert.deepEqual([...c],[['d','d']]);
+});
+test('C14 callback clear and reinsert survive outer eviction',()=>{
+ const seen=[];const c=safe({onEviction:k=>{seen.push(k);if(k==='a'){c.clear();c.set('new',7)}}});fill(c,['a','b','c']);c.evict(2);
+ assert.deepEqual(seen,['a','b']);assert.deepEqual([...c],[['new',7]]);
+});
+test('C15 manual deletion is silent and before prune retains legacy timing',()=>clock(t=>{
+ let seen=0;const c=safe({onEviction:()=>seen++});fill(c,['a','b']);c.delete('a');c.clear();assert.equal(seen,0);
+ const states=[];const b=new QuickLRU({maxSize:10,onEviction:()=>states.push(b.size)});assert.equal(typeof b.prune,'function');b.set('x',1,{maxAge:1});t.at(1002);assert.equal(b.prune(),1);assert.deepEqual(states,[1]);assert.equal(b.size,0);
+}));
+test('C16 key identity and undefined values survive bookkeeping',()=>clock(t=>{
+ const object={toString(){throw new Error('do not stringify keys')}},symbol=Symbol('key'),seen=[];const c=safe({onEviction:(k,v)=>seen.push([k,v])});assert.equal(typeof c.prune,'function');
+ c.set(object,undefined,{maxAge:1}).set(symbol,2,{maxAge:1}).set(NaN,3,{maxAge:1});t.at(1001);assert.equal(c.prune(),3);
+ assert.equal(seen[0][0],object);assert.equal(seen[0][1],undefined);assert.equal(seen[1][0],symbol);assert.equal(Number.isNaN(seen[2][0]),true);assert.equal(c.size,0);
+}));
+test('C17 traversal does not remove a newer value after nested map replacement',()=>clock(t=>{
+ const seen=[];const c=safe({onEviction:k=>{seen.push(k);if(k==='a'){c.resize(20);c.set('b','fresh')}}});
+ c.set('a','old-a',{maxAge:1}).set('b','old-b',{maxAge:1}).set('live',3);t.at(1002);[...c.entriesAscending()];
+ assert.equal(c.get('b'),'fresh');assert.deepEqual(seen,['a','b']);assert.equal(c.maxSize,20);
+}));

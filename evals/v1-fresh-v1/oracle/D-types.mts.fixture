@@ -1,0 +1,14 @@
+import pRetry, {makeRetriable,AttemptTimeoutError,type AttemptContext,type Options} from '../index.js';
+const result:Promise<number>=pRetry((n,context)=>{const c:AttemptContext=context;const signal:AbortSignal=c.signal;void signal;return n},{attemptTimeout:20});
+const legacy:Promise<string>=pRetry(()=> 'x');
+const options:Options={attemptTimeout:null};
+const e=new AttemptTimeoutError(1,20);const name:'AttemptTimeoutError'=e.name;const n:number=e.attemptNumber;const ms:number=e.timeout;
+// @ts-expect-error metadata is readonly
+e.timeout=4;
+// @ts-expect-error wrong timeout type
+pRetry(()=>1,{attemptTimeout:'1'});
+function fn(this:{value:number},a:string){return this.value+a.length}
+const wrapped=makeRetriable(fn,{attemptTimeout:20});const out:Promise<number>=wrapped.call({value:1},'abc');
+// @ts-expect-error receiver is required
+wrapped('abc');
+void [result,legacy,options,name,n,ms,out];

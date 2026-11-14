@@ -1,0 +1,136 @@
+import nodeTest from 'node:test';
+import {fileURLToPath} from 'node:url';
+import assert from 'node:assert/strict';
+const childCase=process.env.AXI_FRESH_ORACLE_CHILD==='1';
+function test(name,body) {
+ if(childCase) return nodeTest(name,body);
+ return nodeTest(name,()=>{
+  const pattern='^'+name.split(' ',1)[0]+' ';
+  const environment={...process.env,AXI_FRESH_ORACLE_CHILD:'1'};delete environment.NODE_TEST_CONTEXT;
+  const child=spawnSync(process.execPath,['--test','--test-reporter=tap','--test-name-pattern',pattern,fileURLToPath(import.meta.url)],{env:environment,encoding:'utf8',timeout:6000});
+  if((child.error&&child.error.code!=='ETIMEDOUT')||(child.signal&&!child.error)) process.stderr.write('FRESH_ORACLE_INFRA:'+String(child.error?.code??child.signal)+'\n');
+  assert.equal(child.status,0,(child.error?.message??'')+'\n'+child.stdout+'\n'+child.stderr);
+  assert.match(child.stdout,/^# pass 1$/m);assert.match(child.stdout,/^# fail 0$/m);
+ });
+}
+
+import {setTimeout as delay} from 'node:timers/promises';
+import {spawnSync} from 'node:child_process';
+import * as api from '../index.js';
+const pRetry=api.default;
+const base={retries:0,minTimeout:0,attemptTimeout:5};
+const ready=()=>assert.equal(typeof api.AttemptTimeoutError,'function','AttemptTimeoutError must be exported');
+const rejectsAs=async(p,reason)=>assert.rejects(p,error=>{assert.equal(error,reason);return true});
+const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}};
+async function within(p,ms=500){let timer;try{return await Promise.race([p.then(value=>({ok:true,value}),error=>({ok:false,error})),new Promise(resolve=>{timer=setTimeout(()=>resolve({timeout:true}),ms)})])}finally{clearTimeout(timer)}}
+
+test('D01 validation and explicit versus legacy input arguments',async()=>{
+ let calls=0;for(const value of [0,-1,1.1,NaN,-Infinity,'2',true,2147483648])await assert.rejects(pRetry(()=>{calls++},{...base,attemptTimeout:value}),TypeError);assert.equal(calls,0);
+ for(const value of [undefined,null]){let count;assert.equal(await pRetry(function(){count=arguments.length;return 4},{...base,attemptTimeout:value}),4);assert.equal(count,1)}
+ let count,context;await pRetry(function(n,c){count=arguments.length;context=c;assert.equal(n,1)}, {...base,attemptTimeout:Infinity});assert.equal(count,2);assert.ok(context.signal instanceof AbortSignal);assert.equal(context.signal.aborted,false);
+});
+test('D02 timeout class metadata and successful context',async()=>{
+ ready();const e=new api.AttemptTimeoutError(3,15);assert.ok(e instanceof Error);assert.equal(e.name,'AttemptTimeoutError');assert.equal(e.attemptNumber,3);assert.equal(e.timeout,15);
+ let signal;assert.equal(await pRetry((n,c)=>{signal=c.signal;return n+6},base),7);assert.equal(signal.aborted,false);
+});
+test('D03 timeout is retried and its signal reason is the callback error',async()=>{
+ ready();const signals=[],errors=[];let attempts=0;
+ const value=await pRetry((n,c)=>{attempts++;signals.push(c.signal);return n===1?new Promise(()=>{}):42},{...base,retries:1,onFailedAttempt:c=>errors.push(c.error)});
+ assert.equal(value,42);assert.equal(attempts,2);assert.equal(errors.length,1);assert.ok(errors[0] instanceof api.AttemptTimeoutError);assert.equal(errors[0].attemptNumber,1);assert.equal(errors[0].timeout,5);assert.notEqual(signals[0],signals[1]);assert.equal(signals[0].reason,errors[0]);assert.equal(signals[1].aborted,false);
+});
+test('D04 failure callback order and shouldRetry decision are honored',async()=>{
+ ready();const order=[];let attempts=0,captured;
+ await assert.rejects(pRetry(()=>{attempts++;return new Promise(()=>{})},{...base,retries:3,shouldConsumeRetry:c=>{order.push('consume');captured=c.error;return true},onFailedAttempt:c=>{order.push('failed');assert.equal(c.error,captured)},shouldRetry:c=>{order.push('retry');assert.equal(c.error,captured);return false}}),e=>e===captured);
+ assert.equal(attempts,1);assert.deepEqual(order,['consume','failed','retry']);
+});
+test('D05 nonconsuming timeout does not reset or consume the retry budget',async()=>{
+ ready();const contexts=[];const ordinary=new Error('second');let attempts=0;
+ const value=await pRetry(n=>{attempts++;if(n===1)return new Promise(()=>{});if(n===2)throw ordinary;return 'ok'},{...base,retries:1,shouldConsumeRetry:c=>!(c.error instanceof api.AttemptTimeoutError),onFailedAttempt:c=>contexts.push([c.attemptNumber,c.retriesConsumed,c.retriesLeft])});
+ assert.equal(value,'ok');assert.equal(attempts,3);assert.deepEqual(contexts,[[1,0,1],[2,0,1]]);
+});
+test('D06 repeated timeouts exhaust the existing budget',async()=>{
+ ready();const signals=[],errors=[];await assert.rejects(pRetry((n,c)=>{signals.push(c.signal);return new Promise(()=>{})},{...base,retries:1,onFailedAttempt:c=>errors.push(c.error)}),e=>{assert.equal(e.attemptNumber,2);assert.equal(e,errors[1]);return true});
+ assert.equal(signals.length,2);assert.notEqual(signals[0],signals[1]);assert.deepEqual(signals.map(s=>s.aborted),[true,true]);assert.equal(signals[0].reason,errors[0]);assert.equal(signals[1].reason,errors[1]);
+});
+test('D07 pre-aborted reasons are final and preserve identity',async()=>{
+ ready();for(const reason of [null,false,0,'',new api.AbortError('cancel')]){const c=new AbortController();c.abort(reason);let called=false;await rejectsAs(pRetry(()=>{called=true},{...base,signal:c.signal}),reason);assert.equal(called,false)}
+});
+test('D08 external abort ends an infinite attempt immediately and forwards raw reasons',async()=>{
+ ready();for(const reason of [0,null,false,'',new api.AbortError('stop'),new Proxy({},{getPrototypeOf(){throw new Error('opaque reason')}})]){
+  const c=new AbortController(),source=deferred();let signal,failures=0;
+  const run=pRetry((n,ctx)=>{signal=ctx.signal;return source.promise},{...base,attemptTimeout:Infinity,signal:c.signal,onFailedAttempt:()=>failures++});
+  c.abort(reason);const outcome=await within(run);source.resolve('late');assert.equal(outcome.timeout,undefined);assert.equal(outcome.ok,false);assert.equal(outcome.error,reason);assert.equal(signal.reason,reason);assert.equal(failures,0);
+ }
+});
+test('D09 synchronous external cancellation still observes a returned rejection',async()=>{
+ ready();const c=new AbortController();let child,failures=0;
+ await rejectsAs(pRetry((n,ctx)=>{child=ctx.signal;c.abort(0);return Promise.reject(new Error('late operation'))},{...base,signal:c.signal,onFailedAttempt:()=>failures++}),0);
+ await delay(10);assert.equal(child.reason,0);assert.equal(failures,0);
+});
+test('D10 abort reaction cannot replace the timeout error',async()=>{
+ ready();let child,captured;const operationError=new Error('cooperative response');
+ await assert.rejects(pRetry((n,ctx)=>{child=ctx.signal;return new Promise((resolve,reject)=>ctx.signal.addEventListener('abort',()=>reject(operationError),{once:true}))},{...base,onFailedAttempt:c=>{captured=c.error}}),e=>{assert.ok(e instanceof api.AttemptTimeoutError);assert.equal(e,child.reason);assert.equal(e,captured);return true});
+});
+test('D11 attempt timers stop before callbacks and backoff',async()=>{
+ ready();const signals=[];let callbacks=0;
+ assert.equal(await pRetry((n,c)=>{signals.push(c.signal);if(n===1)throw new Error('retry');return 8},{...base,retries:1,minTimeout:20,onFailedAttempt:async()=>{callbacks++;await delay(20)}}),8);
+ assert.equal(callbacks,1);assert.deepEqual(signals.map(s=>s.aborted),[false,false]);
+});
+test('D12 maxRetryTime still controls continuation without becoming a hard deadline',async()=>{
+ ready();let attempts=0;assert.equal(await pRetry(async()=>{await delay(10);return 2},{...base,attemptTimeout:100,maxRetryTime:0}),2);
+ await assert.rejects(pRetry(()=>{attempts++;return new Promise(()=>{})},{...base,retries:10,maxRetryTime:0}),api.AttemptTimeoutError);assert.equal(attempts,1);
+});
+test('D13 timers and external listeners are released on every terminal path; unref is used',async()=>{
+ ready();const originalSet=setTimeout,originalClear=clearTimeout,handles=new Set();let unrefs=0;
+ const keep=originalSet(()=>{},2000);
+ globalThis.setTimeout=(fn,ms,...args)=>{let handle;handle=originalSet(()=>{handles.delete(handle);fn(...args)},ms);const unref=handle.unref.bind(handle);handle.unref=()=>{unrefs++;return unref()};handles.add(handle);return handle};
+ globalThis.clearTimeout=handle=>{handles.delete(handle);return originalClear(handle)};
+ const c=new AbortController(),listeners=new Set(),add=c.signal.addEventListener.bind(c.signal),remove=c.signal.removeEventListener.bind(c.signal);
+ c.signal.addEventListener=(name,fn,...args)=>{if(name==='abort')listeners.add(fn);return add(name,fn,...args)};
+ c.signal.removeEventListener=(name,fn,...args)=>{if(name==='abort')listeners.delete(fn);return remove(name,fn,...args)};
+ try{
+  const options={...base,signal:c.signal,unref:true};
+  assert.equal(await pRetry(()=>3,options),3);assert.equal(handles.size,0);assert.equal(listeners.size,0);
+  const reason=new Error('ordinary');await rejectsAs(pRetry(()=>{throw reason},options),reason);assert.equal(handles.size,0);assert.equal(listeners.size,0);
+  await assert.rejects(pRetry(()=>new Promise(()=>{}),options),api.AttemptTimeoutError);assert.equal(handles.size,0);assert.equal(listeners.size,0);
+  const run=pRetry(()=>new Promise(()=>{}),{...options,attemptTimeout:1000});c.abort('external');await rejectsAs(run,'external');assert.equal(handles.size,0);assert.equal(listeners.size,0);assert.ok(unrefs>=4);
+ }finally{globalThis.setTimeout=originalSet;globalThis.clearTimeout=originalClear;for(const handle of handles)originalClear(handle);originalClear(keep)}
+});
+test('D14 late promise and thenable rejection do not escape a default Node process',()=>{
+ ready();const moduleUrl=new URL('../index.js',import.meta.url).href;
+ const script=`import assert from 'node:assert/strict';import * as api from ${JSON.stringify(moduleUrl)};import {setTimeout as delay} from 'node:timers/promises';
+ assert.equal(typeof api.AttemptTimeoutError,'function');
+ for(const kind of ['promise','thenable']){
+  const source=kind==='promise'?()=>new Promise((resolve,reject)=>setTimeout(()=>reject(new Error('late')),20)):()=>({then(resolve,reject){setTimeout(()=>reject(new Error('late thenable')),20)}});
+  await assert.rejects(api.default(source,{attemptTimeout:2,retries:0}),api.AttemptTimeoutError);await delay(35);
+ }
+ const c=new AbortController();const run=api.default(()=>new Promise((resolve,reject)=>setTimeout(()=>reject(new Error('late canceled')),20)),{attemptTimeout:Infinity,retries:0,signal:c.signal});c.abort(0);await assert.rejects(run,e=>e===0);await delay(35);console.log('late-results-observed');`;
+ const child=spawnSync(process.execPath,['--input-type=module','-e',script],{encoding:'utf8',timeout:5000});assert.equal(child.status,0,child.stderr);assert.equal(child.stdout.trim(),'late-results-observed');assert.equal(child.error,undefined);
+});
+test('D15 concurrent calls have independent cancellation state',async()=>{
+ ready();const a=new AbortController(),signals=[];
+ const first=pRetry((n,c)=>{signals[0]=c.signal;return new Promise(()=>{})},{...base,attemptTimeout:Infinity,signal:a.signal});
+ const second=pRetry((n,c)=>{signals[1]=c.signal;return new Promise(()=>{})},base);
+ a.abort('one');const results=await Promise.allSettled([first,second]);assert.equal(results[0].reason,'one');assert.ok(results[1].reason instanceof api.AttemptTimeoutError);assert.notEqual(signals[0],signals[1]);assert.equal(signals[0].reason,'one');assert.equal(signals[1].reason,results[1].reason);
+});
+test('D16 makeRetriable preserves this and parameters under timeout mode',async()=>{
+ ready();const receiver={value:3};let calls=0;
+ const f=api.makeRetriable(function(a,b){assert.equal(this,receiver);assert.equal(arguments.length,2);return this.value+a+b},base);assert.equal(await f.call(receiver,4,5),12);
+ const hanging=api.makeRetriable(function(a){calls++;assert.equal(this,receiver);assert.equal(arguments.length,1);assert.equal(a,'argument');return new Promise(()=>{})},{...base,retries:1});
+ await assert.rejects(hanging.call(receiver,'argument'),api.AttemptTimeoutError);assert.equal(calls,2);
+});
+test('D17 synchronous throw and throwing then getter preserve the original error',async()=>{
+ ready();for(const kind of ['throw','getter']){const error=new Error(kind);let signal,captured;
+  await rejectsAs(pRetry((n,c)=>{signal=c.signal;if(kind==='throw')throw error;return {get then(){throw error}}},{...base,onFailedAttempt:c=>{captured=c.error}}),error);assert.equal(captured,error);assert.equal(signal.aborted,false);
+ }
+});
+test('D18 options remain untouched and a timer without unref works',async()=>{
+ ready();const options=Object.freeze({...base,unref:true});const original=setTimeout;
+ globalThis.setTimeout=(fn,ms,...args)=>{const handle=original(fn,ms,...args);handle.unref=undefined;return handle};
+ try{await assert.rejects(pRetry(()=>new Promise(()=>{}),options),api.AttemptTimeoutError);assert.deepEqual(options,{...base,unref:true})}finally{globalThis.setTimeout=original}
+});
+test('D19 unref attempt timer does not keep an otherwise idle process alive',()=>{
+ ready();const moduleUrl=new URL('../index.js',import.meta.url).href;
+ const script=`import pRetry from ${JSON.stringify(moduleUrl)};pRetry(()=>new Promise(()=>{}),{attemptTimeout:60000,retries:0,unref:true}).catch(()=>{});console.log('attempt-started');`;
+ const child=spawnSync(process.execPath,['--input-type=module','-e',script],{encoding:'utf8',timeout:3000});assert.equal(child.status,0,child.stderr);assert.equal(child.error,undefined);assert.equal(child.stdout.trim(),'attempt-started');
+});

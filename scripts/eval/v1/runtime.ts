@@ -6,7 +6,7 @@ import {POLICY_PATH,POLICY_BASE,NOTES_PATH} from '../c6/settings.ts';
 import {file,taskManifest} from './tasks.ts';
 import type {TaskId} from './settings.ts';
 export {gitState,snapshot,cleanup};
-export const mounts=(task:TaskId)=>task==='C7-L'?dependencyMounts():task==='C7-O'?[]:[`type=volume,src=${taskManifest(task).dependencyVolume},dst=/task/node_modules,volume-subpath=node_modules,readonly`];
+export const mounts=(task:TaskId)=>task==='C7-L'?dependencyMounts():task==='C7-O'?[]:[`type=volume,src=${taskManifest(task).dependencyVolume},dst=/task/node_modules,volume-subpath=node_modules,readonly`,...(task==='V1-D'?['type=tmpfs,dst=/task/node_modules/.cache,tmpfs-size=67108864,tmpfs-mode=1777']:[])];
 export async function newVolume(image:string,name:string,files:Snapshot){
  await docker(['volume','create','--label','axi.eval.study=v1-20261112',name]);
  await docker(['run','--rm','--network','none','--entrypoint','chown','--mount',`type=volume,src=${name},dst=/task`,image,'1000:1000','/task']);

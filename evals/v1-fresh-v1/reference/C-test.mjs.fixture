@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import QuickLRU from '../index.js';
+test('提交后通知看到移除状态，回调修改保留',()=>{
+ const seen=[];const c=new QuickLRU({maxSize:5,evictionTiming:'after',onEviction:k=>{seen.push(c.has(k));c.set('replacement',8)}});
+ c.set('first',1).set('second',2);c.evict();assert.deepEqual(seen,[false]);assert.equal(c.get('replacement'),8);
+});
+test('主动过期清理返回数量，不重复逻辑键',()=>{
+ const c=new QuickLRU({maxSize:3,evictionTiming:'after'});assert.equal(typeof c.prune,'function');c.set('gone',1,{maxAge:-1}).set('live',2);assert.equal(c.prune(),1);assert.deepEqual([...c],[['live',2]]);
+});
+test('一项回调抛错后仍通知余项，状态保持提交',()=>{
+ const seen=[];const reason={why:'stop'};const c=new QuickLRU({maxSize:5,evictionTiming:'after',onEviction:k=>{seen.push(k);throw reason}});c.set('a',1).set('b',2).set('c',3);
+ let error;try{c.evict(2)}catch(e){error=e}assert.equal(error,reason);assert.deepEqual(seen,['a','b']);assert.deepEqual([...c],[['c',3]]);
+});
