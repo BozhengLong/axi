@@ -1,6 +1,6 @@
 # 有界收尾复核
 
-依据[已确认D2](../11-v1-delivery-review-plan.md)。[开发对照](../verification/2026-11-14-v1-review-development.md)已通过，当前实现仍待C7和新题发布验收，不能把功能实现当作v1已发布。
+依据[已确认D2](../11-v1-delivery-review-plan.md)。[开发对照](../verification/2026-11-14-v1-review-development.md)与[当前C7](../verification/2026-11-14-v1-review-c7.md)已通过，当前实现仍待新题发布验收，不能把功能实现当作v1已发布。
 
 默认模式是`auto`。本轮有文件修改或获准执行bash后，Axi会在交付前复核一次。普通问答、仅文件读取和全部被拒绝的操作不触发。
 
