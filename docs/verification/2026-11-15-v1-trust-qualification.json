@@ -1,0 +1,217 @@
+{
+  "status": "qualified_for_initial_probes",
+  "implementationCommit": "c7180bf0d6eeb297917a6b25194861d186102e60",
+  "study": "v1-trust-20261115",
+  "sourceHash": "68074c688d051ec283c522d0472f4ce25bb4086c9bd9814e89c3de9bafcd9808",
+  "executionProfileHash": "0a88f5a7f6cefd816cc377bf286ea8b170dacc0670c8fd5d83878aaa6f041a09",
+  "oracleHash": "f9a0b0f8c681dedf0042878e66841c05ba05da20e4d4c1366bb43f7f6dd120fd",
+  "graderRevision": "02414f973a6fb8ac3efca7abd9437056396864af75aa2b0eb78e63586e7c8b45",
+  "image": "sha256:e9cb06278d78394368209a01abd962388ba57068719b28d61f9466f3b5e7a491",
+  "productHash": "20e1d611c50ae6e9bca0647068af1c429dd03dd7f9a9c609b2ad8fbda27fdb9a",
+  "offlineGroups": [
+    {
+      "id": "dependencies-before",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1127.1986670000001
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 9439.732250000001
+    },
+    {
+      "id": "types",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1041.558583
+    },
+    {
+      "id": "compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 5222.550084
+    },
+    {
+      "id": "calibration",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 69689.387209
+    },
+    {
+      "id": "stability",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 150568.035125
+    },
+    {
+      "id": "historical",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 93215.63450000001
+    },
+    {
+      "id": "interaction",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 25632.308499999985
+    },
+    {
+      "id": "transport",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 28909.279125
+    },
+    {
+      "id": "protocol",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 20136.729416999966
+    },
+    {
+      "id": "review",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 32379.01437499997
+    },
+    {
+      "id": "pipeline",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 115056.34658300004
+    },
+    {
+      "id": "fault",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 18273.882041999954
+    },
+    {
+      "id": "dependencies-after",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 822.5925840000855
+    }
+  ],
+  "evidenceAudit": {
+    "complete": true,
+    "traces": 10,
+    "files": 146,
+    "scores": 12,
+    "executionSeals": 8,
+    "sourceHash": "68074c688d051ec283c522d0472f4ce25bb4086c9bd9814e89c3de9bafcd9808",
+    "time": "2026-11-14T20:19:28.961Z"
+  },
+  "controlChecks": [
+    {
+      "id": "drain-true",
+      "passed": true,
+      "startDenied": true,
+      "gradeAllowed": true,
+      "mockAllowed": true,
+      "realDenied": true,
+      "traceComplete": true
+    },
+    {
+      "id": "drain-false",
+      "passed": true,
+      "startDenied": true,
+      "gradeAllowed": false,
+      "mockAllowed": true,
+      "realDenied": true,
+      "traceComplete": true
+    }
+  ],
+  "historicalReplay": [
+    {
+      "id": "formal-V1-E-r1-old",
+      "scope": "final",
+      "artifactHash": "eddf15644d33a97e1baf50449e9fedfc6fe8d20f5741995a1cd0e6c6b23ec32d",
+      "code": false,
+      "regression": true,
+      "expectedTargets": true,
+      "passed": true
+    },
+    {
+      "id": "formal-V1-E-r1-new",
+      "scope": "final",
+      "artifactHash": "519cc5daa4401b5e472f1d5729e6fbc18b78ff276b63729990a4d6ccf3c754ec",
+      "code": false,
+      "regression": true,
+      "expectedTargets": true,
+      "passed": true
+    },
+    {
+      "id": "formal-V1-E-r1-new",
+      "scope": "checkpoint",
+      "artifactHash": "519cc5daa4401b5e472f1d5729e6fbc18b78ff276b63729990a4d6ccf3c754ec",
+      "code": false,
+      "regression": true,
+      "expectedTargets": true,
+      "passed": true
+    },
+    {
+      "id": "formal-V1-E-r1-claude",
+      "scope": "final",
+      "artifactHash": "6fb48af3981bedbaa640cd1778d2dbdb6737c3010550997bf447959a2a438eec",
+      "code": false,
+      "regression": true,
+      "expectedTargets": true,
+      "passed": true
+    },
+    {
+      "id": "formal-V1-D-r1-claude",
+      "scope": "final",
+      "artifactHash": "f84b4de9a35b769fe500c9f7b0b0f91c98671cc6ab129e28d11bf4fb3b9bb881",
+      "code": false,
+      "regression": true,
+      "expectedTargets": true,
+      "passed": true
+    },
+    {
+      "id": "formal-V1-D-r1-old",
+      "scope": "final",
+      "artifactHash": "f015adc6e3a260ccdc0aae3ba737198900043cc0ba196884702ed95e255a7208",
+      "code": false,
+      "regression": true,
+      "expectedTargets": true,
+      "passed": true
+    },
+    {
+      "id": "formal-V1-D-r1-new",
+      "scope": "final",
+      "artifactHash": "6263fd1316d2e986006ce992b17ae55234f6cba2c33cbab540d6406a006d7417",
+      "code": false,
+      "regression": true,
+      "expectedTargets": true,
+      "passed": true
+    },
+    {
+      "id": "formal-V1-D-r1-new",
+      "scope": "checkpoint",
+      "artifactHash": "6263fd1316d2e986006ce992b17ae55234f6cba2c33cbab540d6406a006d7417",
+      "code": false,
+      "regression": true,
+      "expectedTargets": true,
+      "passed": true
+    }
+  ],
+  "realStartsAtReport": 0,
+  "controlScriptSha256": "a305f0c39e1a359ea42091ca2ff0906eccfd571ef0063dfbd1c6dd282228c1c6",
+  "recordedAt": "2026-11-14T20:19:29.060198+00:00"
+}
