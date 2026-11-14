@@ -27,16 +27,17 @@ export async function grade(task:FreshTask,id:string,seed:Snapshot,candidate:Sna
  const current=await isolated(IMAGE,task,`${id}-current`,normalized);
  try{
   const run=async(args:string[],input?:string,max=60000)=>{const r=await execute(current,args,input,true,remaining(max));assertVerificationCompleted(r,args.slice(0,3).join(' '));return r};
-  if(options.upstream!==false)for(const [label,line]of manifest.commands){const r=await run(['bash','-lc',line],undefined,300000);logs[label]=r;check(label,r.exitCode===0,r)}
+  for(const [label,line]of manifest.commands){if(options.upstream===false&&label!=='构建')continue;const r=await run(['bash','-lc',line],undefined,300000);logs[label]=r;check(label,r.exitCode===0,r)}
   const oracle={'eval-oracle/contract.test.mjs':file(fixture(`oracle/${task.slice(-1)}-test.mjs`)),'eval-oracle/types.mts':file(fixture(`oracle/${task.slice(-1)}-types.mts`))};
   const patch=await helper(IMAGE,current.volume,['bun','/opt/eval/c6-files.ts','patch'],true,JSON.stringify(oracle));if(patch.exitCode)throw Error(patch.stderr);
-  const contract=parseTests(await run(['node','--test','--test-reporter=tap','--test-timeout=10000','eval-oracle/contract.test.mjs'],undefined,120000));logs.contract=contract;if(/^#? ?FRESH_ORACLE_INFRA:[A-Z0-9_]+$/m.test(contract.stdout+'\n'+contract.stderr))throw Error('场景子进程发生非预期设施/信号退出');check('CONTRACT',complete(contract,task==='V1-C'?17:19),contract);
+  const contract=parseTests(await run(['node','--test','--test-reporter=tap','--test-timeout=10000','eval-oracle/contract.test.mjs'],undefined,120000));logs.contract=contract;if(/^#? ?FRESH_ORACLE_INFRA:[A-Z0-9_]+$/m.test(contract.stdout+'\n'+contract.stderr))throw Error('场景子进程发生非预期设施/信号退出');check('CONTRACT',complete(contract,task==='V1-E'?20:19),contract);
   const types=await run(['node','/opt/toolchain/node_modules/typescript/bin/tsc','--noEmit','--strict','--skipLibCheck','--target','ESNext','--lib','ESNext,DOM','--module','NodeNext','--moduleResolution','NodeNext','eval-oracle/types.mts']);logs.types=types;check('TYPES',types.exitCode===0,types);
   for(const b of changedJS(contents(seed['readme.md']!),candidate['readme.md']?contents(candidate['readme.md']):'')){const r=await run(['node','--input-type=module','--check'],b.source);check('README_JS:'+b.line,r.exitCode===0,r)}
   if(options.regression!==false&&newTests.length){
    const now=parseTests(await run(['node','--test','--test-reporter=tap','--test-timeout=10000',...newTests],undefined,120000));logs.regressionCurrent=now;
    const old=await isolated(IMAGE,task,`${id}-old`,{...clean(seed),...regressionFiles});
    try{
+    if(task==='V1-E'){const built=await execute(old,['bash','-lc','npm run build'],undefined,true,remaining(300000));assertVerificationCompleted(built,'fresh-regression-old-build');logs.regressionPreviousBuild=built;if(built.exitCode!==0)throw Error('原始源码构建失败，不能解释回归结果')}
     const previous=parseTests(await execute(old,['node','--test','--test-reporter=tap','--test-timeout=10000',...newTests],undefined,true,remaining(120000)));assertVerificationCompleted(previous,'fresh-regression-old');logs.regressionPrevious=previous;
     testReplay={paths:newTests,helperFiles:Object.keys(regressionFiles),current:now,previous,valid:complete(now)&&previous.exitCode!==0&&previous.total===now.total&&previous.failed>0&&previous.skipped===0&&previous.cancelled===0&&previous.assertionFailure,semanticReview:'pending'};
    }finally{await old.close()}

@@ -6,7 +6,7 @@ import type {FreshTask} from './settings.ts';
 export const fixture=(name:string)=>readFileSync(join(ROOT,'evals/v1-fresh-v1',name+'.fixture'),'utf8');
 export function reference(task:FreshTask,regression=true):Snapshot{
  const result=structuredClone(taskFiles(task)),id=task.slice(-1);
- for(const path of ['index.js','index.d.ts','readme.md'])result[path]=file(fixture(`reference/${id}-${path}`));
+ for(const path of task==='V1-E'?['index.ts','readme.md']:['index.js','index.d.ts','readme.md'])result[path]=file(fixture(`reference/${id}-${path}`));
  if(regression)result['eval-tests/reference.test.mjs']=file(fixture(`reference/${id}-test.mjs`));
  return result;
 }

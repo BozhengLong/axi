@@ -1,8 +1,8 @@
 # v1新题正式对照入口
 
-本轮依据[有界复核方案D4/D5](../11-v1-delivery-review-plan.md)。开发auto完整2/2、当前C7完整2/2后，才选择QuickLRU与p-retry新题。产品仍冻结为0330626，正式结果不能用于调整本轮产品或提示。
+本轮依据[有界复核方案D4/D5](../11-v1-delivery-review-plan.md)。开发auto完整2/2、当前C7完整2/2后，才选择新题。原QuickLRU在准备期因原测试不稳定退役；正式题为p-memoize与p-retry。产品仍冻结为0330626，正式结果不能用于调整本轮产品或提示。
 
-- [C题面](../../evals/specs/v1-fresh-v1/C/brief.md)：提交后淘汰通知、可重入状态及过期清理。
+- [E题面](../../evals/specs/v1-fresh-v1/E/brief.md)：按键失效、共享缓存、异步写入排序和失败恢复。
 - [D题面](../../evals/specs/v1-fresh-v1/D/brief.md)：单次尝试超时、取消上下文及迟到结果。
 - [验收矩阵和固定顺序](../../evals/specs/v1-fresh-v1/acceptance-matrix.md)。参考及保留检查不投递给候选。
 
@@ -12,7 +12,7 @@
 
 ## 运行和评分
 
-新任务的原库、依赖锁、投递快照和完整证据保存在私有研究目录。Node22.23.5、Bun1.3.14及镜像保持。p-retry的原类型工具需要缓存，只有node_modules/.cache使用64MiB临时挂载；所有依赖包仍只读，每次运行的缓存隔离，容器退出后丢弃。
+新任务的原库、依赖锁、投递快照和完整证据保存在私有研究目录。Node22.23.5、Bun1.3.14及镜像保持。两题的原类型工具需要缓存，只有node_modules/.cache使用64MiB临时挂载；所有依赖包仍只读，每次运行的缓存隔离，容器退出后丢弃。
 
 在私有研究run.sh设置正确环境后，入口为：
 
@@ -25,7 +25,7 @@ bun scripts/eval/fresh/run.ts --live
 
 执行与评分分别封存。新Axi在首次复核修改授权前保存检查点，任务结束后才评分，不向运行中的模型反馈保留结果。每组开始以参考实现检查评分环境。代码/新增回归分数与人工完整交付分开记录；模型流程completed不代表独立验收通过。
 
-每个保留场景在独立Node子进程运行。C最多3秒，D最多6秒；父进程同时要求成功退出和实际通过一个目标场景，空报告不会通过。清除继承的NODE_TEST_CONTEXT，避免嵌套测试误用父测试器的内部模式。该变量在[固定Node版本源码](https://github.com/nodejs/node/blob/v22.23.5/lib/internal/test_runner/utils.js#L199)中参与运行模式判定。已知超时为该场景失败；非预期信号/启动错误和外层评分超时单列设施异常。
+每个保留场景在独立Node子进程运行。E/D均最多6秒；父进程同时要求成功退出和实际通过一个目标场景，空报告不会通过。清除继承的NODE_TEST_CONTEXT，避免嵌套测试误用父测试器的内部模式。该变量在[固定Node版本源码](https://github.com/nodejs/node/blob/v22.23.5/lib/internal/test_runner/utils.js#L199)中参与运行模式判定。已知超时为该场景失败；非预期信号/启动错误和外层评分超时单列设施异常。
 
 ## 限定恢复与复核
 

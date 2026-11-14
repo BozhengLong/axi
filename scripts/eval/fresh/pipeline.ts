@@ -20,7 +20,7 @@ function command(changes:Snapshot,cache:boolean){
 try{
  for(const task of tasks)for(const variant of ['old','new','claude']as const){
   const seed=taskFiles(task),ref=reference(task),changes=Object.fromEntries(Object.entries(ref).filter(([k,v])=>JSON.stringify(seed[k])!==JSON.stringify(v)));
-  const tool=(id:string,files:Snapshot)=>({content:[{type:'tool_use',id,name:variant==='claude'?'Bash':'bash',input:{command:command(files,task==='V1-D')}}],stopReason:'tool_use'});
+  const tool=(id:string,files:Snapshot)=>({content:[{type:'tool_use',id,name:variant==='claude'?'Bash':'bash',input:{command:command(files,['V1-D','V1-E'].includes(task))}}],stopReason:'tool_use'});
   const end=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'});
   const draft=Object.fromEntries(Object.entries(changes).filter(([k])=>k==='readme.md'||k.startsWith('eval-tests/')));
   const mock=variant==='new'?[tool('initial-draft',draft),end('模拟待复核初稿。'),tool('review-write',changes),end('模拟最终参考交付，不计模型能力。')]:[tool('reference-write',changes),end('模拟参考交付，不计模型能力。')];

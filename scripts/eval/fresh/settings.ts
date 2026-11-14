@@ -2,18 +2,19 @@ import {join} from 'node:path';
 import {STUDY,IMAGE,authorization,read} from '../review/config.ts';
 export {STUDY,IMAGE,authorization,read};
 export const FRESH=join(STUDY,'fresh');
-export const tasks=['V1-C','V1-D'] as const;
+export const tasks=['V1-E','V1-D'] as const;
 export type FreshTask=typeof tasks[number];
 export const sources={
  'V1-C':{repo:'quick-lru',commit:'a2190ebdf8e455b95a7138803d274ff5ed57ebcd'},
  'V1-D':{repo:'p-retry',commit:'ac3c4cdb7f015e1f71825e4274e2323a49b615eb'},
+ 'V1-E':{repo:'p-memoize',commit:'49be452fa90183f04d7225b0f46ddd25a915febf'},
 };
 export const schedule=[
- {task:'V1-C',repeat:1,variants:['old','new','claude']},
+ {task:'V1-E',repeat:1,variants:['old','new','claude']},
  {task:'V1-D',repeat:1,variants:['claude','old','new']},
- {task:'V1-C',repeat:2,variants:['new','claude','old']},
+ {task:'V1-E',repeat:2,variants:['new','claude','old']},
  {task:'V1-D',repeat:2,variants:['old','new','claude']},
- {task:'V1-C',repeat:3,variants:['claude','old','new']},
+ {task:'V1-E',repeat:3,variants:['claude','old','new']},
  {task:'V1-D',repeat:3,variants:['new','claude','old']},
 ] as const;
 export function preparationGate(){

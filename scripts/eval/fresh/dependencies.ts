@@ -3,7 +3,9 @@ import {readFileSync,mkdirSync,writeFileSync,existsSync} from 'node:fs';
 import {docker,command,save} from '../core.ts';
 import {FRESH,STUDY,IMAGE,tasks,sources,preparationGate} from './settings.ts';
 preparationGate();
-for(const task of tasks){
+if(process.argv[2]&&!(process.argv[2] in sources))throw Error('未知新题');
+const selected=process.argv[2]?[process.argv[2] as keyof typeof sources]:tasks;
+for(const task of selected){
  const {repo,commit}=sources[task],id=task.slice(-1),root=join(FRESH,'sources',repo),dest=join(STUDY,'tasks',id);mkdirSync(dest,{recursive:true,mode:0o700});
  if((await command(['git','-C',root,'rev-parse','HEAD'])).stdout.trim()!==commit)throw Error('上游源码不符');
  if(existsSync(join(dest,'dependencies.json')))throw Error('不重复生成已固定依赖');
@@ -17,7 +19,7 @@ for(const task of tasks){
   const lock=(await docker(['exec',name,'cat','/deps/package-lock.json'])).stdout;writeFileSync(join(dest,'package-lock.json'),lock,{mode:0o600});
   const inventory=await docker(['exec','-w','/deps',name,'npm','ls','--all','--json'],undefined,true);save(join(dest,'dependencies.json'),{volume,repo,commit,...inventory});if(inventory.exitCode)throw Error('依赖树不完整');
   const bins=await docker(['exec',name,'ls','-l','/deps/node_modules/.bin']);save(join(dest,'binaries.json'),bins);
-  if(task==='V1-D')await docker(['exec',name,'mkdir','-p','/deps/node_modules/.cache']);
+  if(['V1-D','V1-E'].includes(task))await docker(['exec',name,'mkdir','-p','/deps/node_modules/.cache']);
   await docker(['exec',name,'chmod','-R','a+rX','/deps']);
   console.log(JSON.stringify({task,repo,commit,volume,installed:true}));
  }finally{await docker(['rm','-f',name],undefined,true)}
