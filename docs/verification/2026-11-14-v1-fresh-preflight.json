@@ -1,0 +1,69 @@
+{
+  "study": "v1-review-20261114",
+  "freeze": {
+    "commit": "2a945a891622a40d43cf70509c48a78c54a3fe5c",
+    "sourceHash": "22a21e84c2af511759ca76e734fc9b3f2a90c1e7f0cf8a6a57419b08c9ae097d",
+    "executionProfileHash": "abf5e27f462a38cc244d3860e05b5bde26e9c2b69961a4dbccff7346866ff782",
+    "oracleHash": "ae110e6b31ce02207b91576d69db634075bc943dd70a5dcd8f1b2874d803bc98",
+    "graderRevision": "c0824918b6b6a894cd2575a5736b29ddde00517905c25cfa02e16ddeb203e27d",
+    "remoteVerified": true,
+    "productCommit": "0330626249c916bf81612299cd6b58955ad8b8d9",
+    "productHash": "ada3e2b386109eed1b44b884976d8fcc6316b59e24e48f1e55690caaa27e6f05",
+    "time": "2026-11-14T13:07:00.309Z"
+  },
+  "image": "sha256:29f97703ac548452a9fae858a46c3f8de0dfa9759f7cbef0516b513dfb41f68f",
+  "inputs": {
+    "V1-E": "aca7c808c81b06d9fdb02dc19461a16a288dadf904ac53056a840ec9e0d93732",
+    "V1-D": "b8c6bac083b0fe968217848ac114628e89adb266c872d7c7b8627618aa524b55"
+  },
+  "dependencies": {
+    "V1-E/package-lock.json": "8e1072115b1fc145452d4402a7e902d29df13632ab15092c62595f6d89bfd3a7",
+    "V1-E/dependencies.json": "74c3bdca4711beeb1fefc00707c66c5a2bd464f4a7ad1e64578f5f358369c49b",
+    "V1-E/manifest.json": "4ab662a5622c134d941121935ea2824d07a58ec3911469482bc749a9161a66e6",
+    "V1-D/package-lock.json": "12d8bece075d1760e79e35bc48275f50d47259ac617814b40c727e2c4cd3577a",
+    "V1-D/dependencies.json": "b23d9018e6cdcb7c3ccce8fafdb368633b4cde44ce1a5723638289003f0d34d4",
+    "V1-D/manifest.json": "f5e6497b5bb7008e25e8a82a866914bb715f5e9c4ced2a7a66a88f38b6558dc3"
+  },
+  "checks": [
+    {
+      "name": "tests",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 9222.730083
+    },
+    {
+      "name": "types",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 960.0917079999999
+    },
+    {
+      "name": "calibration",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 68434.092209
+    },
+    {
+      "name": "pipeline",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 61453.091666999986
+    },
+    {
+      "name": "grader-fault",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 78.2862090000126
+    }
+  ],
+  "tests": 128,
+  "assertions": 855,
+  "calibrationCases": 21,
+  "pipelineRuns": 6,
+  "formalStarts": 0
+}
