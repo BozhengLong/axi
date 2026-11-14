@@ -14,6 +14,7 @@ export async function grade(task:FreshTask,id:string,seed:Snapshot,candidate:Sna
  const start=Date.now(),deadline=Math.min(start+15*60000,options.deadline??Infinity),checks:{id:string;pass:boolean;actual:unknown}[]=[],logs:Record<string,unknown>={};
  let expired=false;const names=[`axi-v1-${id}-current`,`axi-v1-${id}-old`];
  const timer=setTimeout(()=>{expired=true;void docker(['kill',...names],undefined,true)},Math.max(1,deadline-start));
+ timer.unref();
  const check=(id:string,pass:boolean,actual:unknown)=>checks.push({id,pass,actual});
  const remaining=(max:number)=>{if(expired||Date.now()>=deadline)throw Error('fresh_grade_deadline');return Math.min(max,deadline-Date.now())};
  const manifest=taskManifest(task),protectedPaths:string[]=manifest.protected;
@@ -22,10 +23,13 @@ export async function grade(task:FreshTask,id:string,seed:Snapshot,candidate:Sna
  if(options.git&&options.initialGit){const g=options.git,lines=g.status.trimEnd().split('\n').filter(Boolean);check('GIT',g.valid&&g.head===options.initialGit.head&&lines.every(l=>[' ','?'].includes(l[0]!))&&lines.includes(' M user/policy.txt')&&lines.includes('?? user/notes.txt'),{head:g.head,status:g.status})}
  check('DOCS',!!candidate['readme.md']?.data&&candidate['readme.md'].data!==seed['readme.md']?.data,'另行核对文档语义和示例');
  const normalized=clean(candidate);for(const p of protectedPaths)normalized[p]=seed[p]!;
+ // tsimp生成进程私有缓存和Unix socket。只在离线重建时排除这一路径，原封存及保护检查不变。
+ const runtimeCachePaths=task==='V1-E'?Object.keys(normalized).filter(p=>p==='.tsimp'||p.startsWith('.tsimp/')):[];
+ for(const p of runtimeCachePaths)delete normalized[p];logs.runtimeCacheOmitted=runtimeCachePaths;
  const regressionFiles=Object.fromEntries(Object.entries(normalized).filter(([p,e])=>p.startsWith('eval-tests/')&&!seed[p]&&e.type==='file'));
  const newTests=Object.keys(regressionFiles).filter(p=>p.endsWith('.test.mjs')).sort();let testReplay:any;
- const current=await isolated(IMAGE,task,`${id}-current`,normalized);
  try{
+  const current=await isolated(IMAGE,task,`${id}-current`,normalized);
   const run=async(args:string[],input?:string,max=60000)=>{const r=await execute(current,args,input,true,remaining(max));assertVerificationCompleted(r,args.slice(0,3).join(' '));return r};
   for(const [label,line]of manifest.commands){if(options.upstream===false&&label!=='构建')continue;const r=await run(['bash','-lc',line],undefined,300000);logs[label]=r;check(label,r.exitCode===0,r)}
   const oracle={'eval-oracle/contract.test.mjs':file(fixture(`oracle/${task.slice(-1)}-test.mjs`)),'eval-oracle/types.mts':file(fixture(`oracle/${task.slice(-1)}-types.mts`))};
@@ -44,5 +48,9 @@ export async function grade(task:FreshTask,id:string,seed:Snapshot,candidate:Sna
   }else testReplay={valid:false,paths:newTests,reason:options.regression===false?'本次不评新增回归':'缺少独立新增回归'};
   remaining(1);const result={task,checks,codePassed:checks.every(c=>c.pass),regressionPassed:testReplay.valid,fullDeliveryPassed:null,reportReview:'pending',testReplay,logs,elapsedMs:Date.now()-start,complete:true};save(join(directory,'grade.json'),result);return result;
  }catch(error){save(join(directory,'grade-error.json'),{error:String(error),checks,logs,expired});throw error}
- finally{clearTimeout(timer);await current.close()}
+ finally{
+  clearTimeout(timer);
+  // 初始化失败也可能已建卷；评分器只清理本次拥有的两个固定名称。
+  for(const name of names){await docker(['rm','-f',name],undefined,true);await docker(['volume','rm',name],undefined,true)}
+ }
 }
