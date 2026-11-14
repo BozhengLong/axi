@@ -1,4 +1,6 @@
 import {join} from 'node:path';
+import {writeFileSync,mkdirSync} from 'node:fs';
+import {executableOracle} from './measurement.ts';
 import {save,execute,docker,type Snapshot} from '../core.ts';
 import {clean,file,contents,taskManifest} from '../v1/tasks.ts';
 import {isolated,cleanup} from './runtime.ts';
@@ -33,7 +35,8 @@ async function gradeOwned(task:DevTask,id:string,seed:Snapshot,candidate:Snapsho
   const current=await isolated(IMAGE,task,names[0]!,normalized,window);logs.currentInitialization=current.initLog;
   const run=async(args:string[],input?:string)=>{const stage=args.slice(0,3).join(' '),allocated=remaining(stage),r=await execute(current,args,input,true,allocated);(logs.commands??=[] as any[]);(logs.commands as any[]).push({stage,args,allocatedMs:allocated,deadline,result:r});classifyCommand(r,stage);return r};
   for(const [label,line]of manifest.commands){if(options.upstream===false&&label!=='构建')continue;const r=await run(['bash','-lc',line],undefined);logs[label]=r;check(label,label==='原运行测试'?passedTests(testReport(r,label),manifest.upstreamTestCount):r.exitCode===0,r)}
-  const oracle={'eval-oracle/contract.test.mjs':file(fixture(`oracle/${task.slice(-1)}-test.mjs`)),'eval-oracle/types.mts':file(fixture(`oracle/${task.slice(-1)}-types.mts`))};
+  const measured=executableOracle(task,fixture(`oracle/${task.slice(-1)}-test.mjs`));logs.oracleMeasurement=measured.measurement;mkdirSync(directory,{recursive:true,mode:0o700});writeFileSync(join(directory,'effective-oracle.test.mjs'),measured.source,{mode:0o600});
+  const oracle={'eval-oracle/contract.test.mjs':file(measured.source),'eval-oracle/types.mts':file(fixture(`oracle/${task.slice(-1)}-types.mts`))};
   const patch=await run(['bun','/opt/eval/c6-files.ts','patch'],JSON.stringify(oracle));if(patch.exitCode)throw new GradingIndeterminate('oracle_patch','patch',patch);
   const contract=testReport(await run(['node','--test','--test-reporter=tap','eval-oracle/contract.test.mjs'],undefined),'contract');logs.contract=contract;check('CONTRACT',passedTests(contract,22),contract);
   const types=await run(['node','/opt/toolchain/node_modules/typescript/bin/tsc','--noEmit','--strict','--skipLibCheck','--target','ESNext','--lib','ESNext,DOM','--module','NodeNext','--moduleResolution','NodeNext','eval-oracle/types.mts']);logs.types=types;check('TYPES',types.exitCode===0,types);

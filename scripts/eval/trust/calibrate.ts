@@ -3,6 +3,7 @@ import {save,type Snapshot} from '../core.ts';
 import {taskFiles,contents,file} from '../v1/tasks.ts';
 import {capture,unchanged} from './provenance.ts';
 import {reference} from './tasks.ts';
+import {nativeOnceReference} from './calibration-material.ts';
 import {grade} from './grade.ts';
 import {STUDY,tasks,authorization,type DevTask} from './config.ts';
 const a=authorization(),stamp=Date.now(),directory=join(STUDY,'calibration-'+stamp),rows:any[]=[];const provenance=capture(directory);
@@ -13,6 +14,7 @@ for(const task of tasks){
  cases.push({task,name:'baseline',candidate:taskFiles(task),code:false,upstream:true});
  const taut=reference(task);taut['eval-tests/reference.test.mjs']=file("import test from 'node:test';import assert from 'node:assert/strict';test('always',()=>assert.equal(1,1));\n");cases.push({task,name:'tautology',candidate:taut,code:true,regression:false});
 }
+cases.push({task:'V1-D',name:'native-once',candidate:nativeOnceReference(),code:true,regression:true,upstream:true});
 function mutant(task:DevTask,name:string,before:string,after:string,target?:string){const candidate=reference(task),path=task==='V1-E'?'index.ts':'index.js',s=contents(candidate[path]!);if(s.split(before).length!==2)throw Error('变异位置不唯一:'+name);candidate[path]=file(s.replace(before,after));cases.push({task,name,candidate,code:false,target})}
 mutant('V1-E','key-receiver',"cacheKey: arguments_ => cacheKey(arguments_ as Parameters<FunctionToMemoize>),","cacheKey: arguments_ => cacheKey.call({}, arguments_ as Parameters<FunctionToMemoize>),",'E21');
 mutant('V1-E','extra-assimilation','await operation();','await Promise.resolve().then(operation);','E22');
