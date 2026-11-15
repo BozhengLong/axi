@@ -1,0 +1,1159 @@
+{
+  "study": "v1-reentry-20261115",
+  "plan": "docs/13-v1-reentrancy-qualification-plan.md",
+  "qualifiedAt": "2026-11-15T05:42:45.348704+00:00",
+  "startedAt": "2026-11-15T04:26:29+00:00",
+  "deadline": "2026-11-15T22:26:29+00:00",
+  "maxStarts": 34,
+  "realStartsAtQualification": 0,
+  "freeze": {
+    "preparedAt": "2026-11-15T05:30:06.091Z",
+    "phase": "qualification-only",
+    "sourceHash": "30d0235bee2354f498a2abbd16c4623a2ba29ef5455a491ac55c55530a84d025",
+    "executionProfileHash": "d0a40d4bf8b430c509de3146948a14694561833f2d49c818d6d2c4ae137c3168",
+    "contractDecisionHash": "d454a973f826abd98531ffe19a4a3f579b49c9e07fde7dc5d8a304decd1fce4a",
+    "measurementHash": "bd8c89a09a0dd8393c066d48be13c6835cce0d51bca8305198f2b0679f5dfee9",
+    "graderRevision": "5c712f7ee5738667852b7d5647cb461d939d9ec5c27b5f81e96ebea9f1bb9b29",
+    "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+    "productHash": "d1942352973cc95b5ab6e07283d94276737b3e8cb63b10e292cd9dcec7368dd1",
+    "inputs": {
+      "V1-E": "cfebf8af8b88bf24f200b70f51be1e50b8ae8f38fbec3068e35796ce0e07633e",
+      "V1-D": "bac31cc15a16bf03a931a1d9de349fa45b0a435907c0c2b5fc24266fab0e6881"
+    },
+    "schedule": [
+      {
+        "task": "V1-E",
+        "product": "current"
+      },
+      {
+        "task": "V1-E",
+        "product": "candidate"
+      },
+      {
+        "task": "V1-D",
+        "product": "candidate"
+      },
+      {
+        "task": "V1-D",
+        "product": "current"
+      }
+    ]
+  },
+  "implementationCommit": "009db35795f0b572e0194be486012014badc0f79",
+  "steps": [
+    {
+      "id": "dependencies-before",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1234.295625
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 9497.343541
+    },
+    {
+      "id": "types",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1126.7178750000003
+    },
+    {
+      "id": "compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 5639.296791999999
+    },
+    {
+      "id": "registration-compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 3027.135624999999
+    },
+    {
+      "id": "resource-measurement",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1028.0770409999968
+    },
+    {
+      "id": "calibration",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 196804.481708
+    },
+    {
+      "id": "reference-examples",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 26683.410208999994
+    },
+    {
+      "id": "stability",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 338750.246375
+    },
+    {
+      "id": "historical",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 255443.29208400007
+    },
+    {
+      "id": "interaction",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 26322.772708000033
+    },
+    {
+      "id": "transport",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 29048.587832999998
+    },
+    {
+      "id": "protocol",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 20451.04566599999
+    },
+    {
+      "id": "review",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 32188.626540999976
+    },
+    {
+      "id": "pipeline",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 165903.5796660001
+    },
+    {
+      "id": "fault",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 26942.740082999924
+    },
+    {
+      "id": "dependencies-after",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 888.4325830000453
+    }
+  ],
+  "unit": {
+    "tests": 141,
+    "assertions": 927
+  },
+  "finiteSequences": 157,
+  "calibration": [
+    {
+      "task": "V1-E",
+      "name": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-E",
+      "name": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-E",
+      "name": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "targetFailure": true,
+      "failedChecks": [
+        "DOCS",
+        "CONTRACT",
+        "REENTRY",
+        "TYPES"
+      ]
+    },
+    {
+      "task": "V1-E",
+      "name": "tautology",
+      "passed": true,
+      "code": true,
+      "regression": false,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-D",
+      "name": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-D",
+      "name": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-D",
+      "name": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "targetFailure": true,
+      "failedChecks": [
+        "DOCS",
+        "CONTRACT",
+        "TYPES"
+      ]
+    },
+    {
+      "task": "V1-D",
+      "name": "tautology",
+      "passed": true,
+      "code": true,
+      "regression": false,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-D",
+      "name": "native-once",
+      "passed": true,
+      "code": true,
+      "regression": true,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-D",
+      "name": "lazy-timer",
+      "passed": true,
+      "code": true,
+      "regression": true,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-E",
+      "name": "import-only",
+      "passed": true,
+      "code": true,
+      "regression": false,
+      "targetFailure": true,
+      "failedChecks": []
+    },
+    {
+      "task": "V1-E",
+      "name": "key-receiver",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "E21",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT"
+      ]
+    },
+    {
+      "task": "V1-E",
+      "name": "extra-assimilation",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "E22",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT"
+      ]
+    },
+    {
+      "task": "V1-E",
+      "name": "skip-writes",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "E13",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ]
+    },
+    {
+      "task": "V1-E",
+      "name": "missing-invalidation",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "E04",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ]
+    },
+    {
+      "task": "V1-E",
+      "name": "keep-old-flight",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "E04",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ]
+    },
+    {
+      "task": "V1-D",
+      "name": "extra-assimilation",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "D20",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT"
+      ]
+    },
+    {
+      "task": "V1-D",
+      "name": "inspect-cancel-reason",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "D08",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT"
+      ]
+    },
+    {
+      "task": "V1-D",
+      "name": "late-rejection-escapes",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT"
+      ]
+    },
+    {
+      "task": "V1-D",
+      "name": "listener-leak",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "D13",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT"
+      ]
+    },
+    {
+      "task": "V1-D",
+      "name": "timer-leak",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "D13",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT"
+      ]
+    },
+    {
+      "task": "V1-D",
+      "name": "wrapper-injects-context",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "D16",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT"
+      ]
+    },
+    {
+      "task": "V1-E",
+      "name": "republish-invalidated",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "targetFailure": true,
+      "failedChecks": [
+        "REENTRY"
+      ]
+    },
+    {
+      "task": "V1-E",
+      "name": "old-cleanup-new-entry",
+      "passed": true,
+      "code": false,
+      "regression": false,
+      "target": "E05",
+      "targetFailure": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ]
+    },
+    {
+      "task": "V1-D",
+      "name": "missing-unref",
+      "passed": true,
+      "code": null,
+      "regression": null,
+      "gradeStatus": "indeterminate",
+      "origin": "oracle_supervisor",
+      "target": "D13",
+      "targetFailure": true
+    }
+  ],
+  "repetitions": [
+    {
+      "repeat": 1,
+      "task": "V1-E",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 1,
+      "task": "V1-E",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 1,
+      "task": "V1-E",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 1,
+      "task": "V1-D",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 1,
+      "task": "V1-D",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 1,
+      "task": "V1-D",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 1,
+      "task": "V1-D",
+      "variant": "native-once",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 1,
+      "task": "V1-D",
+      "variant": "lazy-timer",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 2,
+      "task": "V1-E",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 2,
+      "task": "V1-E",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 2,
+      "task": "V1-E",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 2,
+      "task": "V1-D",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 2,
+      "task": "V1-D",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 2,
+      "task": "V1-D",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 2,
+      "task": "V1-D",
+      "variant": "native-once",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 2,
+      "task": "V1-D",
+      "variant": "lazy-timer",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 3,
+      "task": "V1-E",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 3,
+      "task": "V1-E",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 3,
+      "task": "V1-E",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 3,
+      "task": "V1-D",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 3,
+      "task": "V1-D",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 3,
+      "task": "V1-D",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 3,
+      "task": "V1-D",
+      "variant": "native-once",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 3,
+      "task": "V1-D",
+      "variant": "lazy-timer",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 4,
+      "task": "V1-E",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 4,
+      "task": "V1-E",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 4,
+      "task": "V1-E",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 4,
+      "task": "V1-D",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 4,
+      "task": "V1-D",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 4,
+      "task": "V1-D",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 4,
+      "task": "V1-D",
+      "variant": "native-once",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 4,
+      "task": "V1-D",
+      "variant": "lazy-timer",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 5,
+      "task": "V1-E",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 5,
+      "task": "V1-E",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 5,
+      "task": "V1-E",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 5,
+      "task": "V1-D",
+      "variant": "baseline",
+      "passed": true,
+      "code": false,
+      "regression": false
+    },
+    {
+      "repeat": 5,
+      "task": "V1-D",
+      "variant": "primary",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 5,
+      "task": "V1-D",
+      "variant": "alternative",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 5,
+      "task": "V1-D",
+      "variant": "native-once",
+      "passed": true,
+      "code": true,
+      "regression": true
+    },
+    {
+      "repeat": 5,
+      "task": "V1-D",
+      "variant": "lazy-timer",
+      "passed": true,
+      "code": true,
+      "regression": true
+    }
+  ],
+  "referenceExamples": {
+    "executions": 35,
+    "rounds": 5,
+    "materialsPerRound": 6,
+    "network": "disabled; fetch example uses explicit local stub"
+  },
+  "historicalViews": [
+    {
+      "id": "formal-V1-E-r1-old",
+      "group": "historical",
+      "scope": "final",
+      "artifactHash": "eddf15644d33a97e1baf50449e9fedfc6fe8d20f5741995a1cd0e6c6b23ec32d",
+      "viewHash": "c990490f60df89f45e2427b1227aae2beb6af32717d82e858c76f4e8d8c2a6c6",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ],
+      "passed": true
+    },
+    {
+      "id": "formal-V1-E-r1-new",
+      "group": "historical",
+      "scope": "final",
+      "artifactHash": "519cc5daa4401b5e472f1d5729e6fbc18b78ff276b63729990a4d6ccf3c754ec",
+      "viewHash": "7d4580f898d5b927726820aa01237e28dc2f5442fb4b4bc940694e281c6d4941",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ],
+      "passed": true
+    },
+    {
+      "id": "formal-V1-E-r1-new",
+      "group": "historical",
+      "scope": "checkpoint",
+      "artifactHash": "519cc5daa4401b5e472f1d5729e6fbc18b78ff276b63729990a4d6ccf3c754ec",
+      "viewHash": "7d4580f898d5b927726820aa01237e28dc2f5442fb4b4bc940694e281c6d4941",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ],
+      "passed": true
+    },
+    {
+      "id": "formal-V1-E-r1-claude",
+      "group": "historical",
+      "scope": "final",
+      "artifactHash": "6fb48af3981bedbaa640cd1778d2dbdb6737c3010550997bf447959a2a438eec",
+      "viewHash": "68d210f24b8037109b3c6572e5836e2bb1710c8d914110756714ece870938a0e",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ],
+      "passed": true
+    },
+    {
+      "id": "formal-V1-D-r1-claude",
+      "group": "historical",
+      "scope": "final",
+      "artifactHash": "f84b4de9a35b769fe500c9f7b0b0f91c98671cc6ab129e28d11bf4fb3b9bb881",
+      "viewHash": "5264fcbae8dc5e8efded8f56f849d3d3ea83d59e5feed212c9f8c239dbbcbcfa",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT",
+        "TYPES"
+      ],
+      "passed": true
+    },
+    {
+      "id": "formal-V1-D-r1-old",
+      "group": "historical",
+      "scope": "final",
+      "artifactHash": "f015adc6e3a260ccdc0aae3ba737198900043cc0ba196884702ed95e255a7208",
+      "viewHash": "e71cd4e8535a2c989a22bb59f3f4d1aac8f93717f095be71cf9de8507235fc2e",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT"
+      ],
+      "passed": true
+    },
+    {
+      "id": "formal-V1-D-r1-new",
+      "group": "historical",
+      "scope": "final",
+      "artifactHash": "6263fd1316d2e986006ce992b17ae55234f6cba2c33cbab540d6406a006d7417",
+      "viewHash": "b31ac6fc005c2c7508a42742ce2227ff3a7f939bea91006ea960c6a02a71ea3b",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT"
+      ],
+      "passed": true
+    },
+    {
+      "id": "formal-V1-D-r1-new",
+      "group": "historical",
+      "scope": "checkpoint",
+      "artifactHash": "6263fd1316d2e986006ce992b17ae55234f6cba2c33cbab540d6406a006d7417",
+      "viewHash": "b31ac6fc005c2c7508a42742ce2227ff3a7f939bea91006ea960c6a02a71ea3b",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT"
+      ],
+      "passed": true
+    },
+    {
+      "id": "development-V1-E-current",
+      "group": "last-development",
+      "scope": "final",
+      "artifactHash": "a0f794015bcaad36db696ad6403fc99d218d2942ef4a9abd70f23828810f9c28",
+      "viewHash": "12ebe449a570fd133a1b4656b3f353003e3c2f1f95ee63bc8200af3487360e89",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "REENTRY"
+      ],
+      "passed": true
+    },
+    {
+      "id": "development-V1-E-current",
+      "group": "last-development",
+      "scope": "checkpoint",
+      "artifactHash": "a0f794015bcaad36db696ad6403fc99d218d2942ef4a9abd70f23828810f9c28",
+      "viewHash": "12ebe449a570fd133a1b4656b3f353003e3c2f1f95ee63bc8200af3487360e89",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "REENTRY"
+      ],
+      "passed": true
+    },
+    {
+      "id": "development-V1-E-candidate",
+      "group": "last-development",
+      "scope": "final",
+      "artifactHash": "4c9813d60d0085cb337c20216fd33dd5ed63ceaba524d788de076bc3967f02ad",
+      "viewHash": "7652a3041efbb99766af7ae71cd13774c6c333d2063f9402eb7e2f56158d6cd3",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ],
+      "passed": true
+    },
+    {
+      "id": "development-V1-E-candidate",
+      "group": "last-development",
+      "scope": "checkpoint",
+      "artifactHash": "4c9813d60d0085cb337c20216fd33dd5ed63ceaba524d788de076bc3967f02ad",
+      "viewHash": "7652a3041efbb99766af7ae71cd13774c6c333d2063f9402eb7e2f56158d6cd3",
+      "code": false,
+      "regression": true,
+      "failedChecks": [
+        "CONTRACT",
+        "REENTRY"
+      ],
+      "passed": true
+    },
+    {
+      "id": "development-V1-D-candidate",
+      "group": "last-development",
+      "scope": "final",
+      "artifactHash": "fc3dd3b567a5b77c14c14f38dbc3425c3e307afa9b1b05d91089df5dc548f48c",
+      "viewHash": "c022770d79a778f7c7b810a4881f17aa2aa4ab06cf80d92ebf3a1a4490a46940",
+      "code": true,
+      "regression": true,
+      "failedChecks": [],
+      "passed": true
+    },
+    {
+      "id": "development-V1-D-candidate",
+      "group": "last-development",
+      "scope": "checkpoint",
+      "artifactHash": "fc3dd3b567a5b77c14c14f38dbc3425c3e307afa9b1b05d91089df5dc548f48c",
+      "viewHash": "c022770d79a778f7c7b810a4881f17aa2aa4ab06cf80d92ebf3a1a4490a46940",
+      "code": true,
+      "regression": true,
+      "failedChecks": [],
+      "passed": true
+    },
+    {
+      "id": "development-V1-D-current",
+      "group": "last-development",
+      "scope": "final",
+      "artifactHash": "763f0c64f0ae84236d706b0c8f2cb44ee4e4acc16c49cbfc1188e63b8f04d68b",
+      "viewHash": "6ebd2253b96a05f275565c12cc1432fa262adf80618d726f801581bb9a7e7567",
+      "code": true,
+      "regression": true,
+      "failedChecks": [],
+      "passed": true
+    },
+    {
+      "id": "development-V1-D-current",
+      "group": "last-development",
+      "scope": "checkpoint",
+      "artifactHash": "763f0c64f0ae84236d706b0c8f2cb44ee4e4acc16c49cbfc1188e63b8f04d68b",
+      "viewHash": "6ebd2253b96a05f275565c12cc1432fa262adf80618d726f801581bb9a7e7567",
+      "code": true,
+      "regression": true,
+      "failedChecks": [],
+      "passed": true
+    }
+  ],
+  "oldReferenceDiagnostics": [
+    {
+      "variant": "primary",
+      "viewHash": "b8bc2985edca95204e4611de7f301101eb9be1ca1ef07f2baee4a0780a896fae",
+      "code": false,
+      "regression": true,
+      "failures": [
+        "REENTRY"
+      ],
+      "meaning": "资格材料；不是新参考或模型成绩"
+    },
+    {
+      "variant": "alternative",
+      "viewHash": "1e70729d600e69d666775079bea8da78a5529445b172e65ddb6cb9d1508edaad",
+      "code": false,
+      "regression": true,
+      "failures": [
+        "REENTRY"
+      ],
+      "meaning": "资格材料；不是新参考或模型成绩"
+    },
+    {
+      "variant": "minimal-repair",
+      "viewHash": "a469f714222e4cc42a223b87aed471ed21844456d1422eebba9a07d875b7bb40",
+      "code": false,
+      "regression": true,
+      "failures": [
+        "REENTRY"
+      ],
+      "meaning": "资格材料；不是新参考或模型成绩"
+    }
+  ],
+  "fullCLIMocks": [
+    {
+      "id": "trust-pipeline-V1-E-v0",
+      "task": "V1-E",
+      "variant": "old",
+      "product": "v0",
+      "passed": true
+    },
+    {
+      "id": "trust-pipeline-V1-E-current",
+      "task": "V1-E",
+      "variant": "new",
+      "product": "current",
+      "passed": true
+    },
+    {
+      "id": "trust-pipeline-V1-E-candidate",
+      "task": "V1-E",
+      "variant": "new",
+      "product": "candidate",
+      "passed": true
+    },
+    {
+      "id": "trust-pipeline-V1-E-claude",
+      "task": "V1-E",
+      "variant": "claude",
+      "product": "claude",
+      "passed": true
+    },
+    {
+      "id": "trust-pipeline-V1-D-v0",
+      "task": "V1-D",
+      "variant": "old",
+      "product": "v0",
+      "passed": true
+    },
+    {
+      "id": "trust-pipeline-V1-D-current",
+      "task": "V1-D",
+      "variant": "new",
+      "product": "current",
+      "passed": true
+    },
+    {
+      "id": "trust-pipeline-V1-D-candidate",
+      "task": "V1-D",
+      "variant": "new",
+      "product": "candidate",
+      "passed": true
+    },
+    {
+      "id": "trust-pipeline-V1-D-claude",
+      "task": "V1-D",
+      "variant": "claude",
+      "product": "claude",
+      "passed": true
+    }
+  ],
+  "faultChecks": [
+    {
+      "name": "actual-pass",
+      "passed": true
+    },
+    {
+      "name": "actual-fail",
+      "passed": true
+    },
+    {
+      "name": "actual-syntax",
+      "passed": true
+    },
+    {
+      "name": "actual-timeout",
+      "passed": true
+    },
+    {
+      "name": "masked-timeout",
+      "passed": true
+    },
+    {
+      "name": "actual-cancel",
+      "passed": true
+    },
+    {
+      "name": "actual-nested-cancel",
+      "passed": true
+    },
+    {
+      "name": "actual-nested-timeout",
+      "passed": true
+    },
+    {
+      "name": "actual-empty",
+      "passed": true
+    },
+    {
+      "name": "actual-signal",
+      "passed": true
+    },
+    {
+      "name": "actual-supervisor",
+      "passed": true
+    },
+    {
+      "name": "sandbox-cache",
+      "passed": true
+    },
+    {
+      "name": "sandbox-unknown",
+      "passed": true
+    },
+    {
+      "name": "sandbox-escape",
+      "passed": true
+    },
+    {
+      "name": "sandbox-deadline",
+      "passed": true
+    },
+    {
+      "name": "expired",
+      "passed": true
+    },
+    {
+      "name": "stale-expired",
+      "passed": true
+    },
+    {
+      "name": "stale-worker-failed",
+      "passed": true
+    },
+    {
+      "name": "worker-cutoff-owned-cleanup",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Same assistant authored and reviewed qualification; not independent blind review",
+    "Finite declared sequences only; no proof of arbitrary program correctness",
+    "Model capability results remain pending",
+    "Old study scores unchanged; historical replay and human references are not new model successes"
+  ]
+}
