@@ -1,0 +1,239 @@
+{
+  "plan": "docs/18-v1-attribution-followup-plan.md",
+  "axiSubject": "0330626249c916bf81612299cd6b58955ad8b8d9",
+  "claudeVersion": "2.1.322",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "executionProfileHash": "1a930374b834499cec45a915bd8ab130ffd2c969d39b02c97d5e0eff13ce3ade",
+  "graderRevision": "48f79e0a142745146ef2835da452845c9ed013a85402c890940b4f14f584054b",
+  "moduleGraderRevisions": {
+    "Q": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+    "D": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+    "E": "5e612caefdf694d8e26b9b52f926d308c3d1614e60a936e8bbe82396f933b6e5"
+  },
+  "repairUsed": true,
+  "status": "D complete; E pending; study ongoing",
+  "time": "2026-11-15T21:52:46.204820+00:00",
+  "rows": [
+    {
+      "id": "D1-axi",
+      "product": "axi",
+      "generationRequests": 42,
+      "activeSeconds": 390.556566792,
+      "executionStatus": "completed",
+      "artifactHash": "399ac0d0e4b4b136f733432d58545d10b89dad3890aaf2368ad7a9a1037f709d",
+      "graderRevision": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+      "codeMachinePassed": true,
+      "regressionPassed": true,
+      "codeSemanticPassed": false,
+      "reportPassed": true,
+      "fullDeliveryPassed": false,
+      "failureChecks": [],
+      "regressionCurrent": 14,
+      "baselineFailed": 10
+    },
+    {
+      "id": "D1-claude",
+      "product": "claude",
+      "generationRequests": 40,
+      "activeSeconds": 570.961468916,
+      "executionStatus": "completed",
+      "artifactHash": "7777dbfcac314f22c2c83d20c8fde11c0e54a788d46069e7bdcb4668d729219f",
+      "graderRevision": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+      "codeMachinePassed": true,
+      "regressionPassed": true,
+      "codeSemanticPassed": true,
+      "reportPassed": true,
+      "fullDeliveryPassed": true,
+      "failureChecks": [],
+      "regressionCurrent": 23,
+      "baselineFailed": 21
+    },
+    {
+      "id": "D2-claude",
+      "product": "claude",
+      "generationRequests": 50,
+      "activeSeconds": 991.5740751249999,
+      "executionStatus": "budget_exhausted",
+      "artifactHash": "f2f38fed23a45e58858f7ea1cb8162acdd3b5543beccf149c6a3043ba662794d",
+      "graderRevision": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+      "codeMachinePassed": false,
+      "regressionPassed": true,
+      "codeSemanticPassed": true,
+      "reportPassed": false,
+      "fullDeliveryPassed": false,
+      "failureChecks": [
+        "DELIVERY"
+      ],
+      "regressionCurrent": 24,
+      "baselineFailed": 21
+    },
+    {
+      "id": "D2-axi",
+      "product": "axi",
+      "generationRequests": 41,
+      "activeSeconds": 458.5955605419999,
+      "executionStatus": "completed",
+      "artifactHash": "ba671dae40a7c3b1bf8614fa1c628664aebbd7795eba917927c202edf29903c5",
+      "graderRevision": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+      "codeMachinePassed": true,
+      "regressionPassed": true,
+      "codeSemanticPassed": false,
+      "reportPassed": true,
+      "fullDeliveryPassed": false,
+      "failureChecks": [],
+      "regressionCurrent": 27,
+      "baselineFailed": 20
+    }
+  ],
+  "supplementaryDiagnostic": {
+    "complete": true,
+    "time": "2026-11-15T21:50:57.498Z",
+    "rows": [
+      {
+        "id": "upstream",
+        "sourceHash": "1383d3520c457c3b2958b267ec06a57fc8a7c27cce393da56d2b67a7a990084d",
+        "actual": [
+          {
+            "throwOnThird": false,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          },
+          {
+            "throwOnThird": true,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "id": "reference-primary",
+        "sourceHash": "57e237cf4943c775f03caafe5e16de3fcf47512fe5ea9112ee0f073714c4ba3b",
+        "actual": [
+          {
+            "throwOnThird": false,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          },
+          {
+            "throwOnThird": true,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "id": "reference-alternative",
+        "sourceHash": "7f7fcf7b73f76700af76e464c80d7b5ad893c39644dd9af47963a8a7e27d08ec",
+        "actual": [
+          {
+            "throwOnThird": false,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          },
+          {
+            "throwOnThird": true,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "id": "D1-axi",
+        "artifactHash": "399ac0d0e4b4b136f733432d58545d10b89dad3890aaf2368ad7a9a1037f709d",
+        "sourceHash": "d250068eacd734ae436a0d2cb24ca9f389402fec1bded828f4d14427b3beb305",
+        "actual": [
+          {
+            "throwOnThird": false,
+            "reads": 3,
+            "status": "fulfilled",
+            "sameValue": true
+          },
+          {
+            "throwOnThird": true,
+            "reads": 3,
+            "status": "rejected",
+            "extraAccessError": true
+          }
+        ],
+        "pass": false
+      },
+      {
+        "id": "D1-claude",
+        "artifactHash": "7777dbfcac314f22c2c83d20c8fde11c0e54a788d46069e7bdcb4668d729219f",
+        "sourceHash": "b722535587621112b05b520fa666e6c62c53a0870f5e2905c8d5c1c5f8f48a7d",
+        "actual": [
+          {
+            "throwOnThird": false,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          },
+          {
+            "throwOnThird": true,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "id": "D2-claude",
+        "artifactHash": "f2f38fed23a45e58858f7ea1cb8162acdd3b5543beccf149c6a3043ba662794d",
+        "sourceHash": "08cfaaaa0bc3157d3f0cd07779a4da867e1ee9c686fec388eaf2222805f6b635",
+        "actual": [
+          {
+            "throwOnThird": false,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          },
+          {
+            "throwOnThird": true,
+            "reads": 2,
+            "status": "fulfilled",
+            "sameValue": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "id": "D2-axi",
+        "artifactHash": "ba671dae40a7c3b1bf8614fa1c628664aebbd7795eba917927c202edf29903c5",
+        "sourceHash": "3c08390d67fb1ef9844f027be797521ca080d44173355e73da9566f6d4f38364",
+        "actual": [
+          {
+            "throwOnThird": false,
+            "reads": 3,
+            "status": "fulfilled",
+            "sameValue": true
+          },
+          {
+            "throwOnThird": true,
+            "reads": 3,
+            "status": "rejected",
+            "extraAccessError": true
+          }
+        ],
+        "pass": false
+      }
+    ],
+    "scoreChanges": false,
+    "modelCalls": 0
+  },
+  "realStartsCompleted": 14,
+  "generationRequestsIncludingHealth": 352,
+  "taskTraceFiles": 63,
+  "taskTraceBytes": 95237483,
+  "interpretation": "Axi完整0/2为同类值观察兼容缺陷；Claude完整1/2，另一次代码通过但50次请求用尽未完成交付。普通N继续；不作总体排名。"
+}
