@@ -2,9 +2,13 @@
 
 依据[已确认D1–D5](../16-v1-axi-claude-attribution-plan.md)。新[发布契约](../15-v1-release-contract-v2.md)已对未来生效；本研究不执行正式发布验收，也不改变Axi产品。
 
+**当前状态（2026-11-16）：已关闭，A-INCOMPLETE。** 2个真实探针、6个主任务已留证；E09公开语义分歧影响唯一失败，P4及Q组未启动。见[结果报告](../verification/2026-11-16-v1-attribution-results.md)。私有`closure.json`使授权检查拒绝继续执行；不要删除关闭记录、重置时钟或使用剩余额度。以下是已关闭研究的执行说明，仅供审计。
+
 ## 研究与时钟
 
 私有入口为`~/.local/share/axi-evals/v1-attribution-20261115/`。北京时间2026-11-15 22:30:03开始准备，准备截止2026-11-16 02:30:03，总截止2026-11-16 16:30:03，最后30分钟留报告。18次真实CLI包含两个健康探针及16次任务；没有额外CLI补跑。旧研究目录只读，旧额度不继承。
+
+完整证据索引为上述目录的`TRACE-INDEX.md`，最终审计为`final-evidence-audit.json`。121个真实Trace文件、6份产物及9份评分均已核验；本轮自有运行资源已清理，镜像、依赖和私有证据保留。
 
 私有`run.sh`固定研究目录、不可变镜像ID和Node22环境。新设施位于`scripts/eval/attribution/`。Axi入口固定`/opt/axi-current/src/main.ts`，源码逐文件与Git对象`0330626`及镜像核对。工作区中的两段候选提示不参与本轮真实执行。Claude Code固定2.1.322；两产品请求`claude-opus-5-5`、medium。
 

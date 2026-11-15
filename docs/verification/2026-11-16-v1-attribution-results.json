@@ -1,0 +1,504 @@
+{
+  "study": "v1-attribution-20261115",
+  "status": "A-INCOMPLETE",
+  "researchComplete": false,
+  "closureComplete": true,
+  "closure": {
+    "state": "closed",
+    "attributionStatus": "A-INCOMPLETE",
+    "closedAt": "2026-11-15T16:39:38.361Z",
+    "startedAt": "2026-11-15T14:30:03.163Z",
+    "stoppedAt": "2026-11-15T16:23:57.357Z",
+    "originalDeadline": "2026-11-16T08:30:03.163Z",
+    "reason": "E09的最新删除成功期望未在公开题面明确；P3-axi仅此项失败，整体结果依赖有解释分歧的契约。修改预期或题面超出同契约测量修复，按D5停止新增并以A-INCOMPLETE收尾。",
+    "stopCategory": "contract_interpretation_material_to_outcome",
+    "actualCliStarts": 8,
+    "actualTaskStarts": 6,
+    "actualProbes": 2,
+    "generationRequests": 213,
+    "plannedTaskSlots": 16,
+    "notStarted": [
+      "P4-axi",
+      "P4-claude",
+      "Q1-axi",
+      "Q1-claude",
+      "Q2-claude",
+      "Q2-axi",
+      "Q3-axi",
+      "Q3-claude",
+      "Q4-claude",
+      "Q4-axi"
+    ],
+    "gradeRecoveryUsed": false,
+    "modelRestarts": 0,
+    "machineScoresUnchanged": true,
+    "artifactAndTraceVerified": true,
+    "ownedResourcesGone": true,
+    "unusedBudgetReusable": false,
+    "auditSha256": "99931f096dc5ec443715563be93b45f21d4f4c8c3b057cbfbce9d905258f67bc",
+    "interpretationResolved": false,
+    "releaseGatePassed": false
+  },
+  "identity": {
+    "time": "2026-11-15T15:17:38.277Z",
+    "codeCommit": "13315e13a8bf47ea06dcb622b742a556891ca318",
+    "sourceHash": "585ceca92fe0ded0fe3d4ae16a0e0dee99847de2f493ff728b85fd64bba8ac4b",
+    "executionProfileHash": "9e2e41e55e9e2579196cbaa5c3f630b27b18d6da7d12df9875e486715a12ce9c",
+    "contractDecisionHash": "d348608fc163c89d7a077feaa6c80a497cd4cb3fbf93a6ba07d2329341b5e519",
+    "measurementHash": "49a21eda41bece1d6919891939536ba6804e38adb18f90d0d44efb742f76c497",
+    "graderRevision": "e5fe5d5870a4d0bf139f2bab2b4402efa461b4ff147e2586b4f50429efdc0ebf",
+    "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+    "subjectCommit": "0330626249c916bf81612299cd6b58955ad8b8d9",
+    "modelStarts": 0
+  },
+  "subjects": {
+    "axi": "0330626249c916bf81612299cd6b58955ad8b8d9",
+    "claudeCode": "2.1.322",
+    "requestedModel": "claude-opus-5-5",
+    "effort": "medium"
+  },
+  "counts": {
+    "plannedTasks": 16,
+    "completedTaskRuns": 6,
+    "mainTasksPlanned": 8,
+    "mainTasksStarted": 6,
+    "assistanceTasksPlanned": 8,
+    "assistanceTasksStarted": 0,
+    "healthProbes": 2,
+    "generationRequests": 213,
+    "countTokensRequests": 1,
+    "semanticPass": 3,
+    "semanticOrdinaryFailure": 2,
+    "semanticIndeterminate": 1,
+    "finalScoreViews": 6,
+    "checkpointScoreViews": 3,
+    "runtimeGraderRepairs": 0
+  },
+  "rows": [
+    {
+      "id": "P1-axi",
+      "pair": "P1",
+      "product": "axi",
+      "task": "E",
+      "generationRequests": 43,
+      "countTokensRequests": 0,
+      "artifactHash": "c0464978bafb32f6edd9be9d60ebf74c108537510fc30f1983992a099064fbad",
+      "machine": {
+        "gradeStatus": "complete",
+        "codePassed": true,
+        "regressionPassed": true,
+        "fullDeliveryPassed": null,
+        "failureChecks": []
+      },
+      "semantic": {
+        "codeSemanticPass": true,
+        "regressionSemanticPass": true,
+        "documentationPass": true,
+        "reportPass": true,
+        "fullDeliveryPassed": true
+      },
+      "adjudication": "pass",
+      "manualReview": "manual-review/P1-axi/review.json",
+      "manualReviewSha256": "429334c5b2df3a22c3984c356d283a55147dc0c7811ba7a13d590d5249f6c0d0",
+      "traceManifestSha256": "6773f3e76c0c46e8b3017d1e24475063bec256db6c47b0fef2b3e3c9b2a5c1c0",
+      "traceFiles": 17,
+      "attribution": {
+        "level": "observation",
+        "finding": "本次0330626在现有预算内通过全部冻结E判据；单次成功不证明稳定能力提高，也不归因于此前未采用的提示。"
+      },
+      "evidence": {
+        "source": "manual-review/P1-axi/index.ts.diff",
+        "tests": "manual-review/P1-axi/p-memoize-delete.test.mjs",
+        "timeline": "manual-review/P1-axi/tool-timeline.json",
+        "lastProductionEdit": "toolu_01JSKVo8XhSMr3gMeVqptzbZ",
+        "finalVerification": "toolu_019gMXvdAwAWUXL5mt2q6Hav",
+        "baselineReplay": "toolu_01NMrEiCd5vq57s9fcNkvciJ"
+      },
+      "observations": [
+        "本函数starting集合控制去重登记，缓存级generation和键epoch独立控制写资格；共享函数失效不删除其他函数starting登记。",
+        "写资格保存调用形成时的startEpoch；等待删除后另存readEpoch供读取判断，不重新取得写资格。",
+        "state.users/writes/pendingDeletes归零并持有同一Map项时释放；starting在同步调用返回时移除。这里只作源码持有路径审查，不声称堆不可达证明。",
+        "10个新增测试包含单键、接收者、异步写入、失败恢复、串行/跨键、共享范围和同步重入等实际断言；导出断言之后仍验证实际行为，非只有导出存在。",
+        "模型曾修正自身测试中过强的old值预期；公开契约允许失效旧调用加入更新调用。修改后仍断言Promise身份失效及缓存来自新调用，没有降低公开契约。",
+        "最终生产修改后实际重跑构建、原90测试、原类型、新10测试、README示例、自定义类型和XO；均有各命令真实退出码0。",
+        "基线同10测试为0通过/10断言失败，无取消或跳过；独立重放同样确认。",
+        "报告主动列出资源释放未做堆测试、特殊组合未穷尽等限制；源码、测试命令及结果与可观察Trace相符。"
+      ],
+      "checkpoint": {
+        "id": "P1-axi-checkpoint",
+        "gradeStatus": "complete",
+        "codePassed": true,
+        "failureChecks": []
+      }
+    },
+    {
+      "id": "P1-claude",
+      "pair": "P1",
+      "product": "claude",
+      "task": "E",
+      "generationRequests": 20,
+      "countTokensRequests": 1,
+      "artifactHash": "c39132e8bd91fe1d63ccb188f2bf0d7364123e819176573f52add42d6d2902f1",
+      "machine": {
+        "gradeStatus": "complete",
+        "codePassed": true,
+        "regressionPassed": true,
+        "fullDeliveryPassed": null,
+        "failureChecks": []
+      },
+      "semantic": {
+        "codeSemanticPass": true,
+        "regressionSemanticPass": true,
+        "documentationPass": true,
+        "reportPass": true,
+        "fullDeliveryPassed": true
+      },
+      "adjudication": "pass",
+      "manualReview": "manual-review/P1-claude/review.json",
+      "manualReviewSha256": "66fc435f75a62d164cd5f48e7a151af1a9b0383b0edbf994259836c76513deb7",
+      "traceManifestSha256": "c34792cdbeff96f6f17afdf227d0d82f75536f97e907564a3953dd045e1d212f",
+      "traceFiles": 15,
+      "attribution": {
+        "level": "observation",
+        "finding": "本次Claude也通过全部冻结E判据；两边单次成功不支持能力排名。"
+      },
+      "evidence": {
+        "source": "manual-review/P1-claude/index.ts.diff",
+        "tests": "manual-review/P1-claude/p-memoize-delete.test.mjs",
+        "timeline": "manual-review/P1-claude/tool-timeline.json",
+        "lastProductionEdit": "toolu_017bQbzNgMNd2Cox6MLFz3p6",
+        "finalVerification": "toolu_01CzMC7817VutTehq8V9gMr9",
+        "baselineReplay": "toolu_01SqTgiFgCytE9LisEiMWauQ",
+        "exampleExecution": "toolu_0179W4LSDA3yv9zsomKJuFnN"
+      },
+      "observations": [
+        "本函数starting数组控制去重登记，缓存级generation和键epoch控制写资格，两者作用范围分离；等待后不刷新原epoch。",
+        "删除先挂tail，再调用后端；原删除失败不跳过下一次，直接等待失败删除的调用仍按原错误拒绝；已开始set按计数等待。",
+        "active、tail、pendingSets及Map项所有权共同决定释放，starting在同步启动finally移除；未作堆可达性证明。",
+        "17个回归有实际公共行为断言，当前17通过、原态17断言失败。全局unhandled观察器最终断言空，独立默认Node契约另行验证，生产代码未装全局兜底。",
+        "新测试第一次三项失败后，模型为公开Promise及时挂处理器，并将同步重入旧调用可加入新调用的预期改为契约允许范围；该处没有改生产实现。",
+        "多次删除测试对首个失败等待者允许数值的断言偏宽，不能单靠该断言证明失败传播；另一专门失败回归、独立契约及源码共同提供证据，整体新增回归有效。",
+        "最后一次生产调整是finishSet的等价早返回风格修改；之后重跑构建、原90测试、原类型、新17测试和生产XO，均有真实0退出码。README示例在该风格修改前用本地fetchUser计数桩执行，不涉及真实网络服务。",
+        "模型如实披露新增测试文件的非必需XO风格错误，没有把这项失败写成通过。用户文件、Git和保护项保持。",
+        "首个Python修改命令因镜像没有python3未生效，后续切换Edit并完成；Bash末尾构建成功使复合命令状态0，错误文本可见，不能据此认定工具协议错误。"
+      ],
+      "checkpoint": null
+    },
+    {
+      "id": "P2-claude",
+      "pair": "P2",
+      "product": "claude",
+      "task": "D",
+      "generationRequests": 33,
+      "countTokensRequests": 0,
+      "artifactHash": "5fa5cd5ac6d66c39e824c68e4a1497eaa12642fe22b8333d1c68e228419989b0",
+      "machine": {
+        "gradeStatus": "complete",
+        "codePassed": true,
+        "regressionPassed": true,
+        "fullDeliveryPassed": null,
+        "failureChecks": []
+      },
+      "semantic": {
+        "codeSemanticPass": true,
+        "regressionSemanticPass": true,
+        "documentationPass": true,
+        "reportPass": true,
+        "fullDeliveryPassed": true
+      },
+      "adjudication": "pass",
+      "manualReview": "manual-review/P2-claude/review.json",
+      "manualReviewSha256": "fc32e7b6b45760560d9f9bf4e2d7a0fbc61f179c7d005973db2e58adfeae1c5e",
+      "traceManifestSha256": "e79f1b658d36a0718eed4f7fba1e69240f2b9ae572f0ec7491e76303b5affa1b",
+      "traceFiles": 15,
+      "attribution": {
+        "level": "observation",
+        "finding": "Claude本次D完整通过，并自行修复了测试设施在原态不终止的问题；尚不能由此推断Axi对照或总体优势。"
+      },
+      "evidence": {
+        "source": "manual-review/P2-claude/artifacts/",
+        "timeline": "manual-review/P2-claude/tool-timeline.json",
+        "finalVerification": "toolu_01Gym2fTuQ27DjxgfY8HsQNE",
+        "baselineReplay": "toolu_01XciKKm6YT8uS2vyQEDnJiQ",
+        "baselineFailureInspection": "toolu_01YcGbj4GcSdTB9N7YDyH1sZ",
+        "lastProductionEdit": "toolu_016EBRRFF6MK4d2LCT7hcYuu"
+      },
+      "observations": [
+        "启用模式走独立attempt状态机，禁用/null/undefined保留原循环；直接await input保留原生Promise观察。",
+        "外部监听在input前安装，finish先锁结果并清理计时器/监听器，再发attempt abort；外部reason直接传播，不按Error归一化。",
+        "数值模式重载在前，原单参形式保留；readonly元数据和冻结context有运行与类型证据。",
+        "19项新增回归当前全过；原态3项兼容性用例通过，16项失败，完整报告无取消/跳过。主用例用明确的settleWithin行为截止形成断言失败。",
+        "原态子进程用例退出13，原因是无attemptTimeout能力导致顶层await未完成，没有触发execFile监督器；该项不能单独证明计时器清理，其他用例及冻结D13/D19提供独立资源证据。",
+        "模型第一版基线回放因旧库默认退避未结束；已停止自有进程并修订回归的终止方式，最终9秒完整回放。原失败过程保留，不当作最终有效回归。",
+        "最终生产修改后有132项原测试、原类型、19项新测试、生产XO及本地fetch桩示例的真实结果；报告明确承认eval-tests的非必需lint未通过。",
+        "报告披露自定义鸭子signal undefined原因的边界及未逐项比较Promise属性读取；在本轮原生AbortSignal和冻结契约范围内未确认违约。",
+        "保护文件、用户修改及Git通过机器与Trace核对。"
+      ],
+      "checkpoint": null
+    },
+    {
+      "id": "P2-axi",
+      "pair": "P2",
+      "product": "axi",
+      "task": "D",
+      "generationRequests": 42,
+      "countTokensRequests": 0,
+      "artifactHash": "1882e49f7949e8ecb47b1bf121dc8696573f4b8228a0200b324101ed0e3590ac",
+      "machine": {
+        "gradeStatus": "complete",
+        "codePassed": true,
+        "regressionPassed": true,
+        "fullDeliveryPassed": null,
+        "failureChecks": []
+      },
+      "semantic": {
+        "codeSemanticPass": true,
+        "regressionSemanticPass": true,
+        "documentationPass": false,
+        "reportPass": true,
+        "fullDeliveryPassed": false
+      },
+      "adjudication": "ordinary_failure",
+      "manualReview": "manual-review/P2-axi/review.json",
+      "manualReviewSha256": "b1a697896eb471270c03dc041b0fd413d44d5c7ed66028c4426605d5bc910ebe",
+      "traceManifestSha256": "7d523a6b71dec294d6e67024f36a2aec327289d32383184c5900621054ea4813",
+      "traceFiles": 17,
+      "attribution": {
+        "level": "observed workflow gap",
+        "finding": "本样本缺口在验证选择和文档收尾，不是已确认的Axi文件工具或协议缺陷。剩余8次复核请求未使用，不能直接归因为预算不足；另一产品在同环境用本地桩执行了示例，但未据此断言某段提示是原因。"
+      },
+      "evidence": {
+        "source": "manual-review/P2-axi/artifacts/",
+        "timeline": "manual-review/P2-axi/tool-timeline.json",
+        "lastDocumentationEdit": "toolu_01B3zkpsm9PYEiMiyBizKAtV",
+        "finalVerificationAndBaseline": "toolu_01LYdFLinGMrPbQQEZ1y5vj1",
+        "publicRequirement": "eval/brief.md：实际运行原运行测试、原类型测试、新回归及相关示例",
+        "newMissingAnchor": "readme.md:279 -> #attempttimeouterror",
+        "uniformDocAudit": "documentation-diagnostic-P1-P2.json"
+      },
+      "observations": [
+        "代码及全部冻结22条契约、原132测试/类型、18新增测试通过，原态15断言失败/3兼容用例通过；保护和Git无违反。",
+        "开启模式直接await input，独立context和资源状态；外部取消以单独abortOutcome绕过失败回调，falsy原因不会被真值判断丢弃。onAbort依原生once移除监听器，实际资源检查通过。",
+        "最终生产与检查点文件相同，检查点机器检查也全过。复核重跑必需测试和基线，但没有补上相关示例执行或发现文档锚点缺失。",
+        "最终报告诚实写明未执行README/d.ts示例，理由是环境不能联网；未尝试本地桩验证。D交付条款明确要求相关示例，故仍是未完成项；宿主不能代跑后将模型成绩改成通过。",
+        "README新增的AttemptTimeoutError链接没有目标标题或HTML锚点；同批已完成四份README统一核对，只有本份存在该新增缺口。",
+        "没有把实际未执行示例说成已执行，故不定性为H3伪造。报告总述无未完成必需项过宽，具体未执行项已有披露，按普通交付不完整处理。"
+      ],
+      "checkpoint": {
+        "id": "P2-axi-checkpoint",
+        "gradeStatus": "complete",
+        "codePassed": true,
+        "failureChecks": []
+      }
+    },
+    {
+      "id": "P3-claude",
+      "pair": "P3",
+      "product": "claude",
+      "task": "E",
+      "generationRequests": 25,
+      "countTokensRequests": 0,
+      "artifactHash": "35d9d8e21c035c52362e4bc37334f47c84b5fd01f2728a77074987f901493d30",
+      "machine": {
+        "gradeStatus": "complete",
+        "codePassed": false,
+        "regressionPassed": true,
+        "fullDeliveryPassed": null,
+        "failureChecks": [
+          "CONTRACT",
+          "REENTRY"
+        ]
+      },
+      "semantic": {
+        "codeSemanticPass": false,
+        "regressionSemanticPass": true,
+        "documentationPass": true,
+        "reportPass": true,
+        "fullDeliveryPassed": false
+      },
+      "adjudication": "ordinary_failure",
+      "manualReview": "manual-review/P3-claude/review.json",
+      "manualReviewSha256": "88b52940a0c3008f435360705c6c42978e5546adebfc8b525e75dde46836bbb7",
+      "traceManifestSha256": "ca93c96e002a9b0db10452a02e7e61772e99658d87fabcedd73a62bd4330ba28",
+      "traceFiles": 15,
+      "attribution": {
+        "level": "artifact mechanism supported",
+        "finding": "实现遗漏同步启动到Promise登记之间的失效边界，验证选择未覆盖该边界。相同产品第一次E通过、第二次失败，不能据此认定工具必然导致或模型存在固定能力上限。",
+        "notClaimed": [
+          "未用新的修复模型运行证明某段提示是原因",
+          "未把Q单缺陷援助实验当作该不同缺陷的直接因果实验"
+        ]
+      },
+      "evidence": {
+        "source": "manual-review/P3-claude/artifacts/index.ts.diff",
+        "tests": "manual-review/P3-claude/artifacts/test-p-memoize-delete.test.mjs",
+        "timeline": "manual-review/P3-claude/tool-timeline.json",
+        "contractRead": "toolu_01TeLsf7Cfq8Q759R8rvcXC5",
+        "finalVerification": "toolu_01JS78YbbFJGc7jdJSFkMDCU",
+        "baselineReplay": "toolu_01KWmrR6gqs1g5J953yDamUX",
+        "definiteFrozenCases": [
+          "S122",
+          "S128",
+          "P143",
+          "P144",
+          "P145",
+          "P146",
+          "P147",
+          "P148",
+          "P149",
+          "P150",
+          "P151",
+          "P152",
+          "P153",
+          "P154"
+        ],
+        "qualifiedItem": "E09-interpretation-note.json"
+      },
+      "observations": [
+        "实际工具返回包含“失效后的旧调用不能重新成为后续调用复用的工作”的公开登记条款，未见截断标记。",
+        "实现仍在异步调用返回后仅用!hasSettled重新登记Promise，没有本函数同步启动失效标记。cache.has或其属性读取内delete/clear已清除旧登记后，旧调用又把自己放回Map，随后新调用错误复用旧Promise。",
+        "上述机制由14项运行前冻结场景和源码共同支持；不需要依据E09或新增测试才能判本份不通过。E09的措辞解释限制单列，未擅自改判。",
+        "19个新增回归有实际语义断言，当前19通过、原态19断言失败；覆盖set、delete后端、cacheKey重入，未覆盖has/get处失效后返回再登记的关键路径。",
+        "模型确实运行并通过它报告的原90测试、原类型、新19测试、额外类型、README本地桩示例和可选XO。隐藏检查发现代码错误不等于伪造执行。",
+        "保护、Git、文档新增内部链接通过；未发现本轮Axi/Claude工具协议或授权导致这个产物缺陷的证据。"
+      ],
+      "checkpoint": null
+    },
+    {
+      "id": "P3-axi",
+      "pair": "P3",
+      "product": "axi",
+      "task": "E",
+      "generationRequests": 41,
+      "countTokensRequests": 0,
+      "artifactHash": "a269829f0d8ea4306135f1c71d25182ab6840738bdfd19746ec7770a197aad8b",
+      "machine": {
+        "gradeStatus": "complete",
+        "codePassed": false,
+        "regressionPassed": true,
+        "fullDeliveryPassed": null,
+        "failureChecks": [
+          "CONTRACT"
+        ]
+      },
+      "semantic": {
+        "codeSemanticPass": null,
+        "regressionSemanticPass": true,
+        "documentationPass": true,
+        "reportPass": true,
+        "fullDeliveryPassed": null
+      },
+      "adjudication": "indeterminate",
+      "manualReview": "manual-review/P3-axi/review.json",
+      "manualReviewSha256": "7c2c8775d2e25f8db9e232459df1df9be9d9e2192a45c6621427b7dd5f0ac423",
+      "traceManifestSha256": "1db51c072b08d84cdc8badd2a7d1b3b38da632e5cd8d9b43e9d5b210f126515f",
+      "traceFiles": 17,
+      "attribution": {
+        "level": "evaluation contract gap",
+        "finding": "本份无法支持产品能力失败归因；先明确公开等待者归属，不能用更强提示或人工修复代码掩盖评分前提不足。"
+      },
+      "evidence": {
+        "source": "manual-review/P3-axi/artifacts/",
+        "timeline": "manual-review/P3-axi/tool-timeline.json",
+        "finalVerification": "toolu_01CLWwzPWYJRZsQnS2WoqgBM",
+        "baselineAndClearComparison": "toolu_01H4zLSYMvJRrndfjjyqUcvP",
+        "dispute": "contract-dispute.json"
+      },
+      "observations": [
+        "最终和检查点的唯一失败均为E09，其余原构建/90测试/原类型、21条契约、157条重入、等待调用、保护及文档结构检查通过。",
+        "waitForDeletes显式等待当时尚未完成的每个删除，包括等待中新增者；其中一个失败就拒绝。后一次删除自身仍会执行并可成功。该解释与公开“等待失败删除的调用按原错误拒绝”存在合理对应，但与冻结E09的最新删除结果预期不同。",
+        "登记使用本函数registrations集合，写资格使用捕获的epoch/generation，读资格在等待后可刷新；冻结登记与等待调用场景通过。未确认其他足以独立决定不通过的缺陷。",
+        "17个新增回归有真实行为断言，当前17通过、原态17断言失败；另有README示例和类型文件实际验证。",
+        "复核由draft触发：37次工作请求、4次复核请求，共41次。复核实际完成原库与当前clear行为同输入对照、重新跑基线与全部必需检查，并披露可选XO仍有两项风格错误。",
+        "报告列出的命令、退出码及未执行边界与Trace对应。没有把隐藏E09失败推定为报告伪造。",
+        "文档新增内部链接有效，用户文件及Git保护通过；该结果作为争议样本保留，不排出分母或拿其他样本代替。"
+      ],
+      "checkpoint": {
+        "id": "P3-axi-checkpoint",
+        "gradeStatus": "complete",
+        "codePassed": false,
+        "failureChecks": [
+          "CONTRACT"
+        ]
+      }
+    }
+  ],
+  "notStarted": [
+    "P4-axi",
+    "P4-claude",
+    "Q1-axi",
+    "Q1-claude",
+    "Q2-claude",
+    "Q2-axi",
+    "Q3-axi",
+    "Q3-claude",
+    "Q4-claude",
+    "Q4-axi"
+  ],
+  "contractDispute": {
+    "time": "2026-11-15T16:23:57.357Z",
+    "reason": "E09的最新删除成功期望未在公开题面明确；P3-axi仅此项失败，整体结果依赖有解释分歧的契约。修改预期或题面超出同契约测量修复，按D5停止新增并以A-INCOMPLETE收尾。",
+    "publicClauses": [
+      "同一键多次delete顺序执行，后一次不因前一次失败而省略",
+      "若后端delete失败，删除调用和正在等待它的调用按原错误拒绝"
+    ],
+    "scenario": [
+      "D1开始并未结束",
+      "D2排队",
+      "新的memoized调用P进入",
+      "D1失败",
+      "D2成功"
+    ],
+    "frozenExpectation": "P成功读取/计算，E09期待值1",
+    "observedInterpretation": "P等待全部当前删除，因D1失败而拒绝",
+    "materialSample": "P3-axi",
+    "machineScoresUnchanged": true,
+    "interpretationNotResolved": true,
+    "gradeRepairUsed": false,
+    "notStarted": [
+      "P4-axi",
+      "P4-claude",
+      "Q1-axi",
+      "Q1-claude",
+      "Q2-claude",
+      "Q2-axi",
+      "Q3-axi",
+      "Q3-claude",
+      "Q4-claude",
+      "Q4-axi"
+    ]
+  },
+  "evidenceAudit": {
+    "time": "2026-11-15T16:38:06.674Z",
+    "complete": true,
+    "traceFiles": 121,
+    "traceBytes": 130521199,
+    "gradeFiles": 54,
+    "sourceSnapshotFiles": 13750,
+    "subjectSourceFiles": 19,
+    "gradeResourcesGone": true,
+    "resourceLockGone": true
+  },
+  "sourceSnapshotCount": 25,
+  "ownedBatchCount": 9,
+  "frozenEvidenceHashes": {
+    "authorization.json": "efb58da939ca475263d2b41f7ca8cda18fe06b904902a16d881dbe43788f4f4b",
+    "input-declaration.json": "b81a7acdb447876352cf7281cae6acd58f193ae09830e1fdfa9547c74ad71a39",
+    "manual-review-rubric.json": "233874163e3d22e203a43dae72040a016f714028b13e4f151756af76391b58ae",
+    "attribution-hypotheses.json": "a7069876c2a6f8581cd7a80cf159405b10cd213fe0adb16ecb4c99fa26c4c0df",
+    "subject-source.json": "e7580484fb0d65fc376e6e474037097d84e028b20b0bec7d11451521d8e31552",
+    "budget-qualification.ts": "f039e91da28d40c41759fff17966ec7540a606da01d07d8520cd0034eccbf9d6",
+    "budget-qualification.json": "9018fa00ae3c6cd0d11690ad00897500b15ce96b21e049730ca447d395c3d57f",
+    "offline-gates.json": "9691151704fa37b1f9d439dbe763db7e5b85e031f7c6cef43b67f59fb2d97677"
+  },
+  "privateEvidence": "~/.local/share/axi-evals/v1-attribution-20261115/TRACE-INDEX.md",
+  "limitations": [
+    "Q援助对照未启动，不能推断定位援助效果",
+    "P4缺失，不给总体排名或成功率外推",
+    "E09未裁定，不删除争议样本、不改原机判",
+    "人工审查由同一助手完成，不称独立盲审",
+    "未确认Axi工具或协议的确定性缺陷",
+    "本研究不代替发布G0–G6验收"
+  ],
+  "nextRecommendation": "保持产品冻结；先明确E09公开等待者语义并增加能区分两种解释的资格，再提交新的有界执行方案。不得恢复本研究额度。"
+}
