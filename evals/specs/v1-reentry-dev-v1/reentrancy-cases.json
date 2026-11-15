@@ -1,0 +1,1285 @@
+{
+  "version": 1,
+  "seed": "exhaustive-declared-small-products-v1-no-rng",
+  "maxKeys": 2,
+  "maxFunctions": 2,
+  "maxReentryDepth": 2,
+  "maxSequences": 256,
+  "cases": [
+    {
+      "id": "B001",
+      "kind": "boundary",
+      "point": "has",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B002",
+      "kind": "boundary",
+      "point": "has",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B003",
+      "kind": "boundary",
+      "point": "has",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B004",
+      "kind": "boundary",
+      "point": "has",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B005",
+      "kind": "boundary",
+      "point": "has",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B006",
+      "kind": "boundary",
+      "point": "has",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B007",
+      "kind": "boundary",
+      "point": "has-property",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B008",
+      "kind": "boundary",
+      "point": "has-property",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B009",
+      "kind": "boundary",
+      "point": "has-property",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B010",
+      "kind": "boundary",
+      "point": "has-property",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B011",
+      "kind": "boundary",
+      "point": "has-property",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B012",
+      "kind": "boundary",
+      "point": "has-property",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B013",
+      "kind": "boundary",
+      "point": "get",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B014",
+      "kind": "boundary",
+      "point": "get",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B015",
+      "kind": "boundary",
+      "point": "get",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B016",
+      "kind": "boundary",
+      "point": "get",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B017",
+      "kind": "boundary",
+      "point": "get",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B018",
+      "kind": "boundary",
+      "point": "get",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B019",
+      "kind": "boundary",
+      "point": "get-property",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B020",
+      "kind": "boundary",
+      "point": "get-property",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B021",
+      "kind": "boundary",
+      "point": "get-property",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B022",
+      "kind": "boundary",
+      "point": "get-property",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B023",
+      "kind": "boundary",
+      "point": "get-property",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B024",
+      "kind": "boundary",
+      "point": "get-property",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B025",
+      "kind": "boundary",
+      "point": "fn",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B026",
+      "kind": "boundary",
+      "point": "fn",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B027",
+      "kind": "boundary",
+      "point": "fn",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B028",
+      "kind": "boundary",
+      "point": "fn",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B029",
+      "kind": "boundary",
+      "point": "fn",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B030",
+      "kind": "boundary",
+      "point": "fn",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B031",
+      "kind": "boundary",
+      "point": "shouldCache",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B032",
+      "kind": "boundary",
+      "point": "shouldCache",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B033",
+      "kind": "boundary",
+      "point": "shouldCache",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B034",
+      "kind": "boundary",
+      "point": "shouldCache",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B035",
+      "kind": "boundary",
+      "point": "shouldCache",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B036",
+      "kind": "boundary",
+      "point": "shouldCache",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B037",
+      "kind": "boundary",
+      "point": "set",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B038",
+      "kind": "boundary",
+      "point": "set",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B039",
+      "kind": "boundary",
+      "point": "set",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B040",
+      "kind": "boundary",
+      "point": "set",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B041",
+      "kind": "boundary",
+      "point": "set",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B042",
+      "kind": "boundary",
+      "point": "set",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B043",
+      "kind": "boundary",
+      "point": "set-property",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B044",
+      "kind": "boundary",
+      "point": "set-property",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B045",
+      "kind": "boundary",
+      "point": "set-property",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B046",
+      "kind": "boundary",
+      "point": "set-property",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B047",
+      "kind": "boundary",
+      "point": "set-property",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "B048",
+      "kind": "boundary",
+      "point": "set-property",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes"
+    },
+    {
+      "id": "X049",
+      "kind": "error",
+      "point": "has",
+      "failure": "throw",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X050",
+      "kind": "error",
+      "point": "has",
+      "failure": "reject",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X051",
+      "kind": "error",
+      "point": "get",
+      "failure": "throw",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X052",
+      "kind": "error",
+      "point": "get",
+      "failure": "reject",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X053",
+      "kind": "error",
+      "point": "fn",
+      "failure": "throw",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X054",
+      "kind": "error",
+      "point": "fn",
+      "failure": "reject",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X055",
+      "kind": "error",
+      "point": "shouldCache",
+      "failure": "throw",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X056",
+      "kind": "error",
+      "point": "shouldCache",
+      "failure": "reject",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X057",
+      "kind": "error",
+      "point": "set",
+      "failure": "throw",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X058",
+      "kind": "error",
+      "point": "set",
+      "failure": "reject",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X059",
+      "kind": "error",
+      "point": "has-property",
+      "failure": "throw",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X060",
+      "kind": "error",
+      "point": "get-property",
+      "failure": "throw",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "X061",
+      "kind": "error",
+      "point": "set-property",
+      "failure": "throw",
+      "expected": "original error identity; subsequent call succeeds; no orphan rejection"
+    },
+    {
+      "id": "K062",
+      "kind": "nested",
+      "point": "cacheKey",
+      "action": "delete",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "K063",
+      "kind": "nested",
+      "point": "delete",
+      "action": "delete",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "K064",
+      "kind": "nested",
+      "point": "delete-property",
+      "action": "delete",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "K065",
+      "kind": "nested",
+      "point": "cacheKey",
+      "action": "clear",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "K066",
+      "kind": "nested",
+      "point": "delete",
+      "action": "clear",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "K067",
+      "kind": "nested",
+      "point": "delete-property",
+      "action": "clear",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "K068",
+      "kind": "nested",
+      "point": "cacheKey",
+      "action": "call",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "K069",
+      "kind": "nested",
+      "point": "delete",
+      "action": "call",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "K070",
+      "kind": "nested",
+      "point": "delete-property",
+      "action": "call",
+      "expected": "key resolution birth; effective deletion order; finite reentry terminates"
+    },
+    {
+      "id": "M071",
+      "kind": "model",
+      "scope": "target",
+      "phase": "compute",
+      "invalidation": "delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M072",
+      "kind": "model",
+      "scope": "target",
+      "phase": "compute",
+      "invalidation": "delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M073",
+      "kind": "model",
+      "scope": "target",
+      "phase": "compute",
+      "invalidation": "clear",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M074",
+      "kind": "model",
+      "scope": "target",
+      "phase": "compute",
+      "invalidation": "clear",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M075",
+      "kind": "model",
+      "scope": "target",
+      "phase": "compute",
+      "invalidation": "delete-delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M076",
+      "kind": "model",
+      "scope": "target",
+      "phase": "compute",
+      "invalidation": "delete-delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M077",
+      "kind": "model",
+      "scope": "target",
+      "phase": "write",
+      "invalidation": "delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M078",
+      "kind": "model",
+      "scope": "target",
+      "phase": "write",
+      "invalidation": "delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M079",
+      "kind": "model",
+      "scope": "target",
+      "phase": "write",
+      "invalidation": "clear",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M080",
+      "kind": "model",
+      "scope": "target",
+      "phase": "write",
+      "invalidation": "clear",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M081",
+      "kind": "model",
+      "scope": "target",
+      "phase": "write",
+      "invalidation": "delete-delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M082",
+      "kind": "model",
+      "scope": "target",
+      "phase": "write",
+      "invalidation": "delete-delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M083",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "compute",
+      "invalidation": "delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M084",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "compute",
+      "invalidation": "delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M085",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "compute",
+      "invalidation": "clear",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M086",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "compute",
+      "invalidation": "clear",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M087",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "compute",
+      "invalidation": "delete-delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M088",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "compute",
+      "invalidation": "delete-delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M089",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "write",
+      "invalidation": "delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M090",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "write",
+      "invalidation": "delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M091",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "write",
+      "invalidation": "clear",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M092",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "write",
+      "invalidation": "clear",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M093",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "write",
+      "invalidation": "delete-delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M094",
+      "kind": "model",
+      "scope": "shared",
+      "phase": "write",
+      "invalidation": "delete-delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M095",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "compute",
+      "invalidation": "delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M096",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "compute",
+      "invalidation": "delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M097",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "compute",
+      "invalidation": "clear",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M098",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "compute",
+      "invalidation": "clear",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M099",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "compute",
+      "invalidation": "delete-delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M100",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "compute",
+      "invalidation": "delete-delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M101",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "write",
+      "invalidation": "delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M102",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "write",
+      "invalidation": "delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M103",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "write",
+      "invalidation": "clear",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M104",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "write",
+      "invalidation": "clear",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M105",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "write",
+      "invalidation": "delete-delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M106",
+      "kind": "model",
+      "scope": "other-key",
+      "phase": "write",
+      "invalidation": "delete-delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M107",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "compute",
+      "invalidation": "delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M108",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "compute",
+      "invalidation": "delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M109",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "compute",
+      "invalidation": "clear",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M110",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "compute",
+      "invalidation": "clear",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M111",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "compute",
+      "invalidation": "delete-delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M112",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "compute",
+      "invalidation": "delete-delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M113",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "write",
+      "invalidation": "delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M114",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "write",
+      "invalidation": "delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M115",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "write",
+      "invalidation": "clear",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M116",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "write",
+      "invalidation": "clear",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M117",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "write",
+      "invalidation": "delete-delete",
+      "completion": "old-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "M118",
+      "kind": "model",
+      "scope": "other-cache",
+      "phase": "write",
+      "invalidation": "delete-delete",
+      "completion": "new-first",
+      "expected": "contract transition model and observable happens-before relations"
+    },
+    {
+      "id": "S119",
+      "kind": "scope",
+      "point": "has",
+      "scope": "shared",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S120",
+      "kind": "scope",
+      "point": "has",
+      "scope": "shared",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S121",
+      "kind": "scope",
+      "point": "has",
+      "scope": "other-key",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S122",
+      "kind": "scope",
+      "point": "has",
+      "scope": "other-key",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S123",
+      "kind": "scope",
+      "point": "has",
+      "scope": "other-cache",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S124",
+      "kind": "scope",
+      "point": "has",
+      "scope": "other-cache",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S125",
+      "kind": "scope",
+      "point": "has-property",
+      "scope": "shared",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S126",
+      "kind": "scope",
+      "point": "has-property",
+      "scope": "shared",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S127",
+      "kind": "scope",
+      "point": "has-property",
+      "scope": "other-key",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S128",
+      "kind": "scope",
+      "point": "has-property",
+      "scope": "other-key",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S129",
+      "kind": "scope",
+      "point": "has-property",
+      "scope": "other-cache",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S130",
+      "kind": "scope",
+      "point": "has-property",
+      "scope": "other-cache",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S131",
+      "kind": "scope",
+      "point": "get",
+      "scope": "shared",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S132",
+      "kind": "scope",
+      "point": "get",
+      "scope": "shared",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S133",
+      "kind": "scope",
+      "point": "get",
+      "scope": "other-key",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S134",
+      "kind": "scope",
+      "point": "get",
+      "scope": "other-key",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S135",
+      "kind": "scope",
+      "point": "get",
+      "scope": "other-cache",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S136",
+      "kind": "scope",
+      "point": "get",
+      "scope": "other-cache",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S137",
+      "kind": "scope",
+      "point": "get-property",
+      "scope": "shared",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S138",
+      "kind": "scope",
+      "point": "get-property",
+      "scope": "shared",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S139",
+      "kind": "scope",
+      "point": "get-property",
+      "scope": "other-key",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S140",
+      "kind": "scope",
+      "point": "get-property",
+      "scope": "other-key",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S141",
+      "kind": "scope",
+      "point": "get-property",
+      "scope": "other-cache",
+      "action": "delete",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "S142",
+      "kind": "scope",
+      "point": "get-property",
+      "scope": "other-cache",
+      "action": "clear",
+      "expected": "only target inflight identity invalidated; shared write scope differs from inflight scope"
+    },
+    {
+      "id": "P143",
+      "kind": "publication",
+      "point": "has",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P144",
+      "kind": "publication",
+      "point": "has",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P145",
+      "kind": "publication",
+      "point": "has",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P146",
+      "kind": "publication",
+      "point": "has",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P147",
+      "kind": "publication",
+      "point": "has",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P148",
+      "kind": "publication",
+      "point": "has",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P149",
+      "kind": "publication",
+      "point": "has-property",
+      "action": "delete",
+      "delivery": "plain",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P150",
+      "kind": "publication",
+      "point": "has-property",
+      "action": "delete",
+      "delivery": "native",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P151",
+      "kind": "publication",
+      "point": "has-property",
+      "action": "delete",
+      "delivery": "thenable",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P152",
+      "kind": "publication",
+      "point": "has-property",
+      "action": "clear",
+      "delivery": "plain",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P153",
+      "kind": "publication",
+      "point": "has-property",
+      "action": "clear",
+      "delivery": "native",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "P154",
+      "kind": "publication",
+      "point": "has-property",
+      "action": "clear",
+      "delivery": "thenable",
+      "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    }
+  ],
+  "counts": {
+    "boundary": 48,
+    "error": 13,
+    "nested": 9,
+    "model": 48,
+    "scope": 24,
+    "publication": 12
+  },
+  "limits": [
+    "No user-created wait cycles, infinite recursion or synchronous blocking",
+    "Boundary matrix covers has/get/set properties; delete-property and cacheKey use separate nested scenarios",
+    "Promise rejection and throwing attributes are separate error scenarios; no all-axis Cartesian claim",
+    "Cleanup and after-resume ordering covered by state sequences and inherited E05/E06/E09/E10/E14/E16/E20",
+    "Resource lifetime requires separate held-state audit; these sequences do not prove GC reachability",
+    "Original API compatibility and D resources are separate suites",
+    "Completion old-first/new-first denotes release of external signals; actual event order remains constrained by dependencies"
+  ]
+}
