@@ -1,0 +1,859 @@
+{
+  "state": "completed",
+  "attributionStatus": "A-GO",
+  "releaseGatePassed": false,
+  "time": "2026-11-15T22:29:42.599Z",
+  "plan": "docs/18-v1-attribution-followup-plan.md",
+  "semantics": "docs/17-e09-waiter-semantics.md",
+  "startedAt": "2026-11-15T17:10:43.550Z",
+  "originalDeadline": "2026-11-16T17:10:43.550Z",
+  "axiSubject": "0330626249c916bf81612299cd6b58955ad8b8d9",
+  "claudeVersion": "2.1.322",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+  "sourceHash": "1edb90b4366e98a4b1392940b2384e2dfd8ad18ed01f288a2a260f2d41a96e48",
+  "executionProfileHash": "1a930374b834499cec45a915bd8ab130ffd2c969d39b02c97d5e0eff13ce3ade",
+  "contractDecisionHash": "c4a133c1e86ba01c150c165169bdacf7ee4dda7b2143c1a5b825e905370d6d3c",
+  "graderRevision": "48f79e0a142745146ef2835da452845c9ed013a85402c890940b4f14f584054b",
+  "moduleGraderRevisions": {
+    "Q": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+    "D": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+    "E": "5e612caefdf694d8e26b9b52f926d308c3d1614e60a936e8bbe82396f933b6e5"
+  },
+  "qualificationGroups": 24,
+  "preflightChecks": 25,
+  "realCliStarts": 18,
+  "taskStarts": 16,
+  "healthProbes": 2,
+  "generationRequests": 482,
+  "countTokensRequests": 4,
+  "gradeRepairUsed": true,
+  "modelRestarts": 0,
+  "hardBlockersObserved": 0,
+  "groups": [
+    {
+      "module": "Q",
+      "product": "axi",
+      "assisted": false,
+      "n": 2,
+      "fullDeliveryPassed": 1,
+      "targetRepairPassed": 1
+    },
+    {
+      "module": "Q",
+      "product": "axi",
+      "assisted": true,
+      "n": 2,
+      "fullDeliveryPassed": 2,
+      "targetRepairPassed": 2
+    },
+    {
+      "module": "Q",
+      "product": "claude",
+      "assisted": false,
+      "n": 2,
+      "fullDeliveryPassed": 2,
+      "targetRepairPassed": 2
+    },
+    {
+      "module": "Q",
+      "product": "claude",
+      "assisted": true,
+      "n": 2,
+      "fullDeliveryPassed": 1,
+      "targetRepairPassed": 2
+    },
+    {
+      "module": "D",
+      "product": "axi",
+      "assisted": null,
+      "n": 2,
+      "fullDeliveryPassed": 0,
+      "codeSemanticPassed": 0
+    },
+    {
+      "module": "D",
+      "product": "claude",
+      "assisted": null,
+      "n": 2,
+      "fullDeliveryPassed": 1,
+      "codeSemanticPassed": 2
+    },
+    {
+      "module": "E",
+      "product": "axi",
+      "assisted": null,
+      "n": 2,
+      "fullDeliveryPassed": 1,
+      "codeSemanticPassed": 1
+    },
+    {
+      "module": "E",
+      "product": "claude",
+      "assisted": null,
+      "n": 2,
+      "fullDeliveryPassed": 0,
+      "codeSemanticPassed": 0
+    }
+  ],
+  "rows": [
+    {
+      "id": "Q1-axi",
+      "module": "Q",
+      "product": "axi",
+      "assisted": false,
+      "repeat": 1,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 28,
+      "activeSeconds": 654.875911542,
+      "artifactHash": "946281184097cb1c03b16303e66783617f09648d8159bd840959399981106810",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "gradeStatus": "complete",
+      "codeMachinePassed": false,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": false,
+      "regressionSemanticPassed": false,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "fullDeliveryPassed": false,
+      "targetRepairPassed": false,
+      "failureChecks": [
+        "REENTRY",
+        "Q_REPRO"
+      ],
+      "failedReentryCases": [
+        "not ok 119 - S119 scope",
+        "not ok 120 - S120 scope",
+        "not ok 125 - S125 scope",
+        "not ok 126 - S126 scope"
+      ],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 8,
+        "passed": 8
+      },
+      "regressionBaseline": {
+        "total": 8,
+        "failed": 1,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "ff430184621a827b81861470f3e3c1ccb0d4301010b1724b70e23e8d5f6b9ad6",
+      "attribution": {
+        "level": "confirmed mechanism / process observation",
+        "finding": "无援助时在读取资格路径修补，保留共享写epoch限制函数内登记的目标缺陷；不能由单例推断产品总体能力或工具原因"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "Q1-claude",
+      "module": "Q",
+      "product": "claude",
+      "assisted": false,
+      "repeat": 1,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 23,
+      "activeSeconds": 516.027077499,
+      "artifactHash": "ccfea976130b86faf688a9159c041c597e79854bc663319b295045f2e65349ad",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "fullDeliveryPassed": true,
+      "targetRepairPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 7,
+        "passed": 7
+      },
+      "regressionBaseline": {
+        "total": 7,
+        "failed": 2,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "a6874990008fb359bcc04f514931398a2a6393a1bda75ed3ac45ba8dde0470b0",
+      "attribution": {
+        "level": "confirmed mechanism; single unassisted observation",
+        "finding": "在没有定位援助时实际发现共享失效错删另一函数登记的路径，并修复及添加delete/clear身份回归。不能外推总体排名或模型能力。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "Q2-claude",
+      "module": "Q",
+      "product": "claude",
+      "assisted": true,
+      "repeat": 1,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 10,
+      "activeSeconds": 159.73218875,
+      "artifactHash": "87e0ff6cd7e4dbb2cf39d37f961216cde1dc79a71d0542e49c4be6f5f32776e7",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "fullDeliveryPassed": true,
+      "targetRepairPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 6,
+        "passed": 6
+      },
+      "regressionBaseline": {
+        "total": 6,
+        "failed": 2,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "ca54f3f20822c70fef1af1c8e1a7039508a87bef3fbf5fedf8784e5340554a4f",
+      "attribution": {
+        "level": "intervention exposure and confirmed mechanism",
+        "finding": "实际使用援助复现，修复目标共享范围缺陷；这是有援助条件单次成功，不能单独推出援助因果效应。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "Q2-axi",
+      "module": "Q",
+      "product": "axi",
+      "assisted": true,
+      "repeat": 1,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 19,
+      "activeSeconds": 191.22017512500003,
+      "artifactHash": "15e11028f895bbe19ee21bac5f09be1ec85fcc527c41e0917f6bd9b60d80bea1",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "fullDeliveryPassed": true,
+      "targetRepairPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 5,
+        "passed": 5
+      },
+      "regressionBaseline": {
+        "total": 5,
+        "failed": 2,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "bef6c182053b16e89610abbaa3c5c0125084dfd90b3eb9e0b94115515869ccfa",
+      "attribution": {
+        "level": "intervention exposure and confirmed mechanism",
+        "finding": "有援助条件下读到复现、改对共享登记条件并完成有效回归；单次观察不能代表总体效应。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "Q3-axi",
+      "module": "Q",
+      "product": "axi",
+      "assisted": true,
+      "repeat": 2,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 22,
+      "activeSeconds": 268.900060917,
+      "artifactHash": "db7b36eb0a90dfa8be4021f0515204618eae6d59fdb00e6583f982eb0887c777",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "fullDeliveryPassed": true,
+      "targetRepairPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 4,
+        "passed": 4
+      },
+      "regressionBaseline": {
+        "total": 4,
+        "failed": 2,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "c6a7c0dfa4054091aac72b5a50e88f1bec28dab0d2efc43bd28fc8615bff737b",
+      "attribution": {
+        "level": "intervention exposure and confirmed mechanism",
+        "finding": "第二次有援助Axi也完成目标修复与全部交付；还需Q4第二次无援助才能按预声明比较。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "Q3-claude",
+      "module": "Q",
+      "product": "claude",
+      "assisted": true,
+      "repeat": 2,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 20,
+      "activeSeconds": 224.93146245799988,
+      "artifactHash": "a9b10c36d0a269ff14e878fea2cfd0aca18c70d9e98b4909480f64d6f3623411",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": false,
+      "fullDeliveryPassed": false,
+      "targetRepairPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 4,
+        "passed": 4
+      },
+      "regressionBaseline": {
+        "total": 4,
+        "failed": 2,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "462b22de72c96fe427d9e081acaaa37e28ff799554796fc0ad9b4309a03dd530",
+      "attribution": {
+        "level": "confirmed mechanism and process observation",
+        "finding": "援助条件下修好目标，但发生并自行纠正禁止的工作区重置；对完整交付造成普通流程缺口，不能归因于模型权限绕过。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "Q4-claude",
+      "module": "Q",
+      "product": "claude",
+      "assisted": false,
+      "repeat": 2,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 21,
+      "activeSeconds": 432.2397544159999,
+      "artifactHash": "c51959a72baeeaefc42a6fc2b7057fe85462a3bded8a4481b181adf675a227cb",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": true,
+      "targetRepairPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 6,
+        "passed": 6
+      },
+      "regressionBaseline": {
+        "total": 6,
+        "failed": 2,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "8ca35f2b327ea8b8fe044f373b0898301664f5dc73bd1d2dbb78982558fad0ef",
+      "attribution": {
+        "level": "confirmed mechanism and process observation",
+        "finding": "第二次无援助Claude再次完成目标修复与完整交付；不能由少量同题观察推断总体能力或援助因果效应。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "Q4-axi",
+      "module": "Q",
+      "product": "axi",
+      "assisted": false,
+      "repeat": 2,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 26,
+      "activeSeconds": 565.632815125,
+      "artifactHash": "5fd90c0599b4e4902fdb249e7df8d96665828b7f87b537fbacb053444d2c457a",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": true,
+      "targetRepairPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 9,
+        "passed": 9
+      },
+      "regressionBaseline": {
+        "total": 9,
+        "failed": 2,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "a4e297a5c5deebee2719946c14bdf617a454aa70a789efa416cefe4e7e601f9b",
+      "attribution": {
+        "level": "confirmed mechanism and process observation",
+        "finding": "Axi第二次无援助完整成功；无援助为1/2、有援助2/2，未达到预声明0/2到2/2的一致有效条件。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "D1-axi",
+      "module": "D",
+      "product": "axi",
+      "assisted": false,
+      "repeat": 1,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 42,
+      "activeSeconds": 390.556566792,
+      "artifactHash": "399ac0d0e4b4b136f733432d58545d10b89dad3890aaf2368ad7a9a1037f709d",
+      "graderRevision": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": false,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": false,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": null,
+      "regressionCurrent": {
+        "total": 14,
+        "passed": 14
+      },
+      "regressionBaseline": {
+        "total": 14,
+        "failed": 10,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "a4e69fa7f9ed50c1de60d2e774295bfde66ab597bd54b8bcc0b8fbe952c48716",
+      "attribution": {
+        "level": "reproduced candidate code defect",
+        "finding": "与D2-Axi同样的额外async返回解析，普通值多读then一次，可把成功改为拒绝。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "D1-claude",
+      "module": "D",
+      "product": "claude",
+      "assisted": false,
+      "repeat": 1,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 40,
+      "activeSeconds": 570.961468916,
+      "artifactHash": "7777dbfcac314f22c2c83d20c8fde11c0e54a788d46069e7bdcb4668d729219f",
+      "graderRevision": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": null,
+      "regressionCurrent": {
+        "total": 23,
+        "passed": 23
+      },
+      "regressionBaseline": {
+        "total": 23,
+        "failed": 21,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "578130c0aa91e529c2c9712ef3bd882bba3bfe03118eeb97a4bb5d8d9d6a9431",
+      "attribution": {
+        "level": "completed delivery observation",
+        "finding": "第一轮D完整通过；有测试设计失误及自我修正过程，不证明产品工具确定性缺陷。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "D2-claude",
+      "module": "D",
+      "product": "claude",
+      "assisted": false,
+      "repeat": 2,
+      "executionStatus": "budget_exhausted",
+      "classification": "candidate_unfinished",
+      "generationRequests": 50,
+      "activeSeconds": 991.5740751249999,
+      "artifactHash": "f2f38fed23a45e58858f7ea1cb8162acdd3b5543beccf149c6a3043ba662794d",
+      "graderRevision": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+      "gradeStatus": "complete",
+      "codeMachinePassed": false,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": false,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": false,
+      "failureChecks": [
+        "DELIVERY"
+      ],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": null,
+      "regressionCurrent": {
+        "total": 24,
+        "passed": 24
+      },
+      "regressionBaseline": {
+        "total": 24,
+        "failed": 21,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "9fdb7fa9556e4667cb0fe2f6466598ea50e7486692d0e0b77264b532ec77cd55",
+      "attribution": {
+        "level": "bounded delivery failure observation",
+        "finding": "实现、回归和文档达标，但在可选变体验证及清理之后耗尽生成请求，未完成最终交付；单次观察不能证明唯一因果或整体能力排名。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "D2-axi",
+      "module": "D",
+      "product": "axi",
+      "assisted": false,
+      "repeat": 2,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 41,
+      "activeSeconds": 458.5955605419999,
+      "artifactHash": "ba671dae40a7c3b1bf8614fa1c628664aebbd7795eba917927c202edf29903c5",
+      "graderRevision": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": false,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": false,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": null,
+      "regressionCurrent": {
+        "total": 27,
+        "passed": 27
+      },
+      "regressionBaseline": {
+        "total": 27,
+        "failed": 20,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "a3adc319236cda9fb7910ac0d42142fc28a068c32e1e26cee271566ffd5554f9",
+      "attribution": {
+        "level": "reproduced candidate code defect",
+        "finding": "新模式额外async返回解析使普通值的then多读一次；公开结果可由成功变拒绝。N兼容失败，非评分争议/H3。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "E1-axi",
+      "module": "E",
+      "product": "axi",
+      "assisted": false,
+      "repeat": 1,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 41,
+      "activeSeconds": 482.227697082,
+      "artifactHash": "41c0908f3e9f1e7d49121a66d7fa3f4f49a6899219b5d01544c0c9edeedb77e3",
+      "graderRevision": "5e612caefdf694d8e26b9b52f926d308c3d1614e60a936e8bbe82396f933b6e5",
+      "gradeStatus": "complete",
+      "codeMachinePassed": false,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": false,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": false,
+      "failureChecks": [
+        "REENTRY"
+      ],
+      "failedReentryCases": [
+        "not ok 119 - S119 scope",
+        "not ok 120 - S120 scope",
+        "not ok 125 - S125 scope",
+        "not ok 126 - S126 scope"
+      ],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 24,
+        "passed": 24
+      },
+      "regressionBaseline": {
+        "total": 24,
+        "failed": 24,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "f8b3d6fb65e7517a2e2b9a41a64c4c2efff50fc66da2c1ff6161f5eb8800579d",
+      "attribution": {
+        "level": "reproduced candidate code defect",
+        "finding": "共享写失效标记错误支配函数局部去重登记；未证明Axi工具/协议确定性缺陷。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "E1-claude",
+      "module": "E",
+      "product": "claude",
+      "assisted": false,
+      "repeat": 1,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 30,
+      "activeSeconds": 415.97135241600006,
+      "artifactHash": "57201ab607b985607a3d28a8efcab14ff039ec38e998e56190359ddd2ae44804",
+      "graderRevision": "5e612caefdf694d8e26b9b52f926d308c3d1614e60a936e8bbe82396f933b6e5",
+      "gradeStatus": "complete",
+      "codeMachinePassed": false,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": false,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": false,
+      "failureChecks": [
+        "REENTRY"
+      ],
+      "failedReentryCases": [
+        "not ok 122 - S122 scope",
+        "not ok 128 - S128 scope",
+        "not ok 143 - P143 publication",
+        "not ok 144 - P144 publication",
+        "not ok 145 - P145 publication",
+        "not ok 146 - P146 publication",
+        "not ok 147 - P147 publication",
+        "not ok 148 - P148 publication",
+        "not ok 149 - P149 publication",
+        "not ok 150 - P150 publication",
+        "not ok 151 - P151 publication",
+        "not ok 152 - P152 publication",
+        "not ok 153 - P153 publication",
+        "not ok 154 - P154 publication"
+      ],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 20,
+        "passed": 20
+      },
+      "regressionBaseline": {
+        "total": 20,
+        "failed": 20,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "682df93fd781f50083f75a4f984f8ee9a1390659c2beae44635799c36f39ce7b",
+      "attribution": {
+        "level": "reproduced candidate code defect",
+        "finding": "失效发生在同步重入中，但旧调用随后无资格检查地重新登记；14冻结场景与源码一致。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "E2-claude",
+      "module": "E",
+      "product": "claude",
+      "assisted": false,
+      "repeat": 2,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 28,
+      "activeSeconds": 385.12066404200004,
+      "artifactHash": "56ee03710725adc1f5ccc015b7c516e5634798c613afd8c52cac4bc826ab9d0d",
+      "graderRevision": "5e612caefdf694d8e26b9b52f926d308c3d1614e60a936e8bbe82396f933b6e5",
+      "gradeStatus": "complete",
+      "codeMachinePassed": false,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": false,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": false,
+      "failureChecks": [
+        "REENTRY"
+      ],
+      "failedReentryCases": [
+        "not ok 119 - S119 scope",
+        "not ok 120 - S120 scope",
+        "not ok 125 - S125 scope",
+        "not ok 126 - S126 scope"
+      ],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 24,
+        "passed": 24
+      },
+      "regressionBaseline": {
+        "total": 24,
+        "failed": 24,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "58a4f35a3f64a7f7403447ae6591af568c21ee621771536fec8c6f1a74e07314",
+      "attribution": {
+        "level": "reproduced candidate code defect",
+        "finding": "共享写失效资格被用于局部去重登记，另一共享函数失效后本函数本应保留的登记丢失。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    },
+    {
+      "id": "E2-axi",
+      "module": "E",
+      "product": "axi",
+      "assisted": false,
+      "repeat": 2,
+      "executionStatus": "completed",
+      "classification": "completed",
+      "generationRequests": 31,
+      "activeSeconds": 448.3492062920001,
+      "artifactHash": "cfe338e44b2bdd7e242c4792112449a68d6c526410554fd0d9ffb99774a61145",
+      "graderRevision": "5e612caefdf694d8e26b9b52f926d308c3d1614e60a936e8bbe82396f933b6e5",
+      "gradeStatus": "complete",
+      "codeMachinePassed": true,
+      "regressionMachinePassed": true,
+      "codeSemanticPassed": true,
+      "regressionSemanticPassed": true,
+      "documentationPassed": true,
+      "reportPassed": true,
+      "processCompliancePassed": true,
+      "fullDeliveryPassed": true,
+      "failureChecks": [],
+      "failedReentryCases": [],
+      "waitingSemanticsPassed": true,
+      "regressionCurrent": {
+        "total": 22,
+        "passed": 22
+      },
+      "regressionBaseline": {
+        "total": 22,
+        "failed": 22,
+        "cancelled": 0,
+        "assertion": true
+      },
+      "manualReviewSha256": "ddb08e7f50061e0f00957bb1f137869222a90bb2d37bb29d768188921c6f8be3",
+      "attribution": {
+        "level": "completed delivery observation",
+        "finding": "局部登记资格与共享写资格分离，等待选取/重入/保护及真实验证完整；本例未确认工具或协议缺陷。"
+      },
+      "hardBlocker": false,
+      "reviewComplete": true
+    }
+  ],
+  "evidence": {
+    "traceFiles": 280,
+    "traceBytes": 296355545,
+    "scoreViews": 27,
+    "gradeEvidenceFiles": 216,
+    "sourceSnapshots": 52,
+    "sourceSnapshotFileEntries": 33120,
+    "subjectSourceFiles": 19,
+    "baselineComparatorSourceFiles": 11,
+    "ownedBatches": 20,
+    "resourcesGone": true,
+    "resourceLockGone": true,
+    "supplementaryDiagnostic": {
+      "manifestSha256": "b0b697968d9ab6b290284c6f38ec456dfde9001c12cdfc7a8238fe340c02d0aa",
+      "files": 19,
+      "rows": 7,
+      "resourcesGone": true
+    },
+    "auditSha256": "52a6022c5cc9ba0db50bc89bb4fe0230b8fcbac0dd3a15a2e6fd8205a3a06b88"
+  },
+  "limitations": [
+    "三模块分别报告，不合并为总体排行榜",
+    "E/D为已暴露专项，不计20道代表性任务",
+    "每种条件每方两次，不证明统计显著性或固定能力上限",
+    "同一助手审查，不称独立盲审",
+    "完整Trace指API和工具实际可观察内容，不包含未返回的内部推理",
+    "旧研究保持关闭、旧争议不回写"
+  ],
+  "notAuthorizedOrRun": [
+    "产品行为改动",
+    "20题发布批次",
+    "main合并",
+    "tag或Release"
+  ],
+  "reviewObservation": {
+    "n": 8,
+    "filesChangedAfterCheckpoint": 0,
+    "snapshotIdentityVerified": true,
+    "source": "review-change-audit.json",
+    "sha256": "541bfc2464e22578d2ebf8fdabbba6675be8002c5e927e88c21017686b2402be"
+  }
+}

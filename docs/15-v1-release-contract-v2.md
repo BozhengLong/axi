@@ -2,7 +2,9 @@
 
 2026-11-15。状态：D1–D5已获用户确认。本文件与[同题归因方案](16-v1-axi-claude-attribution-plan.md)共同使用下表的D1–D5。设计提交时只交付文档，后续用户已授权先执行归因研究。
 
-2026-11-16执行结果：归因研究因E09公开语义分歧按D5关闭，状态为A-INCOMPLETE，见[结果报告](verification/2026-11-16-v1-attribution-results.md)。本发布契约的G0–G6及阈值保持；20题发布验收未启动，v1尚未达到发布门槛。
+2026-11-16前一项执行结果：归因研究因E09公开语义分歧按D5关闭，状态为A-INCOMPLETE，见[结果报告](verification/2026-11-16-v1-attribution-results.md)。本发布契约的G0–G6及阈值保持；20题发布验收未启动，v1尚未达到发布门槛。
+
+2026-11-16后续研究已完成A-GO，见[E09澄清与完整归因结果](verification/2026-11-16-v1-attribution-followup-results.md)。这是研究完成状态，G0–G6及20题发布验收仍未完成；发布契约和阈值没有改变。
 
 依据：[原v1设计](07-v1-design.md)、[门槛复盘](14-v1-release-gate-review.md)及[最近结果](verification/2026-11-15-v1-reentry-results.md)。本文件是发布标准变更提案。用户确认前，旧标准仍有效；确认后仅对新的研究和发布候选生效。旧研究保持关闭，原来的1/2和所有失败不改分。
 
