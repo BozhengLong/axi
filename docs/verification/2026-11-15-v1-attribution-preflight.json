@@ -1,0 +1,128 @@
+{
+  "date": "2026-11-15",
+  "complete": true,
+  "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+  "sourceHash": "585ceca92fe0ded0fe3d4ae16a0e0dee99847de2f493ff728b85fd64bba8ac4b",
+  "executionProfileHash": "9e2e41e55e9e2579196cbaa5c3f630b27b18d6da7d12df9875e486715a12ce9c",
+  "checks": [
+    {
+      "name": "非root且无额外能力",
+      "passed": true
+    },
+    {
+      "name": "固定CPU内存和只读根",
+      "passed": true
+    },
+    {
+      "name": "固定工具版本",
+      "passed": true
+    },
+    {
+      "name": "阻止公网IP",
+      "passed": true
+    },
+    {
+      "name": "阻止公网域名",
+      "passed": true
+    },
+    {
+      "name": "阻止宿主访问",
+      "passed": true
+    },
+    {
+      "name": "阻止非代理端口",
+      "passed": true
+    },
+    {
+      "name": "阻止修改网络",
+      "passed": true
+    },
+    {
+      "name": "阻止写产品源码",
+      "passed": true
+    },
+    {
+      "name": "阻止DockerSocket",
+      "passed": true
+    },
+    {
+      "name": "阻止宿主源码",
+      "passed": true
+    },
+    {
+      "name": "阻止测试镜像材料",
+      "passed": true
+    },
+    {
+      "name": "候选没有真实凭据",
+      "passed": true
+    },
+    {
+      "name": "管理接口拒绝候选",
+      "passed": true
+    },
+    {
+      "name": "候选v1镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "当前v1镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "v0镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "转发器与容器辅助源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "独立可写目录和HOME",
+      "passed": true
+    },
+    {
+      "name": "axi真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "axi模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-axi Trace",
+      "passed": true
+    },
+    {
+      "name": "claude真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "claude模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-claude Trace",
+      "passed": true
+    }
+  ],
+  "realCliStarts": 2,
+  "generationRequests": 9,
+  "traces": [
+    {
+      "product": "axi",
+      "traceStatus": "complete_observable",
+      "files": 13,
+      "bytes": 561623,
+      "generationRequests": 7
+    },
+    {
+      "product": "claude",
+      "traceStatus": "complete_observable",
+      "files": 12,
+      "bytes": 225891,
+      "generationRequests": 2
+    }
+  ],
+  "taskStarts": 0
+}
