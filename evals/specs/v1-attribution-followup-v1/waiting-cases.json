@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "approvedDesign": "docs/17-e09-waiter-semantics.md",
+  "status": "expected-results-declared-before-execution",
+  "cases": [
+    {
+      "id": "E09S-01",
+      "scenario": "none",
+      "allowed": [
+        "value:1"
+      ],
+      "rules": [
+        "R2"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-02",
+      "scenario": "single-ok",
+      "allowed": [
+        "value:1"
+      ],
+      "rules": [
+        "R2",
+        "R4"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-03",
+      "scenario": "single-error",
+      "allowed": [
+        "error:e1"
+      ],
+      "rules": [
+        "R3"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-04",
+      "scenario": "latest-after-error",
+      "allowed": [
+        "value:1"
+      ],
+      "rules": [
+        "R1",
+        "R2"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-05",
+      "scenario": "latest-error",
+      "allowed": [
+        "error:e2"
+      ],
+      "rules": [
+        "R2",
+        "R3"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-06",
+      "scenario": "both-error",
+      "allowed": [
+        "error:e2"
+      ],
+      "rules": [
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-07",
+      "scenario": "bound-earlier-error",
+      "allowed": [
+        "error:e1"
+      ],
+      "rules": [
+        "R3"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-08",
+      "scenario": "follow-later-error",
+      "allowed": [
+        "error:e2"
+      ],
+      "rules": [
+        "R4"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-09",
+      "scenario": "follow-later-ok",
+      "allowed": [
+        "value:1"
+      ],
+      "rules": [
+        "R4"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-10",
+      "scenario": "fresh-after-error",
+      "allowed": [
+        "value:1"
+      ],
+      "rules": [
+        "R6"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-11",
+      "scenario": "follow-third-error",
+      "allowed": [
+        "error:e3"
+      ],
+      "rules": [
+        "R2",
+        "R4"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-12",
+      "scenario": "clear-does-not-cure",
+      "allowed": [
+        "error:e1"
+      ],
+      "rules": [
+        "R3",
+        "R5"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    },
+    {
+      "id": "E09S-13",
+      "scenario": "resume-race",
+      "allowed": [
+        "value:1",
+        "error:e2"
+      ],
+      "rules": [
+        "R4"
+      ],
+      "derivation": "从已确认规则与公开时序推导，未运行参考生成预期"
+    }
+  ],
+  "extensions": [
+    {
+      "id": "E09X-01",
+      "scenario": "original-error-values",
+      "rules": [
+        "R3"
+      ],
+      "values": [
+        "undefined",
+        "null",
+        "false",
+        "0",
+        "symbol",
+        "object"
+      ]
+    },
+    {
+      "id": "E09X-02",
+      "scenario": "other-key",
+      "rules": [
+        "R1"
+      ]
+    },
+    {
+      "id": "E09X-03",
+      "scenario": "other-cache",
+      "rules": [
+        "R1"
+      ]
+    },
+    {
+      "id": "E09X-04",
+      "scenario": "shared-cache-latest",
+      "rules": [
+        "R2"
+      ]
+    },
+    {
+      "id": "E09X-05",
+      "scenario": "sync-backend-error-with-waiter-created-inside-delete-callback",
+      "rules": [
+        "R1",
+        "R3"
+      ]
+    },
+    {
+      "id": "E09X-06",
+      "scenario": "reentrant-backend",
+      "rules": [
+        "R2"
+      ]
+    }
+  ],
+  "witnessFailures": {
+    "latest": [],
+    "all-pending": [
+      "E09S-04",
+      "E09S-06",
+      "E09S-11",
+      "E09X-04"
+    ],
+    "cure": [
+      "E09S-07"
+    ],
+    "first-only": [
+      "E09S-08",
+      "E09S-09",
+      "E09S-11"
+    ],
+    "latest-immediate": [],
+    "latest-delayed": [],
+    "skip-later": [
+      "E09S-04",
+      "E09S-05",
+      "E09S-06",
+      "E09S-07",
+      "E09S-08",
+      "E09S-09",
+      "E09S-11",
+      "E09S-13",
+      "E09X-04"
+    ],
+    "wrong-waiter-error": [
+      "E09X-01"
+    ]
+  },
+  "review": {
+    "confirmedBy": "user",
+    "sameAssistantReview": true,
+    "independentBlinded": false,
+    "unresolved": [],
+    "adversarialQuestions": [
+      "后续成功是否覆盖已选目标失败：R3禁止",
+      "先前失败是否传播给只选择后次的新工作：R2禁止",
+      "未固定恢复先后是否强迫参考微任务顺序：W13允许集合",
+      "等待成功是否刷新写资格：R5禁止",
+      "失败是否永久污染新工作：R6禁止",
+      "同步失败在API返回前已清理时，随后调用是R6重试，不是R3等待者",
+      "后端延迟启动合法，检查须等待公开进入事件，不假定一tick开始"
+    ]
+  },
+  "witnessFilters": {
+    "wrong-waiter-error": {
+      "pattern": "^E09X-01 ",
+      "total": 1,
+      "reason": "定向验证原错误值被替换会被拒绝，其他见证与完整参考运行全部19项"
+    }
+  }
+}

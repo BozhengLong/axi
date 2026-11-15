@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import * as api from '../dist/index.js';
+const ready=()=>assert.equal(typeof api.pMemoizeDelete,'function');
+const deferred=()=>{let resolve;const promise=new Promise(r=>{resolve=r});return {promise,resolve}};
+const turn=()=>new Promise(r=>setImmediate(r));
+test('single key deletion preserves other cached values',async()=>{
+ ready();const cache=new Map();let calls=0;const fn=api.default(async()=>++calls,{cache});await fn('a');await fn('b');await api.pMemoizeDelete(fn,'a');assert.equal(await fn('b'),2);assert.equal(await fn('a'),3);
+});
+test('old in flight work cannot replace a new value',async()=>{
+ ready();const old=deferred(),cache=new Map();let n=0;const fn=api.default(()=>++n===1?old.promise:Promise.resolve('new'),{cache});const p=fn('x');await turn();await api.pMemoizeDelete(fn,'x');assert.equal(await fn('x'),'new');old.resolve('old');assert.equal(await p,'old');assert.equal(cache.get('x'),'new');
+});
+test('deletion waits for already started cache write',async()=>{
+ ready();const gate=deferred(),cache=new Map();let started=false,deleted=false;cache.set=async function(k,v){started=true;await gate.promise;Map.prototype.set.call(this,k,v)};cache.delete=function(k){deleted=true;return Map.prototype.delete.call(this,k)};const fn=api.default(async()=>7,{cache}),p=fn('x');await turn();assert.ok(started);const d=api.pMemoizeDelete(fn,'x');await turn();assert.equal(deleted,false);gate.resolve();await p;await d;assert.equal(cache.has('x'),false);
+});

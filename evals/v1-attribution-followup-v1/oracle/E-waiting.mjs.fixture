@@ -1,0 +1,92 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import * as api from '../dist/index.js';
+
+// 预期来自已确认的公开时序；不读取参考的内部状态或运行结果。
+const tick=()=>new Promise(resolve=>setImmediate(resolve));
+// 等待公共事件，不要求某个固定微任务数或后端在一次tick内开始。
+// 永不发生的事件由外层统一评分截止处理，不伪装成行为断言失败。
+const completed=new WeakSet();
+const until=async(predicate,operation)=>{while(!predicate()){if(operation&&completed.has(operation))assert.ok(predicate(),'completed deletion did not invoke its backend');await tick()}};
+const observed=promise=>{let result;result=Promise.resolve(promise).then(value=>{completed.add(result);return {kind:'value',value}},error=>{completed.add(result);return {kind:'error',error}});return result};
+function gate(){let yes,no;const promise=new Promise((resolve,reject)=>{yes=resolve;no=reject});void promise.catch(()=>{});return {promise,open:false,ok(){this.open=true;yes()},bad(error){this.open=true;no(error)}}}
+function setup(){
+ const gates=[gate(),gate(),gate()],errors=[{id:1},{id:2},{id:3}],cache=new Map(),events=[];let calls=0,reads=0,deleted=0;
+ cache.delete=function(key){const index=deleted++;events.push(['delete',key,index]);assert.ok(index<3);return gates[index].promise};
+ cache.has=function(key){reads++;events.push(['read',key]);return Map.prototype.has.call(this,key)};
+ const fn=api.default(async()=>{calls++;return 1},{cache});
+ return {gates,errors,cache,fn,events,get calls(){return calls},get reads(){return reads},get deleted(){return deleted}};
+}
+const value=result=>assert.deepEqual(result,{kind:'value',value:1});
+const rejected=(result,error)=>{assert.equal(result.kind,'error');assert.equal(result.error,error)};
+const pending=s=>{assert.equal(s.reads,0,'pending deletion blocks reads');assert.equal(s.calls,0,'pending deletion blocks computation')};
+
+async function scenario(number){
+ const s=setup(),[a,b,c]=s.gates,[e1,e2,e3]=s.errors,ds=[];let w;
+ const remove=()=>{const p=observed(api.pMemoizeDelete(s.fn,'x'));ds.push(p);return p};
+ const work=()=>observed(s.fn('x'));
+ try{
+  if(number===1){value(await work());return;}
+  const d1=remove();
+  if(number===10){a.bad(e1);rejected(await d1,e1);await tick();value(await work());return;}
+  if([4,5,6,11].includes(number)){
+   const d2=remove();w=work();if(number===11)remove();
+   await until(()=>s.deleted>=1,d1);pending(s);assert.equal(s.deleted,1);
+   if(number===5)a.ok();else a.bad(e1);
+   const r1=await d1;if(number===5)assert.equal(r1.kind,'value');else rejected(r1,e1);
+   await until(()=>s.deleted>=2,d2);assert.equal(s.deleted,2,'later delete still executes');pending(s);
+   if([5,6].includes(number))b.bad(e2);else b.ok();
+   const r2=await d2;if([5,6].includes(number))rejected(r2,e2);else assert.equal(r2.kind,'value');
+   if(number===11){await until(()=>s.deleted>=3,ds[2]);pending(s);assert.equal(s.deleted,3);c.bad(e3);rejected(await w,e3);rejected(await ds[2],e3);}
+   else if(number===4)value(await w);else rejected(await w,e2);
+   return;
+  }
+  w=work();await tick();pending(s);
+  if(number===2){a.ok();await d1;value(await w);return;}
+  if(number===3){a.bad(e1);rejected(await d1,e1);rejected(await w,e1);return;}
+  if(number===12){assert.equal(api.pMemoizeClear(s.fn),undefined);a.bad(e1);rejected(await d1,e1);rejected(await w,e1);return;}
+  if(number===13){
+   // 故意不固定恢复检查和del2生效的顺序；只接受规范允许集合。
+   a.ok();queueMicrotask(()=>{remove();b.bad(e2)});await tick();
+   const result=await w;if(result.kind==='error')rejected(result,e2);else value(result);
+   await Promise.all(ds);assert.equal(s.deleted,2);return;
+  }
+  const d2=remove();
+  if(number===7){a.bad(e1);rejected(await d1,e1);await tick();b.ok();await d2;rejected(await w,e1);return;}
+  a.ok();await d1;await until(()=>s.deleted>=2,d2);assert.equal(s.deleted,2);pending(s);
+  if(number===8)b.bad(e2);else b.ok();await d2;
+  if(number===8)rejected(await w,e2);else value(await w);
+ }finally{for(const g of s.gates)g.ok();await Promise.all(ds);if(w)await w;assert.equal(s.deleted,ds.length,'each valid deletion invokes its backend exactly once');}
+}
+for(let n=1;n<=13;n++)test('E09S-'+String(n).padStart(2,'0')+' approved waiting transition',()=>scenario(n));
+
+test('E09X-01 original rejection values',async()=>{
+ for(const error of [undefined,null,false,0,Symbol('error'),{failure:1}]){
+  const s=setup(),d=observed(api.pMemoizeDelete(s.fn,'x')),w=observed(s.fn('x'));s.gates[0].bad(error);
+  rejected(await d,error);rejected(await w,error);
+ }
+});
+test('E09X-02 other keys remain independent',async()=>{
+ const s=setup(),d=observed(api.pMemoizeDelete(s.fn,'x'));
+ try{value(await observed(s.fn('other')));assert.equal(s.calls,1)}finally{s.gates[0].ok();await d}
+});
+test('E09X-03 other caches remain independent',async()=>{
+ const s=setup(),d=observed(api.pMemoizeDelete(s.fn,'x')),other=api.default(async()=>1,{cache:new Map()});
+ try{value(await observed(other('x')))}finally{s.gates[0].ok();await d}
+});
+test('E09X-04 fresh shared function selects latest deletion',async()=>{
+ const s=setup(),other=api.default(async()=>1,{cache:s.cache}),d1=observed(api.pMemoizeDelete(s.fn,'x')),d2=observed(api.pMemoizeDelete(s.fn,'x')),w=observed(other('x'));
+ try{s.gates[0].bad(s.errors[0]);await d1;await until(()=>s.deleted>=2,d2);assert.equal(s.deleted,2);s.gates[1].ok();await d2;value(await w)}finally{for(const g of s.gates)g.ok();await Promise.all([d1,d2,w])}
+});
+test('E09X-05 synchronous backend failure retains its error',async()=>{
+ const error={sync:true},cache=new Map();let fn,w;
+ // 删除可能在API返回前就同步失败。回调内创建W，才证明W确实选到了尚未失败的目标。
+ cache.delete=()=>{w=observed(fn('x'));throw error};fn=api.default(async()=>1,{cache});
+ const d=observed(api.pMemoizeDelete(fn,'x'));rejected(await d,error);assert.ok(w);rejected(await w,error);
+ await tick();value(await observed(fn('x')));
+});
+test('E09X-06 backend reentry observes installed deletion',async()=>{
+ const g=gate(),cache=new Map(),error={reentrant:true};let fn,w,calls=0;
+ cache.delete=()=>{w=observed(fn('x'));return g.promise};fn=api.default(async()=>{calls++;return 1},{cache});
+ const d=observed(api.pMemoizeDelete(fn,'x'));await until(()=>w!==undefined,d);assert.equal(calls,0);g.bad(error);rejected(await d,error);rejected(await w,error);
+});

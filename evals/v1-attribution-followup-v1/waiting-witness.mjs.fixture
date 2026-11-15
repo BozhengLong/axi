@@ -1,0 +1,34 @@
+// 最小公共API见证，只验证等待语义；不代替完整参考实现。
+export function createWitness(mode){
+ const caches=new WeakMap(),functions=new WeakMap();
+ const state=(cache,key)=>{let keys=caches.get(cache);if(!keys){keys=new Map();caches.set(cache,keys)}let s=keys.get(key);if(!s){s={pending:[],tail:null,deletions:0};keys.set(key,s)}return s};
+ const latest=s=>s.pending.at(-1);
+ function memo(fn,{cache=new Map()}={}){
+  const run=function(key){const s=state(cache,key),initial=mode==='all-pending'?[...s.pending]:[latest(s)].filter(Boolean);
+   return (async()=>{
+    let chosen=initial;
+    while(chosen.length){
+     try{for(const item of chosen)await item.result}
+     catch(error){if(mode==='wrong-waiter-error')throw new Error('replaced original error');if(mode!=='cure'||!latest(s))throw error}
+     if(mode==='first-only')break;
+     chosen=[latest(s)].filter(Boolean);
+    }
+    if(await cache.has(key))return await cache.get(key);
+    const result=await fn(key);await cache.set(key,result);return result;
+   })();
+  };functions.set(run,{cache});return run;
+ }
+ function del(fn,key){
+  const {cache}=functions.get(fn),s=state(cache,key),previous=s.tail,ticket={result:null},ordinal=++s.deletions;
+  if(mode==='latest-immediate'){
+   let yes,no;const result=new Promise((resolve,reject)=>{yes=resolve;no=reject});ticket.result=result;s.pending.push(ticket);s.tail=result;void result.catch(()=>{});
+   // 状态先安装，后端可以同步失败并在API返回前完成清理。
+   void(async()=>{try{if(previous)await previous.catch(()=>{});await cache.delete(key);yes()}catch(error){no(error)}finally{s.pending=s.pending.filter(x=>x!==ticket);if(s.tail===result)s.tail=null}})();
+   return result;
+  }
+  const result=(async()=>{await Promise.resolve();try{if(previous)await previous.catch(()=>{});if(mode==='skip-later'&&ordinal>1)return;if(mode==='latest-delayed')await new Promise(resolve=>setTimeout(resolve,20));await cache.delete(key)}finally{s.pending=s.pending.filter(x=>x!==ticket);if(s.tail===result)s.tail=null}})();
+  ticket.result=result;s.pending.push(ticket);s.tail=result;void result.catch(()=>{});return result;
+ }
+ function clear(fn){functions.get(fn).cache.clear()}
+ return {default:memo,pMemoizeDelete:del,pMemoizeClear:clear};
+}

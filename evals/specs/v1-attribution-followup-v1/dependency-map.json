@@ -1,0 +1,5038 @@
+{
+  "version": 1,
+  "plan": "docs/18-v1-attribution-followup-plan.md",
+  "policy": "unknown or common file affects all; frozen scope cannot be narrowed by result",
+  "files": {
+    ".dockerignore": {
+      "sha256": "66ee1fc88c414e6bb7cb3eb6df36cb21afa289315c74defc8760b88d9b2b2f0a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "bun.lock": {
+      "sha256": "db05e20e5855f0cbab793524a3e8be41c1c491050bf82fe962da2d442d966683",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "docs/verification/2026-11-11-c7-source-review.json": {
+      "sha256": "cafe28f24c0c2e14f51ea711c4e04ab31182cb18924dd89816341aa131aa6da2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c6-real-v1/oracle/hidden.mjs.fixture": {
+      "sha256": "5e96f1326e94e6385117580b9c6d324e0738d19e93239c83b9bfbd55051a01ae",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c6-real-v1/oracle/types-r1.mts.fixture": {
+      "sha256": "8959ed74337fc1874ac17947c68a66c574ee0b26ef789e2f544d9024edab93f3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c6-real-v1/oracle/types-r3.mts.fixture": {
+      "sha256": "14594d64fb51c21679048273c5347b4640e2b7cd0bbc1e067d7e021b026dbb09",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c6-real-v1/oracle/visible-r3.mjs.fixture": {
+      "sha256": "8795618bd3bd18a5c4951c83b462c85b802147d68dd32eb603907ab16fa8ffed",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c6-real-v1/oracle/visible.mjs.fixture": {
+      "sha256": "4a3db2a44ca7a77b7b2f001bfa9a9f503a7a9f7b874ee1cf4d8e54c12e26a139",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c6-real-v1/reference/jsonl-r1.ts.fixture": {
+      "sha256": "e7037132c7a4fab94cf708f2c88748d32f1294da86f08cdd979dfd45da050f8e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c7-repair-v1/oracle/lifecycle.mjs.fixture": {
+      "sha256": "5b3b76fd39c31ca884cbd302476b6f544f69cc98788f46471a13b7116f13f062",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c7-repair-v1/oracle/orders.ts.fixture": {
+      "sha256": "47ca733a502892a4f458f0a1317697384512b307900e90fd2d28459189d1bce2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c7-repair-v1/reference/lifecycle-test.ts.fixture": {
+      "sha256": "c772420eed9c0f781627c664e598ca92684d5804a84ddc133f59f94c1b8b8eeb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c7-repair-v1/reference/orders-test.ts.fixture": {
+      "sha256": "4bbdf41acb8b63e09ff12caf1e1bd25918aa28bef3b9b763a9f06422ceffd4b1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c7-repair-v1/visible/lifecycle.mjs.fixture": {
+      "sha256": "cee2a45e920d429ea6aed0a199468f8ea863bb8a20b976f5edccfe008fd908c3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/c7-repair-v1/visible/orders.ts.fixture": {
+      "sha256": "6a840b0b315a2afd1250a3f408d4f6ee44a8f7e54dad575ed89e8f9d042c958d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/oracle/probe.ts.fixture": {
+      "sha256": "d176a371f0750fb066969eea36c13bbe05e4f041db2cbb4adf61a0e127cc19b0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/reference/src/services/orders.ts.fixture": {
+      "sha256": "b02809bdd13146d1ccc40e5f119e9d4835627f167de351c86d6bf480d9431250",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/README.md.fixture": {
+      "sha256": "313a40c51e5f1209659c5782a6aacc321e79436d794d644ff751ada62b6e4915",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/brief.md.fixture": {
+      "sha256": "a6b6e2af6b41e7eaf8a2b28e9e8e02d20b0f926cbee9839350ef58e004dd29fb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/contracts.md.fixture": {
+      "sha256": "188bdfc47a39b446a1352a1b083af431e80ae304df4328f719aad5c069efaabf",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/package.json.fixture": {
+      "sha256": "31a5365c0b79866f5487ac5cf7edf07c7d6d4d7fcb91d7f541943ebc73a85909",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/cli.ts.fixture": {
+      "sha256": "03e736e0daf0310c31b099d0ec000c427887fdb91e87e838f805fb46924476de",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/client/legacy.ts.fixture": {
+      "sha256": "e9d6250232c62c53e6f8ae84e30aadb5e562b4a0180082adaabaefc86e097ef2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/domain/errors.ts.fixture": {
+      "sha256": "b4a68e483f8615eb8c23cc2b075bae2fba1f438e06cf0468e61095c75c6096fb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/domain/types.ts.fixture": {
+      "sha256": "b41238daff74f0b3096361d25bca0176f7b44db4c49b02e03b39c773871063cf",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/domain/validation.ts.fixture": {
+      "sha256": "ccc2fe24ae3122ae6b5df8d72001cd08d5c38dbd985381d0d752016f8dd96e2f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/http/app.ts.fixture": {
+      "sha256": "2077d273e5237e60251aed463e22e9af3676c666b69fcd2f897ef828ceed7210",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/http/response.ts.fixture": {
+      "sha256": "1cd0ce1a7bd7d9329f0aa9752ecf22cf8ff900ebf727b5fdfedf56a96e41e6f0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/main.ts.fixture": {
+      "sha256": "a361c3664652c3b6bfd6bfe4e39016fcd83f12b1cebb714d9caa028610b67e19",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/services/orders.ts.fixture": {
+      "sha256": "6cc653eace39d4a46c16de565c6e9c1ade826c76fed9c1263f972b7aca36f1e9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/storage/db.ts.fixture": {
+      "sha256": "f32ec9a06ef7cb001d10f385a8cb87b5ecc1b2e8dde7928ad3187a0d3b279fc1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/storage/inventory.ts.fixture": {
+      "sha256": "0f1306e0393103f8b63827d62e9ac4a4f2a46d3fcf223926b2782c856f42aa0b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/storage/orders.ts.fixture": {
+      "sha256": "35c6a16579faa79aee14da65b94fefa16f815a6af3dfdee2bd57f5c260aeb4f2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/storage/schema.ts.fixture": {
+      "sha256": "501e6e87ae9bc1213822658228733bf80222c7febeb7f72e21fb1f62d33afa22",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/testing/barrier.ts.fixture": {
+      "sha256": "995425906d6cd2c7ad869a6d37b561cbcfd3423267f2f511b47aaef3ba62c215",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/src/testing/request.ts.fixture": {
+      "sha256": "ee5c93e1159aae81e0a4e71e234cb783bc671307b479fecdb9ca2361cae3a269",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/tests/legacy.test.ts.fixture": {
+      "sha256": "98b735b9249befadc130c8df90f7e526f941f61c6275622fc405f2cf1d625364",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C1/seed/tsconfig.json.fixture": {
+      "sha256": "164209305379ae73e6d4e506833eb2907e4a682902f4c6c7e2d186c161f885d8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/oracle/probe.ts.fixture": {
+      "sha256": "108df7c37d0587f3bd206d7cf8104a5187af40eea6bcef3513a54311a351fba7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/reference/src/format/legacy.ts.fixture": {
+      "sha256": "f0de751cee37ccbc790e8c8f0b90d2af1b42e3a8737b6f0f0340478822d7f443",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/reference/src/migrations/upgrade.ts.fixture": {
+      "sha256": "0e910afc7bacbbf9e08df91626c911829768ad3bec9b33319e22ba24144795d2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/reference/src/services/list.ts.fixture": {
+      "sha256": "c7c220f078546f311bf7fc1ca9433fccff02a15d053d4eb81afd9d4dda0f6982",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/README.md.fixture": {
+      "sha256": "97f8c74cdb31a9d1d838026e60541211fa779ee7a49b6837d7382cd12daf4aee",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/brief.md.fixture": {
+      "sha256": "9035df25ab740416a559039e2da10e7a87c1ded610a31f16bc89baf875e56a71",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/contracts.md.fixture": {
+      "sha256": "7b5eac8f2215dfbf77ac45e8dd45cc52cdb9c41afdc8f5fcf6718337439ffbc2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/fixtures/legacy.db.fixture": {
+      "sha256": "359e53925739819d1b18615b949f87063ae77a44e0ef7ec93d9b56c07850c834",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/package.json.fixture": {
+      "sha256": "fed8db63cb37395b34c13445988e0bf306c5a07c8890890ac08f98134dd12023",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/api/app.ts.fixture": {
+      "sha256": "b19ca28c7adb2e70c59da86fe512eb4f1da7bfd2959f5e4722e38e90fd5b37cf",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/cli.ts.fixture": {
+      "sha256": "7604a14a464d25563926a04dda4524f23c303ecadcb719a162ea51b56c8893f1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/client/legacy.ts.fixture": {
+      "sha256": "13defece0cd0faa94259827717088702ce2e93bdf4a61fb921b33653f35d09f9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/domain/types.ts.fixture": {
+      "sha256": "4170122c08cb25b16568fe6e6ce56a06d3cf14bba0b515b1350da09da41505c0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/format/current.ts.fixture": {
+      "sha256": "b630276dbb7627b12d11cfccc29ab27ebbd5b1441fec05983ef1ae278df9465b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/format/legacy.ts.fixture": {
+      "sha256": "e55586197e2e71335f6d0b3295fefaf0b4e1f61b3fef01b16c9d9d7c172e9bc9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/main.ts.fixture": {
+      "sha256": "bd5e80945f57d072408a5f7dd75ba1eb5fa688c547fd360102a388288df6984a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/migrations/upgrade.ts.fixture": {
+      "sha256": "4987d241a77760d1665513e16dbeea58ebf8072345c2b74c44947e23ae7cebb3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/services/list.ts.fixture": {
+      "sha256": "239916b9a4eac8c44df14e233a974202c6a99ce54c360e476c91b7f6ff9827db",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/storage/db.ts.fixture": {
+      "sha256": "cadf17355ba71419362555317f83e51bbb6d165b56dad5d515f37e6d147da242",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/storage/tasks.ts.fixture": {
+      "sha256": "29bb4af7bc8c6285f9f4c57bf44b4ec6f2db420120c92e8e63565f5578ba95cb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/storage/version.ts.fixture": {
+      "sha256": "635b80f48bf9744cabeb0d21d314ec9b56129952585b7e8a2ab17942ce08e1a7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/src/testing/legacy-db.ts.fixture": {
+      "sha256": "856a4e846ef335fd7b6aa6f1fb5336d151c6eb72e3b09becfeff2a00b3c3917f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/tests/legacy.test.ts.fixture": {
+      "sha256": "0149419a37c14092e23090a3a0608560db6499f097029dfbe8cc976476b523db",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C2/seed/tsconfig.json.fixture": {
+      "sha256": "164209305379ae73e6d4e506833eb2907e4a682902f4c6c7e2d186c161f885d8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/oracle/probe.ts.fixture": {
+      "sha256": "209e960f2829f1ecc806770886a9b81e8f864184d625500962b79a66470a0319",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/reference/src/main.ts.fixture": {
+      "sha256": "7396004fb953a3542b85833ab58cd510a1c35d449eb028f17cbf781e0cc9b833",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/reference/src/replay.ts.fixture": {
+      "sha256": "22275ae55a1f01b551e8c38970a23b54aa32ad960f14768ac463a9e3df80840b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/README.md.fixture": {
+      "sha256": "5aee930925fdd7433013a85fa670d2b96b460b52704ca36994fdadcd1af8a691",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/brief.md.fixture": {
+      "sha256": "5f85ef8000d3a879f6dea8991b0a6d88b5e89463007cbeaf67168412930c91ae",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/package.json.fixture": {
+      "sha256": "914514950dd01edc15c76c4539ce134ca4001eb602ac679d08e85b9050ddf73f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/replay-contract.md.fixture": {
+      "sha256": "37d8093aab0a07d08e212d425b6cc4e20fbac3855a1112d25df847f942c27402",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/samples/normal.jsonl.fixture": {
+      "sha256": "b7f6f20d8b66b1839e6cd222caa39b729397473644e2c02bb8efdcc4f0afafee",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/agent/loop.ts.fixture": {
+      "sha256": "13e6336319ca4981ecccabdac02abb76f60c6625054e75521b16e5728cc510d5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/api/client.ts.fixture": {
+      "sha256": "fdb8e9d1198ab130dc9dba3a8fc184e356d0809b5f8531c91182a233bb665a9e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/api/sse.ts.fixture": {
+      "sha256": "1f29424f9fddd185a67afe664cf9704c8498d0d3f590ace5e08e3079afeeb8fa",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/api/stream.ts.fixture": {
+      "sha256": "5a2d46303139259af07a8a980adb3648ec73d586ddbfa5a2555708c834e54841",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/api/types.ts.fixture": {
+      "sha256": "5bc20fd5acc08d8301df5227066f65f289011a14dc8ccf05011a389c258441bd",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/config.ts.fixture": {
+      "sha256": "3a5c0c06f529ad1796824ed348e21b7b33e0c225f5bc2c51cf94d7233f8ba1dd",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/log.ts.fixture": {
+      "sha256": "67427ea9ff97e6e0c3900aa29f6bbe254751b36d9f7fe8d6704405229577f9d6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/main.ts.fixture": {
+      "sha256": "1c8dc1ef0d45b99ff457df744c390d73745e768b1efa2ff4740ad01dc21d3f82",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/tools/bash.ts.fixture": {
+      "sha256": "fc92d8f1c1aabdffd06624c329014c41d3f1b7684f4e180c6e7a5433aef6c2f2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/ui/permission.ts.fixture": {
+      "sha256": "f93ad42b534ad61f694ebf22828710c6edd42b8318993013c43d7e93ed3dc7f4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/src/ui/terminal.ts.fixture": {
+      "sha256": "ff7a139385fbcac9b242f9b8fafd275d72bffdc9f1870399d7a9fd2922455417",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/agent.test.ts.fixture": {
+      "sha256": "d03317e38f0ac40c036b2ee7994d4ac73fb3c5ea9b1a8142de852c248a7ec48a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/bash.test.ts.fixture": {
+      "sha256": "5c2ae0422ff35462bac5357614067d06c7bc765b4fed9dccfe32e6817610f646",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/cli.test.ts.fixture": {
+      "sha256": "6f5371a8ffabd47ebc20850fd51d4149ae506f7456ce3dcb1261270202c85044",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/client-network.test.ts.fixture": {
+      "sha256": "c4994d3ebc2239a8c2102b927f25236c5f49d2f5242540d3759cb9ae6d63d7bb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/client.test.ts.fixture": {
+      "sha256": "461bb93b755f4a440478bd68d234fa627f6dc3f199c74b0d8991c5280a6aae08",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/fixtures.ts.fixture": {
+      "sha256": "d701bd1f294df23cd84ee76e5a6dbdc6ca6257be31fc2dbcef4cec423b3db9cb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/helpers/network-retry.ts.fixture": {
+      "sha256": "990a3fdc4065352a2ffec8ec6c9b7cc7a49761bf308dab3b117271959a98a550",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/helpers/terminal-input.ts.fixture": {
+      "sha256": "f2b7c610cb41048439209d22b13c5c39629a0fc68e91f914aa1831234f9e465b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/log.test.ts.fixture": {
+      "sha256": "59d61d6a9bcd1f03ee99733d27d1e90648c15b695bf51817dfd67648ac4e1c7b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/protocol.test.ts.fixture": {
+      "sha256": "b120089bf84aa2d4dd4764c813b4fd0ce464af9c37ae1af05948e08e889ecc38",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tests/terminal.test.ts.fixture": {
+      "sha256": "10b9ba67109cd02c4e0e9d66108bd71fcc0d71a871931c8f2f1542cf7361c684",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/complex-v1/C4/seed/tsconfig.json.fixture": {
+      "sha256": "164209305379ae73e6d4e506833eb2907e4a682902f4c6c7e2d186c161f885d8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile": {
+      "sha256": "01ae28b330d069e7c3f88f343681ac3857b066941b9381c70c5e475fdfab5f53",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.c6": {
+      "sha256": "5c1a1d8dbf5ee54237a80232f6811cde02a6dea8f5f8ad57554badbc5b0894fe",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.complex": {
+      "sha256": "6d136d0b0f1ee1f859ffe4e126268c65c9d0098127c72c271b329f0f67dc3b6c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.v1": {
+      "sha256": "b4e337e1524eac92ae5277b0e82a4602f0287dbfcacfa6cd84a47dc790e2c289",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.v1-checks": {
+      "sha256": "6b6b6f65030d0b87f30f6e9b417949b82dee343e01efdb121a67b7855d04db1f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.v1-rc": {
+      "sha256": "2a6c586292371b166e4a7d338ce4ec066cc16a751fbaa33ded94bfa7ae2bf08b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.v1-reentry": {
+      "sha256": "bfde856e4d77de23e9c8e60a4adb2a38dc6e21eef1bb287099b562c8e5118ee4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.v1-review": {
+      "sha256": "36529070bbed3a1387d555c68984d810240f58e2a306932e8f19c1aee1aefe91",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.v1-stable": {
+      "sha256": "278ea5aa83dabc85ad6651354795989bb0ffea9de32cb911bccf491291f746dc",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/Dockerfile.v1-trust": {
+      "sha256": "bfde856e4d77de23e9c8e60a4adb2a38dc6e21eef1bb287099b562c8e5118ee4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/environment/entrypoint.sh": {
+      "sha256": "c46c6859dabd1855b67a70f9b3a04f503c4d7c06618e5d2fa333f4e37326e5ac",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/oracles/grade.ts": {
+      "sha256": "0f4a04c975a8d2d9662de310b7021b0f4784dda9aba5a1748af6f68ce709afb5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c6-real-v1/acceptance-matrix.md": {
+      "sha256": "e105a9a0e6026ab43cfce96497f89261d988c676f0069d580bf39df55f958c5e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c6-real-v1/contract-r1.md": {
+      "sha256": "3a9cbc9f9657c815bc7c7c4acff6e6f05274dd343fae8e051705c5a18acf6718",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c6-real-v1/round-1.md": {
+      "sha256": "3076fa055ecfed69c847be40274f221f4580904a6e9b76b559c2b63bc1ee9db3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c6-real-v1/round-2.md": {
+      "sha256": "11cd496f004329fc93e7f4dec0c77d4eb44cc18473aaf93ab2ecef3a222ee3aa",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c6-real-v1/round-3.md": {
+      "sha256": "1f9f47589a50041843604ce8bb99edda106651ca39d341a9387f049e5474fa54",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c6-real-v1/user-changes.md": {
+      "sha256": "cb79875eac6fa96834d51084e62b84f1082d1f9275fff3d668fcf40f09537c67",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c7-repair-v1/acceptance-matrix.md": {
+      "sha256": "9ea45d83f8d561b8858c340febf1b48c23058c06c37f9215528a90b98cc58356",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c7-repair-v1/lifecycle/brief.md": {
+      "sha256": "5eec846deb6dc2de3c6ce64ceab376a9f433d22b34a0e0b8714067a3f6770eff",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/c7-repair-v1/orders/brief.md": {
+      "sha256": "5c71602d79a7fdf237316d338354154d694d35a964ebd134f0d90f6ed2244e5d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/complex-v1/C1.md": {
+      "sha256": "a0cee35cb8860dfd1331fb7f08dfcb4ea92f0c68c111c0482dfc37b2c6efc98f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/complex-v1/C2.md": {
+      "sha256": "83f82db236d534ae3ae57c8b902de5ff0d28e514da669b3d1f2fa84c9d175ca2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/complex-v1/C3.md": {
+      "sha256": "c5732eaf26c52e49d05f3c2f54d6e5b09a27495a64b974fd87734284e6572e8b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/complex-v1/C4.md": {
+      "sha256": "b5be55a9cd832972e0ded56540a115d4fa6c3b5ffc4d5f57eaa92fc736b70ce1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/complex-v1/C5.md": {
+      "sha256": "64f8fb32414273397f33bfeaf45221a363c6a70f5d6568a52b7c5ae4d9e9d7b3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/complex-v1/C6.md": {
+      "sha256": "76791717a2c55a9b496a86a7d0891c2a6b0c5311c153d653260f8ea61a9edfcc",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-dev-v1/D/brief.md": {
+      "sha256": "26d83ae5fa63d62d1e8057bc4444658ff7aa108f02826d479ac5f84a3f9f80b7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-dev-v1/E/brief.md": {
+      "sha256": "d8733a639eaf1432c551d631190db131966b1bc0f047ed4f8cffe5228c59e445",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-dev-v1/acceptance-matrix.md": {
+      "sha256": "5e71b7354ace30b75179349fbcdb5af472ba2e7abddf8cf4ad5979f6faa58055",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-dev-v1/contract-decision.json": {
+      "sha256": "b260a99452a6dee9a496fe8bca6a78206e7fd2a939fa3fa434bb52e16f376af1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-dev-v1/reentrancy-cases.json": {
+      "sha256": "8d60d632abd3fbe19d88bbff8398a46c59163c80332dca283586c6e3037f6d26",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-dev-v1/reentrancy-contract.md": {
+      "sha256": "03761840e687cb2078d6a46b79cdcfaf218e2dcc30948fa5e2b37c92b4eabf45",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-followup-v1/D/brief.md": {
+      "sha256": "475e052db4478ea0efe268afb60ffe71954298f1ebe1bfa165ab95ae4551f6d9",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/specs/v1-attribution-followup-v1/E/brief.md": {
+      "sha256": "81d4873f2a584778d1d31942597b149efd987ba388c15fd71a6a47d0ca88fa6c",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-followup-v1/acceptance-matrix.md": {
+      "sha256": "d716db44dfad4f4e9621199aa99d3142f66085c362715abd31d671b98874e1f8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-followup-v1/check-contract-map.json": {
+      "sha256": "a14039e32bc5fd8d675249940ac89dc99956d27ea9a04b9117056aebfaf81fc8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-followup-v1/reentrancy-cases.json": {
+      "sha256": "8d60d632abd3fbe19d88bbff8398a46c59163c80332dca283586c6e3037f6d26",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-followup-v1/reentrancy-contract.md": {
+      "sha256": "c0fcf9b3374569dd85881f1b18ec2b4849c578da22cf1802fb27794c69edf65d",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-followup-v1/waiting-cases.json": {
+      "sha256": "c6ef089b296ce5292c456601cda93ddc0470d733d320f60075ec3f4cd3438b32",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/specs/v1-attribution-followup-v1/waiting-contract.md": {
+      "sha256": "f42d81d351ca0497a772007ddcd432a007c68684b9650b05aa663a003cd78fb7",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/specs/v1-fresh-v1/C/brief.md": {
+      "sha256": "ba8a38fef62d6f6a877bcabd083c3044fe516906c09a51d96e2b8acff13eaa4a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-fresh-v1/D/brief.md": {
+      "sha256": "15da59e07c68ff42eab3bfea18335ac62edf52b4f61ffa956e324347921e69a2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-fresh-v1/E/brief.md": {
+      "sha256": "a4515185552de1762da2c83a8d425e24a5bdc51006a3629fb23c0a626fba95c4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-fresh-v1/acceptance-matrix.md": {
+      "sha256": "836382f925f8baa2fd398cfa979242e8b337c5d4c5436427a10de14a0a51f4fd",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-holdout-v1/A/brief.md": {
+      "sha256": "45817ef26b37bf9027c30a3d6246141789c6a774475233378d9dd34502a12f80",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-holdout-v1/B/brief.md": {
+      "sha256": "bc83b4533bf0a693c07292ab89f4d3ccf0d47190e83d56283e32a4a4989b9eb6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-holdout-v1/README.md": {
+      "sha256": "2355929972477d5e3e8eccb200b5682da6457a2242525b73fb28ea1bd77f4258",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-reentry-dev-v1/D/brief.md": {
+      "sha256": "26d83ae5fa63d62d1e8057bc4444658ff7aa108f02826d479ac5f84a3f9f80b7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-reentry-dev-v1/E/brief.md": {
+      "sha256": "d8733a639eaf1432c551d631190db131966b1bc0f047ed4f8cffe5228c59e445",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-reentry-dev-v1/acceptance-matrix.md": {
+      "sha256": "5e71b7354ace30b75179349fbcdb5af472ba2e7abddf8cf4ad5979f6faa58055",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-reentry-dev-v1/contract-decision.json": {
+      "sha256": "044573dbabd1e3e3a483d8cef606f8387098aa87a3776bd5004e5a8ca35bb95e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-reentry-dev-v1/reentrancy-cases.json": {
+      "sha256": "8d60d632abd3fbe19d88bbff8398a46c59163c80332dca283586c6e3037f6d26",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-reentry-dev-v1/reentrancy-contract.md": {
+      "sha256": "03761840e687cb2078d6a46b79cdcfaf218e2dcc30948fa5e2b37c92b4eabf45",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-tools-v1/acceptance-matrix.md": {
+      "sha256": "e0e7b018206bcf4340215b37abf5d166d8fe1e835ad27e91e5c072123e920c62",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-trust-dev-v1/D/brief.md": {
+      "sha256": "a297308ddf88404e59361194819b67682be9270c9830e28e014f0e4428208f10",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-trust-dev-v1/E/brief.md": {
+      "sha256": "ec1246b8163b6add4fefc58a604fa5e3d07739de1512a02c77eadd1e6b6a764d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/specs/v1-trust-dev-v1/acceptance-matrix.md": {
+      "sha256": "cb677d315d765cccee91a999a62ecf304faa34c7ac2333d06fc80ac8beac1ea8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T1/brief.md": {
+      "sha256": "1dacf80aa837809e6e2d70313a8d80faeb802fce983121b7773658977247b341",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T1/data/a.txt": {
+      "sha256": "b6a98d9ce9a2d9149288fa3df42d377c3e42737afdcdaf714e33c0a100b51060",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T1/data/nested/b.txt": {
+      "sha256": "0c204cf14b2a7ef8f804a9a2299c3fcdf44383f454c11d4126d12f2d3b03d364",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T1/data/project.txt": {
+      "sha256": "f9215800f466d32b7577e3195e29733f7ecc9dbae94854e89d27c373d2dc8bc4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T2/brief.md": {
+      "sha256": "e1f292ada0ce70f0b29e8c6380b39cda223258e8071c2a2adf51e685b3f49ae6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T2/tasks.md": {
+      "sha256": "94d347ef78b6e6f2555b14685c1ebb17e3b10db1c29c4a9a2a4313d3f31dd534",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T3/brief.md": {
+      "sha256": "49f7f2bb6cc8c5f3c0fbc000a14714d874928a8b628d694711cede65d3b85757",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T3/check.ts": {
+      "sha256": "57cf19ba82fc12add5462907b360bf077f0aaad15e4f54812addc32861324ed5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T3/parser.ts": {
+      "sha256": "9b8f859490f22c3ed75ceeafa17fa523bfea5f6b9e93f6b17d13d8fde3a22716",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T4/brief.md": {
+      "sha256": "5f86cdd03c7e4e9876b4256a125b851c9db06cfee26c253d268b4406d030752f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T4/input/01.json": {
+      "sha256": "378f40760bee8d823d21ac3e28727a9ef05032adaa30193f1661a985167aef72",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/tasks/T4/input/02.json": {
+      "sha256": "747f7cb0943572dfb1e4a6ec9197ac91d0765a3258161c01e500e8991991a851",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/NOTICE.md": {
+      "sha256": "91f182a9429df398457e236d5ae854c34f695e17057d3fac5f29f2ca6d454c76",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/alternative/D-index.d.ts.fixture": {
+      "sha256": "56b2887393797d2e688529d0981f91e8463573f7ffef3b6be4791bb156461273",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/alternative/D-index.js.fixture": {
+      "sha256": "7f7fcf7b73f76700af76e464c80d7b5ad893c39644dd9af47963a8a7e27d08ec",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/alternative/D-readme.md.fixture": {
+      "sha256": "ed8d6ccd5addac6f064225c41f64fea248dbfd69e3bac2d5831f9364ba219522",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/alternative/E-index.ts.fixture": {
+      "sha256": "cb023035f19019b38714d0c3958c8432f5e33c86112b5a82d7faa3396a29585f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/alternative/E-readme.md.fixture": {
+      "sha256": "798f3d5da6ff65b8e98fda971d48dbcc73de0ae1c0460637d75baf5417a6db50",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/assistance.mjs.fixture": {
+      "sha256": "42f5089777efa797c4d8c9676885faeaae8045df8e3537fcb3c93700f060d13e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/oracle/D-test.mjs.fixture": {
+      "sha256": "6f329630443a16cd6b6219223a61174936b6222f7dc3b5e9a8d6e97326df8966",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/oracle/D-types.mts.fixture": {
+      "sha256": "39090993ca49b73f01f2bc79a35b8b9f5fb32c7ac186343eb1885a2ee932741c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/oracle/E-reentry.mjs.fixture": {
+      "sha256": "c40de7f9e5e4e186e4c7a5849b77be14ca62df2f3a7c420a0e38677aa45fb499",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/oracle/E-test.mjs.fixture": {
+      "sha256": "3f84d0d4a34e0a72fe540fe21a239c03b3a29134b7a3152e8cb9cbd450079d03",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/oracle/E-types.mts.fixture": {
+      "sha256": "5f6a5cf55068c5375be3eb2324565b3376faafad2b2f03860a482b665ca36e2f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/oracle/E-waiter.mjs.fixture": {
+      "sha256": "7687b56d5736c6ca8924e469786e2f26614f83f6182eaa1953ac97a9f0b787a5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/D-index.d.ts.fixture": {
+      "sha256": "e753cb37d1019e6f11dc267e31ff8a084eb39959edba642bcb5451a6182a09c7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/D-index.js.fixture": {
+      "sha256": "57e237cf4943c775f03caafe5e16de3fcf47512fe5ea9112ee0f073714c4ba3b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/D-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/D-readme.md.fixture": {
+      "sha256": "bdba4807f6a4e8cbfe7a9edeee43aad6d80f867aa062f6fc5dc526957094ea7b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/D-test.mjs.fixture": {
+      "sha256": "5a2d67e8abfc83070dda269165adcefd6d319ded02924af414ddd14bef077438",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/E-index.ts.fixture": {
+      "sha256": "6566cf508c5caf08b081d7ce4aff1374d9155ff9b07b5d8fce5801cc9b8e8600",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/E-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/E-readme.md.fixture": {
+      "sha256": "2c408cc2ae2864193b79230f6586eedb70c01280614f659904c222ef6ccd651f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-dev-v1/reference/E-test.mjs.fixture": {
+      "sha256": "8ee20545774a644a8958781fcb437f691865c3d0da70413c10c5e3770734de4c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/NOTICE.md": {
+      "sha256": "91f182a9429df398457e236d5ae854c34f695e17057d3fac5f29f2ca6d454c76",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/alternative/D-index.d.ts.fixture": {
+      "sha256": "56b2887393797d2e688529d0981f91e8463573f7ffef3b6be4791bb156461273",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/alternative/D-index.js.fixture": {
+      "sha256": "7f7fcf7b73f76700af76e464c80d7b5ad893c39644dd9af47963a8a7e27d08ec",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/alternative/D-readme.md.fixture": {
+      "sha256": "ed8d6ccd5addac6f064225c41f64fea248dbfd69e3bac2d5831f9364ba219522",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/alternative/E-index.ts.fixture": {
+      "sha256": "c5433f194ccbb46b70c3556c2caa74254bc62b2e883345ad45a73696390c775e",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/alternative/E-readme.md.fixture": {
+      "sha256": "b6969a2b14fe63889f627504d96f411134f1419cdafa33c1e25e2f8ab15aeb4c",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/assistance.mjs.fixture": {
+      "sha256": "42f5089777efa797c4d8c9676885faeaae8045df8e3537fcb3c93700f060d13e",
+      "modules": [
+        "Q"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/oracle/D-test.mjs.fixture": {
+      "sha256": "6f329630443a16cd6b6219223a61174936b6222f7dc3b5e9a8d6e97326df8966",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/oracle/D-types.mts.fixture": {
+      "sha256": "39090993ca49b73f01f2bc79a35b8b9f5fb32c7ac186343eb1885a2ee932741c",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/oracle/E-reentry.mjs.fixture": {
+      "sha256": "c40de7f9e5e4e186e4c7a5849b77be14ca62df2f3a7c420a0e38677aa45fb499",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/oracle/E-test.mjs.fixture": {
+      "sha256": "3f84d0d4a34e0a72fe540fe21a239c03b3a29134b7a3152e8cb9cbd450079d03",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/oracle/E-types.mts.fixture": {
+      "sha256": "5f6a5cf55068c5375be3eb2324565b3376faafad2b2f03860a482b665ca36e2f",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/oracle/E-waiter.mjs.fixture": {
+      "sha256": "7687b56d5736c6ca8924e469786e2f26614f83f6182eaa1953ac97a9f0b787a5",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/oracle/E-waiting.mjs.fixture": {
+      "sha256": "8c25fb93693e3873f7ea4b9389941cbfdc26be1086d640fc86e6fc09cc521e4f",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/D-index.d.ts.fixture": {
+      "sha256": "e753cb37d1019e6f11dc267e31ff8a084eb39959edba642bcb5451a6182a09c7",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/D-index.js.fixture": {
+      "sha256": "57e237cf4943c775f03caafe5e16de3fcf47512fe5ea9112ee0f073714c4ba3b",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/D-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/D-readme.md.fixture": {
+      "sha256": "bdba4807f6a4e8cbfe7a9edeee43aad6d80f867aa062f6fc5dc526957094ea7b",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/D-test.mjs.fixture": {
+      "sha256": "5a2d67e8abfc83070dda269165adcefd6d319ded02924af414ddd14bef077438",
+      "modules": [
+        "D"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/E-index.ts.fixture": {
+      "sha256": "6566cf508c5caf08b081d7ce4aff1374d9155ff9b07b5d8fce5801cc9b8e8600",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/E-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/E-readme.md.fixture": {
+      "sha256": "102d255fdc96e5e3b4875c3df560344f3118d71e97dfa00eb65bf918a26efb53",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/reference/E-test.mjs.fixture": {
+      "sha256": "8ee20545774a644a8958781fcb437f691865c3d0da70413c10c5e3770734de4c",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-attribution-followup-v1/waiting-witness.mjs.fixture": {
+      "sha256": "01fa75045101c680797cca33f77bd03f7892774779be874b5c51badb02819b62",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/NOTICE.md": {
+      "sha256": "4a5e6ab840f3707269fb5853dc6478f102fd5ccfd84b72d8ab5ce510e4712922",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/oracle/C-test.mjs.fixture": {
+      "sha256": "7d4c8afbb80d6c2cce437e055c22023b3b611edd8f450f84c83008e85cc9c877",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/oracle/C-types.mts.fixture": {
+      "sha256": "331046f0b9fcd94235638aff8655b8c3d335fd1d2dc3dd44f5bf6c55e4e9e7b5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/oracle/D-test.mjs.fixture": {
+      "sha256": "cf336c0ebcf04c3bce31e08fd74509ca75bef5e5caffe74de2cc06c113c81be0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/oracle/D-types.mts.fixture": {
+      "sha256": "39090993ca49b73f01f2bc79a35b8b9f5fb32c7ac186343eb1885a2ee932741c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/oracle/E-test.mjs.fixture": {
+      "sha256": "0961d3e35327037e0528bd1f9a6edb48ce82253c3193922ff9acfd6e83855d68",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/oracle/E-types.mts.fixture": {
+      "sha256": "5f6a5cf55068c5375be3eb2324565b3376faafad2b2f03860a482b665ca36e2f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/C-index.d.ts.fixture": {
+      "sha256": "c734838318184e6a7f42b21b7164302f957f2de0b79a5c15e740a9234ed523e9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/C-index.js.fixture": {
+      "sha256": "faba8086d0d1e11835f2f450aab78106344708e7ca02100739cd9a2cf08919a1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/C-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/C-readme.md.fixture": {
+      "sha256": "e20519e3ee1988a2f80183b07f89c1249a5506951687e5991924b275b4b77cb2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/C-test.mjs.fixture": {
+      "sha256": "d61c1f448cc09cdbec45cc25e865ba0371ef34edd445d7ee692d7cf50845af05",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/D-index.d.ts.fixture": {
+      "sha256": "e753cb37d1019e6f11dc267e31ff8a084eb39959edba642bcb5451a6182a09c7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/D-index.js.fixture": {
+      "sha256": "a068028db96f6485c76747ef76e7490be871d7dd4fc9840fb042677f2ca3bafe",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/D-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/D-readme.md.fixture": {
+      "sha256": "bdba4807f6a4e8cbfe7a9edeee43aad6d80f867aa062f6fc5dc526957094ea7b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/D-test.mjs.fixture": {
+      "sha256": "5a2d67e8abfc83070dda269165adcefd6d319ded02924af414ddd14bef077438",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/E-index.ts.fixture": {
+      "sha256": "a2b43c2547fffd1ea5e75d1966360a73648bb77ce0a2deaeae8810c36bd0bbc5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/E-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/E-readme.md.fixture": {
+      "sha256": "c01b41faa38647e32baa3ac28108282cfa076356f68f94117a14f3a88d82303f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-fresh-v1/reference/E-test.mjs.fixture": {
+      "sha256": "8ee20545774a644a8958781fcb437f691865c3d0da70413c10c5e3770734de4c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/NOTICE.md": {
+      "sha256": "3f78a99397e9bc0bbbe1fce0a23bd227b99744d6168a62184c235feee28df00c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/oracle/A-test.mjs.fixture": {
+      "sha256": "13e1e59122c27b174e6c2b78b9ca8ce1eac64605de46c0b33a2c8a6a5c6cc5c2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/oracle/A-types.mts.fixture": {
+      "sha256": "edefdef8b714df6defd091d69f26cc987cd60ce1c8d66d849e4345887d12f106",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/oracle/B-test.mjs.fixture": {
+      "sha256": "b4aeaa1b8f71a403404ea52a7e057ea785e4b3af7f038dfbfb1d24364fe20350",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/oracle/B-types.mts.fixture": {
+      "sha256": "79b0fbdf50df3a212ada32c580965c2d32526624190e5c55671e938c46906e61",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/reference/A-index.d.ts.fixture": {
+      "sha256": "7cd73464b04f73ddc06883280cc54bcb89aa8b3b9ce2820caea2a2a6564f97a2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/reference/A-index.js.fixture": {
+      "sha256": "1fd5d573576fc35c219b9f4fadde6f18f97f665f06f93322deaf6a0debf97f82",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/reference/A-readme.md.fixture": {
+      "sha256": "25479e69a97d8e25a7573e3a6286ec41c7602b62e4bc3bade8ec814169a89add",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/reference/A-test.mjs.fixture": {
+      "sha256": "913bccccf16654c635c0fbcfb07d1d19f02064059c30d2fbcbe611e227d1ae72",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/reference/B-index.d.ts.fixture": {
+      "sha256": "fdffef942cf03899d1e0ae8269cfd7eb5a2a3e36c92ed06e7ba54ca6755f786e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/reference/B-index.js.fixture": {
+      "sha256": "1f12a18c01b92c85458e7579826f7c40e2c3506dda41f83df8d1057466ad2952",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/reference/B-readme.md.fixture": {
+      "sha256": "56e5fd74d189d6961b08cac147851a0409282ef8352654eb8b75a64772b8f0d0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-holdout-v1/reference/B-test.mjs.fixture": {
+      "sha256": "8d171afaa658d51a74f5d3bda12f7194ab7d0c312134c10037ec6263a451f884",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-rc-development/emittery-edges.mjs.fixture": {
+      "sha256": "3e3c4deabdff8b09f43332011ed1519a5db4eeef2ecdc39632435559025972a5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/NOTICE.md": {
+      "sha256": "91f182a9429df398457e236d5ae854c34f695e17057d3fac5f29f2ca6d454c76",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/alternative/D-index.d.ts.fixture": {
+      "sha256": "56b2887393797d2e688529d0981f91e8463573f7ffef3b6be4791bb156461273",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/alternative/D-index.js.fixture": {
+      "sha256": "7f7fcf7b73f76700af76e464c80d7b5ad893c39644dd9af47963a8a7e27d08ec",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/alternative/D-readme.md.fixture": {
+      "sha256": "ed8d6ccd5addac6f064225c41f64fea248dbfd69e3bac2d5831f9364ba219522",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/alternative/E-index.ts.fixture": {
+      "sha256": "cb023035f19019b38714d0c3958c8432f5e33c86112b5a82d7faa3396a29585f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/alternative/E-readme.md.fixture": {
+      "sha256": "798f3d5da6ff65b8e98fda971d48dbcc73de0ae1c0460637d75baf5417a6db50",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/oracle/D-test.mjs.fixture": {
+      "sha256": "6f329630443a16cd6b6219223a61174936b6222f7dc3b5e9a8d6e97326df8966",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/oracle/D-types.mts.fixture": {
+      "sha256": "39090993ca49b73f01f2bc79a35b8b9f5fb32c7ac186343eb1885a2ee932741c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/oracle/E-reentry.mjs.fixture": {
+      "sha256": "c40de7f9e5e4e186e4c7a5849b77be14ca62df2f3a7c420a0e38677aa45fb499",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/oracle/E-test.mjs.fixture": {
+      "sha256": "3f84d0d4a34e0a72fe540fe21a239c03b3a29134b7a3152e8cb9cbd450079d03",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/oracle/E-types.mts.fixture": {
+      "sha256": "5f6a5cf55068c5375be3eb2324565b3376faafad2b2f03860a482b665ca36e2f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/D-index.d.ts.fixture": {
+      "sha256": "e753cb37d1019e6f11dc267e31ff8a084eb39959edba642bcb5451a6182a09c7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/D-index.js.fixture": {
+      "sha256": "57e237cf4943c775f03caafe5e16de3fcf47512fe5ea9112ee0f073714c4ba3b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/D-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/D-readme.md.fixture": {
+      "sha256": "bdba4807f6a4e8cbfe7a9edeee43aad6d80f867aa062f6fc5dc526957094ea7b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/D-test.mjs.fixture": {
+      "sha256": "5a2d67e8abfc83070dda269165adcefd6d319ded02924af414ddd14bef077438",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/E-index.ts.fixture": {
+      "sha256": "6566cf508c5caf08b081d7ce4aff1374d9155ff9b07b5d8fce5801cc9b8e8600",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/E-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/E-readme.md.fixture": {
+      "sha256": "2c408cc2ae2864193b79230f6586eedb70c01280614f659904c222ef6ccd651f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-reentry-dev-v1/reference/E-test.mjs.fixture": {
+      "sha256": "8ee20545774a644a8958781fcb437f691865c3d0da70413c10c5e3770734de4c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-review-development/async-boundaries.mjs.fixture": {
+      "sha256": "7da9bd4b8bc9dc9f862e80a81a112a19c170d81912d5a0b70f4a48ad1c1a6dcc",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/NOTICE.md": {
+      "sha256": "31c8f50a9b2a2f6c3ff2000c8ad1a8f04e73a654f75d204ddb69822b989ec96f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/alternative/D-index.d.ts.fixture": {
+      "sha256": "56b2887393797d2e688529d0981f91e8463573f7ffef3b6be4791bb156461273",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/alternative/D-index.js.fixture": {
+      "sha256": "7f7fcf7b73f76700af76e464c80d7b5ad893c39644dd9af47963a8a7e27d08ec",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/alternative/D-readme.md.fixture": {
+      "sha256": "ed8d6ccd5addac6f064225c41f64fea248dbfd69e3bac2d5831f9364ba219522",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/alternative/E-index.ts.fixture": {
+      "sha256": "cbfd1aad414da149cf5d283c13b07050608d41d948b791c6e4e5f9e89cfa0f74",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/alternative/E-readme.md.fixture": {
+      "sha256": "e69123f9b6882451a4b75dca0c4b795b2a1679bd4ff465b048dce47ab4732309",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/oracle/D-test.mjs.fixture": {
+      "sha256": "d8ead81d6e408d44f9a384b4a086911d5903c49445c62fc8aa42b141677ca845",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/oracle/D-types.mts.fixture": {
+      "sha256": "39090993ca49b73f01f2bc79a35b8b9f5fb32c7ac186343eb1885a2ee932741c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/oracle/E-test.mjs.fixture": {
+      "sha256": "3f84d0d4a34e0a72fe540fe21a239c03b3a29134b7a3152e8cb9cbd450079d03",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/oracle/E-types.mts.fixture": {
+      "sha256": "5f6a5cf55068c5375be3eb2324565b3376faafad2b2f03860a482b665ca36e2f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/D-index.d.ts.fixture": {
+      "sha256": "e753cb37d1019e6f11dc267e31ff8a084eb39959edba642bcb5451a6182a09c7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/D-index.js.fixture": {
+      "sha256": "57e237cf4943c775f03caafe5e16de3fcf47512fe5ea9112ee0f073714c4ba3b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/D-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/D-readme.md.fixture": {
+      "sha256": "bdba4807f6a4e8cbfe7a9edeee43aad6d80f867aa062f6fc5dc526957094ea7b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/D-test.mjs.fixture": {
+      "sha256": "5a2d67e8abfc83070dda269165adcefd6d319ded02924af414ddd14bef077438",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/E-index.ts.fixture": {
+      "sha256": "5d8a17bd51158261866a2f2fa1bf2adcf6f89cdc6f67a9e9454afa86a0e7ea90",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/E-license.fixture": {
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/E-readme.md.fixture": {
+      "sha256": "c01b41faa38647e32baa3ac28108282cfa076356f68f94117a14f3a88d82303f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "evals/v1-trust-dev-v1/reference/E-test.mjs.fixture": {
+      "sha256": "8ee20545774a644a8958781fcb437f691865c3d0da70413c10c5e3770734de4c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "package.json": {
+      "sha256": "f88b9a2b1f173f6b65d4cc0fa1c55c6aa381ce5619e765073df758c8a8aa923b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/adapters.ts": {
+      "sha256": "56cb538e1390c52ef11585424eabfccbef7c3974cc7e843ddf5e8c84024f0395",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/budget-qualification.ts": {
+      "sha256": "8396c52a7820999fa89d96e6cb580b5a5d0c4ea1c92464b38d240db17fee4dd9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/calibrate.ts": {
+      "sha256": "9acd384622e6c11115088635df8dffb7bd64ef1a94b81d6619178d578d640257",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/calibration-material.ts": {
+      "sha256": "14cabea0177b401b1aa08355af593b94591b447e91dfaa052b10f064b4f0d65d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/compatibility.ts": {
+      "sha256": "471c2518311fd266ef990dbcc9f9cd7dacdd89f9f3cc5d722c06a30b3297cbfb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/config.ts": {
+      "sha256": "d29de58517568b5db4f0df914472213a0b0ce7bac123fea21ac95ae0821d3073",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/contract-audit.ts": {
+      "sha256": "4d37e86e3a4e6d52caea266a039473925ba4d496211740bb008f4bd03041eabd",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/control.test.ts": {
+      "sha256": "ea1e224969dbeeb18eb23c0f740a7644903316a784e85100defd559f857d4de2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/control.ts": {
+      "sha256": "cde1656a7ba16b4339525625b6207e62d08e182a8f208add50d7a4a3c1d990e8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/dependencies.ts": {
+      "sha256": "9b7beeb495dc00ea1f8166e1b224706c680ad7cf93169b17071dde432dcdbbf5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/dependency-scope.ts": {
+      "sha256": "9c62df574c7c9d2831e5d7166a939f82d91a6b7b7e219c28a04e75bf48380c53",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/fault-check.ts": {
+      "sha256": "b3a46d31856ca12f73629efa2ebaa7c1c86231fd6c5a3dfce1e572985c17f7b6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/freeze-contract.ts": {
+      "sha256": "4d7790808671ac697c222fcb1f81b09af0a9beca0e231805e7ed0e12162bd659",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/grade-one.ts": {
+      "sha256": "9de7a5c86c49922589800696dd762443d0fced62333c2652719d9b66b9287501",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/grade.ts": {
+      "sha256": "7345a594401371f43472f4141b7231eb73f46c1a44bc01a63afdcf0334736bb5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/grading-permission.ts": {
+      "sha256": "a162cd74dfe11b9ebffafdfffba79974005cd27ef59511c110dd07210e1a697c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/grading.ts": {
+      "sha256": "5f16373c90c2e292c249a7a556f049135f85a20e4be27b355a95d233d0e4e548",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/incident.ts": {
+      "sha256": "56792c34e8e5b1346acda53412c1e029702e274ad3b19ac80ab9a9a7f5d6e610",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/input-audit.ts": {
+      "sha256": "36851f57195959e0c037f27ef8039b8ceb60039148afb5d88b1bca45672821e7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/interaction.ts": {
+      "sha256": "ac1ac07918bfbd3f49345b7fd2c3e8694194d463296a382a98b1979829cc8afa",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/measurement.ts": {
+      "sha256": "90188fce6fbf3091ef2aa63a52f6caa19f707b2854043f97dcb74d040ca2c52d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/model-evidence.ts": {
+      "sha256": "7e3545d6f22867c1f7350538a1e86e136ed2b972191579e36582ad0951c75e0a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/module-fault.ts": {
+      "sha256": "f6da19eaaef8d2f0990b2243a846725cd928948b7a4d10fb881e6db0499423f4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/modules.test.ts": {
+      "sha256": "e8d8dae9a8cbb6529866e17be06bc01984df1e78723c595089e85a00c22b3f89",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/modules.ts": {
+      "sha256": "0415a6c61df03f9c84aa5f3cab0e0f0bce20cc49891697329a342533afb1ea20",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/offline.ts": {
+      "sha256": "a6919840f983c2d98d7389eb7a0dea958a07225f2027f383de7b1862effaf46e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/pipeline.ts": {
+      "sha256": "9cea74b7ad362cbb5443cb8878325a56f4e24ecfdde8a42deba0b5f4da2ecaf1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/preflight.ts": {
+      "sha256": "5002ceee92de007c7e3fcb16e5dd58be158d53e6a933645e6f526e9e76c7dc1d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/prepare.ts": {
+      "sha256": "99054312c4f1ea6953a241f6750f31f256b59d798506e99cab574e966550828b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/profile.ts": {
+      "sha256": "bb86577f60619b9cc87fb44205e6b171a671fdc5a9acf0817b19d367628d62ca",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/protocol-smoke.ts": {
+      "sha256": "d8e9160d34ff2416063c35d53b1a58dbe612479f9748c2e3033e6c1682385c27",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/provenance.ts": {
+      "sha256": "016ade6e8d65b262fb6f29b931644e9a0215ca8221b1a2b0ed8341fb0704a693",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/record-review.ts": {
+      "sha256": "1c68af4e89e7fcc5b056fa666edb5cc81f8dfc076695835b9c0c5bdd2bba64a4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/recovery.ts": {
+      "sha256": "0d35a69e4e1316bbe019c2bb216cf23ee6fb9430964a042fb591814117eb10f2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/reference-examples.mjs": {
+      "sha256": "424e46e05d17d23d8cb2a64ac41f21f91257ab3d1198ed1936de6dbafdd6ed2d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/registration-compatibility.mjs": {
+      "sha256": "09d9c33568a489df8bdc5661ff39b595135076bbc6a75b912177098e8442bb57",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/repair-qualification.ts": {
+      "sha256": "a5beed57550ef88365cf15d58df3c151121f2dca0e38783ef564dc89d0d9fbf3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/replay.ts": {
+      "sha256": "5f0c4efae0c885ba192f26056eab930995917d066daa86afe876e25a21750e04",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/resource-audit.ts": {
+      "sha256": "60e4f9496d0049ee6c26d7b32b0ad01aaaf5c743e9348bee18ed0c12991c9cc9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/resources.ts": {
+      "sha256": "2497241caf00b1a383c39339dc7762567115f4a63a5a81cc56aa83840b71da26",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/run.ts": {
+      "sha256": "b6b580c124d6e9a721ae0ec41045285fbc9e708882ead9ac9c751e9f182eb19d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/runtime.ts": {
+      "sha256": "33a76f193c49b6b0a72b0bc6fc9f6b2008f8e9a443b9004287a6c4cc95483c6b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/sentinel.ts": {
+      "sha256": "09a0ee510216795eabdb4e3885cb285a2eaa8f02996cd9f894ebff8b1989b6b9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/smoke.ts": {
+      "sha256": "59695c96a8bbd3b12924539ebf8be0e3428dc0df6d49543abdb2601bb008601c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/stability.ts": {
+      "sha256": "345f998e2995c0d62cb0b876bf72643550a3ae400a4aba486fd29e53f0f20f35",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/status.test.ts": {
+      "sha256": "71b05dfcd13aa75d721e986b41753ffea9efa48cb7321427e5f3a55188a63ba0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/status.ts": {
+      "sha256": "1115da9b0ae4ff15f13b503454693585f9e159eadc4cf3441300d2b1b942dcac",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/tasks.ts": {
+      "sha256": "7cb212ee796f9f4d670f2ad5cc224eb646f615fd0432419d2b6bb1ad2c65fbda",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/transport-smoke.ts": {
+      "sha256": "0c937d31f08c0d94fcf98175f03de73af1ff86bfd1a41d5a9e48c0fbb31a5bef",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/try-reference.ts": {
+      "sha256": "ae3caaaff2ae8db7aec09c28c8c711df556b5411abff748c49583a16e4a33720",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/versions.ts": {
+      "sha256": "5ab3629ab8cb3c0ff4ee9c5e0f4a10c86004886682f79f154f184c0e56194b81",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/waiting-qualification.ts": {
+      "sha256": "bcea73d8d50ea2984f9ed72af45d53cc4aa1b1412cdbaa0788e020080642a250",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution-followup/window.ts": {
+      "sha256": "e6759ad517284e0a9b1c0218418b8e98fc99d3d8e18b7572b4c60542af2ccd89",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/calibrate.ts": {
+      "sha256": "9acd384622e6c11115088635df8dffb7bd64ef1a94b81d6619178d578d640257",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/calibration-material.ts": {
+      "sha256": "14cabea0177b401b1aa08355af593b94591b447e91dfaa052b10f064b4f0d65d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/compatibility.ts": {
+      "sha256": "471c2518311fd266ef990dbcc9f9cd7dacdd89f9f3cc5d722c06a30b3297cbfb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/config.ts": {
+      "sha256": "867e4d7b27b141221998b933e1aa4e53807d3eb8bb5d84df5a35d3c977a9aeb3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/control.test.ts": {
+      "sha256": "ea1e224969dbeeb18eb23c0f740a7644903316a784e85100defd559f857d4de2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/control.ts": {
+      "sha256": "cde1656a7ba16b4339525625b6207e62d08e182a8f208add50d7a4a3c1d990e8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/dependencies.ts": {
+      "sha256": "9b7beeb495dc00ea1f8166e1b224706c680ad7cf93169b17071dde432dcdbbf5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/fault-check.ts": {
+      "sha256": "3f0e0e06a0fb9fa77316ff7bd317cfabd430ae795019423663a3047ff0d47ff8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/grade-one.ts": {
+      "sha256": "a3f7aeaf586f0303675ee5757795d072ec91a3583b8b39bf827f99cea2126566",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/grade.ts": {
+      "sha256": "0071c2b71aa2df43f1e13eb239e3ada80000c1f377ac31a0182f0146b66e025a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/grading-permission.ts": {
+      "sha256": "727e350ff1b400cfd25a0e7c6519f53073913ec7b6f31dce646d7573f81fa843",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/grading.ts": {
+      "sha256": "1213c19cf42b9a1fa388dfccb9de424f3f09180e26597bc3e81bf121f0a20742",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/input-audit.ts": {
+      "sha256": "658ccc1bbb5f9139dcddaf52ee64716051858b9c8a316b8d3efdbbb9c8bbfe66",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/interaction.ts": {
+      "sha256": "ac1ac07918bfbd3f49345b7fd2c3e8694194d463296a382a98b1979829cc8afa",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/measurement.ts": {
+      "sha256": "90188fce6fbf3091ef2aa63a52f6caa19f707b2854043f97dcb74d040ca2c52d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/model-evidence.ts": {
+      "sha256": "7e3545d6f22867c1f7350538a1e86e136ed2b972191579e36582ad0951c75e0a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/offline.ts": {
+      "sha256": "385fb1c74f214cfe6e0e3ba3a851982c4e3e04a75d55d620a66844690d91207f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/pipeline.ts": {
+      "sha256": "cd8acf4b1da0228efdeacb5f8b46099fd6447b68f2b0af8b1b5fa570f4f9f103",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/preflight.ts": {
+      "sha256": "5002ceee92de007c7e3fcb16e5dd58be158d53e6a933645e6f526e9e76c7dc1d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/prepare.ts": {
+      "sha256": "5bed9cca3e89278ca54fffae11ce2594c5823c2932538e173157cffc64d617e2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/profile.ts": {
+      "sha256": "845cbcdf474fd4a70bdfa623ff56316d6e0362bcf090ec574e47d69fab949720",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/protocol-smoke.ts": {
+      "sha256": "d8e9160d34ff2416063c35d53b1a58dbe612479f9748c2e3033e6c1682385c27",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/provenance.ts": {
+      "sha256": "016ade6e8d65b262fb6f29b931644e9a0215ca8221b1a2b0ed8341fb0704a693",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/recovery.ts": {
+      "sha256": "2313941445e7d1c227d2464d702d73feca85059543c0656019001646fbe31c56",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/reference-examples.mjs": {
+      "sha256": "424e46e05d17d23d8cb2a64ac41f21f91257ab3d1198ed1936de6dbafdd6ed2d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/registration-compatibility.mjs": {
+      "sha256": "09d9c33568a489df8bdc5661ff39b595135076bbc6a75b912177098e8442bb57",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/repair-qualification.ts": {
+      "sha256": "dd7716012f940ce8f87cc3d96ced15117a71cadcdcb66c3819d81b48b2b09ada",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/replay.ts": {
+      "sha256": "70983592287ef8acf636c8b860cc24a1de1e37fb5d609c50706013e8ac5089cd",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/resource-audit.ts": {
+      "sha256": "60e4f9496d0049ee6c26d7b32b0ad01aaaf5c743e9348bee18ed0c12991c9cc9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/resources.ts": {
+      "sha256": "2497241caf00b1a383c39339dc7762567115f4a63a5a81cc56aa83840b71da26",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/run.ts": {
+      "sha256": "3205c526dd65c368a02bfa0d25548354bab615e2e1045de0902a1da52765ec7b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/runtime.ts": {
+      "sha256": "2cdbcc515304475f0e06682630b6ce5e0af63219e45112d9b5fb1de6a064d16b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/smoke.ts": {
+      "sha256": "59695c96a8bbd3b12924539ebf8be0e3428dc0df6d49543abdb2601bb008601c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/stability.ts": {
+      "sha256": "345f998e2995c0d62cb0b876bf72643550a3ae400a4aba486fd29e53f0f20f35",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/status.test.ts": {
+      "sha256": "71b05dfcd13aa75d721e986b41753ffea9efa48cb7321427e5f3a55188a63ba0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/status.ts": {
+      "sha256": "1115da9b0ae4ff15f13b503454693585f9e159eadc4cf3441300d2b1b942dcac",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/tasks.ts": {
+      "sha256": "c68be6ed0ef538607a23a8fadde073b50c8cf3d8fde88bdaa1eb64ddc760c277",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/transport-smoke.ts": {
+      "sha256": "0c937d31f08c0d94fcf98175f03de73af1ff86bfd1a41d5a9e48c0fbb31a5bef",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/try-reference.ts": {
+      "sha256": "ae3caaaff2ae8db7aec09c28c8c711df556b5411abff748c49583a16e4a33720",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/versions.ts": {
+      "sha256": "5ab3629ab8cb3c0ff4ee9c5e0f4a10c86004886682f79f154f184c0e56194b81",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/attribution/window.ts": {
+      "sha256": "e6759ad517284e0a9b1c0218418b8e98fc99d3d8e18b7572b4c60542af2ccd89",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/budget.test.ts": {
+      "sha256": "d5c136148ea05ab17c1230c02e95e6a8c3ed7de73c9e5d0b684f41066f5413e5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/calibrate.ts": {
+      "sha256": "0dbaf38a5fa4e4e9e428e6bee14ca4627704a4f1df94ade301fbfaa96fd4fbb9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/check-continuity.ts": {
+      "sha256": "7f667025d7924b259f33ed9a333de1557f817954e3e9a4b26df5423edd23610c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/check-native-limit.ts": {
+      "sha256": "2a625e4e0a27a8ddff93131b7b58107abd26ee7c44154ccbbf56f403c20cc32c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/check-response-headers.ts": {
+      "sha256": "b774488c8e91d7b0953791ed22ad4a136e8abbb987da7c6d4da2cf520c60b1be",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/grade.ts": {
+      "sha256": "dbcf60d1e636f9f96c25c1bf4fb5e0be93709a55573df323aa22fa3019f4f006",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/regrade.ts": {
+      "sha256": "30fda4bcd12378eff557c17480faed3b21719db88f59d9e67a122b408576bd2d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/response-headers.test.ts": {
+      "sha256": "a7cfc75aa50d744ebb668d9a037ae0c9c11a13b5dd716a34244b4ab6fd45c134",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/run.ts": {
+      "sha256": "65fbe8b109b92e92232c8146600d54888aa859dfc5705181954b20769848edfc",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/runtime.ts": {
+      "sha256": "70f9370e18cabc1ea9edc788d2e76874e10089c06b1b7bab900d29ab2b41bc9d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/settings.ts": {
+      "sha256": "9fba33762d802b02ea2f56cc72431305661cc77524d5fbbf2248d21729821720",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/task.ts": {
+      "sha256": "adfe208e90c31391e5ab1b82277ae860de5d8c4b5a2ceb08fedf600d7a1bcc3b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c6/workspace.ts": {
+      "sha256": "2e20fc932fd0d4a8db0971254a2df774cb2331fae5d05dd85b9d84d2e8497101",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/calibrate.ts": {
+      "sha256": "d86a48a0888f5518298373a2dfceb142884dd57661fb31b6ebd46417973234b4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/grade.ts": {
+      "sha256": "1cf3e4726855052cc5adc8473a9ed01ced8489e729635fd022cf83be5546c614",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/infrastructure.test.ts": {
+      "sha256": "00d637adf96888fffb1ca1c43dc006cbe94e99d3566cde7e3c6971ed7b39056c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/job.ts": {
+      "sha256": "9fccc71a700d92289919655e3cbdfd97775a1e30fd94656130de15d332fe8028",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/outcome.ts": {
+      "sha256": "6dcf044609c05f813b57515fc936378763d364c8af847b9f2d3d8419509a239e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/prepare.ts": {
+      "sha256": "043e47757a57c2a20e118218f40d33fedb991525714329916152dff4816fea55",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/regrade.ts": {
+      "sha256": "e44cea87747cc0f91e62ceb8b3c30e4d0ce17e1301aa10999f70eb73436b0b6e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/regression.ts": {
+      "sha256": "0915042712cc34450eea5006c5de3fa204fbbfce4edc0b254e14efae8ba368c4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/run.ts": {
+      "sha256": "7dcd3a9b0203ae77767cecacc73a9e35ccabe3b4ea614be5ae9fd2e96767edd0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/runtime.ts": {
+      "sha256": "ed93df360952e4361495d7a5ddbcc430f4950b8ef221d5b4eca0fc95784b6182",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/settings.ts": {
+      "sha256": "013719d53bbd8e8d8931df86700168535edbb40f785b8754f19689d2dfbb631b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/smoke.ts": {
+      "sha256": "9ee3ade59128352e43849fddefb887c47e4018c10a390752e63537a775a29422",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/c7/tasks.ts": {
+      "sha256": "c9250a90ed640952e22346480707f0f63c77b527910bc489511f1b04a3aefe8a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/check-oracles.ts": {
+      "sha256": "f22c05b05edc065884f2cb4774d0cd3386a78cbb1741e3cfd2b7815009d0c4a3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/calibrate.ts": {
+      "sha256": "6a6ee83170afd0667788c2a1a2ff1e01d9e282cb20b502a08f06fdb8898375e0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/check-completion.ts": {
+      "sha256": "4d4ec56e093b6a8729038fdde5f783a04d073f8bab32cf694721dbb3694de4ec",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/continue.ts": {
+      "sha256": "53816c1d9ae6587074def02568ef66d87b7e78bec8f572cc8b81b0e750b637a6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/fingerprint.ts": {
+      "sha256": "b97092a958a574aafc16605bd5a95e460e6bdd85b982b7f5bafaa99aea569bde",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/grade.ts": {
+      "sha256": "7b4c0fcc7654336f3ef6f873bc5aeaf6720f49d076eb8fca5254bd1eb59791f8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/http-observations.test.ts": {
+      "sha256": "04739527409e592f1c90717f90db3347a291896f27cd14f3964f4709a15d6aab",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/infrastructure.test.ts": {
+      "sha256": "cce880d3a5416007bb07f6ecfaa299101f8fb358414b074d8fb2aa1c6adbdbc1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/recovery.test.ts": {
+      "sha256": "120c733cdc26829232e361db7d3fd9305bdd1497404ebf9f4a3b790b40982b2f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/recovery.ts": {
+      "sha256": "b8d06fad5016fdd5ab3689b27cd80be7c0f64f05f4be8b6cfe42daf11fa1bfe1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/replay-cases.ts": {
+      "sha256": "cd39f92d18c276384145277ca43f7869a04dbdd34b49e3f541ad025dd5f270f1",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/run.ts": {
+      "sha256": "262d92db762ee67dc23ffc8e983930f03485f7f002d1c29fc6ec1da1d385708e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/settings.ts": {
+      "sha256": "c555d3e9104fb3c2db4fd0ad699a2786bfe4184b0e1e84c8e0fbed84fe975fcc",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/tasks.ts": {
+      "sha256": "ce24442aa4b2f6279706333a21522656bf46056e11a3772c69ad07350d763136",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/validate-revision.ts": {
+      "sha256": "b2fc31d1369310e643e81629b035b151b1c41a7c0c835a91c42b6c354d053d06",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/complex/workspace.ts": {
+      "sha256": "e68011f9a2b0f8bd5905bbff04be2593d478dfe55651761bbb9416c7266714e9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/api-error.ts": {
+      "sha256": "4716f39f4fa9af1fd393c3b3510c3cc1fda5dd825e5cf0132441eeb09eac59b6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/budget.ts": {
+      "sha256": "5d47850750f414ade547c19c0ace764849723e7031a845fb9e5ddd0e1fd5413a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/c6-files.ts": {
+      "sha256": "cfbd3cec7f8f5421405422d0a5e04a9d80c86cc904a1d08774254e6ca6334913",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/faults.ts": {
+      "sha256": "c2f519506bdc46bb7492ba148e2229be0ea5de9c54e91fa7cb917fbb4d324397",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/files.ts": {
+      "sha256": "e32411a63e2072f16131fb8c461a97ced86df9bc74e26e46f4b75265d34092db",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/mock-reply.ts": {
+      "sha256": "53cc25b1e549cc7b22f1e9768bda7ecf3ca00374b30e2a9fe35e477a75358863",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/permission.ts": {
+      "sha256": "a4107513b3a22b7e2c4b4aa54ec0e54f04af2bd3d67a2eb76b5822ad6068da94",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/relay.ts": {
+      "sha256": "eab40db79fd96d6414756e688811b8f8885ce7e142000eca75769c27854e576c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/response-headers.ts": {
+      "sha256": "b4215aab4b7f14b127014b547f1f1fe27b8e3fdc2d19b3363efcdee215dca570",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/review-observe.ts": {
+      "sha256": "93a9d8e882ef4b8def8cf883675038fe180c51c354399c3c3cc6dbf4f1247b47",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/container/v1-observe.ts": {
+      "sha256": "3ef06a01c3a25e953a2acf295383fcd39217409ebe3da0e0886826d4f12d1025",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/core.ts": {
+      "sha256": "eaf772cf1d4d1823bb94a259d69705c5c5b2f538cc81dc7998c8b9fa0f1bbe1b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/baseline.ts": {
+      "sha256": "d965430077b7fb53f32c983a96a99241e75f2be7f90cb71a73718afd708b49a9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/calibrate.ts": {
+      "sha256": "3178396146b662ea4e633ec6f3b4f174b820e78963027494766dc26e89612a65",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/control.ts": {
+      "sha256": "1ee3a01e654cb8a93cd36aea472a516fd748c97d75691620ff7260ec149f5105",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/dependencies.ts": {
+      "sha256": "02dd15970e524633da12bbd967df1e23a6f713e751f824f7291e68dea5cbcdd9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/fault-check.ts": {
+      "sha256": "9a2462e5b55344cc2c681305dfd9a0516211f9cb4d8cfcb4465acdd5264edd3e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/gates.ts": {
+      "sha256": "87b3f149e32add1a9aa8783f171f2aabbd5d2675639e203e05224f68681fef1c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/grade-init-check.ts": {
+      "sha256": "4431dcc7c6660fcbff628df400e925513f9c7daf6d4901aae928ce8e7da2b124",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/grade-one.ts": {
+      "sha256": "b28dfe0085f10ff320356d50a799addd277cffad18a10a5074f2653a7f6c2cb6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/grade.ts": {
+      "sha256": "a60479d5f67627eecd9833bc0b9312418ece820fda28dd8ea864704879ea28c8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/grading.ts": {
+      "sha256": "94bdb7c0ed5e602cd7dfd9a616478ae3526ef58b3919affd6332190be8aa4aa5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/offline.ts": {
+      "sha256": "cba4fe2b28da7a805d1d9b5e444ea8575254e38268dcf88ae3a99e4c6fbc894c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/pipeline.ts": {
+      "sha256": "71cd75ad73a2c3a746d4f6562456e460bff85063ee7b22e2bfffe1f4ffddda43",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/prepare.ts": {
+      "sha256": "cfb625d538ceabe75ff4fa4265eac1734abfdddf9542a6b3563c73d12f4ce48c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/profile.ts": {
+      "sha256": "195d804a31fb498390cee6bcd810aa0295ac13011971e4f5ce592b2c1c954803",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/recovery.ts": {
+      "sha256": "cf0fce0d449984b755d282989f0deded059005265e3311a007b15911bc865b09",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/reference-check.ts": {
+      "sha256": "7ad9452aabca2ed785510a35a4aa9b1cef535f355a649fa106e9bfbe77462b72",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/run.ts": {
+      "sha256": "7de972287870042738547c823fb5b1d6a1aa16b5d0bcb11b8f66718d10c59e5e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/settings.ts": {
+      "sha256": "f70ff85b0aad0f7e34e44786c9298a62d1c7a1f7a1eaa6769f66b3445c1298d2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/tasks.ts": {
+      "sha256": "1f194ec92b14f61633bcd864786bb2b21d1f77d2fbf4d2fc64e79fb73bc40c05",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/fresh/try-reference.ts": {
+      "sha256": "f11593f7fb5c9198a00d0ebe58fe83b1aef3e27a5fa3fc393859f0eb63f1acd3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/known-regressions.ts": {
+      "sha256": "d56a7201a6a581a67c926d3a57fb69356a358772e1db932a6b5f4dfe062303fc",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/preflight.ts": {
+      "sha256": "4ed793ebecd803efb60a72da177e65f8d5a7ee15e5bf653128f13b6252de2e80",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/calibrate-quality.ts": {
+      "sha256": "10e56202508511fb7c35d6df1c47729e2671bbd1fe4820cb55efcbc7ab8b7e13",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/config.ts": {
+      "sha256": "e30c9de63849de1bddddfd264eee4f5110ffdf60078ebe089588a4e932fc8f00",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/grade-one.ts": {
+      "sha256": "b320a3e9f1080a50236a2d61bb6d1633d38cde5705f5bffffb8854e11ab32cbd",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/grading.ts": {
+      "sha256": "add352b873159978cd0c9d73f36474add1678f8224bbcb3b4ab91952eb0d7d21",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/offline.ts": {
+      "sha256": "13872391f580029fa3af2a4aca3745521ac3ea5be6f505814ff3bbafc04937d0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/pipeline.ts": {
+      "sha256": "31098c817eaf107193f9d45c30613c8d0261a880cfb8e43d4c41270b0432b6ee",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/preflight.ts": {
+      "sha256": "0bd605d5a4205d2d539271b84b8aa2cee6a4c98a787db1fe06593753dcd321ca",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/profile.ts": {
+      "sha256": "fedd7c76c5bc3e8e4965ccf12cfeafbdce3726e6605a58921c203b8ae0bd6cd0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/protocol-smoke.ts": {
+      "sha256": "9b95c265f4cfa5b9a99fa47f087c28f5dd38d3bd74e5bdd61c1f0c26d75998e6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/quality.ts": {
+      "sha256": "00c4841d1b73fa60dea9c4a91408ab85823f4ffeb4020b4e352d5e4e98b2fdb3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/run.ts": {
+      "sha256": "8110a92c63ce8d125fe8ee649dd1cf579a9ee9f224d4c985d6ce0979223203a0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/rc/stability.ts": {
+      "sha256": "be00e7b7d77824ba4bfe5f1d983a647f3df568623d16f2eb0c6f00013bfc6e4a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/calibrate.ts": {
+      "sha256": "ec27dbb92beabf5af9fcbdf505b37101dc117216f52f1adb30abd18fb0640169",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/calibration-material.ts": {
+      "sha256": "14cabea0177b401b1aa08355af593b94591b447e91dfaa052b10f064b4f0d65d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/compatibility.ts": {
+      "sha256": "471c2518311fd266ef990dbcc9f9cd7dacdd89f9f3cc5d722c06a30b3297cbfb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/config.ts": {
+      "sha256": "279c58b92b7a418210315a5be90ad42757b589450281eae4511bcf9c04737d8b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/control.test.ts": {
+      "sha256": "ea1e224969dbeeb18eb23c0f740a7644903316a784e85100defd559f857d4de2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/control.ts": {
+      "sha256": "cde1656a7ba16b4339525625b6207e62d08e182a8f208add50d7a4a3c1d990e8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/dependencies.ts": {
+      "sha256": "9b7beeb495dc00ea1f8166e1b224706c680ad7cf93169b17071dde432dcdbbf5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/fault-check.ts": {
+      "sha256": "3f0e0e06a0fb9fa77316ff7bd317cfabd430ae795019423663a3047ff0d47ff8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/grade-one.ts": {
+      "sha256": "e1af2945d7477d1e5d8a6b3371b5928f114bf652939bd89e6fdc073580e848ae",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/grade.ts": {
+      "sha256": "1a56ba5df1acd22f6828fcec71c175ce69c2c1182c912d9c05bfe366159cd1b2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/grading-permission.ts": {
+      "sha256": "727e350ff1b400cfd25a0e7c6519f53073913ec7b6f31dce646d7573f81fa843",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/grading.ts": {
+      "sha256": "30ffadf66283aada3a93b0b58b4ce03295a45b6b863e06b642734a1464ed85a7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/measurement.ts": {
+      "sha256": "90188fce6fbf3091ef2aa63a52f6caa19f707b2854043f97dcb74d040ca2c52d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/offline.ts": {
+      "sha256": "b541c7c22fab993235dd8f29b7aea85a271adcae3e0ba9717b9e50754c018d27",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/pipeline.ts": {
+      "sha256": "50254f6b96db0338af1da90f279bfd38f2ebf73bd497577bf865f5f1386691be",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/preflight.ts": {
+      "sha256": "e972d0c89109c6c87a8768954d9c8729bfa86ba7dfe610158d3c90c4d0834677",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/prepare.ts": {
+      "sha256": "90ca5154956f401e0a5e7316318f8f05799e3347682db630d5f9044a992de97b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/profile.ts": {
+      "sha256": "e11d1b89e8e6113ae4a68e463d85f6e79ea4ec26b0a10cc0930d50f8e52ec778",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/protocol-smoke.ts": {
+      "sha256": "b3f5e1bc44fa2212de4bc69d0960a8bbe82f6304d71408998e4413d78c5b6a79",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/provenance.ts": {
+      "sha256": "7754d45c0f28636d2a858df72a03223e95c6350dbdb524448691b7441282cb08",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/recovery.ts": {
+      "sha256": "40e22ab066c13ee9e8e9d6c723de9c964a7f8772cf03c7c601c970a4ae751728",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/reference-examples.mjs": {
+      "sha256": "424e46e05d17d23d8cb2a64ac41f21f91257ab3d1198ed1936de6dbafdd6ed2d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/registration-compatibility.mjs": {
+      "sha256": "09d9c33568a489df8bdc5661ff39b595135076bbc6a75b912177098e8442bb57",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/replay.ts": {
+      "sha256": "22e14c217168718ee69b896b20faae8c078fa122dda705544b70c874072c6a40",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/resource-audit.ts": {
+      "sha256": "60e4f9496d0049ee6c26d7b32b0ad01aaaf5c743e9348bee18ed0c12991c9cc9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/resources.ts": {
+      "sha256": "2497241caf00b1a383c39339dc7762567115f4a63a5a81cc56aa83840b71da26",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/run.ts": {
+      "sha256": "072698f776e5da1c6dd7bda1f3319ee8f083512e599b67e9a7dabb18ca3b6eb7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/runtime.ts": {
+      "sha256": "84a5a59c3923a706f3198f6bec51a7a75e78cd8eb2c8e8ca549662cd301aeb04",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/smoke.ts": {
+      "sha256": "ef8a9f06ac5164f921bcb7fe033a82d86d6ffaf6207c1d5b4d29449394243973",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/stability.ts": {
+      "sha256": "345f998e2995c0d62cb0b876bf72643550a3ae400a4aba486fd29e53f0f20f35",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/status.test.ts": {
+      "sha256": "71b05dfcd13aa75d721e986b41753ffea9efa48cb7321427e5f3a55188a63ba0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/status.ts": {
+      "sha256": "1115da9b0ae4ff15f13b503454693585f9e159eadc4cf3441300d2b1b942dcac",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/tasks.ts": {
+      "sha256": "fd255b105f446d5d32ed4156906c9ea86d15daaaeea5e304f74d072fed29dc91",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/try-reference.ts": {
+      "sha256": "ae3caaaff2ae8db7aec09c28c8c711df556b5411abff748c49583a16e4a33720",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/versions.ts": {
+      "sha256": "d0a7785799d6918e4975f7f2dcc08db0247a7d1081853fb19b71acdaa296013d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/reentry/window.ts": {
+      "sha256": "e6759ad517284e0a9b1c0218418b8e98fc99d3d8e18b7572b4c60542af2ccd89",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/calibrate-quality.ts": {
+      "sha256": "86814da781ad3f0624eee2acbd86721b1e8ec62d63bd9f8bef62ac2b15e30263",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/config.ts": {
+      "sha256": "fd392640947c1cce52051fe4781221b32b5e1bb03acfde7b968bfc9a2c17e89e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/grade-one.ts": {
+      "sha256": "934c9030c6d590e4de190ea59b6b82a29f402494da70ab88acc6372cdf0c2730",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/grading.ts": {
+      "sha256": "eda36f9addbe2a54f679a2c95c1e5ca842623321a3f769040bb1b4739a70d2da",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/offline.ts": {
+      "sha256": "2694b28fb5ac9b1d8ba7e931cd0c7c004f1e094f059de08f7ce0c94ffd24fb74",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/pipeline.ts": {
+      "sha256": "5114c9d4af9bece1d8369e847f91bf2dfe2ee5dfce56e1d08511673c1cb08478",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/preflight.ts": {
+      "sha256": "dca6f32cf204340522d14759b43ceb0073df4b5a1b84597f1cbd125365442ba7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/profile.ts": {
+      "sha256": "60c768d0b8aab7c598ef53b8ece12a54ec67f5d858edd15dc9bfbf4e6cd73c96",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/protocol-smoke.ts": {
+      "sha256": "b3f5e1bc44fa2212de4bc69d0960a8bbe82f6304d71408998e4413d78c5b6a79",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/quality.ts": {
+      "sha256": "db312257ee9b1802be8c588c083153351a6de4f932a0540725424d50a0f84241",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/recovery-checks.ts": {
+      "sha256": "dcdac6e5ff6bf5287ead9f47c71284a231e1916b6add999a309baf896e8d5616",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/recovery.ts": {
+      "sha256": "943f0a986dc0189950f2fc3614eb57f7848e4cafb61d5704cfa610f44b5afade",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/run.ts": {
+      "sha256": "379d213d0224d8d448de4e6c6623eceb6268361a9692ab5abd4faa43bf9bc995",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/smoke.ts": {
+      "sha256": "ef8a9f06ac5164f921bcb7fe033a82d86d6ffaf6207c1d5b4d29449394243973",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/review/stability.ts": {
+      "sha256": "be00e7b7d77824ba4bfe5f1d983a647f3df568623d16f2eb0c6f00013bfc6e4a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/run.ts": {
+      "sha256": "b8440686dca91b8aa5bfa6ad712b64f55b94d2f6d41ea934cae2fd4c71fc7a1e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/c7-replay.ts": {
+      "sha256": "715fe69ab0679aa07bbbe7adfc051e5573a14ece29f281c61bf0e83237acad8a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/config.ts": {
+      "sha256": "269d00a9a45ce93aa53e44d705fe05e191cb6714aed8556bae21b69462c4b589",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/execution.ts": {
+      "sha256": "b405f1dc10530e71c2917034c2069c8e4154464ba9859b0360511a5a0b715712",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/gates.ts": {
+      "sha256": "e50deeb29ddb84ce2f5a0910b10b6cd475c86197d0aa07053ef0c7cbc25f9040",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/grade-one.ts": {
+      "sha256": "ed854321ad45d384e9d0e019dbfe0bb8711fde54e6fec539732b8afb55b5f821",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/grading.ts": {
+      "sha256": "93bf0b567f047e707fa98c9c2e14831d22c2b41cca266b448042d44a84c7347e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/pipeline.ts": {
+      "sha256": "f2cab83367c182a20c2e1c2e6c170c084fce1fbbb668306e2c64d312ca42c127",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/preflight.ts": {
+      "sha256": "844d75d46bc7b5cf9d89d9f6a49f3d44e8e2e3f4292fbcbf445c60b6eaf04f44",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/profile.ts": {
+      "sha256": "4b28f7f8bf582951c69316ecd497f7202559dd7d604d2b4e1f22588c54a5941a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/recovery-checks.ts": {
+      "sha256": "d7b6c67d0c6f7e6734e8faad2b694aa42bee009a136ad61bdc89e041021efa03",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/recovery.test.ts": {
+      "sha256": "ff80daaaa28a41b712126bcfdba4384159f876f09f7218d1eea5d3c5b1969942",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/recovery.ts": {
+      "sha256": "2fc73dcc2a8dcd2c18a24dbc710d68eb103a66b5609160efbd2e2a79392933d7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/run.ts": {
+      "sha256": "281221115b48c164053273247c3c54f4ba4c52d8b55ab5e8aae6d1dc11c99273",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/setup.ts": {
+      "sha256": "8ffda9539c06b3155f22e03ec3a1bdbde36d635ff6ba46d3e2640d3364838580",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/stable/stability.ts": {
+      "sha256": "be00e7b7d77824ba4bfe5f1d983a647f3df568623d16f2eb0c6f00013bfc6e4a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/tasks.ts": {
+      "sha256": "89b307e84d35e5c641b61454e381da8e7eb61c7333a771a4217c1f2de0a60b64",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trace.ts": {
+      "sha256": "434d5fc94bfbefa7e4c9c7d376866d5aa8069f6d11de59d2939fea1f311f01df",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/calibrate.ts": {
+      "sha256": "9475fa1da08e8ca63660dd3035eba07647c659201b510d9462cbd6e83213395e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/calibration-material.ts": {
+      "sha256": "9f07315590b00e4cb18d46ae0fb02ac00f6fd64cf777b7326ec5d1f8d44fdef9",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/compatibility.ts": {
+      "sha256": "471c2518311fd266ef990dbcc9f9cd7dacdd89f9f3cc5d722c06a30b3297cbfb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/config.ts": {
+      "sha256": "334a22dca0db7098719601af5705b99b15b3a13851193b21e892e2062ca304f7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/control.test.ts": {
+      "sha256": "ea1e224969dbeeb18eb23c0f740a7644903316a784e85100defd559f857d4de2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/control.ts": {
+      "sha256": "cde1656a7ba16b4339525625b6207e62d08e182a8f208add50d7a4a3c1d990e8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/dependencies.ts": {
+      "sha256": "9b7beeb495dc00ea1f8166e1b224706c680ad7cf93169b17071dde432dcdbbf5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/fault-check.ts": {
+      "sha256": "3f0e0e06a0fb9fa77316ff7bd317cfabd430ae795019423663a3047ff0d47ff8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/grade-one.ts": {
+      "sha256": "e1af2945d7477d1e5d8a6b3371b5928f114bf652939bd89e6fdc073580e848ae",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/grade.ts": {
+      "sha256": "ec89a7ca491d4fc3f0c561cbb0cfc54902a5468ef487486894b561456df2d8b4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/grading-permission.ts": {
+      "sha256": "727e350ff1b400cfd25a0e7c6519f53073913ec7b6f31dce646d7573f81fa843",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/grading.ts": {
+      "sha256": "14273238a78fbcc508503a861927f005046ed163b33cd645fdbd6ecd7f2fab08",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/measurement.ts": {
+      "sha256": "b6eed8c436698132f90af0ef4624a329c75690fbf0fdd9f7a75af7bed9e5c239",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/offline.ts": {
+      "sha256": "d9d8635932a7c218868b84de6c046defdc7700c2372d740e044686f4316e6da5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/pipeline.ts": {
+      "sha256": "50254f6b96db0338af1da90f279bfd38f2ebf73bd497577bf865f5f1386691be",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/preflight.ts": {
+      "sha256": "f20106e133628db95de95437a6e982f1cc96212d8e6ae252aa981d8227c3c683",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/prepare.ts": {
+      "sha256": "581c847467821e28f5453593d6b99225298d3fb94490a2e6f68804eacad71457",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/profile.ts": {
+      "sha256": "b57f83af8be4d5a674346305133febe72df05d1df35dd2ee1e583671270a4614",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/protocol-smoke.ts": {
+      "sha256": "b3f5e1bc44fa2212de4bc69d0960a8bbe82f6304d71408998e4413d78c5b6a79",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/provenance.ts": {
+      "sha256": "7754d45c0f28636d2a858df72a03223e95c6350dbdb524448691b7441282cb08",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/recovery.ts": {
+      "sha256": "40e22ab066c13ee9e8e9d6c723de9c964a7f8772cf03c7c601c970a4ae751728",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/replay.ts": {
+      "sha256": "4a264b619ef53db2c2abab308ad5b0c56a219f9a35f0b0c8f3ecd2754da53eb0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/resources.ts": {
+      "sha256": "2497241caf00b1a383c39339dc7762567115f4a63a5a81cc56aa83840b71da26",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/run.ts": {
+      "sha256": "4a588d2bf0865be56f6d612b965d22559b9ef98c61eeba875b770eecbc3f6b2e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/runtime.ts": {
+      "sha256": "ef930e3e42cf4ae5c360b5a3fddf7e0dc97fe8b25a328b8dc1b69ffdc2906a66",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/smoke.ts": {
+      "sha256": "ef8a9f06ac5164f921bcb7fe033a82d86d6ffaf6207c1d5b4d29449394243973",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/stability.ts": {
+      "sha256": "a5b47b7dc871bd4bec8404e699e25d8e59ed5f481a39c872e523ad51699843b0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/status.test.ts": {
+      "sha256": "71b05dfcd13aa75d721e986b41753ffea9efa48cb7321427e5f3a55188a63ba0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/status.ts": {
+      "sha256": "1115da9b0ae4ff15f13b503454693585f9e159eadc4cf3441300d2b1b942dcac",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/tasks.ts": {
+      "sha256": "aa9cef9a27a146b49b8f4192303832d5b919460dfbc0f5c031c8b1c5c28edf0f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/try-reference.ts": {
+      "sha256": "ae3caaaff2ae8db7aec09c28c8c711df556b5411abff748c49583a16e4a33720",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/versions.ts": {
+      "sha256": "d0a7785799d6918e4975f7f2dcc08db0247a7d1081853fb19b71acdaa296013d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/trust/window.ts": {
+      "sha256": "e6759ad517284e0a9b1c0218418b8e98fc99d3d8e18b7572b4c60542af2ccd89",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/adapter.ts": {
+      "sha256": "1698067a21664bb583a4ec94196303e7966df2ebea5fdd5eb636df521156e2c4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/calibrate.ts": {
+      "sha256": "a7f099db37e3fbd9eabc95b85025c9da4d12f2e1515c62f1995cdc8389c4eb8a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/completion-run.ts": {
+      "sha256": "d4f02b77bdda8d64694c81da190689d5992e0915e232ddc463da68c77f2a1418",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/continuation.ts": {
+      "sha256": "67592b50b8b2de0fa86191d604e6c42b4e0587b902c17135a28066bd0c542423",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/fingerprint.ts": {
+      "sha256": "4d4b2eb338689e9ef90ba120e9b1d5cd7a8eff6a7a4cdda6259b1926673fe1f8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/grade-diagnostics.ts": {
+      "sha256": "1c1c24080383dd569129e651e0f01a21f2c36ad309dea2de695dba795609df6a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/grade.ts": {
+      "sha256": "9301c67a31c0bc090c45663e708db421a4604bcdb6590e0e67523ff35c9b8ea5",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/job.ts": {
+      "sha256": "5edc58e2b1c01fcf5a9873bd4735914030a11c980668b255f1a337c79f9a5e8d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/node-stability.ts": {
+      "sha256": "ede2f630ec1567ad3c8a2a122d53de986071dfc73ff263a46fa1d6ac8e9c09f7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/node-verifier.ts": {
+      "sha256": "6beeaf889ee682f6ec59cd7b8a4ae1f48cfe188ae4c887e42133b474ca694acf",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/pipeline-smoke.ts": {
+      "sha256": "edd9515bf641dbba831e6773f2130f4847d25639ecbede318130f286b95e175b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/preflight.ts": {
+      "sha256": "d05af63b3c91532d7d61e4e30edca5f40cc69accf0ecd5d4dc505be3ad182a45",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/prepare.ts": {
+      "sha256": "b7cea44f9edce744088f070e1f478c84d220ceb4264ad91c6530a16386888d26",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/preview.test.ts": {
+      "sha256": "d673c26ccc8b02bcb3a02aa12d0d7488f9f53746b198691e0b461b09b254b515",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/preview.ts": {
+      "sha256": "df745240e488633848d733ba1ff0e0522a49d0731010bba77ee8de426ddd8edc",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/run.ts": {
+      "sha256": "f62eb25e4594ec4da67fb0198b39806ab164d3c56e28d2f9a9337ed9aaa88fe8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/runtime.ts": {
+      "sha256": "e4e084865b4c62cd097466a6790675d47e9e36686146880bb133aa682818d3a4",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/settings.ts": {
+      "sha256": "b9447fd82a5143f577241df0fa0aa17be9daff3e4fb991080661ce0d844ce031",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/smoke.ts": {
+      "sha256": "76809ee380f3babbe436ff001c1b089a8dc31e5e82be7c54caca89010f55c0c2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/tasks.ts": {
+      "sha256": "58271fcbca5c39275fdfe1105e92350fce209170655c6be5d85c46486515d8d7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/transport-smoke.ts": {
+      "sha256": "4b89474049c4d4c6ba5f9d3796feefe3d8c0ef98a0546637746ae445ad6158b6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/transport.test.ts": {
+      "sha256": "7ac90591473e95895f95f3656a0f51605822d6cfbbbe617511758dc54748faec",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/verification-status.test.ts": {
+      "sha256": "4fad173a5095415123d6393ee36ebe29896a669b73db6ff757e9f24b6b8d7f5b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "scripts/eval/v1/verification-status.ts": {
+      "sha256": "efb05bd798aa1c6370c1a198d617932cf6fd1a4aebb0768fad099a5e788918c0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/agent/loop.ts": {
+      "sha256": "f61c05712fbc6ddf3f8812f1c35435b1c7516d380c004f48fca58e46ca4b8ad2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/agent/review.ts": {
+      "sha256": "e87ef229961d5a3c8ddcbe0f2cfe3e8c6cf357695404514ebb10b24ba09546e7",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/api/client.ts": {
+      "sha256": "91264b89e73d0370c8cd8a8c5ea0db80987702046dbba008f7c4d4896cac203e",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/api/errors.ts": {
+      "sha256": "b70a2db4cb41da457cc085614c04b8def035dae79ed5d55824dc0278351f2bc2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/api/sse.ts": {
+      "sha256": "1f29424f9fddd185a67afe664cf9704c8498d0d3f590ace5e08e3079afeeb8fa",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/api/stream.ts": {
+      "sha256": "9dc54fc3885234a8055f7fc24e8234140ad393aced26d750e6dbff8ad717e455",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/api/types.ts": {
+      "sha256": "5bc20fd5acc08d8301df5227066f65f289011a14dc8ccf05011a389c258441bd",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/config.ts": {
+      "sha256": "3a5c0c06f529ad1796824ed348e21b7b33e0c225f5bc2c51cf94d7233f8ba1dd",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/log.ts": {
+      "sha256": "7b87e98f02bdf995c27b7d2657df83711649fc625b91b6d9ea834fa44ae15697",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/main.ts": {
+      "sha256": "e70a4e72660fe0b50b09cac7353a87987e52b3956ad127fc37f5fef6eb3278e6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/text.ts": {
+      "sha256": "90a605cf8e782cc07f24550be2d4db779275aaa075d20c4fbac73d852068a4d3",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/tools/bash.ts": {
+      "sha256": "fc92d8f1c1aabdffd06624c329014c41d3f1b7684f4e180c6e7a5433aef6c2f2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/tools/common.ts": {
+      "sha256": "d7315cc65174ebbd90f67e6c31c2994d4562830bfb1b18b5728351b109afe07b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/tools/files.ts": {
+      "sha256": "71a1ec8642ba7c7027b0106a2b2464c91512b82abb1d622d097c2327c5346747",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/tools/paths.ts": {
+      "sha256": "4616bcf23897422a169f93f5c5c657c430529d0f2db84f0a7d954a758561cf98",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/tools/registry.ts": {
+      "sha256": "f77a0282f8d76dbd2beff27091ef055d2deb7337ad2fb71327e76754ff565e1c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/tools/search.ts": {
+      "sha256": "5bf4483d872343d95399feb575b9577716e50983c04ba587a334e9e96064906c",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/ui/permission.ts": {
+      "sha256": "713cddd40816042262b297b5980bbe660508b894e4b9915ed271b06036f218e0",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "src/ui/terminal.ts": {
+      "sha256": "b275d5035f3972b3ad259120b460b947449a050f4288fc69ddeea5a79831ae12",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/agent.test.ts": {
+      "sha256": "4dc1e954ed33fb42781706576d940d9a57e5241faaa2c7800c6b15949cc9af58",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/api-errors.test.ts": {
+      "sha256": "20b0ac1e9d9dccdcebd4376b5ba3b16960f653b625cdc2f85aa7a09bc7f9e7b2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/bash.test.ts": {
+      "sha256": "5c2ae0422ff35462bac5357614067d06c7bc765b4fed9dccfe32e6817610f646",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/cli.test.ts": {
+      "sha256": "9632e9f0a130ae5130b52899f0e1980cc46359832379d1f1bd39a46ae9c267f8",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/client-network.test.ts": {
+      "sha256": "c4994d3ebc2239a8c2102b927f25236c5f49d2f5242540d3759cb9ae6d63d7bb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/client.test.ts": {
+      "sha256": "461bb93b755f4a440478bd68d234fa627f6dc3f199c74b0d8991c5280a6aae08",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/fixtures.ts": {
+      "sha256": "d701bd1f294df23cd84ee76e5a6dbdc6ca6257be31fc2dbcef4cec423b3db9cb",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/fresh-control.test.ts": {
+      "sha256": "a919d1bde12372f977c674dcd0d5d9f3e0bd6b44592a932760ae1059ac8d2725",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/helpers/network-retry.ts": {
+      "sha256": "990a3fdc4065352a2ffec8ec6c9b7cc7a49761bf308dab3b117271959a98a550",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/helpers/terminal-input.ts": {
+      "sha256": "f2b7c610cb41048439209d22b13c5c39629a0fc68e91f914aa1831234f9e465b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/log.test.ts": {
+      "sha256": "59d61d6a9bcd1f03ee99733d27d1e90648c15b695bf51817dfd67648ac4e1c7b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/protocol.test.ts": {
+      "sha256": "b120089bf84aa2d4dd4764c813b4fd0ce464af9c37ae1af05948e08e889ecc38",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/rc-budget.test.ts": {
+      "sha256": "a0b505206f8f21ec66392222d43f81f68c3f81e76c02d310b8dda42fed165242",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/reentry-budget.test.ts": {
+      "sha256": "b2de55938e52f4221d09599b4d75ffb03db0c4e4777514812c2b14b94c999c8f",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/review-budget.test.ts": {
+      "sha256": "04c98f3509e83764e4eca7a9038ace463e74f6e54e3733f3994cf5416ce0348b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/review-cli.test.ts": {
+      "sha256": "071f95744d9b3c465df605bdf71f6a1e1c74a02e014bceef04c134651c757b5d",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/review.test.ts": {
+      "sha256": "b7d397adacd261ddf691fd3bb41484f3446398a54ae0623c3ae26ebeb4cd8d8a",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/terminal.test.ts": {
+      "sha256": "10b9ba67109cd02c4e0e9d66108bd71fcc0d71a871931c8f2f1542cf7361c684",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/v1-cli.test.ts": {
+      "sha256": "d000af65cfda9f6ae1818377db58ce8b43031df927dd825d7a2e92b102e826d6",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/v1-read.test.ts": {
+      "sha256": "528e7f448e14c93ae63ca7773d4c868a0bae64a8fc010096bc25875222cffe70",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tests/v1-write.test.ts": {
+      "sha256": "5f0fa6ab7050673b41b0a1d4e74e76c30591af228224ac79095b1ec5ee240ae2",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    "tsconfig.json": {
+      "sha256": "4dc04b191bf94ab851419f7c62b4514bc1d1ec2eadaf8bff5b97c002f6d84b5b",
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    }
+  }
+}

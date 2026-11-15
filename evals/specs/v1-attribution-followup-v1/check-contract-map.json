@@ -1,0 +1,6602 @@
+{
+  "version": 1,
+  "plan": "docs/18-v1-attribution-followup-plan.md",
+  "reviewer": "same assistant, not independent blinded",
+  "checks": [
+    {
+      "id": "E01",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "validation always returns a promise",
+      "allowed": "所有校验失败返回拒绝Promise，不同步抛出",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E01及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E02",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "original key function copied arguments backend this and return",
+      "allowed": "cacheKey恰好一次，参数副本、接收者及后端this保持，删除返回undefined",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E02及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E03",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "identity keys remain distinct and delete never clears",
+      "allowed": "键按Map身份区分，单键删除不调用clear",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E03及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E04",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "old computation loses write permission and new calls deduplicate",
+      "allowed": "删除立即失效旧写资格；新调用不加入旧Promise且相互去重",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E04及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E05",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "old cleanup cannot remove newer in flight registration",
+      "allowed": "旧调用完成只清理自己的登记",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E05及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E06",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "invalidation during shouldCache prevents stale write",
+      "allowed": "shouldCache期间失效阻止旧结果写回",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E06及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E07",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "asynchronous cache reads cannot return invalidated hit",
+      "allowed": "异步has/get间失效不能返回旧命中或undefined伪命中",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E07及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E08",
+      "publicContract": [
+        "E/brief.md",
+        "waiting-contract.md:R1-R6"
+      ],
+      "inputEvents": "pending deletion blocks new reads computation and writes",
+      "allowed": "未完成适用删除阻止读取、计算和写入",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E08及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09",
+      "publicContract": [
+        "E/brief.md",
+        "waiting-contract.md:R1-R6"
+      ],
+      "inputEvents": "same key deletes serialize and later delete survives failure",
+      "allowed": "R1/R2：前次失败、已排队后次成功，之后新工作成功",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E09及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E10",
+      "publicContract": [
+        "E/brief.md",
+        "waiting-contract.md:R1-R6"
+      ],
+      "inputEvents": "a waiter cannot cross a later pending deletion",
+      "allowed": "R4：等待成功后仍有未完成删除则继续等待",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E10及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E11",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "other keys and cache objects stay independent",
+      "allowed": "不同键、不同cache独立",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E11及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E12",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "shared cache invalidates old writes but only target deduplication",
+      "allowed": "共享cache写失效范围不扩大为其他函数去重失效",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E12及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E13",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "delete waits for already started async shared cache set",
+      "allowed": "删除等待此前已开始的共享写入，再后端delete",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E13及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E14",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "a failed old write does not cancel backend deletion",
+      "allowed": "旧set失败不省略后端delete，错误交原调用者",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E14及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E15",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "set reentry is registered before invoking user cache",
+      "allowed": "cache.set属性及回调重入前已经登记正在写入",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E15及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E16",
+      "publicContract": [
+        "E/brief.md",
+        "waiting-contract.md:R1-R6"
+      ],
+      "inputEvents": "failed deletion releases waiting calls and permits retry",
+      "allowed": "删除原错误传播给已选等待者；清理后可以重试",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E16及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E17",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "raw callback errors and invalid capability preserve existing work",
+      "allowed": "原错误保持；能力或键校验失败不失效原工作",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E17及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E18",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "clear keeps synchronous semantics and started set caveat",
+      "allowed": "clear同步；已经开始set不撤销；clear后不恢复旧写资格",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E18及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E19",
+      "publicContract": [
+        "E/brief.md",
+        "waiting-contract.md:R1-R6"
+      ],
+      "inputEvents": "delete hook reentry waits without starting duplicate work",
+      "allowed": "后端delete重入看到已安装等待，不能重复计算",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E19及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E20",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "default node has no orphan internal rejection",
+      "allowed": "公开拒绝已处理时无内部孤立拒绝",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E20及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E21",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "key callback keeps the original unbound receiver",
+      "allowed": "cacheKey调用的原有无绑定接收者保持",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E21及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E22",
+      "publicContract": [
+        "E/brief.md"
+      ],
+      "inputEvents": "native promise observation preserves the original rejection",
+      "allowed": "原生Promise await观察保留原拒绝，不额外读then",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP E22及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "D01",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "validation and explicit versus legacy input arguments",
+      "allowed": "timeout参数验证，未启用保持原参数协议",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D01及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D02",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "timeout class metadata and successful context",
+      "allowed": "错误元数据与上下文含正确attemptNumber/timeout/signal",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D02及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D03",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "timeout is retried and its signal reason is the callback error",
+      "allowed": "超时按原重试策略重试，signal.reason与本次错误同一",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D03及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D04",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "failure callback order and shouldRetry decision are honored",
+      "allowed": "失败回调顺序及shouldRetry结果保持",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D04及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D05",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "nonconsuming timeout does not reset or consume the retry budget",
+      "allowed": "不消耗重试的超时不重置或扣减原重试预算",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D05及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D06",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "repeated timeouts exhaust the existing budget",
+      "allowed": "重复超时耗尽现有预算后按原错误失败",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D06及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D07",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "pre-aborted reasons are final and preserve identity",
+      "allowed": "预取消按原原因直接结束",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D07及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D08",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "external abort ends an infinite attempt immediately and forwards raw reasons",
+      "allowed": "外部取消结束无限尝试，原值原因保持",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D08及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D09",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "synchronous external cancellation still observes a returned rejection",
+      "allowed": "同步外部取消仍观察业务返回Promise拒绝",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D09及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D10",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "abort reaction cannot replace the timeout error",
+      "allowed": "abort回调不得替换已确定的超时错误",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D10及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D11",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "attempt timers stop before callbacks and backoff",
+      "allowed": "失败回调和退避前清理本次计时器",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D11及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D12",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "maxRetryTime still controls continuation without becoming a hard deadline",
+      "allowed": "maxRetryTime仅限制继续重试，不新增硬截止",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D12及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D13",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "timers and external listeners are released on every terminal path; unref is used",
+      "allowed": "每条终结路径实际释放计时器/监听器；创建且支持unref的计时器使用unref",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D13及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D14",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "late promise and thenable rejection do not escape a default Node process",
+      "allowed": "晚到Promise/thenable拒绝不成为孤立拒绝",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D14及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D15",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "concurrent calls have independent cancellation state",
+      "allowed": "并发pRetry独立取消与计时状态",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D15及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D16",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "makeRetriable preserves this and parameters under timeout mode",
+      "allowed": "makeRetriable保持原this与参数，不注入context",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D16及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D17",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "synchronous throw and throwing then getter preserve the original error",
+      "allowed": "同步业务错误和then getter错误保持原值",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D17及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D18",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "options remain untouched and a timer without unref works",
+      "allowed": "选项对象不改写，计时器无unref也工作",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D18及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D19",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "unref attempt timer does not keep an otherwise idle process alive",
+      "allowed": "unref后仅剩尝试计时器时不保持进程",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D19及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D20",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "native promise observation preserves the original rejection",
+      "allowed": "原生Promise观察保留原拒绝",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D20及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D21",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "error metadata and attempt context are readonly at runtime",
+      "allowed": "上下文冻结，错误元数据只读",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D21及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "D22",
+      "publicContract": [
+        "D/brief.md"
+      ],
+      "inputEvents": "pre-aborted opaque reason is not inspected or normalized",
+      "allowed": "预取消的opaque原因不被读取属性或归一化",
+      "forbidden": "违反上述公开行为；不能用参考内部数据结构或固定微任务数代替",
+      "errorOwnership": "按公开原错误传播条款，监督器/空报告/取消为不可判定",
+      "evidence": "logs.contract TAP D22及实际命令退出状态",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": "对应校准变体或原库缺少新API；行为断言与设施错误分开",
+      "modules": [
+        "D"
+      ]
+    },
+    {
+      "id": "B001",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B001及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B002",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B002及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B003",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B003及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B004",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B004及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B005",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B005及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B006",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B006及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B007",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has-property",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B007及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B008",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has-property",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B008及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B009",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has-property",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B009及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B010",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has-property",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B010及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B011",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has-property",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B011及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B012",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "has-property",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B012及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B013",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B013及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B014",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B014及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B015",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B015及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B016",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B016及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B017",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B017及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B018",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B018及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B019",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get-property",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B019及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B020",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get-property",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B020及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B021",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get-property",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B021及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B022",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get-property",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B022及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B023",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get-property",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B023及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B024",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "get-property",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B024及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B025",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "fn",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B025及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B026",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "fn",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B026及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B027",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "fn",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B027及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B028",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "fn",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B028及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B029",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "fn",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B029及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B030",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "fn",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B030及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B031",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "shouldCache",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B031及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B032",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "shouldCache",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B032及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B033",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "shouldCache",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B033及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B034",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "shouldCache",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B034及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B035",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "shouldCache",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B035及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B036",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "shouldCache",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B036及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B037",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B037及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B038",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B038及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B039",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B039及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B040",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B040及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B041",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B041及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B042",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B042及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B043",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set-property",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B043及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B044",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set-property",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B044及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B045",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set-property",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B045及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B046",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set-property",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B046及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B047",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set-property",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B047及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "B048",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "boundary",
+        "point": "set-property",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "new call does not join invalidated work; delete waits started writes; invalidated work cannot initiate writes",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP B048及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X049",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "has",
+        "failure": "throw"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X049及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X050",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "has",
+        "failure": "reject"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X050及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X051",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "get",
+        "failure": "throw"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X051及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X052",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "get",
+        "failure": "reject"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X052及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X053",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "fn",
+        "failure": "throw"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X053及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X054",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "fn",
+        "failure": "reject"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X054及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X055",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "shouldCache",
+        "failure": "throw"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X055及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X056",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "shouldCache",
+        "failure": "reject"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X056及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X057",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "set",
+        "failure": "throw"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X057及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X058",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "set",
+        "failure": "reject"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X058及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X059",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "has-property",
+        "failure": "throw"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X059及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X060",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "get-property",
+        "failure": "throw"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X060及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "X061",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "error",
+        "point": "set-property",
+        "failure": "throw"
+      },
+      "allowed": "original error identity; subsequent call succeeds; no orphan rejection",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP X061及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K062",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "cacheKey",
+        "action": "delete"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K062及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K063",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "delete",
+        "action": "delete"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K063及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K064",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "delete-property",
+        "action": "delete"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K064及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K065",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "cacheKey",
+        "action": "clear"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K065及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K066",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "delete",
+        "action": "clear"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K066及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K067",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "delete-property",
+        "action": "clear"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K067及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K068",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "cacheKey",
+        "action": "call"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K068及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K069",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "delete",
+        "action": "call"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K069及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "K070",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "nested",
+        "point": "delete-property",
+        "action": "call"
+      },
+      "allowed": "key resolution birth; effective deletion order; finite reentry terminates",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP K070及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M071",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "compute",
+        "invalidation": "delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M071及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M072",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "compute",
+        "invalidation": "delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M072及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M073",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "compute",
+        "invalidation": "clear",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M073及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M074",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "compute",
+        "invalidation": "clear",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M074及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M075",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "compute",
+        "invalidation": "delete-delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M075及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M076",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "compute",
+        "invalidation": "delete-delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M076及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M077",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "write",
+        "invalidation": "delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M077及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M078",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "write",
+        "invalidation": "delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M078及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M079",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "write",
+        "invalidation": "clear",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M079及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M080",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "write",
+        "invalidation": "clear",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M080及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M081",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "write",
+        "invalidation": "delete-delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M081及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M082",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "target",
+        "phase": "write",
+        "invalidation": "delete-delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M082及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M083",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "compute",
+        "invalidation": "delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M083及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M084",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "compute",
+        "invalidation": "delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M084及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M085",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "compute",
+        "invalidation": "clear",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M085及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M086",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "compute",
+        "invalidation": "clear",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M086及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M087",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "compute",
+        "invalidation": "delete-delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M087及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M088",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "compute",
+        "invalidation": "delete-delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M088及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M089",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "write",
+        "invalidation": "delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M089及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M090",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "write",
+        "invalidation": "delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M090及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M091",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "write",
+        "invalidation": "clear",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M091及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M092",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "write",
+        "invalidation": "clear",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M092及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M093",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "write",
+        "invalidation": "delete-delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M093及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M094",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "shared",
+        "phase": "write",
+        "invalidation": "delete-delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M094及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M095",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "compute",
+        "invalidation": "delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M095及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M096",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "compute",
+        "invalidation": "delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M096及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M097",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "compute",
+        "invalidation": "clear",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M097及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M098",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "compute",
+        "invalidation": "clear",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M098及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M099",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "compute",
+        "invalidation": "delete-delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M099及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M100",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "compute",
+        "invalidation": "delete-delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M100及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M101",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "write",
+        "invalidation": "delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M101及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M102",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "write",
+        "invalidation": "delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M102及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M103",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "write",
+        "invalidation": "clear",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M103及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M104",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "write",
+        "invalidation": "clear",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M104及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M105",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "write",
+        "invalidation": "delete-delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M105及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M106",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-key",
+        "phase": "write",
+        "invalidation": "delete-delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M106及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M107",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "compute",
+        "invalidation": "delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M107及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M108",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "compute",
+        "invalidation": "delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M108及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M109",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "compute",
+        "invalidation": "clear",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M109及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M110",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "compute",
+        "invalidation": "clear",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M110及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M111",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "compute",
+        "invalidation": "delete-delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M111及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M112",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "compute",
+        "invalidation": "delete-delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M112及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M113",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "write",
+        "invalidation": "delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M113及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M114",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "write",
+        "invalidation": "delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M114及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M115",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "write",
+        "invalidation": "clear",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M115及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M116",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "write",
+        "invalidation": "clear",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M116及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M117",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "write",
+        "invalidation": "delete-delete",
+        "completion": "old-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M117及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "M118",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "model",
+        "scope": "other-cache",
+        "phase": "write",
+        "invalidation": "delete-delete",
+        "completion": "new-first"
+      },
+      "allowed": "contract transition model and observable happens-before relations",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP M118及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S119",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has",
+        "scope": "shared",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S119及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S120",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has",
+        "scope": "shared",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S120及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S121",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has",
+        "scope": "other-key",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S121及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S122",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has",
+        "scope": "other-key",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S122及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S123",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has",
+        "scope": "other-cache",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S123及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S124",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has",
+        "scope": "other-cache",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S124及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S125",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has-property",
+        "scope": "shared",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S125及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S126",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has-property",
+        "scope": "shared",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S126及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S127",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has-property",
+        "scope": "other-key",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S127及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S128",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has-property",
+        "scope": "other-key",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S128及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S129",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has-property",
+        "scope": "other-cache",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S129及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S130",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "has-property",
+        "scope": "other-cache",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S130及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S131",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get",
+        "scope": "shared",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S131及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S132",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get",
+        "scope": "shared",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S132及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S133",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get",
+        "scope": "other-key",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S133及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S134",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get",
+        "scope": "other-key",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S134及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S135",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get",
+        "scope": "other-cache",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S135及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S136",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get",
+        "scope": "other-cache",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S136及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S137",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get-property",
+        "scope": "shared",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S137及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S138",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get-property",
+        "scope": "shared",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S138及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S139",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get-property",
+        "scope": "other-key",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S139及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S140",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get-property",
+        "scope": "other-key",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S140及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S141",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get-property",
+        "scope": "other-cache",
+        "action": "delete"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S141及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "S142",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "scope",
+        "point": "get-property",
+        "scope": "other-cache",
+        "action": "clear"
+      },
+      "allowed": "only target inflight identity invalidated; shared write scope differs from inflight scope",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP S142及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P143",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P143及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P144",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P144及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P145",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P145及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P146",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P146及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P147",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P147及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P148",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P148及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P149",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has-property",
+        "action": "delete",
+        "delivery": "plain"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P149及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P150",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has-property",
+        "action": "delete",
+        "delivery": "native"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P150及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P151",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has-property",
+        "action": "delete",
+        "delivery": "thenable"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P151及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P152",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has-property",
+        "action": "clear",
+        "delivery": "plain"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P152及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P153",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has-property",
+        "action": "clear",
+        "delivery": "native"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P153及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "P154",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "publication",
+        "point": "has-property",
+        "action": "clear",
+        "delivery": "thenable"
+      },
+      "allowed": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP P154及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "I155",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "identity",
+        "mode": "ordinary"
+      },
+      "allowed": "same input matches original published Promise identity and single business execution without invalidation",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP I155及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "I156",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "identity",
+        "mode": "outer-error"
+      },
+      "allowed": "same input matches original published Promise identity and single business execution without invalidation",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP I156及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "I157",
+      "publicContract": [
+        "E/brief.md",
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": {
+        "kind": "identity",
+        "mode": "inner-error"
+      },
+      "allowed": "same input matches original published Promise identity and single business execution without invalidation",
+      "forbidden": "共享写失效误清其他函数登记、旧工作重登记、原生观察改变或原错误归属改变",
+      "errorOwnership": "同步/异步原错误交对应公开调用；不制造孤立拒绝",
+      "evidence": "logs.reentry TAP I157及公开事件记录",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "republish-invalidated",
+        "Q single-defect",
+        "old-cleanup-new-entry"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-01",
+      "publicContract": [
+        "waiting-contract.md:R2"
+      ],
+      "inputEvents": "none",
+      "allowed": [
+        "value:1"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-01",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-02",
+      "publicContract": [
+        "waiting-contract.md:R2,R4"
+      ],
+      "inputEvents": "single-ok",
+      "allowed": [
+        "value:1"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-02",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-03",
+      "publicContract": [
+        "waiting-contract.md:R3"
+      ],
+      "inputEvents": "single-error",
+      "allowed": [
+        "error:e1"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-03",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-04",
+      "publicContract": [
+        "waiting-contract.md:R1,R2"
+      ],
+      "inputEvents": "latest-after-error",
+      "allowed": [
+        "value:1"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-04",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-05",
+      "publicContract": [
+        "waiting-contract.md:R2,R3"
+      ],
+      "inputEvents": "latest-error",
+      "allowed": [
+        "error:e2"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-05",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-06",
+      "publicContract": [
+        "waiting-contract.md:R1,R2,R3"
+      ],
+      "inputEvents": "both-error",
+      "allowed": [
+        "error:e2"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-06",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-07",
+      "publicContract": [
+        "waiting-contract.md:R3"
+      ],
+      "inputEvents": "bound-earlier-error",
+      "allowed": [
+        "error:e1"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-07",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-08",
+      "publicContract": [
+        "waiting-contract.md:R4"
+      ],
+      "inputEvents": "follow-later-error",
+      "allowed": [
+        "error:e2"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-08",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-09",
+      "publicContract": [
+        "waiting-contract.md:R4"
+      ],
+      "inputEvents": "follow-later-ok",
+      "allowed": [
+        "value:1"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-09",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-10",
+      "publicContract": [
+        "waiting-contract.md:R6"
+      ],
+      "inputEvents": "fresh-after-error",
+      "allowed": [
+        "value:1"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-10",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-11",
+      "publicContract": [
+        "waiting-contract.md:R2,R4"
+      ],
+      "inputEvents": "follow-third-error",
+      "allowed": [
+        "error:e3"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-11",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-12",
+      "publicContract": [
+        "waiting-contract.md:R3,R5"
+      ],
+      "inputEvents": "clear-does-not-cure",
+      "allowed": [
+        "error:e1"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-12",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09S-13",
+      "publicContract": [
+        "waiting-contract.md:R4"
+      ],
+      "inputEvents": "resume-race",
+      "allowed": [
+        "value:1",
+        "error:e2"
+      ],
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09S-13",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09X-01",
+      "publicContract": [
+        "waiting-contract.md:R3"
+      ],
+      "inputEvents": "original-error-values",
+      "allowed": "按R3保持错误身份、作用范围和先后顺序",
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09X-01",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09X-02",
+      "publicContract": [
+        "waiting-contract.md:R1"
+      ],
+      "inputEvents": "other-key",
+      "allowed": "按R1保持错误身份、作用范围和先后顺序",
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09X-02",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09X-03",
+      "publicContract": [
+        "waiting-contract.md:R1"
+      ],
+      "inputEvents": "other-cache",
+      "allowed": "按R1保持错误身份、作用范围和先后顺序",
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09X-03",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09X-04",
+      "publicContract": [
+        "waiting-contract.md:R2"
+      ],
+      "inputEvents": "shared-cache-latest",
+      "allowed": "按R2保持错误身份、作用范围和先后顺序",
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09X-04",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09X-05",
+      "publicContract": [
+        "waiting-contract.md:R1,R3"
+      ],
+      "inputEvents": "后端delete回调内创建并观察等待者，然后同步抛出原错误；失败清理后另起调用重试",
+      "allowed": "按R1,R3保持错误身份、作用范围和先后顺序",
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09X-05",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "E09X-06",
+      "publicContract": [
+        "waiting-contract.md:R2"
+      ],
+      "inputEvents": "reentrant-backend",
+      "allowed": "按R2保持错误身份、作用范围和先后顺序",
+      "forbidden": "不在规范允许集合内的值/错误或公开先后关系违约",
+      "errorOwnership": "已选目标原错误；W13只接受预声明集合",
+      "evidence": "logs.waiting TAP E09X-06",
+      "positive": [
+        "latest witness",
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "all-pending",
+        "cure",
+        "first-only"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "W01",
+      "publicContract": [
+        "E/brief.md",
+        "waiting-contract.md:R5"
+      ],
+      "inputEvents": "旧调用等待删除时再次失效，再继续计算",
+      "allowed": "可完成原调用，但不重新取得写回资格",
+      "forbidden": "等待后刷新旧写资格",
+      "errorOwnership": "原调用保留自身结果；新删除结果按等待目标规则",
+      "evidence": "logs.waiter TAP W01",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "restore-invalidated-waiter-write"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "DELIVERY",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "正常完成；预算耗尽记普通未完成",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "PROTECT",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "保护文件逐字不变",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "GIT",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "用户原改动与仓库状态保持，不自行提交",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "SCOPE",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "只修改允许文件及新增eval-tests",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "DOCS",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "文档准确、相关示例实际运行、新内部链接有效；Q正确文档可无diff",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "README_JS:*",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "新增JS代码块语法有效；不能替代示例实际运行",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "构建",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "原构建命令退出0",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "原运行测试",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "原测试总数与通过数匹配，无跳过/取消",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "原类型测试",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "原类型检查退出0",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "TYPES",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "独立API类型正反例符合公开签名",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "REGRESSION",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "新测试通过，匹配原态由目标行为断言失败；非仅导出/导入/恒真",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "REPORT",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "报告与实际最后修改后验证及未执行项相符",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "Q_TARGET",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "repair requirement"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "固定复现和四项共享范围目标消失，回归及源码支持，保护/证据可信",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q"
+      ]
+    },
+    {
+      "id": "FULL_DELIVERY",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "protected-files.json and allowed-files.json"
+      ],
+      "inputEvents": "最终产物、原态回放与实际工具Trace",
+      "allowed": "全部必需项通过且没有未知；可信必需项失败可判整体失败并保留其他未知",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "grade.json/checks、testReplay与绑定产物的manual-review",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "Q_REPRO",
+      "publicContract": [
+        "E/brief.md#交付",
+        "D/brief.md#交付",
+        "repair requirement"
+      ],
+      "inputEvents": "固定公共API复现，独立评分时在最终产物执行",
+      "allowed": "复现1项通过；原缺陷种子因共享范围断言失败",
+      "forbidden": "将未执行当通过、监督器终止当断言失败、机判完成当交付通过",
+      "errorOwnership": "产品行为缺口N；保护/伪造H；测量/证据不可信为不可判定",
+      "evidence": "logs.target TAP及实际命令退出状态",
+      "positive": [
+        "qualified reference and pipeline"
+      ],
+      "negative": [
+        "tautology",
+        "import-only",
+        "actual fault matrix"
+      ],
+      "modules": [
+        "Q"
+      ]
+    },
+    {
+      "id": "CONTRACT",
+      "publicContract": [
+        "E/brief.md",
+        "D/brief.md"
+      ],
+      "inputEvents": "各子检查定义的事件集合",
+      "allowed": "任务对应22条契约全部通过",
+      "forbidden": "漏执行、跳过、取消、缺失报告或存在不通过子项却计为通过",
+      "errorOwnership": "按子检查公开条款；测量不可信为不可判定",
+      "evidence": "grade.json/checks及全部子检查TAP",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "predeclared calibration variants"
+      ],
+      "modules": [
+        "Q",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": "REENTRY",
+      "publicContract": [
+        "reentrancy-contract.md"
+      ],
+      "inputEvents": "各子检查定义的事件集合",
+      "allowed": "157条有限重入序列全部通过",
+      "forbidden": "漏执行、跳过、取消、缺失报告或存在不通过子项却计为通过",
+      "errorOwnership": "按子检查公开条款；测量不可信为不可判定",
+      "evidence": "grade.json/checks及全部子检查TAP",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "predeclared calibration variants"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "WAITING_SEMANTICS",
+      "publicContract": [
+        "waiting-contract.md"
+      ],
+      "inputEvents": "各子检查定义的事件集合",
+      "allowed": "13条时序和6项正交检查全部符合公开预期",
+      "forbidden": "漏执行、跳过、取消、缺失报告或存在不通过子项却计为通过",
+      "errorOwnership": "按子检查公开条款；测量不可信为不可判定",
+      "evidence": "grade.json/checks及全部子检查TAP",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "predeclared calibration variants"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    },
+    {
+      "id": "WAITER",
+      "publicContract": [
+        "E/brief.md",
+        "waiting-contract.md:R5"
+      ],
+      "inputEvents": "各子检查定义的事件集合",
+      "allowed": "既有W01写资格检查通过",
+      "forbidden": "漏执行、跳过、取消、缺失报告或存在不通过子项却计为通过",
+      "errorOwnership": "按子检查公开条款；测量不可信为不可判定",
+      "evidence": "grade.json/checks及全部子检查TAP",
+      "positive": [
+        "primary",
+        "alternative"
+      ],
+      "negative": [
+        "predeclared calibration variants"
+      ],
+      "modules": [
+        "Q",
+        "E"
+      ]
+    }
+  ]
+}
