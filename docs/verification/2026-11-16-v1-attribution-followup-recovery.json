@@ -1,0 +1,267 @@
+{
+  "status": "Q1 complete; study ongoing",
+  "time": "2026-11-15T20:18:45.240115+00:00",
+  "sourceCommit": "47535040e48c7973d9560f3da8ecf3c67b57a89d",
+  "sourceHash": "1edb90b4366e98a4b1392940b2384e2dfd8ad18ed01f288a2a260f2d41a96e48",
+  "executionProfileHash": "1a930374b834499cec45a915bd8ab130ffd2c969d39b02c97d5e0eff13ce3ade",
+  "moduleGraderRevisions": {
+    "Q": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+    "D": "36e895455939ddc1df058e20b05ca6f3374f571f2c4752bf72bb2a53df585806",
+    "E": "5e612caefdf694d8e26b9b52f926d308c3d1614e60a936e8bbe82396f933b6e5"
+  },
+  "qualificationGroups": [
+    {
+      "id": "input-audit",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 292.87175
+    },
+    {
+      "id": "contract-map",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 75.41483300000004
+    },
+    {
+      "id": "startup-budget",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 281.0684580000001
+    },
+    {
+      "id": "dependencies-before",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1283.772708
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 9607.062125
+    },
+    {
+      "id": "types",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1360.1907919999994
+    },
+    {
+      "id": "assertion-evidence",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 7819.362458000001
+    },
+    {
+      "id": "compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 5627.38625
+    },
+    {
+      "id": "registration-compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 3628.673082999998
+    },
+    {
+      "id": "resource-measurement",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1123.1070419999996
+    },
+    {
+      "id": "waiting-semantics",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 9534.947583000001
+    },
+    {
+      "id": "calibration",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 221639.00791699998
+    },
+    {
+      "id": "reference-examples",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 27997.998167000012
+    },
+    {
+      "id": "stability",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 357918.53875000007
+    },
+    {
+      "id": "repair-qualification",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 435020.13233299996
+    },
+    {
+      "id": "historical",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 264181.753792
+    },
+    {
+      "id": "interaction",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 26441.90170899988
+    },
+    {
+      "id": "transport",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 29170.328249999788
+    },
+    {
+      "id": "protocol",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 20771.571041000076
+    },
+    {
+      "id": "review",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 32987.68529099994
+    },
+    {
+      "id": "pipeline",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 200142.595584
+    },
+    {
+      "id": "fault",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 28047.16520799999
+    },
+    {
+      "id": "module-fault",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 69013.28874999983
+    },
+    {
+      "id": "dependencies-after",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 936.8988339998759
+    }
+  ],
+  "recovery": {
+    "complete": true,
+    "completedAt": "2026-11-15T20:18:17.427458+00:00",
+    "startedAt": 1794771632452,
+    "minutes": 37.74959103190104,
+    "qualificationGroups": 24,
+    "views": [
+      {
+        "id": "Q1-axi",
+        "artifactHash": "946281184097cb1c03b16303e66783617f09648d8159bd840959399981106810",
+        "priorRevision": "188cc3095e6709f6399fb5f4b530c792b4969120c0d00a5e3c13c23f6c4c62fb",
+        "revision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+        "codeUnchanged": true,
+        "priorRegression": true,
+        "regression": true,
+        "targetBehaviorPassed": false
+      },
+      {
+        "id": "Q1-axi-checkpoint",
+        "artifactHash": "946281184097cb1c03b16303e66783617f09648d8159bd840959399981106810",
+        "priorRevision": "188cc3095e6709f6399fb5f4b530c792b4969120c0d00a5e3c13c23f6c4c62fb",
+        "revision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+        "codeUnchanged": true,
+        "priorRegression": true,
+        "regression": true,
+        "targetBehaviorPassed": false
+      },
+      {
+        "id": "Q1-claude",
+        "artifactHash": "ccfea976130b86faf688a9159c041c597e79854bc663319b295045f2e65349ad",
+        "priorRevision": "188cc3095e6709f6399fb5f4b530c792b4969120c0d00a5e3c13c23f6c4c62fb",
+        "revision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+        "codeUnchanged": true,
+        "priorRegression": false,
+        "regression": true,
+        "targetBehaviorPassed": true
+      }
+    ],
+    "realStarts": 4,
+    "executionUnchanged": true,
+    "contractUnchanged": true,
+    "originalEvidenceRetained": true
+  },
+  "realStarts": 4,
+  "totalGenerationRequests": 61,
+  "traceAudit": {
+    "complete": true,
+    "taskFiles": 32,
+    "taskBytes": 39278291
+  },
+  "rows": [
+    {
+      "id": "Q1-axi",
+      "product": "axi",
+      "condition": "unassisted",
+      "requests": 28,
+      "activeMs": 654875.911542,
+      "artifactHash": "946281184097cb1c03b16303e66783617f09648d8159bd840959399981106810",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "codePassed": false,
+      "machineRegressionPassed": true,
+      "targetRegressionPassed": false,
+      "targetRepairPassed": false,
+      "fullDeliveryPassed": false,
+      "traceFiles": 17,
+      "traceBytes": 26462966
+    },
+    {
+      "id": "Q1-claude",
+      "product": "claude",
+      "condition": "unassisted",
+      "requests": 23,
+      "activeMs": 516027.077499,
+      "artifactHash": "ccfea976130b86faf688a9159c041c597e79854bc663319b295045f2e65349ad",
+      "graderRevision": "472bf3357b8c5f008b329706dc455adefae2524b90e86b23877d255f1faf1ddb",
+      "codePassed": true,
+      "machineRegressionPassed": true,
+      "targetRegressionPassed": true,
+      "targetRepairPassed": true,
+      "fullDeliveryPassed": true,
+      "traceFiles": 15,
+      "traceBytes": 12815325
+    }
+  ],
+  "scope": "same assistant review, not independent blinded; no release decision"
+}
