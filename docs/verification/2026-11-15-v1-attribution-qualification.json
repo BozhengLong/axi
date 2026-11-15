@@ -1,0 +1,167 @@
+{
+  "date": "2026-11-15",
+  "complete": true,
+  "scope": "offline qualification only; no real model starts",
+  "codeCommit": "13315e13a8bf47ea06dcb622b742a556891ca318",
+  "sourceHash": "585ceca92fe0ded0fe3d4ae16a0e0dee99847de2f493ff728b85fd64bba8ac4b",
+  "executionProfileHash": "9e2e41e55e9e2579196cbaa5c3f630b27b18d6da7d12df9875e486715a12ce9c",
+  "contractDecisionHash": "d348608fc163c89d7a077feaa6c80a497cd4cb3fbf93a6ba07d2329341b5e519",
+  "measurementHash": "49a21eda41bece1d6919891939536ba6804e38adb18f90d0d44efb742f76c497",
+  "graderRevision": "e5fe5d5870a4d0bf139f2bab2b4402efa461b4ff147e2586b4f50429efdc0ebf",
+  "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+  "subjectCommit": "0330626249c916bf81612299cd6b58955ad8b8d9",
+  "counts": {
+    "input-audit": 25,
+    "calibration-latest": 26,
+    "stability-latest": 40,
+    "repair-qualification-latest": 30,
+    "historical-replay-latest": 8,
+    "pipeline-latest": 8,
+    "fault-latest": 19,
+    "budget-qualification": 15
+  },
+  "checks": [
+    {
+      "id": "input-audit",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 322.05737500000004
+    },
+    {
+      "id": "dependencies-before",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1176.69075
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 9764.696790999998
+    },
+    {
+      "id": "types",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1527.2777499999993
+    },
+    {
+      "id": "compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 6554.2107080000005
+    },
+    {
+      "id": "registration-compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 3413.789499999999
+    },
+    {
+      "id": "resource-measurement",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1161.5685829999966
+    },
+    {
+      "id": "calibration",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 215319.60045899998
+    },
+    {
+      "id": "reference-examples",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 26782.60954200002
+    },
+    {
+      "id": "stability",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 346367.61
+    },
+    {
+      "id": "repair-qualification",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 409516.000917
+    },
+    {
+      "id": "historical",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 93209.94975000003
+    },
+    {
+      "id": "interaction",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 26118.36404100014
+    },
+    {
+      "id": "transport",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 29227.17058299994
+    },
+    {
+      "id": "protocol",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 20329.48295799992
+    },
+    {
+      "id": "review",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 32892.0280830001
+    },
+    {
+      "id": "pipeline",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 192282.8832500002
+    },
+    {
+      "id": "fault",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 27334.324291999917
+    },
+    {
+      "id": "dependencies-after",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 854.404457999859
+    }
+  ],
+  "inputIdentity": {
+    "E": "cfebf8af8b88bf24f200b70f51be1e50b8ae8f38fbec3068e35796ce0e07633e",
+    "D": "bac31cc15a16bf03a931a1d9de349fa45b0a435907c0c2b5fc24266fab0e6881",
+    "U": "f2e837d96a51296e8b8e4283c1ae38a3e6fa030b9d89b12052ad784c454f0b15",
+    "Q": "5da21d717856d3afe3e67f3ab8255c313f869536bdc33fa7726fa9a242e81aee"
+  },
+  "preparationRepair": "Q TypeScript reference file selection; inputs/oracles/product unchanged",
+  "modelStarts": 0,
+  "privateEvidence": "~/.local/share/axi-evals/v1-attribution-20261115/"
+}
