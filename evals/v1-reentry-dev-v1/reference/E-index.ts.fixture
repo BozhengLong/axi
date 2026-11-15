@@ -341,7 +341,7 @@ export default function pMemoize<
 		})();
 
 		// A `cache.has()` that throws synchronously settles the call before this point, and its cleanup has already run. Registering it now would keep that failure as the in-flight entry for this key forever, and every later call would hand it straight back.
-		if (!hasSettled && registration.valid && !promiseCache.has(key)) {
+		if (!hasSettled && registration.valid) {
 			promiseCache.set(key, promise);
 		}
 

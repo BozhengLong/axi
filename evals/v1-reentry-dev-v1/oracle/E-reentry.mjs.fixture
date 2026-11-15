@@ -129,9 +129,22 @@ async function publication(c){
  await turn();if(c.action==='delete')assert.ok(!events.includes('fn:fresh'),'fresh waits applicable deletion');
  gate.resolve();business.resolve();const outcomes=await Promise.all([oldResult,freshResult,...(deletion?[deletion]:[])]);assert.ok(outcomes.every(x=>!('error'in x)));assert.equal((await freshResult).value,'fresh');assert.equal(Map.prototype.get.call(cache,'x'),'fresh');return events;
 }
+async function identity(c){
+ const cache=new Map(),nested=[],error={mode:c.mode};let calls=0,entered=false,left=2;
+ cache.has=function(k){
+  if(c.mode==='ordinary'){if(left-->0)nested.push(f(k));return Map.prototype.has.call(this,k)}
+  if(!entered){entered=true;nested.push(f(k));if(c.mode==='outer-error')throw error;return false}
+  if(c.mode==='inner-error')throw error;return false;
+ };
+ const f=memo(async()=>++calls,{cache}),root=f('x'),rootResult=observed(root),nestedResults=nested.map(observed),next=f('x'),nextResult=observed(next);
+ const matches=next===(c.mode==='outer-error'?nested[0]:root),results=await Promise.all([rootResult,nextResult,...nestedResults]);
+ assert.equal(matches,true,'preserve original in-flight promise identity');assert.equal(calls,1);
+ if(c.mode==='outer-error')assert.equal(results[0].error,error);else assert.equal(results[0].value,1);
+ return {mode:c.mode,matches,calls,results};
+}
 for(const c of spec.cases){
  const name=c.id+' '+c.kind;
- if(process.env.AXI_REENTRY_CASE==='1')nodeTest(name,async()=>{assert.equal(typeof api.pMemoizeDelete,'function');const trace=await ({boundary,error:errors,nested,model,scope,publication}[c.kind])(c);console.log('REENTRY_EVIDENCE:'+JSON.stringify({id:c.id,trace:trace??null}))});
+ if(process.env.AXI_REENTRY_CASE==='1')nodeTest(name,async()=>{assert.equal(typeof api.pMemoizeDelete,'function');const trace=await ({boundary,error:errors,nested,model,scope,publication,identity}[c.kind])(c);console.log('REENTRY_EVIDENCE:'+JSON.stringify({id:c.id,trace:trace??null}))});
  else nodeTest(name,()=>{
   const env={...process.env,AXI_REENTRY_CASE:'1'};delete env.NODE_TEST_CONTEXT;
   const child=spawnSync(process.execPath,['--test','--test-reporter=tap','--test-name-pattern','^'+c.id+' ',fileURLToPath(import.meta.url)],{env,encoding:'utf8',timeout:6000});

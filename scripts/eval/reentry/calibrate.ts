@@ -30,7 +30,7 @@ mutant('V1-D','late-rejection-escapes','catch (error) { finish(false, error); }'
 mutant('V1-D','listener-leak',"options.signal?.removeEventListener('abort', onAbort);\n\t\t\tresolve({success, value});", "// 故意漏清理\n\t\t\tresolve({success, value});",'D13');
 mutant('V1-D','timer-leak','clearTimeout(timer);','void timer;','D13');
 mutant('V1-D','wrapper-injects-context','pRetry(() => function_.apply(this, arguments_), options)','pRetry((n, ctx) => function_.apply(this, [...arguments_, ctx]), options)','D16');
-mutant('V1-E','republish-invalidated','!hasSettled && registration.valid && !promiseCache.has(key)','!hasSettled && !promiseCache.has(key)');
+mutant('V1-E','republish-invalidated','!hasSettled && registration.valid','!hasSettled');
 mutant('V1-E','old-cleanup-new-entry','if (promiseCache.get(key) === promise)', 'if (promiseCache.has(key))','E05');
 mutant('V1-D','missing-unref','timer.unref?.();','void timer;','D13');
 cases.at(-1)!.indeterminate='oracle_supervisor';

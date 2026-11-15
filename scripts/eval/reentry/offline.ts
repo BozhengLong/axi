@@ -10,6 +10,7 @@ const steps=[
  ['dependencies-before',['bun','scripts/eval/reentry/dependencies.ts'],true],
  ['unit',['bun','test'],false],['types',['bun','run','typecheck'],false],
  ['compatibility',['bun','scripts/eval/reentry/compatibility.ts'],false],
+ ['registration-compatibility',['bun','scripts/eval/reentry/registration-compatibility.mjs'],false],
  ['resource-measurement',['bun','scripts/eval/reentry/resource-audit.ts'],false],
  ['calibration',['bun','scripts/eval/reentry/calibrate.ts'],false],
  ['reference-examples',['bun','scripts/eval/reentry/reference-examples.mjs'],false],

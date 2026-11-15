@@ -1263,6 +1263,24 @@
       "action": "clear",
       "delivery": "thenable",
       "expected": "invalidation inside synchronous read; subsequent caller after outer return never rejoins old promise"
+    },
+    {
+      "id": "I155",
+      "kind": "identity",
+      "mode": "ordinary",
+      "expected": "same input matches original published Promise identity and single business execution without invalidation"
+    },
+    {
+      "id": "I156",
+      "kind": "identity",
+      "mode": "outer-error",
+      "expected": "same input matches original published Promise identity and single business execution without invalidation"
+    },
+    {
+      "id": "I157",
+      "kind": "identity",
+      "mode": "inner-error",
+      "expected": "same input matches original published Promise identity and single business execution without invalidation"
     }
   ],
   "counts": {
@@ -1271,7 +1289,8 @@
     "nested": 9,
     "model": 48,
     "scope": 24,
-    "publication": 12
+    "publication": 12,
+    "identity": 3
   },
   "limits": [
     "No user-created wait cycles, infinite recursion or synchronous blocking",

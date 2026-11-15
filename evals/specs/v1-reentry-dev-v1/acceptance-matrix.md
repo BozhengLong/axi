@@ -79,4 +79,6 @@
 - `D21 error metadata and attempt context are readonly at runtime`
 - `D22 pre-aborted opaque reason is not inspected or normalized`
 
-新增154条重入序列见[清单](reentrancy-cases.json)和[行为定义](reentrancy-contract.md)。包括回调返回后的直接发布反例12条；状态模型不导入参考helper。D13检查实际资源，不要求固定unref数量。恒真及仅导入失败回归均须判无效。missing-unref变体的D13行为断言失败，同时D19监督器超时，整次仍保留不可判定。
+新增157条重入序列见[清单](reentrancy-cases.json)和[行为定义](reentrancy-contract.md)。包括回调返回后的直接发布反例12条；状态模型不导入参考helper。D13检查实际资源，不要求固定unref数量。恒真及仅导入失败回归均须判无效。missing-unref变体的D13行为断言失败，同时D19监督器超时，整次仍保留不可判定。
+
+I155–I157以相同输入对照原库，验证未失效同步重入及外/内层读取失败后的Promise复用关系。

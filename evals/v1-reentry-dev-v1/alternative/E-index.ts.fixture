@@ -6,7 +6,7 @@ export type AnyAsyncFunction = (...arguments_: readonly any[]) => Promise<unknow
 type AsyncReturnType<FunctionType extends AnyAsyncFunction> = Awaited<ReturnType<FunctionType>>;
 
 // Everything `pMemoizeClear()` needs to reach, including the in-flight promises, which live outside of `cache` but are part of the memoized state.
-type Flight<ValueType> = {promise?: Promise<ValueType>};
+type Flight<ValueType> = {promise?: Promise<ValueType>; active: number};
 
 type MemoizedStore<ValueType> = {
 	cache: CacheStorage<any, any> | false;
@@ -283,11 +283,13 @@ export default function pMemoize<
 		if (pendingPromise?.promise !== undefined) {
 			return pendingPromise.promise;
 		}
-		// 尚未返回Promise的同步回调重入沿用原来的缓存读取；后来的调用取得自己的所有权。
+		// 同步重入继续原来的读取，并共用尚未完成的登记槽。嵌套失败不能移除仍有活动调用的槽。
 
 		// `promise` is read inside the callback below, and TypeScript cannot order that read against this assignment. It is not even true: when `cache.has()` throws synchronously, the callback's `finally` runs before the assignment happens. The assertion is what lets that path compile; `hasSettled` is what keeps it harmless.
-		const owner: Flight<AsyncReturnType<FunctionToMemoize>> = {};
-		promiseCache.set(key, owner);
+		const owner: Flight<AsyncReturnType<FunctionToMemoize>> = pendingPromise ?? {active: 0};
+		if (pendingPromise === undefined) promiseCache.set(key, owner);
+		owner.active++;
+		let hasSettled = false;
 		let promise!: Promise<AsyncReturnType<FunctionToMemoize>>;
 		// Set by the `finally`, which means the call is over and nothing needs registering.
 
@@ -321,10 +323,10 @@ export default function pMemoize<
 					}
 
 					// `cache.has()` or `cache.get()` may have called back into this function for the same key, in which case that call got there first and is already running it. Joining anything else would mean awaiting ourselves. The `await` matters: without it the `finally` below would drop the entry while that call is still running.
-					const inFlight = promiseCache.get(key);
+					const inFlight = promiseCache.get(key)?.promise;
 
-					if (inFlight !== undefined && inFlight !== owner) {
-						return await inFlight.promise!;
+					if (inFlight !== undefined && inFlight !== promise) {
+						return await inFlight;
 					}
 				}
 
@@ -356,9 +358,11 @@ export default function pMemoize<
 
 				return result;
 			} finally {
+				hasSettled = true;
+				owner.active--;
 
 				// Only drop the entry when it is still ours: a clear, a delete, or a later call for the same key, may have replaced it while this one was running.
-				if (promiseCache.get(key) === owner) {
+				if (promiseCache.get(key) === owner && owner.promise === promise && (promise !== undefined || owner.active === 0)) {
 					promiseCache.delete(key);
 				}
 
@@ -369,8 +373,8 @@ export default function pMemoize<
 		})();
 
 		// A `cache.has()` that throws synchronously settles the call before this point, and its cleanup has already run. Registering it now would keep that failure as the in-flight entry for this key forever, and every later call would hand it straight back.
-		// 只填本调用对象，不把已经被失效或替换的对象重新放回Map。
-		owner.promise = promise;
+		// 只填原先取得的槽。失效会将槽移出Map，旧调用不能把它放回。
+		if (!hasSettled) owner.promise = promise;
 		return promise;
 	} as FunctionToMemoize;
 
