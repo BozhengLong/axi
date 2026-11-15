@@ -23,3 +23,10 @@ test('语法失败不冒充有效行为回归，设施标记只匹配独立行',
  expect(()=>classifyCommand(result('# TRUST_ORACLE_INFRA:ETIMEDOUT\n',1),'x')).toThrow(GradingIndeterminate);
  expect(()=>classifyCommand(result("  source: \"process.stderr.write('TRUST_ORACLE_INFRA:ETIMEDOUT')\"\n",1),'x')).not.toThrow();
 });
+test('原生断言证据缺失或重复时不退回宽泛文本识别',()=>{
+ const text="  error: 'AssertionError ERR_ASSERTION'\n"+tap(0,1);
+ expect(()=>testReport(result(text,1),'old','native-events')).toThrow('missing_assertion_evidence');
+ const marker='# AXI_TEST_ASSERTIONS_V1 '+JSON.stringify({version:1,failures:[{name:'ordinary',assertion:false,origin:'other',failureType:'testCodeFailure'}]})+'\n';
+ expect(testReport(result(text+marker,1),'old','native-events').assertionFailure).toBe(false);
+ expect(()=>testReport(result(text+marker+marker,1),'old','native-events')).toThrow('missing_assertion_evidence');
+});

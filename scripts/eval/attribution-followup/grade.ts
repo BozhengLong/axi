@@ -63,11 +63,15 @@ async function gradeOwned(task:DevTask,id:string,seed:Snapshot,candidate:Snapsho
   }
   for(const b of changedJS(contents(seed['readme.md']!),candidate['readme.md']?contents(candidate['readme.md']):'')){const r=await run(['node','--input-type=module','--check'],b.source);check('README_JS:'+b.line,r.exitCode===0,r)}
   if(options.regression!==false&&newTests.length){
-   const now=testReport(await run(['node','--test','--test-reporter=tap',...newTests],undefined),'regression-current');logs.regressionCurrent=now;
-   const old=await isolated(IMAGE,task,names[1]!,{...clean(seed),...regressionFiles},window);logs.baselineInitialization=old.initLog;
+   const reporter=readFileSync(join(ROOT,'scripts/eval/attribution-followup/assertion-reporter.mjs'),'utf8'),reporterFiles={'eval-oracle/assertion-reporter.mjs':file(reporter)};
+   writeFileSync(join(directory,'effective-assertion-reporter.mjs'),reporter,{mode:0o600});
+   const installed=await run(['bun','/opt/eval/c6-files.ts','patch'],JSON.stringify(reporterFiles));if(installed.exitCode)throw new GradingIndeterminate('assertion_reporter_patch','regression',installed);
+   const reporterFlag='--test-reporter=/task/eval-oracle/assertion-reporter.mjs';
+   const now=testReport(await run(['node','--test',reporterFlag,...newTests],undefined),'regression-current','native-events');logs.regressionCurrent=now;
+   const old=await isolated(IMAGE,task,names[1]!,{...clean(seed),...regressionFiles,...reporterFiles},window);logs.baselineInitialization=old.initLog;
    try{
     if(task!=='V1-D'){const built=await execute(old,['bash','-lc','npm run build'],undefined,true,remaining('baseline-build'));classifyCommand(built,'regression-old-build');logs.regressionPreviousBuild=built;if(built.exitCode!==0)throw new GradingIndeterminate('baseline_build','regression-old-build',built)}
-    const previous=testReport(await execute(old,['node','--test','--test-reporter=tap',...newTests],undefined,true,remaining('regression-old')),'regression-old');logs.regressionPrevious=previous;
+    const previous=testReport(await execute(old,['node','--test',reporterFlag,...newTests],undefined,true,remaining('regression-old')),'regression-old','native-events');logs.regressionPrevious=previous;
     testReplay={paths:newTests,helperFiles:Object.keys(regressionFiles),current:now,previous,valid:passedTests(now)&&previous.exitCode!==0&&previous.total===now.total&&previous.failed>0&&previous.skipped===0&&previous.cancelled===0&&previous.assertionFailure,semanticReview:'pending'};
    }finally{/* 两个工作副本统一在同一截止前清理。 */}
   }else testReplay={valid:false,paths:newTests,reason:options.regression===false?'本次不评新增回归':'缺少独立新增回归'};

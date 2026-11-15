@@ -14,6 +14,7 @@ const steps=[
  ['startup-budget',['bun','scripts/eval/attribution-followup/budget-qualification.ts'],false],
  ['dependencies-before',['bun','scripts/eval/attribution-followup/dependencies.ts'],true],
  ['unit',['bun','test'],false],['types',['bun','run','typecheck'],false],
+ ['assertion-evidence',['bun','scripts/eval/attribution-followup/assertion-qualification.ts'],false],
  ['compatibility',['bun','scripts/eval/attribution-followup/compatibility.ts'],false],
  ['registration-compatibility',['bun','scripts/eval/attribution-followup/registration-compatibility.mjs'],false],
  ['resource-measurement',['bun','scripts/eval/attribution-followup/resource-audit.ts'],false],
