@@ -1,0 +1,246 @@
+{
+  "complete": true,
+  "modelStartsAtQualification": 0,
+  "time": "2026-11-15T18:56:09.669Z",
+  "codeCommit": "c729da1eb424b84d6dfb0ff4d6fc23aba4151f36",
+  "sourceHash": "b9241b6ee6b33e8012ea9d511338afe9466f897c407b1b6aabbd49f57141d321",
+  "executionProfileHash": "1a930374b834499cec45a915bd8ab130ffd2c969d39b02c97d5e0eff13ce3ade",
+  "contractDecisionHash": "c4a133c1e86ba01c150c165169bdacf7ee4dda7b2143c1a5b825e905370d6d3c",
+  "measurementHash": "c69757ce0f0729765f7af00a001ec245675e17e024b44be22ce256a9d17c7691",
+  "graderRevision": "95d355ea8ad52a1f34133c9f8ad13ab4e215b990e62ac66b9ebaa442b7a07748",
+  "moduleGraderRevisions": {
+    "Q": "188cc3095e6709f6399fb5f4b530c792b4969120c0d00a5e3c13c23f6c4c62fb",
+    "D": "b4e8874f36f7fe1c8cd7abfbbcce282be1a450522e077647b863e9b54ac055de",
+    "E": "d403aff643d867806dfff8138a4da5ac677fe9e442b52ee088252979ef18b0ee"
+  },
+  "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+  "subjectCommit": "0330626249c916bf81612299cd6b58955ad8b8d9",
+  "evidenceHashes": {
+    "authorization.json": "0a1a28d289edf2fe228d2ef86b67ae15aaee7820023abeb54a6d154b56718bc2",
+    "input-declaration.json": "19d0a52ed45c931fa77707e2e734bca93bc9bb51dfb83131fc69dc6df66d73ea",
+    "manual-review-rubric.json": "250346af7cf4510c6092fb97581f8af843f1b307b445e06da25c5a85b4c384ec",
+    "attribution-hypotheses.json": "3fff3df37f0879d5735a5009a3676156f354540e83d6cc0611838a530cec038d",
+    "subject-source.json": "e7580484fb0d65fc376e6e474037097d84e028b20b0bec7d11451521d8e31552",
+    "dependency-baseline.json": "c8943d233dcc5d62e685e73f336917b94b33df7ad4c990e07f7c0c63017927d5",
+    "dependency-inheritance-audit.json": "4895d190ab551a17c722c8ba14b014fb3c5f95b6f142b85822a1e8467c3d5752",
+    "input-editorial-normalization.json": "4b920b85f03765d582a67c08046dabaa521f3341e163f7b10fca917b7eb96785",
+    "analysis-tools-declaration.json": "102cd6529ba3fa654744ab3b5a33d6b783a8b8b4f75b771ddafab328d65a5fd5",
+    "inspect-run.ts": "efa3aea455393d06f91ccaf5088a386eb460858f253bd9ab483c52556420e936",
+    "audit-docs.ts": "5070a316fa83b33acd3d19f8b252e3f75b15f3459b921a91e068b18a58cce04f",
+    "run.sh": "4cbfaf8594b0b289a4c2f73a84366fa387ac6401fda9c2148a3baafd88b152a3",
+    "qualification-initial/offline-gates.json": "23abdb9cb939e55da1d30bf0b79ce1116a7ecceb2ad1f41de325e11d3e96bc02",
+    "qualification-initial/input-audit.json": "aa758eea2cb93c7c161c89ae438f4fbec96f51a67c6c7bc4c56d7099b31e3922",
+    "qualification-initial/contract-audit.json": "6bc37c47563971a42c85439f7f20da7ab2950722dfdbc8b96ba48feca3addd87",
+    "qualification-initial/budget-qualification-latest.json": "5fd46e5671990a812640d5f53155c6e474e9607957645fc0588812840513ee7e",
+    "qualification-initial/waiting-qualification-latest.json": "3a079e0288ea307021df8c16d29a38c27d67e4a22d4cc8fd97cb0690d1968006",
+    "qualification-initial/calibration-latest.json": "42b58f28e4ff14cf31d8ddc6ef249d9d8d96d4a5a643b563ac13869a594f4d78",
+    "qualification-initial/stability-latest.json": "1be4b4be123b0c92c2ae39ccfe97c8ff2e4a0a3064f35f6f9a5f9a8ee93a83a3",
+    "qualification-initial/repair-qualification-latest.json": "84f350eca511c1fabf8ca5deb61e79f9243715cc146e5bc1e84a2f4ea5ec1ca9",
+    "qualification-initial/historical-replay-latest.json": "0a74a4d3570e133f20201b5095835710dbfdd71c8fcba8d46a188ece15af1088",
+    "qualification-initial/pipeline-latest.json": "37761b7d9abcccf8af859204253451f61553ab8bfee0bcb7b92740b6aef000d9",
+    "qualification-initial/fault-latest.json": "4d26a2eb9163468d3c5ad7dce4aed256f39d9c622ad0ec28ef75fa88eefacf74",
+    "qualification-initial/module-fault-latest.json": "d89bd5cf5d215bfc257cc59137f21f012bbf7c90cc2af9556f893db20b8fdf02"
+  },
+  "modelStarts": 0,
+  "offlineGroups": [
+    {
+      "id": "input-audit",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 286.855042
+    },
+    {
+      "id": "contract-map",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 67.440292
+    },
+    {
+      "id": "startup-budget",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 295.298041
+    },
+    {
+      "id": "dependencies-before",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 2883.717834
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 9698.69225
+    },
+    {
+      "id": "types",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1342.4590420000004
+    },
+    {
+      "id": "compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 6051.232332999998
+    },
+    {
+      "id": "registration-compatibility",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 3348.1165409999994
+    },
+    {
+      "id": "resource-measurement",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 1152.7633339999993
+    },
+    {
+      "id": "waiting-semantics",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 9877.259250000003
+    },
+    {
+      "id": "calibration",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 218206.645333
+    },
+    {
+      "id": "reference-examples",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 28813.49437500001
+    },
+    {
+      "id": "stability",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 357649.26575
+    },
+    {
+      "id": "repair-qualification",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 432069.36170800007
+    },
+    {
+      "id": "historical",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 264469.1255839998
+    },
+    {
+      "id": "interaction",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 26316.820874999976
+    },
+    {
+      "id": "transport",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 29671.260415999917
+    },
+    {
+      "id": "protocol",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 20635.142500000075
+    },
+    {
+      "id": "review",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 33359.20316700009
+    },
+    {
+      "id": "pipeline",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 201036.19275000016
+    },
+    {
+      "id": "fault",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 28877.863624999998
+    },
+    {
+      "id": "module-fault",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 70256.44495799998
+    },
+    {
+      "id": "dependencies-after",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 979.4325840000529
+    }
+  ],
+  "counts": {
+    "localTests": 164,
+    "localAssertions": 1027,
+    "inputChecks": 25,
+    "contractAuditChecks": 1098,
+    "mappedChecks": 240,
+    "dependencyFiles": 634,
+    "startupBudgetChecks": 14,
+    "waitingConfigurations": 10,
+    "waitingMeasurements": 172,
+    "calibrationCases": 26,
+    "referenceExamples": 35,
+    "stabilityViews": 40,
+    "repairQualificationViews": 30,
+    "historicalSealedViews": 9,
+    "historicalOldAndNewViews": 18,
+    "mockCliPaths": 8,
+    "faultChecks": 19,
+    "moduleFaultChecks": 7
+  },
+  "priorPreparationFailure": {
+    "stage": "historical",
+    "issue": "E09X-05 did not establish an active waiter when a backend throws synchronously",
+    "repair": "create waiter inside backend callback before synchronous throw"
+  },
+  "additionalPositiveCalibration": {
+    "priorPassed": 11,
+    "priorTotal": 19,
+    "issue": "fixed-tick backend-start assumptions reject legal delayed scheduling",
+    "repair": "wait for public backend entry; distinguish completed operation without backend invocation"
+  },
+  "oldScoresUnchanged": true,
+  "realModelRestarts": 0,
+  "runtimeGraderRepairs": 0,
+  "preparationStartedAt": "2026-11-15T17:10:43.550Z",
+  "preparationDeadline": "2026-11-15T23:10:43.550Z",
+  "originalDeadline": "2026-11-16T17:10:43.550Z",
+  "privateEvidence": "~/.local/share/axi-evals/v1-attribution-followup-20261116/TRACE-INDEX.md"
+}
