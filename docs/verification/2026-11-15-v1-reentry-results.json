@@ -1,0 +1,431 @@
+{
+  "study": "v1-reentry-20261115",
+  "plan": "docs/13-v1-reentrancy-qualification-plan.md",
+  "status": "closed_development_gate_failed",
+  "closure": {
+    "state": "closed",
+    "closedAt": "2026-11-15T06:41:54.410299+00:00",
+    "reason": "D3：两版E均失败，无版本完整2/2",
+    "plan": "docs/13-v1-reentrancy-qualification-plan.md",
+    "startedAt": "2026-11-15T04:26:29+00:00",
+    "deadline": "2026-11-15T22:26:29+00:00",
+    "elapsedHours": 2.257058416388889,
+    "maxStarts": 34,
+    "actualStarts": 8,
+    "unusedStarts": 26,
+    "actualGenerationRequests": 185,
+    "probes": 4,
+    "development": 4,
+    "c7": 0,
+    "formal": 0,
+    "selectedProduct": null,
+    "freshTasksSelected": false,
+    "gradeRecoveryUsed": false,
+    "upstreamRecoveryUsed": false,
+    "executionProfileHash": "d0a40d4bf8b430c509de3146948a14694561833f2d49c818d6d2c4ae137c3168",
+    "contractDecisionHash": "d454a973f826abd98531ffe19a4a3f579b49c9e07fde7dc5d8a304decd1fce4a",
+    "graderRevision": "5c712f7ee5738667852b7d5647cb461d939d9ec5c27b5f81e96ebea9f1bb9b29"
+  },
+  "freeze": {
+    "preparedAt": "2026-11-15T05:30:06.091Z",
+    "phase": "development",
+    "sourceHash": "30d0235bee2354f498a2abbd16c4623a2ba29ef5455a491ac55c55530a84d025",
+    "executionProfileHash": "d0a40d4bf8b430c509de3146948a14694561833f2d49c818d6d2c4ae137c3168",
+    "contractDecisionHash": "d454a973f826abd98531ffe19a4a3f579b49c9e07fde7dc5d8a304decd1fce4a",
+    "measurementHash": "bd8c89a09a0dd8393c066d48be13c6835cce0d51bca8305198f2b0679f5dfee9",
+    "graderRevision": "5c712f7ee5738667852b7d5647cb461d939d9ec5c27b5f81e96ebea9f1bb9b29",
+    "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+    "productHash": "d1942352973cc95b5ab6e07283d94276737b3e8cb63b10e292cd9dcec7368dd1",
+    "inputs": {
+      "V1-E": "cfebf8af8b88bf24f200b70f51be1e50b8ae8f38fbec3068e35796ce0e07633e",
+      "V1-D": "bac31cc15a16bf03a931a1d9de349fa45b0a435907c0c2b5fc24266fab0e6881"
+    },
+    "schedule": [
+      {
+        "task": "V1-E",
+        "product": "current"
+      },
+      {
+        "task": "V1-E",
+        "product": "candidate"
+      },
+      {
+        "task": "V1-D",
+        "product": "candidate"
+      },
+      {
+        "task": "V1-D",
+        "product": "current"
+      }
+    ],
+    "qualified": true,
+    "preflightBatch": "b20261115054300",
+    "realStartsBeforeDevelopment": 4,
+    "frozenAt": "2026-11-15T05:46:13.178086+00:00",
+    "selection": "current full2/2 preferred; otherwise candidate full2/2; neither stops",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "workRequests": 40,
+    "reviewRequests": 10,
+    "taskSeconds": 1800,
+    "gradeSeconds": 900
+  },
+  "qualification": {
+    "groups": 17,
+    "unitTests": 141,
+    "unitAssertions": 927,
+    "finiteSequences": 157,
+    "calibrationCases": 25,
+    "repeats": 40,
+    "referenceExamples": 35,
+    "historicalViews": 16,
+    "fullCLIMocks": 8,
+    "faultChecks": 19
+  },
+  "preflight": {
+    "checks": 31,
+    "realCLI": 4,
+    "requests": 16,
+    "batch": "b20261115054300"
+  },
+  "development": {
+    "batch": "b20261115054624",
+    "realCLI": 4,
+    "requests": 169,
+    "rows": [
+      {
+        "id": "development-V1-E-current",
+        "task": "V1-E",
+        "product": "current",
+        "executionStatus": "completed",
+        "wallSeconds": 501.759,
+        "artifactHash": "b0ef2e886debde80b8d45396cda93149ab3a46fd402a3f329593c0178be3f0a4",
+        "executionProfileHash": "d0a40d4bf8b430c509de3146948a14694561833f2d49c818d6d2c4ae137c3168",
+        "graderRevision": "5c712f7ee5738667852b7d5647cb461d939d9ec5c27b5f81e96ebea9f1bb9b29",
+        "codePassed": false,
+        "regressionPassed": true,
+        "fullDeliveryPassed": false,
+        "failureChecks": [
+          "REENTRY"
+        ],
+        "frozenReentryFailures": [
+          "not ok 119 - S119 scope",
+          "not ok 120 - S120 scope",
+          "not ok 125 - S125 scope",
+          "not ok 126 - S126 scope"
+        ],
+        "checkpointKind": "work_in_progress",
+        "checkpointCodePassed": false,
+        "checkpointRegressionPassed": false,
+        "actualReview": true,
+        "budget": {
+          "mode": "auto",
+          "phase": "review",
+          "workRequests": 40,
+          "reviewRequests": 2,
+          "requests": 42,
+          "remaining": 8
+        },
+        "reviewToolCalls": 1,
+        "changedAfterCheckpoint": [
+          "index.ts"
+        ],
+        "newTests": 17,
+        "baselineFailed": 17,
+        "baselinePassed": 0,
+        "supplementaryWaiterDiagnostic": "stale_write_confirmed",
+        "manualReviewSha256": "3b1b750921690ae8735c6ad2a8f236066c765e96ad68f4a20a7ad6419d233af7"
+      },
+      {
+        "id": "development-V1-E-candidate",
+        "task": "V1-E",
+        "product": "candidate",
+        "executionStatus": "completed",
+        "wallSeconds": 557.315,
+        "artifactHash": "666b61c83380082783c2b71a2186c82a8fe153c94a7f6304d35b50bcd366c0eb",
+        "executionProfileHash": "d0a40d4bf8b430c509de3146948a14694561833f2d49c818d6d2c4ae137c3168",
+        "graderRevision": "5c712f7ee5738667852b7d5647cb461d939d9ec5c27b5f81e96ebea9f1bb9b29",
+        "codePassed": false,
+        "regressionPassed": true,
+        "fullDeliveryPassed": false,
+        "failureChecks": [
+          "REENTRY"
+        ],
+        "frozenReentryFailures": [
+          "not ok 119 - S119 scope",
+          "not ok 120 - S120 scope",
+          "not ok 125 - S125 scope",
+          "not ok 126 - S126 scope"
+        ],
+        "checkpointKind": "work_in_progress",
+        "checkpointCodePassed": false,
+        "checkpointRegressionPassed": true,
+        "actualReview": true,
+        "budget": {
+          "mode": "auto",
+          "phase": "review",
+          "workRequests": 40,
+          "reviewRequests": 3,
+          "requests": 43,
+          "remaining": 7
+        },
+        "reviewToolCalls": 2,
+        "changedAfterCheckpoint": [
+          "eval-tests/p-memoize-delete.test.mjs"
+        ],
+        "newTests": 18,
+        "baselineFailed": 18,
+        "baselinePassed": 0,
+        "supplementaryWaiterDiagnostic": "passed",
+        "manualReviewSha256": "ca5aabbcc33ffba51e7ffd32d97f292aed93110bc68ac9665f935497d0772f30"
+      },
+      {
+        "id": "development-V1-D-candidate",
+        "task": "V1-D",
+        "product": "candidate",
+        "executionStatus": "completed",
+        "wallSeconds": 435.496,
+        "artifactHash": "b56fe9c2deb92caec6a8dfc406f5c5f8f70ee2a12836c418153fa9e75ac777df",
+        "executionProfileHash": "d0a40d4bf8b430c509de3146948a14694561833f2d49c818d6d2c4ae137c3168",
+        "graderRevision": "5c712f7ee5738667852b7d5647cb461d939d9ec5c27b5f81e96ebea9f1bb9b29",
+        "codePassed": true,
+        "regressionPassed": true,
+        "fullDeliveryPassed": true,
+        "failureChecks": [],
+        "frozenReentryFailures": [],
+        "checkpointKind": "work_in_progress",
+        "checkpointCodePassed": true,
+        "checkpointRegressionPassed": true,
+        "actualReview": true,
+        "budget": {
+          "mode": "auto",
+          "phase": "review",
+          "workRequests": 40,
+          "reviewRequests": 2,
+          "requests": 42,
+          "remaining": 8
+        },
+        "reviewToolCalls": 1,
+        "changedAfterCheckpoint": [],
+        "newTests": 20,
+        "baselineFailed": 16,
+        "baselinePassed": 4,
+        "supplementaryWaiterDiagnostic": null,
+        "manualReviewSha256": "1690fb1bab794d0d0328118560f5f0ff0f3cc9a7d4f0e6e93c664a0bbbe2180c"
+      },
+      {
+        "id": "development-V1-D-current",
+        "task": "V1-D",
+        "product": "current",
+        "executionStatus": "completed",
+        "wallSeconds": 474.965,
+        "artifactHash": "aa6630493b3a2207b9255a7abd5f2607bfc905e03848daf58ce9b8021ec3a34d",
+        "executionProfileHash": "d0a40d4bf8b430c509de3146948a14694561833f2d49c818d6d2c4ae137c3168",
+        "graderRevision": "5c712f7ee5738667852b7d5647cb461d939d9ec5c27b5f81e96ebea9f1bb9b29",
+        "codePassed": true,
+        "regressionPassed": true,
+        "fullDeliveryPassed": true,
+        "failureChecks": [],
+        "frozenReentryFailures": [],
+        "checkpointKind": "work_in_progress",
+        "checkpointCodePassed": true,
+        "checkpointRegressionPassed": true,
+        "actualReview": true,
+        "budget": {
+          "mode": "auto",
+          "phase": "review",
+          "workRequests": 40,
+          "reviewRequests": 2,
+          "requests": 42,
+          "remaining": 8
+        },
+        "reviewToolCalls": 1,
+        "changedAfterCheckpoint": [],
+        "newTests": 16,
+        "baselineFailed": 13,
+        "baselinePassed": 3,
+        "supplementaryWaiterDiagnostic": null,
+        "manualReviewSha256": "8533c03cfc7533ddfb76b8c1aea8bc98186768a1d924e13871d6ae2e9fbfb7ee"
+      }
+    ]
+  },
+  "selection": {
+    "current": "1/2",
+    "candidate": "1/2",
+    "selected": null,
+    "c7Started": false,
+    "freshTasksSelected": false,
+    "formalStarted": false
+  },
+  "supplementaryDiagnostic": {
+    "probeSha256": "b58e4e4fbbca25f2ac667b9db53026001508ea0a9fab70da53c511a6304233a3",
+    "complete": true,
+    "originalScoresUnchanged": true,
+    "materials": [
+      {
+        "id": "reference-primary",
+        "kind": "positive",
+        "viewHash": "78567fef23cada63207548f0fb3f3b37e5ed72b6245b2cd5ce2d9c3ad13b556b",
+        "artifactHash": null,
+        "outcome": "passed",
+        "observation": {
+          "before": "fresh",
+          "after": "fresh",
+          "old": {
+            "value": "old"
+          },
+          "events": [
+            "delete-start:1",
+            "delete-end:1",
+            "delete-start:2",
+            "delete-end:2",
+            "fn:waiting",
+            "fn:fresh"
+          ]
+        }
+      },
+      {
+        "id": "reference-alternative",
+        "kind": "positive",
+        "viewHash": "5f537b0b8d3ae09c41fe9b1667f9e67fae445be62380501d6e89ae5ed8a6e249",
+        "artifactHash": null,
+        "outcome": "passed",
+        "observation": {
+          "before": "fresh",
+          "after": "fresh",
+          "old": {
+            "value": "old"
+          },
+          "events": [
+            "delete-start:1",
+            "delete-end:1",
+            "delete-start:2",
+            "delete-end:2",
+            "fn:waiting",
+            "fn:fresh"
+          ]
+        }
+      },
+      {
+        "id": "regain-write-negative",
+        "kind": "negative",
+        "viewHash": "cdb8e3dbb81544f9c9bd06fb0c90910ffabbaea6cd9e6147568cf058062aa67d",
+        "artifactHash": null,
+        "outcome": "stale_write_confirmed",
+        "observation": {
+          "before": "fresh",
+          "after": "old",
+          "old": {
+            "value": "old"
+          },
+          "events": [
+            "delete-start:1",
+            "delete-end:1",
+            "delete-start:2",
+            "delete-end:2",
+            "fn:waiting",
+            "fn:fresh"
+          ]
+        }
+      },
+      {
+        "id": "current-final",
+        "kind": "model",
+        "viewHash": "d311ea56c69610790e6c935b3edc953d15f535e758b954acd70a875289f4f47d",
+        "artifactHash": "b0ef2e886debde80b8d45396cda93149ab3a46fd402a3f329593c0178be3f0a4",
+        "outcome": "stale_write_confirmed",
+        "observation": {
+          "before": "fresh",
+          "after": "old",
+          "old": {
+            "value": "old"
+          },
+          "events": [
+            "delete-start:1",
+            "delete-end:1",
+            "delete-start:2",
+            "delete-end:2",
+            "fn:waiting",
+            "fn:fresh"
+          ]
+        }
+      },
+      {
+        "id": "current-checkpoint",
+        "kind": "model",
+        "viewHash": "eceab7f39cf5f85a24a820673b41ffe8d9593e1bcbae770b26b33bfdbe9c4704",
+        "artifactHash": "b0ef2e886debde80b8d45396cda93149ab3a46fd402a3f329593c0178be3f0a4",
+        "outcome": "not_run_build_failed"
+      },
+      {
+        "id": "candidate-final",
+        "kind": "model",
+        "viewHash": "f08d820b022bc623c1ce77f71aa80f994a2ca816efa7542c5403ee22863bffde",
+        "artifactHash": "666b61c83380082783c2b71a2186c82a8fe153c94a7f6304d35b50bcd366c0eb",
+        "outcome": "passed",
+        "observation": {
+          "before": "fresh",
+          "after": "fresh",
+          "old": {
+            "value": "old"
+          },
+          "events": [
+            "delete-start:1",
+            "delete-end:1",
+            "delete-start:2",
+            "delete-end:2",
+            "fn:waiting",
+            "fn:fresh"
+          ]
+        }
+      },
+      {
+        "id": "candidate-checkpoint",
+        "kind": "model",
+        "viewHash": "f51a4190d0c3f4be2eb13624f166b5cd92c7549d478a9ac73db77fc28a416fe7",
+        "artifactHash": "666b61c83380082783c2b71a2186c82a8fe153c94a7f6304d35b50bcd366c0eb",
+        "outcome": "passed",
+        "observation": {
+          "before": "fresh",
+          "after": "fresh",
+          "old": {
+            "value": "old"
+          },
+          "events": [
+            "delete-start:1",
+            "delete-end:1",
+            "delete-start:2",
+            "delete-end:2",
+            "fn:waiting",
+            "fn:fresh"
+          ]
+        }
+      }
+    ]
+  },
+  "evidenceAudit": {
+    "traces": 8,
+    "traceFiles": 116,
+    "traceBytes": 111948337,
+    "scoreRecords": 8,
+    "scoreFiles": 40,
+    "runtimeSourceSnapshots": 2,
+    "runtimeSourceFiles": 962,
+    "preparationSourceSnapshots": 24,
+    "preparationSourceFiles": 11521,
+    "baselineSourceFiles": 30,
+    "remainingOwnedResources": {
+      "containers": [],
+      "networks": [],
+      "volumes": []
+    },
+    "dependenciesUnchanged": true
+  },
+  "notes": [
+    "两份E的同一共享范围缺陷在冻结评分中检出，未用补充诊断替换原机判",
+    "控制E最终的失效等待调用写回为补充诊断；候选最终/检查点通过；控制检查点构建失败未执行该探针",
+    "Claude本轮仅执行健康探针；历史视图只用于资格，未产生新的Claude复杂任务成绩",
+    "同一助手完成参考、检查和人工复核；不称独立盲审",
+    "E控制报告中的替换字符同时见于转发器SSE帧文本和终端；生产文件没有替换字符，来源未进一步确认，原文保持"
+  ]
+}
