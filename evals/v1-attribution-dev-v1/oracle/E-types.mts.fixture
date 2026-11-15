@@ -1,0 +1,14 @@
+import memo,{pMemoizeDelete,pMemoizeClear} from '../dist/index.js';
+const fn=memo(async(a:string,b:number)=>({value:a.repeat(b)}));
+const deletion:Promise<void>=pMemoizeDelete(fn,'a',2);
+const value:Promise<{value:string}>=fn('a',2);
+// @ts-expect-error required second parameter
+pMemoizeDelete(fn,'a');
+// @ts-expect-error wrong parameter type
+pMemoizeDelete(fn,'a','b');
+// @ts-expect-error extra argument
+pMemoizeDelete(fn,'a',2,3);
+const keyed=memo(async(a:{id:string})=>a.id,{cacheKey:args=>args[0].id,cache:new Map<string,string>()});
+const result:Promise<void>=pMemoizeDelete(keyed,{id:'x'});
+pMemoizeClear(keyed);
+void [deletion,value,result];

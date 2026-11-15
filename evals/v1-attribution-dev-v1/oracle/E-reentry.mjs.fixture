@@ -1,0 +1,155 @@
+import nodeTest from 'node:test';
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {readFileSync} from 'node:fs';
+import * as api from '../dist/index.js';
+const spec=JSON.parse(readFileSync(new URL('./reentrancy-cases.json',import.meta.url),'utf8'));
+const memo=api.default,del=(...args)=>api.pMemoizeDelete(...args),clear=fn=>api.pMemoizeClear(fn);
+const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}};
+const observed=p=>p.then(value=>({value}),error=>({error}));
+const turn=()=>new Promise(r=>setImmediate(r));
+async function until(p){for(let i=0;i<100&&!p();i++)await turn();assert.ok(p(),'declared callback reached')}
+const deliver=(value,kind)=>kind==='plain'?value:kind==='native'?Promise.resolve(value):{then(resolve){resolve(value)}};
+
+async function boundary(c){
+ const cache=new Map(c.point.startsWith('get')?[['x','stale']]:[]),events=[],remove=deferred(),write=deferred();
+ let f,entered=false,fresh,deletion,invalidated=false;
+ const mark=(event,label)=>events.push({event,label});
+ function hook(point){
+  if(entered||point!==c.point)return;entered=true;invalidated=true;mark('invalidate',c.action);
+  if(c.action==='delete')deletion=observed(del(f,'x'));else clear(f);
+  fresh=f('x','fresh');void observed(fresh);
+ }
+ function set(k,v){
+  mark('write-enter',v);hook('set');
+  const commit=()=>{Map.prototype.set.call(cache,k,v);mark('write-complete',v)};
+  if(c.point.startsWith('set')&&v==='old'&&c.delivery!=='plain')return c.delivery==='native'?(async()=>{await write.promise;commit()})():{then(resolve,reject){write.promise.then(()=>{commit();resolve()},reject)}};
+  commit();return deliver(undefined,c.delivery);
+ }
+ const methods={
+  has(k){hook('has');return deliver(Map.prototype.has.call(cache,k),c.delivery)},
+  get(k){const value=Map.prototype.get.call(cache,k);hook('get');return deliver(value,c.delivery)},set,
+  async delete(k){mark('delete-start');await remove.promise;Map.prototype.delete.call(cache,k);mark('delete-end')},
+ };
+ for(const key of ['has','get','set'])Object.defineProperty(cache,key,{configurable:true,get(){if(key==='set'&&!entered&&c.point==='set-property')mark('write-enter','old');hook(key+'-property');return methods[key]}});
+ cache.delete=methods.delete;
+ f=memo(function(k,label){mark('fn',label);hook('fn');return deliver(label,c.delivery)},{cache,shouldCache(value){hook('shouldCache');return deliver(true,c.delivery)}});
+ const old=f('x','old'),oldResult=observed(old);await until(()=>entered);assert.notEqual(old,fresh,'invalidated call cannot be reused');
+ await turn();
+ if(c.action==='delete')assert.ok(!events.some(x=>x.event==='fn'&&x.label==='fresh'),'fresh computation waits deletion');
+ if(c.point.startsWith('set')&&c.action==='delete'&&c.delivery!=='plain')assert.ok(!events.some(x=>x.event==='delete-start'),'delete waits reentrant write');
+ write.resolve();remove.resolve();const results=await Promise.all([oldResult,observed(fresh),...(deletion?[deletion]:[])]);assert.ok(results.every(r=>!('error'in r)),JSON.stringify(results));
+ if(c.action==='delete'){
+  assert.equal((await observed(fresh)).value,'fresh');assert.equal(Map.prototype.get.call(cache,'x'),'fresh');
+  const end=events.findIndex(x=>x.event==='delete-end'),start=events.findIndex(x=>x.event==='fn'&&x.label==='fresh');assert.ok(end>=0&&start>end,'fresh execution follows deletion completion');
+  const priorWrite=events.findIndex(x=>x.event==='write-complete'&&x.label==='old'),deletes=events.findIndex(x=>x.event==='delete-start');if(priorWrite>=0)assert.ok(priorWrite<deletes,'started write completed before deletion');
+ }
+ if(!c.point.startsWith('set'))assert.ok(!events.some(x=>x.event==='write-enter'&&x.label==='old'),'invalidated work cannot initiate write');
+ assert.equal(invalidated,true);await f('y','other');
+ return events;
+}
+
+async function errors(c){
+ const error=Object.freeze({case:c.id}),cache=new Map(c.point.startsWith('get')?[['x','cached']]:[]);let armed=true,count=0;
+ function fail(point,value){if(point!==c.point||!armed)return value;armed=false;count++;if(c.failure==='throw')throw error;return Promise.reject(error)}
+ for(const name of ['has','get','set'])Object.defineProperty(cache,name,{configurable:true,get(){fail(name+'-property',undefined);return function(...args){return fail(name,Map.prototype[name].apply(cache,args))}}});
+ const f=memo(()=>fail('fn',Promise.resolve('ok')),{cache,shouldCache:()=>fail('shouldCache',true)});
+ let p;assert.doesNotThrow(()=>{p=f('x')});assert.equal((await observed(p)).error,error);assert.equal(count,1);assert.ok(!('error'in await observed(f('x'))));await del(f,'x');await turn();
+}
+
+async function nested(c){
+ const cache=new Map(),remove=deferred(),events=[];let f,armed=true,nestedCall,nestedDelete,backend=0;
+ function hook(point){if(!armed||point!==c.point)return;armed=false;events.push(point);
+  if(c.action==='delete')nestedDelete=observed(del(f,'x'));
+  else if(c.action==='clear')clear(f);
+  else{nestedCall=f('x','nested');void observed(nestedCall)}
+ }
+ Object.defineProperty(cache,'delete',{get(){hook('delete-property');return async function(k){backend++;events.push('delete-start');hook('delete');await remove.promise;Map.prototype.delete.call(cache,k);events.push('delete-end')}}});
+ f=memo(async(k,label)=>{events.push('fn:'+label);return label},{cache,cacheKey:args=>{hook('cacheKey');return args[0]}});
+ let primary;
+ if(c.point==='cacheKey')primary=observed(f('x','outer'));else primary=observed(del(f,'x'));
+ await until(()=>!armed);
+ const fresh=f('x','fresh'),freshResult=observed(fresh);await turn();
+ if(c.action==='delete'||c.point!=='cacheKey')assert.ok(!events.includes('fn:fresh'),'new keyed call waits deletion');
+ remove.resolve();const outcomes=await Promise.all([primary,freshResult,...(nestedDelete?[nestedDelete]:[]),...(nestedCall?[observed(nestedCall)]:[])]);assert.ok(outcomes.every(r=>!('error'in r)),JSON.stringify(outcomes));
+ assert.equal(backend,(c.point==='cacheKey'?0:1)+(c.action==='delete'?1:0));
+ await del(f,'x');assert.ok(!('error'in await observed(f('x','retry'))));return events;
+}
+
+// 判定模型只使用公开的身份、失效范围和事件先后。它不导入生产或参考helper。
+function predict(c){
+ const sameCache=c.scope!=='other-cache',sameKey=c.scope!=='other-key';
+ const writeInvalidated=sameCache&&(sameKey||c.invalidation==='clear');
+ const registrationInvalidated=c.scope!=='shared'&&sameCache&&(sameKey||c.invalidation==='clear');
+ return {writeInvalidated,registrationInvalidated,waitsOldWrite:c.phase==='write'&&c.invalidation!=='clear'&&sameCache&&sameKey,backendDeletes:c.invalidation==='clear'?0:c.invalidation==='delete-delete'?2:1};
+}
+async function model(c){
+ const expected=predict(c),cache=new Map(),other=new Map(),oldGate=deferred(),freshGate=deferred(),deleteGate=deferred(),events=[];let calls=0,deletes=0;
+ const f=memo(async(k,label)=>{calls++;events.push('fn:'+label);if(label==='old'&&c.phase==='compute')await oldGate.promise;if(label==='fresh')await freshGate.promise;return label},{cache});
+ const target=c.scope==='shared'?memo(async()=>99,{cache}):c.scope==='other-cache'?memo(async()=>99,{cache:other}):f;
+ cache.set=async function(k,v){events.push('set-start:'+v);if(v==='old'&&c.phase==='write')await oldGate.promise;Map.prototype.set.call(this,k,v);events.push('set-end:'+v)};
+ const backend=async function(k){deletes++;events.push('delete-start');await deleteGate.promise;Map.prototype.delete.call(this,k);events.push('delete-end')};cache.delete=backend;other.delete=backend;
+ const old=f('x','old'),oldResult=observed(old);await until(()=>events.includes(c.phase==='write'?'set-start:old':'fn:old'));
+ events.push('invalidate');const removals=[];if(c.invalidation==='clear')clear(target);else{removals.push(observed(del(target,c.scope==='other-key'?'y':'x')));if(c.invalidation==='delete-delete')removals.push(observed(del(target,c.scope==='other-key'?'y':'x')))}
+ const fresh=f('x','fresh'),freshResult=observed(fresh);assert.equal(fresh===old,!expected.registrationInvalidated,'model: inflight scope');await turn();
+ if(expected.waitsOldWrite)assert.equal(deletes,0,'model: started write barrier');
+ // 这里固定的是外部完成信号的释放顺序，不要求违反依赖的实际完成顺序。
+ if(c.completion==='old-first'){oldGate.resolve();await turn();deleteGate.resolve();freshGate.resolve()}else{deleteGate.resolve();freshGate.resolve();await turn();oldGate.resolve()}
+ const outcomes=await Promise.all([oldResult,freshResult,...removals]);assert.ok(outcomes.every(r=>!('error'in r)),JSON.stringify(outcomes));assert.equal(deletes,expected.backendDeletes);
+ assert.equal(calls,expected.registrationInvalidated?2:1,'model: deduplication count');
+ if(c.phase==='compute'&&expected.writeInvalidated)assert.ok(!events.includes('set-start:old'),'model: old write forbidden');
+ if(expected.waitsOldWrite)assert.ok(events.indexOf('set-end:old')<events.indexOf('delete-start'),'model: writes precede deletes');
+ if(expected.registrationInvalidated&&c.invalidation!=='clear')assert.ok(events.indexOf('fn:fresh')>events.lastIndexOf('delete-end'),'model: new work waits all deletes');
+ if(expected.registrationInvalidated)assert.equal((await freshResult).value,'fresh');
+ const settled=await f('y','after');assert.equal(settled,'after');return {expected,events};
+}
+async function scope(c){
+ const cache=new Map(c.point.startsWith('get')?[['x','stale']]:[]),other=new Map(),gate=deferred();let fired=false,f,target,deletion;
+ function invalidate(){if(fired)return;fired=true;if(c.action==='delete')deletion=observed(del(target,c.scope==='other-key'?'y':'x'));else clear(target)}
+ for(const method of ['has','get'])Object.defineProperty(cache,method,{get(){
+  if(c.point===method+'-property'&&!fired){invalidate();return ()=>gate.promise}
+  return function(k){if(c.point===method&&!fired){invalidate();return gate.promise}return Map.prototype[method].call(cache,k)}
+ }});
+ f=memo(async(k,label)=>label,{cache});target=c.scope==='other-key'?f:memo(async()=>9,{cache:c.scope==='shared'?cache:other});
+ const old=f('x','old'),oldResult=observed(old);await until(()=>fired);
+ const fresh=f('x','fresh'),freshResult=observed(fresh),invalidates=c.scope==='other-key'&&c.action==='clear';
+ assert.equal(old===fresh,!invalidates,'only target key registration is invalidated');gate.resolve(c.point.startsWith('has')?false:'stale');
+ const outcomes=await Promise.all([oldResult,freshResult,...(deletion?[deletion]:[])]);assert.ok(outcomes.every(x=>!('error'in x)));
+ return {scope:c.scope,action:c.action,joined:old===fresh,outcomes};
+}
+async function publication(c){
+ const cache=new Map(),gate=deferred(),business=deferred(),events=[];let f,fired=false,deletion;
+ function invalidate(){if(fired)return;fired=true;events.push('invalidate');if(c.action==='delete')deletion=observed(del(f,'x'));else clear(f)}
+ Object.defineProperty(cache,'has',{get(){if(c.point==='has-property')invalidate();return function(k){if(c.point==='has')invalidate();return deliver(Map.prototype.has.call(cache,k),c.delivery)}}});
+ cache.delete=async function(k){events.push('delete-start');await gate.promise;Map.prototype.delete.call(this,k);events.push('delete-end')};
+ f=memo(async(k,label)=>{events.push('fn:'+label);if(label==='old')await business.promise;return label},{cache});
+ const old=f('x','old'),oldResult=observed(old);assert.equal(fired,true);const fresh=f('x','fresh'),freshResult=observed(fresh);
+ assert.notEqual(old,fresh,'old work must not republish after synchronous invalidation');assert.equal(fresh,f('x','joined'));
+ await turn();if(c.action==='delete')assert.ok(!events.includes('fn:fresh'),'fresh waits applicable deletion');
+ gate.resolve();business.resolve();const outcomes=await Promise.all([oldResult,freshResult,...(deletion?[deletion]:[])]);assert.ok(outcomes.every(x=>!('error'in x)));assert.equal((await freshResult).value,'fresh');assert.equal(Map.prototype.get.call(cache,'x'),'fresh');return events;
+}
+async function identity(c){
+ const cache=new Map(),nested=[],error={mode:c.mode};let calls=0,entered=false,left=2;
+ cache.has=function(k){
+  if(c.mode==='ordinary'){if(left-->0)nested.push(f(k));return Map.prototype.has.call(this,k)}
+  if(!entered){entered=true;nested.push(f(k));if(c.mode==='outer-error')throw error;return false}
+  if(c.mode==='inner-error')throw error;return false;
+ };
+ const f=memo(async()=>++calls,{cache}),root=f('x'),rootResult=observed(root),nestedResults=nested.map(observed),next=f('x'),nextResult=observed(next);
+ const matches=next===(c.mode==='outer-error'?nested[0]:root),results=await Promise.all([rootResult,nextResult,...nestedResults]);
+ assert.equal(matches,true,'preserve original in-flight promise identity');assert.equal(calls,1);
+ if(c.mode==='outer-error')assert.equal(results[0].error,error);else assert.equal(results[0].value,1);
+ return {mode:c.mode,matches,calls,results};
+}
+for(const c of spec.cases){
+ const name=c.id+' '+c.kind;
+ if(process.env.AXI_REENTRY_CASE==='1')nodeTest(name,async()=>{assert.equal(typeof api.pMemoizeDelete,'function');const trace=await ({boundary,error:errors,nested,model,scope,publication,identity}[c.kind])(c);console.log('REENTRY_EVIDENCE:'+JSON.stringify({id:c.id,trace:trace??null}))});
+ else nodeTest(name,()=>{
+  const env={...process.env,AXI_REENTRY_CASE:'1'};delete env.NODE_TEST_CONTEXT;
+  const child=spawnSync(process.execPath,['--test','--test-reporter=tap','--test-name-pattern','^'+c.id+' ',fileURLToPath(import.meta.url)],{env,encoding:'utf8',timeout:6000});
+  if(child.error||child.signal)console.error('TRUST_ORACLE_INFRA:'+String(child.error?.code??child.signal));
+  if(/^# cancelled [1-9]/m.test(child.stdout))console.error('TRUST_ORACLE_INFRA:TEST_CANCELLED');
+  assert.equal(child.status,0,child.stdout+'\n'+child.stderr);assert.match(child.stdout,/^# pass 1$/m);process.stdout.write(child.stdout.split('\n').filter(x=>x.includes('REENTRY_EVIDENCE:')).join('\n')+'\n');
+ });
+}

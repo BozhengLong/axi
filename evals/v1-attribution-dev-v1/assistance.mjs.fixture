@@ -1,0 +1,27 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import memoize, {pMemoizeDelete} from '../../dist/index.js';
+
+test('shared cache deletion preserves another function pending-call identity', async () => {
+  let release;
+  const gate = new Promise(resolve => { release = resolve; });
+  const cache = new Map();
+  let entered = false;
+  let deletion;
+  const target = memoize(async () => 9, {cache});
+  cache.has = function (key) {
+    if (!entered) {
+      entered = true;
+      deletion = pMemoizeDelete(target, key);
+      return gate;
+    }
+    return Map.prototype.has.call(this, key);
+  };
+  const other = memoize(async (key, value) => value, {cache});
+  const first = other('x', 'first');
+  const second = other('x', 'second');
+  const samePendingCall = first === second;
+  release(false);
+  await Promise.all([first, second, deletion]);
+  assert.equal(samePendingCall, true, 'deleting target must preserve the other function pending-call identity');
+});
