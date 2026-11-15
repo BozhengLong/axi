@@ -12,6 +12,7 @@ const steps=[
  ['compatibility',['bun','scripts/eval/reentry/compatibility.ts'],false],
  ['resource-measurement',['bun','scripts/eval/reentry/resource-audit.ts'],false],
  ['calibration',['bun','scripts/eval/reentry/calibrate.ts'],false],
+ ['reference-examples',['bun','scripts/eval/reentry/reference-examples.mjs'],false],
  ['stability',['bun','scripts/eval/reentry/stability.ts'],false],
  ['historical',['bun','scripts/eval/reentry/replay.ts'],false],
  ['interaction',['bun','scripts/eval/v1/smoke.ts'],true],

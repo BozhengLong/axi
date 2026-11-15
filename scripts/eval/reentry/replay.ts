@@ -32,7 +32,13 @@ try{
   unchanged(p);let candidate;
   if(variant==='minimal-repair')candidate=read(join(priorProbe.directory,'human-repair-control-files.json'));
   else{candidate=reference('V1-E');for(const path of ['index.ts','readme.md'])candidate[path]=file(readFileSync(join(ROOT,'evals/v1-trust-dev-v1',variant==='primary'?'reference':'alternative','E-'+path+'.fixture'),'utf8'))}
-  const r=await grade('V1-E','reentry-old-ref-'+Date.now(),taskFiles('V1-E'),candidate,join(directory,'diagnostic-'+variant),{deadline:Math.min(Date.now()+900000,a.workDeadline)});
+  // 人工修复只改旧产物的代码，必须用它对应的旧初态比较保护文件；新题面不是该产物的接手版本。
+  const original=variant==='minimal-repair'?materials.find(m=>m.group==='last-development'&&m.item.product==='current'&&m.item.execution.task==='V1-E'):undefined;
+  if(variant==='minimal-repair'&&!original)throw Error('缺少人工最小修复对应初态');
+  const seed=original?read(join(original.item.execution.runDirectory,'initial-files.json')):taskFiles('V1-E');
+  const manifest=original?read(join(latest,'tasks/E/manifest.json')):undefined;
+  const r=await grade('V1-E','reentry-old-ref-'+Date.now(),seed,candidate,join(directory,'diagnostic-'+variant),{manifest,deadline:Math.min(Date.now()+900000,a.workDeadline)});
+  if(!r.checks.find(c=>c.id==='PROTECT')?.pass)throw Error('参考诊断的保护文件与对应初态不一致');
   diagnostics.push({variant,viewHash:snapshotHash(candidate),code:r.codePassed,regression:r.regressionPassed,failures:r.checks.filter(c=>!c.pass).map(c=>c.id),meaning:'资格材料；不是新参考或模型成绩'});save(join(directory,'reference-diagnostics.json'),diagnostics);
   if(variant!=='minimal-repair'&&!r.checks.some(c=>c.id==='REENTRY'&&!c.pass))throw Error('旧参考已确认缺陷未被检出');
  }
