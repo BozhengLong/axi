@@ -1,0 +1,162 @@
+{
+  "complete": true,
+  "batch": "b20261115054300",
+  "sourceHash": "30d0235bee2354f498a2abbd16c4623a2ba29ef5455a491ac55c55530a84d025",
+  "executionProfileHash": "d0a40d4bf8b430c509de3146948a14694561833f2d49c818d6d2c4ae137c3168",
+  "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+  "checks": [
+    {
+      "name": "非root且无额外能力",
+      "passed": true
+    },
+    {
+      "name": "固定CPU内存和只读根",
+      "passed": true
+    },
+    {
+      "name": "固定工具版本",
+      "passed": true
+    },
+    {
+      "name": "阻止公网IP",
+      "passed": true
+    },
+    {
+      "name": "阻止公网域名",
+      "passed": true
+    },
+    {
+      "name": "阻止宿主访问",
+      "passed": true
+    },
+    {
+      "name": "阻止非代理端口",
+      "passed": true
+    },
+    {
+      "name": "阻止修改网络",
+      "passed": true
+    },
+    {
+      "name": "阻止写产品源码",
+      "passed": true
+    },
+    {
+      "name": "阻止DockerSocket",
+      "passed": true
+    },
+    {
+      "name": "阻止宿主源码",
+      "passed": true
+    },
+    {
+      "name": "阻止测试镜像材料",
+      "passed": true
+    },
+    {
+      "name": "候选没有真实凭据",
+      "passed": true
+    },
+    {
+      "name": "管理接口拒绝候选",
+      "passed": true
+    },
+    {
+      "name": "候选v1镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "当前v1镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "v0镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "转发器与容器辅助源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "独立可写目录和HOME",
+      "passed": true
+    },
+    {
+      "name": "v0真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "v0模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-v0 Trace",
+      "passed": true
+    },
+    {
+      "name": "current真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "current模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-current Trace",
+      "passed": true
+    },
+    {
+      "name": "candidate真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "candidate模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-candidate Trace",
+      "passed": true
+    },
+    {
+      "name": "claude真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "claude模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-claude Trace",
+      "passed": true
+    }
+  ],
+  "actualCLI": 4,
+  "actualGenerationRequests": 16,
+  "traceFiles": 48,
+  "probes": [
+    {
+      "product": "v0",
+      "requests": 2,
+      "traceStatus": "complete_observable",
+      "files": 10
+    },
+    {
+      "product": "current",
+      "requests": 6,
+      "traceStatus": "complete_observable",
+      "files": 13
+    },
+    {
+      "product": "candidate",
+      "requests": 5,
+      "traceStatus": "complete_observable",
+      "files": 13
+    },
+    {
+      "product": "claude",
+      "requests": 3,
+      "traceStatus": "complete_observable",
+      "files": 12
+    }
+  ]
+}
