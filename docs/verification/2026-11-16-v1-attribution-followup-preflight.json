@@ -1,0 +1,144 @@
+{
+  "complete": true,
+  "time": "2026-11-15T19:15:40.375499+00:00",
+  "study": "v1-attribution-followup-20261116",
+  "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+  "sourceHash": "b9241b6ee6b33e8012ea9d511338afe9466f897c407b1b6aabbd49f57141d321",
+  "executionProfileHash": "1a930374b834499cec45a915bd8ab130ffd2c969d39b02c97d5e0eff13ce3ade",
+  "batch": "b20261115190831",
+  "checks": [
+    {
+      "name": "非root且无额外能力",
+      "passed": true
+    },
+    {
+      "name": "固定CPU内存和只读根",
+      "passed": true
+    },
+    {
+      "name": "固定工具版本",
+      "passed": true
+    },
+    {
+      "name": "阻止公网IP",
+      "passed": true
+    },
+    {
+      "name": "阻止公网域名",
+      "passed": true
+    },
+    {
+      "name": "阻止宿主访问",
+      "passed": true
+    },
+    {
+      "name": "阻止非代理端口",
+      "passed": true
+    },
+    {
+      "name": "阻止修改网络",
+      "passed": true
+    },
+    {
+      "name": "阻止写产品源码",
+      "passed": true
+    },
+    {
+      "name": "阻止DockerSocket",
+      "passed": true
+    },
+    {
+      "name": "阻止宿主源码",
+      "passed": true
+    },
+    {
+      "name": "阻止测试镜像材料",
+      "passed": true
+    },
+    {
+      "name": "候选没有真实凭据",
+      "passed": true
+    },
+    {
+      "name": "管理接口拒绝候选",
+      "passed": true
+    },
+    {
+      "name": "候选v1镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "当前v1镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "v0镜像源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "转发器与容器辅助源码逐文件一致",
+      "passed": true
+    },
+    {
+      "name": "独立可写目录和HOME",
+      "passed": true
+    },
+    {
+      "name": "axi真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "axi模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-axi Trace",
+      "passed": true
+    },
+    {
+      "name": "claude真实模型与执行",
+      "passed": true
+    },
+    {
+      "name": "claude模型与effort",
+      "passed": true
+    },
+    {
+      "name": "live-claude Trace",
+      "passed": true
+    }
+  ],
+  "probes": [
+    {
+      "product": "axi",
+      "generationRequests": 7,
+      "countTokensRequests": 0,
+      "traceFiles": 13,
+      "traceBytes": 565346,
+      "manifestSha256": "7ff3ea12cf81308c876f032f21d97388dceb7dfd8bb0d7d4f684077b43a969df",
+      "completeObservable": true,
+      "filesVerified": true
+    },
+    {
+      "product": "claude",
+      "generationRequests": 3,
+      "countTokensRequests": 0,
+      "traceFiles": 12,
+      "traceBytes": 257368,
+      "manifestSha256": "899f30a18c746b0be8ae567b54c14cd3c23b6faaeb98b6bc8202c9c3c7e357ec",
+      "completeObservable": true,
+      "filesVerified": true
+    }
+  ],
+  "actualCliStarts": 2,
+  "generationRequests": 10,
+  "traceFiles": 25,
+  "priorPreflightAttempt": {
+    "modelStarts": 0,
+    "passedChecks": 16,
+    "reason": "local baseline/src comparison material missing",
+    "repair": "copied 11 source files from frozen v0 Git commit; source/input/grader hashes unchanged"
+  },
+  "runtimeGraderRepairs": 0,
+  "plannedTasksNotStarted": 16
+}
