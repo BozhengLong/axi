@@ -99,6 +99,7 @@ export class Agent {
             if (response.stopReason !== "tool_use") throw new ToolError("incomplete_call", `响应结束原因是 ${response.stopReason}，本次工具未执行。请缩短输出后重新提出调用。`);
             this.audit("tool_start", { toolUseId: tool.id, name: tool.name, input: tool.input });
             prepared = await this.registry.prepare(tool, options.signal);
+            if (prepared.readBinding) this.audit("read_identity_prepared", { toolUseId: tool.id, bindingId: prepared.readBinding.id, digest: prepared.readBinding.digest, path: prepared.path });
             if (prepared.effect === "write") this.audit("proposal", { toolUseId: tool.id, proposalId: prepared.proposalId, path: prepared.path, preview: prepared.preview, previewHash: prepared.previewHash, beforeHash: prepared.beforeHash, afterHash: prepared.afterHash });
             const automatic = prepared.effect === "read" && mode === "project";
             this.options.onToolStart?.(prepared.tool, prepared, automatic);

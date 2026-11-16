@@ -1,10 +1,11 @@
 import { opendir } from "node:fs/promises";
 import { relative, join } from "node:path";
 import { FileWorkspace } from "./files.ts";
-import { SEARCH_EXCLUDES, reserved } from "./paths.ts";
+import { SEARCH_EXCLUDES, reserved, ReadBindingError, type ReadGuard } from "./paths.ts";
 import { FILE_BYTES, TEXT_LIMIT, ToolError, errorCode, lines, points, result, type ToolExecution } from "./common.ts";
 
-export async function search(workspace: FileWorkspace, operation: "glob" | "grep", path: string, pattern: string, filter: string | undefined, signal: AbortSignal): Promise<ToolExecution> {
+export async function search(workspace: FileWorkspace, operation: "glob" | "grep", path: string, pattern: string, filter: string | undefined, signal: AbortSignal, guard?: ReadGuard): Promise<ToolExecution> {
+  guard?.("search_start");
   const start = performance.now(), target = workspace.paths.check(path, "either"), scope = target.absolute;
   let matcher: Bun.Glob;
   try { matcher = new Bun.Glob(operation === "glob" ? pattern : filter ?? "**/*"); }
@@ -13,7 +14,7 @@ export async function search(workspace: FileWorkspace, operation: "glob" | "grep
   let visited = 0, bytes = 0, outputSize = 0, stop = "";
   const skip = (reason: string) => { skipped[reason] = (skipped[reason] ?? 0) + 1; };
   const checkpoint = async () => {
-    await workspace.checkpoint("search_entry", signal);
+    await workspace.checkpoint("search_entry", signal, guard);
     if (performance.now() - start >= 5000) stop ||= "time_limit";
     return !stop;
   };
@@ -32,8 +33,8 @@ export async function search(workspace: FileWorkspace, operation: "glob" | "grep
     if (checked.stat!.size > FILE_BYTES) { skip("file_too_large"); return; }
     if (bytes + checked.stat!.size > 32 * FILE_BYTES) { stop = "byte_limit"; return; }
     let file;
-    try { file = await workspace.snapshot(absolute, signal, Math.min(FILE_BYTES, 32 * FILE_BYTES - bytes)); }
-    catch (error) { if (signal.aborted) throw error; skip(errorCode(error)); return; }
+    try { file = await workspace.snapshot(absolute, signal, Math.min(FILE_BYTES, 32 * FILE_BYTES - bytes), guard); }
+    catch (error) { if (signal.aborted || error instanceof ReadBindingError) throw error; skip(errorCode(error)); return; }
     bytes += file.bytes.length;
     for (const [i, line] of lines(file.text).entries()) {
       if (!line.includes(pattern)) continue;
@@ -46,20 +47,30 @@ export async function search(workspace: FileWorkspace, operation: "glob" | "grep
     const entries: string[] = [];
     try {
       const dir = await opendir(directory);
-      for await (const entry of dir) {
-        if (!await checkpoint()) break;
-        if (++visited > 20000) { stop = "entry_limit"; break; }
-        if (reserved(entry.name)) { skip("blocked_path"); continue; }
-        if (SEARCH_EXCLUDES.includes(entry.name.toLowerCase()) && entry.isDirectory()) { skip("excluded_directory"); continue; }
-        entries.push(entry.name);
+      try {
+        // opendir本身会让出；返回后必须先核对原范围，再消费目录项。
+        if (workspace.hooks.checkpoint) await workspace.hooks.checkpoint("directory_open");
+        signal.throwIfAborted(); guard?.("directory_open_after");
+        for await (const entry of dir) {
+          if (!await checkpoint()) break;
+          if (++visited > 20000) { stop = "entry_limit"; break; }
+          if (reserved(entry.name)) { skip("blocked_path"); continue; }
+          if (SEARCH_EXCLUDES.includes(entry.name.toLowerCase()) && entry.isDirectory()) { skip("excluded_directory"); continue; }
+          entries.push(entry.name);
+        }
+      } finally {
+        // for-await会自行关闭；若在进入循环前失败，仍须关闭刚打开的句柄。
+        try { await dir.close(); } catch (error) { if (errorCode(error) !== "ERR_DIR_CLOSED") throw error; }
       }
-    } catch (error) { if (signal.aborted) throw error; skip(errorCode(error)); }
+    } catch (error) { if (signal.aborted || error instanceof ReadBindingError) throw error; skip(errorCode(error)); }
     for (const entry of entries.sort()) { if (stop) break; await inspect(join(directory, entry)); }
   };
   try {
     if (target.relative.split("/").some(p => SEARCH_EXCLUDES.includes(p.toLowerCase()))) skip("excluded_directory");
     else await inspect(scope);
   } catch (error) { if (signal.aborted) stop = "cancelled"; else throw error; }
+  if (workspace.hooks.checkpoint && !signal.aborted) await workspace.checkpoint("search_result", signal, guard);
+  if (!signal.aborted) guard?.("search_result");
   const incomplete = !!stop || Object.keys(skipped).length > 0;
   found.sort((a, b) => {
     const x = typeof a === "string" ? a : (a as { path: string }).path;
