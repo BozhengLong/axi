@@ -175,6 +175,16 @@ for role in ['initial', *profile['references'], 'counterfactual']:
                         assert sorted(f['name'].split(':')[0] for f in native['failures']) == sorted(profile['counterfactualFailPrefixes'])
                     else:
                         assert code == 0 and counts['failed'] == 0
+                elif step.get('framework') == 'jest':
+                    native = json.loads((case / f'{index}.native.json').read_text())
+                    counts = native['counts']
+                    tests = [test for suite in native['suites'] for test in suite['tests']]
+                    assert code == 0 and not native['interrupted']
+                    assert counts['numTotalTests'] == counts['numPassedTests'] == len(tests) == step['tests']
+                    assert counts['numTotalTestSuites'] == counts['numPassedTestSuites'] == len(native['suites']) == step['suites']
+                    assert all(counts[k] == 0 for k in ['numFailedTests', 'numPendingTests', 'numTodoTests', 'numFailedTestSuites', 'numRuntimeErrorTestSuites'])
+                    assert all(not suite['execError'] for suite in native['suites'])
+                    assert all(test['status'] == 'passed' and not test['errors'] for test in tests)
                 elif step.get('framework') == 'mocha':
                     native = json.loads((case / f'{index}.native.json').read_text())
                     assert code == 0 and not native['failures'] and native['stats']['failures'] == 0
