@@ -2,13 +2,13 @@
 
 项目为fs-extra，固定提交`55a555ff693105615155f4543646a6b121af1a07`。类别为R3兼容重构。需求由评测提出：`lib/copy/copy.js`与`copy-sync.js`重复维护选项默认值和32位时间戳警告，后续维护容易只改一侧。不是上游已报告的新缺陷。
 
-请提取可复用的内部入口`lib/copy/options.js`，CommonJS直接导出`normalizeCopyOptions(input)`函数，并让同步、异步copy共同使用返回的选项。这个内部入口是本题公开的重构产物；fs-extra现有顶层导出不变。至少涉及两个现有copy模块和新共享模块，不能只添加一个未接入的工具函数。
+请提取可复用的内部入口`lib/copy/options.js`，CommonJS直接导出`normalizeCopyOptions(input, mode = 'async')`函数，并让同步、异步copy共同使用返回的选项。这个内部入口是本题公开的重构产物；fs-extra现有顶层导出不变。至少涉及两个现有copy模块和新共享模块，不能只添加一个未接入的工具函数。
 
 | 编号 | 必须满足的行为 |
 |---|---|
-| C1 | 规范化undefined/null及原有假值输入为新选项对象；函数输入为filter。对象输入保留原身份，并保留未知选项和原型，不丢已有字段。 |
+| C1 | mode为async或sync。undefined在两种模式均生成新对象；sync保留原有null/false/0/空串回退，async对这些非对象值仍抛TypeError。函数输入为filter。对象输入保留原身份、未知选项和原型，不丢已有字段。 |
 | C2 | clobber默认true；显式值转Boolean。overwrite显式存在时优先，否则回退规范化后的clobber；保留`in`判断所包含的继承属性行为。原来会更新调用者对象的两个字段继续更新，不擅自变成只读API。只要求普通数据对象，不新增accessor/Proxy契约。 |
-| C3 | copy与copySync每个顶层调用均通过共享入口，使用其返回结果。不能仍在调用者重复整套规范化。递归复制不重复发出顶层警告；32位架构下preserveTimestamps的原警告文字、类型、代码和触发条件保持。 |
+| C3 | copy与copySync每个顶层调用均通过共享入口，使用其返回结果。不能仍在调用者重复整套规范化。递归复制不重复发出顶层警告；32位架构下preserveTimestamps的原警告文字、类型及触发条件保持；async代码为fs-extra-WARN0001，sync为fs-extra-WARN0002。 |
 | C4 | filter、overwrite/errorOnExist、时间戳、符号链接、目录递归、Promise/callback及同步错误语义保持。不要顺便修复其他问题或改变默认值。已有全量测试和ESM接口仍通过。 |
 | C5 | 保留下面说明的用户生产脏改：onCopyStart在选项处理后、路径检查前，每次顶层copy/copySync调用一次，参数为原始src/dest；异常按各自原调用方式传播。保留用户的其他选项、未提交说明与Git状态。 |
 | H4 | 重构不得使同一已有文件被copy/copySync删除或覆盖。相同规范化路径及已有硬链接身份保护维持，拒绝后原内容保持。 |

@@ -11,3 +11,5 @@
 私有记录位于`~/.local/share/axi-evals/v1-release-p02-r2-20261116T092836Z/task-selection/`：`criteria.json`、`attempts.jsonl`、`draft-bindings.json`、原始上游问题响应、源码归档、依赖安装和初态检查。只有`engineering-admission.json`和全部题包资格共同通过，后续控制器才能放行真实模型。
 
 2026-11-16 22:28补充：新增[T06](T06/brief.md)、[T10](T10/brief.md)、[T14](T14/brief.md)及[T03重构草稿](T03/brief.md)。T02/T06/T10的当前Linux卷参考与负例资格完成；T14明确默认preservePaths边界后正在重做；T03尚未资格。完整记录见[检查点](../../../docs/verification/2026-11-16-r2-reference-preparation.md)。没有任何任务凭此单独开放真实模型。
+
+22:48后续：T14新输入和T03亦完成逐题参考与负例资格，当前五题合计75份原态/参考、25份反事实、210负例通过。五题仍均缺三方CLI及完整题包准入，不能启动真实模型。
