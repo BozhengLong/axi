@@ -72,8 +72,11 @@ class Sandbox:
                 args += ['--mount', 'type=volume,src=' + self.profile['dependencyVolume'] + ',dst=/task/' + name + ',volume-subpath=' + name + ',readonly']
             for mount in self.profile.get('cacheTmpfs', []):
                 args += ['--tmpfs', mount]
-            for key, value in self.profile.get('environment', {}).items():
-                if key not in ('NODE_PATH','NX_CACHE_DIRECTORY','NX_WORKSPACE_DATA_DIRECTORY','NX_DAEMON'):
+            task_environment=dict(self.profile.get('environment', {}))
+            if task_environment.get('NX_CACHE_DIRECTORY'):
+                task_environment['NX_SKIP_NATIVE_FILE_CACHE']='true'
+            for key, value in task_environment.items():
+                if key not in ('NODE_PATH','NX_CACHE_DIRECTORY','NX_WORKSPACE_DATA_DIRECTORY','NX_DAEMON','NX_SKIP_NATIVE_FILE_CACHE'):
                     raise ValueError('未允许的构建环境')
                 args += ['-e', key + '=' + value]
             args += ['-w', '/task', '--entrypoint', 'sleep', self.image, 'infinity']

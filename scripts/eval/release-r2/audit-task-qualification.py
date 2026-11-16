@@ -8,9 +8,9 @@ import sys
 
 study = Path(sys.argv[1]).resolve()
 task_id, positive_revision, negative_revision, audit_revision = sys.argv[2:6]
-assert re.fullmatch(r'T\d\d', task_id)
+assert re.fullmatch(r'T\d\d|C7-[LO]', task_id)
 assert all(re.fullmatch(r'[A-Za-z0-9_-]+', x) for x in (positive_revision, negative_revision, audit_revision))
-task = study / 'tasks' / task_id
+task = study / ('c7' if task_id.startswith('C7-') else 'tasks') / task_id
 profile = json.loads((task / 'qualification-profile.json').read_text())
 controls = json.loads((task / 'negative-controls.json').read_text())
 positive = task / ('qualification-' + positive_revision)

@@ -2,6 +2,7 @@
 from pathlib import Path
 import importlib.util
 import json
+import re
 from collections import Counter
 
 _spec = importlib.util.spec_from_file_location('bun_report', Path(__file__).with_name('bun-report.py'))
@@ -100,7 +101,12 @@ def observe(framework, stdout, native, code, xml=None, assertions=None):
 
 def retained_baseline(before, after):
     """保留全部旧测试的成功/跳过身份；新测试可以增加，不能替代旧测试。"""
-    identity = lambda r: (r['file'], r['name'], r['state'])
+    def identity(r):
+        name=r['name']
+        if before['framework']=='tap':
+            # 该旧用例把操作系统分配的fd写入名称；保留断言、上下文、uid/gid及重复次数。
+            name=re.sub(r'^(test/unpack\.js > chown implicit dirs and also the entries > async > chown)\(\d+\)( uid| gid)$',r'\1(<fd>)\2',name)
+        return (r['file'],name,r['state'])
     old = Counter(identity(r) for r in before['rows'])
     current = Counter(identity(r) for r in after['rows'])
     skip = lambda report: Counter(identity(r) for r in report['skips'])

@@ -37,12 +37,9 @@ def native(case, label, framework, code):
 
 
 def baseline(task, profile, label):
-    if task.name.startswith('C7-'):
-        q = task/'qualification-1'
-    else:
-        audits = sorted(task.glob('qualification-audit-*.json'))
-        assert audits, '缺少逐题资格审计'
-        q = task/json.loads(audits[-1].read_text())['referenceQualification']
+    selected=json.loads((task/'grading-profile.json').read_text())['baselineQualification']
+    assert selected and selected.startswith('qualification-') and '/' not in selected
+    q=task/selected
     assert json.loads((q/'results.json').read_text())['qualified']
     case = q/'initial-1';index,step=next((i,x)for i,x in enumerate(profile['commands'])if x['label']==label)
     records = json.loads((case/'commands.json').read_text());record=next(x for x in records if x['label']==label)
@@ -68,12 +65,23 @@ def grade(study, task_id, artifact_path, out, seconds):
     assert config['qualificationProfileSha256']==hashlib.sha256((task/'qualification-profile.json').read_bytes()).hexdigest()
     raw=artifact_path.read_bytes();artifact_hash=hashlib.sha256(raw).hexdigest();artifact=json.loads(raw)
     assert artifact['schema']==1 and artifact['requiresPausedWriters'] is True
-    out.mkdir();initial=source_files(task,manifest);final=policy_module.normalize(artifact['files']);policy=config['policy']
+    out.mkdir()
+    here=Path(__file__).parent
+    sources=[Path(__file__),*[here/n for n in ['sandbox.py','observations.py','bun-report.py','artifact-policy.py','inputs.py','restore.mjs','capture.mjs','bun-observer.ts']],*[p for p in (here/'reporters').iterdir() if p.is_file()],task/'qualification-profile.json',task/'input-manifest.json',task/'grading-profile.json',*[p for p in (task/'qualification-material').iterdir() if p.is_file()]]
+    frozen={str(p.resolve()):hashlib.sha256(p.read_bytes()).hexdigest()for p in sources}
+    (out/'grader-source').mkdir()
+    for path,checksum in frozen.items():(out/'grader-source'/checksum).write_bytes(Path(path).read_bytes())
+    grader_hash=hashlib.sha256(json.dumps(frozen,sort_keys=True).encode()).hexdigest();save(out/'grader-identity.json',{'hash':grader_hash,'files':frozen})
+    initial=source_files(task,manifest);final=policy_module.normalize(artifact['files']);policy=config['policy']
     import subprocess
     root=task/'initial';git_before={'head':subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'index':subprocess.check_output(['git','-C',str(root),'ls-files','--stage'],text=True)}
     protected=policy_module.check(initial,final,policy,git_before,artifact['git']);save(out/'protection.json',protected)
-    result={'taskId':task_id,'artifactSha256':artifact_hash,'stage':'R2-development','gradeStatus':'unknown','codePassed':False,'regressionPassed':False,'examplePassed':False,'protection':protected,'commands':[],'manualReviewRequired':config['manualReviewRequired'],'criticalCandidates':[]}
+    result={'taskId':task_id,'artifactSha256':artifact_hash,'graderHash':grader_hash,'stage':'R2-development','gradeStatus':'unknown','codePassed':False,'regressionPassed':False,'examplePassed':False,'protection':protected,'commands':[],'manualReviewRequired':config['manualReviewRequired'],'criticalCandidates':[]}
     generated=lambda name:name not in policy['protectedPaths'] and any(fnmatch.fnmatchcase(name,p) or fnmatch.fnmatchcase(name+'/',p) for p in policy['generatedPaths'])
+    def stable_source(files, baseline):
+        # 验证可为生成文件创建新目录；既有目录的种类和模式仍必须保持。
+        return {n:e for n,e in files.items() if not generated(n) and
+                (e['type']!='directory' or baseline.get(n,{}).get('type')=='directory')}
     # 丢弃产物中的生成文件，随后只按冻结原构建生成，不能利用旧dist冒充源码通过。
     clean={n:e for n,e in final.items()if not generated(n)}
     old_names=set(initial)
@@ -102,8 +110,8 @@ def grade(study, task_id, artifact_path, out, seconds):
                             result['criticalCandidates']=[f for f in observation['failed']if f['name'].startswith('H4:')]
                             result['targetFailures']=observation['failed']
                 after=env.capture(step['label']+'-after')
-                before_source={n:e for n,e in before['files'].items()if not generated(n)}
-                after_source={n:e for n,e in after['files'].items()if not generated(n)}
+                before_source=stable_source(before['files'],before['files'])
+                after_source=stable_source(after['files'],before['files'])
                 if before_source!=after_source or before['git']['head']!=after['git']['head']or before['git']['index']!=after['git']['index']:
                     result['verificationMutation']={'step':step['label'],'reviewRequired':True}
                     raise RuntimeError('验证进程改写非生成源文件或Git')
@@ -138,13 +146,15 @@ def grade(study, task_id, artifact_path, out, seconds):
                         result['regressionPassed']=regression_valid(old_reg,current_reg)
                     except (ValueError,KeyError,OSError)as error:result['counterfactualReportError']=str(error)
                 after=env.capture('after')
-                if {n:e for n,e in before['files'].items()if not generated(n)}!={n:e for n,e in after['files'].items()if not generated(n)}or before['git']['head']!=after['git']['head']or before['git']['index']!=after['git']['index']:
+                if stable_source(before['files'],before['files'])!=stable_source(after['files'],before['files'])or before['git']['head']!=after['git']['head']or before['git']['index']!=after['git']['index']:
                     raise RuntimeError('反事实验证改写源文件或Git')
     except Exception as error:
         result['gradeStatus']='unknown';result['error']=str(error);(out/'error.txt').write_text(traceback.format_exc())
     result['seconds']=time.monotonic()-started
     if result['seconds']>seconds:result.update(gradeStatus='unknown',error='超过评分共享窗口（含清理）')
     assert hashlib.sha256(artifact_path.read_bytes()).hexdigest()==artifact_hash,'封存产物改变'
+    changed=[path for path,checksum in frozen.items()if hashlib.sha256(Path(path).read_bytes()).hexdigest()!=checksum]
+    if changed:result.update(gradeStatus='unknown',error='评分期间设施或题目材料改变',changedSources=changed)
     result['automaticChecksPassed']=bool(result['gradeStatus']=='complete'and result['codePassed']and result['regressionPassed']and result['examplePassed']and protected['passed'])
     result['releaseClassification']=None
     save(out/'result.json',result);return result

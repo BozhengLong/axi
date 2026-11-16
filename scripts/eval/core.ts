@@ -79,9 +79,10 @@ export async function restartRelay(batch: Batch) {
 }
 export function validateTaskEnvironment(options: { taskEnv?: Record<string, string>; taskTmpfs?: string[] }): void {
   // 题目专属构建环境不能覆盖产品身份、凭据或CLI用户配置。
-  const allowedTaskEnv = new Set(['NODE_PATH', 'NX_CACHE_DIRECTORY', 'NX_WORKSPACE_DATA_DIRECTORY', 'NX_DAEMON']);
+  const allowedTaskEnv = new Set(['NODE_PATH', 'NX_CACHE_DIRECTORY', 'NX_WORKSPACE_DATA_DIRECTORY', 'NX_DAEMON', 'NX_SKIP_NATIVE_FILE_CACHE']);
   for (const [key, value] of Object.entries(options.taskEnv ?? {})) {
     if (!allowedTaskEnv.has(key) || typeof value !== 'string' || value.includes('\0') || value.includes('\n')) throw Error('无效题目环境变量');
+    if (key === 'NX_SKIP_NATIVE_FILE_CACHE' && value !== 'true') throw Error('Nx仅允许直接加载固定只读原生模块');
   }
   const allowedTaskTmpfs = new Set(['/task/node_modules/.vitest:rw,nosuid,size=16m,mode=1777', '/task/documentation/node_modules/.cache:rw,uid=1000,gid=1000,size=512m']);
   for (const mount of options.taskTmpfs ?? []) {

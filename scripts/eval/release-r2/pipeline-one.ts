@@ -3,6 +3,7 @@ import {readFileSync, mkdirSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {gzipSync} from 'node:zlib';
 import {executeSubject} from './execute-subject.ts';
+import {snapshotFacility,verifyFacility} from './facility-snapshot.ts';
 import {command,save} from '../core.ts';
 import {sha} from './source.ts';
 
@@ -12,9 +13,25 @@ assert.equal(process.env.ANTHROPIC_API_KEY,'synthetic-local-key');
 assert.equal(process.env.ANTHROPIC_BASE_URL,'http://127.0.0.1:1');
 const study=resolve(studyArg),auth=JSON.parse(readFileSync(join(study,'authorization.json'),'utf8'));
 assert.equal(auth.T1,null); assert(Date.now()<Date.parse(auth.preparationDeadline));
+const toolchain=JSON.parse(readFileSync(join(study,'toolchain/verification.json'),'utf8'));
+// Docker Desktop位于已核对的安装目录；固定Node/Bun仍在PATH最前。
+toolchain.env.PATH += ':/Applications/Docker.app/Contents/Resources/bin';
+if(Object.entries(toolchain.env).some(([key,value])=>process.env[key]!==value)){
+ assert(process.env.AXI_RELEASE_TOOLCHAIN_APPLIED!=='1','隔离工具链环境未生效');
+ const child=Bun.spawn([process.execPath,...process.argv.slice(1)],{env:{...process.env,...toolchain.env,AXI_RELEASE_TOOLCHAIN_APPLIED:'1'},stdin:'inherit',stdout:'inherit',stderr:'inherit'});
+ process.exit(await child.exited);
+}
+assert.equal(Bun.version,'1.3.14');
+for(const[name,wanted]of [['node','v22.23.5'],['pnpm','10.34.9']]){const actual=Bun.spawnSync([name!,'--version']);assert.equal(actual.exitCode,0);assert.equal(actual.stdout.toString().trim(),wanted)}
 const task=join(study,taskId!.startsWith('C7-')?'c7':'tasks',taskId!),profile=JSON.parse(readFileSync(join(task,'qualification-profile.json'),'utf8'));
 assert.equal(process.env.AXI_EVAL_IMAGE,profile.image);
 const out=join(task,`pipeline-${product}-${revision}`);mkdirSync(out);
+save(join(out,'grading-profile-process.json'),await command(['python3',join(import.meta.dir,'prepare-grading-profile.py'),study,taskId!]));
+const label=`${taskId!.toLowerCase()}-${product}-${revision}`;
+const claimProcess=await command(['python3',join(import.meta.dir,'controller-fixtures.py'),study,label,taskId!,product!]);
+const claim=JSON.parse(claimProcess.stdout);save(join(out,'controller-claim.json'),claim);
+const controller=(action:string,payload:any)=>command(['python3',join(import.meta.dir,'controller-gateway.py')],JSON.stringify({study,action,mode:'mock',payload:{ledgerLabel:label,...payload}}));
+const frozen=snapshotFacility(task,out);
 const patch=JSON.parse(readFileSync(join(task,profile.references[0]+'-patch.json'),'utf8'));
 // 模拟API只发送普通工具参数；题目卷内不挂参考答案或私有验收材料。
 const publicArgs=(args:string[])=>{
@@ -34,9 +51,11 @@ function shellTool(id:string,changes:Record<string,string>,validate:boolean){
 const end=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'});
 const firstTest=profile.regressionPaths[0];assert(patch[firstTest]);
 const mock=product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')];
-const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,prompt:'这是离线CLI流程资格。按当前公开任务完成修改和验证。模拟响应不计模型能力。'});
+try {
+const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,claim:{mode:'mock',id:claim.id,ledgerLabel:label},prompt:'这是离线CLI流程资格。按当前公开任务完成修改和验证。模拟响应不计模型能力。'});
+save(join(out,'controller-seal.json'),JSON.parse((await controller('seal',{id:claim.id,output:out.slice(study.length+1)})).stdout));
 assert.equal(x.execution.status,'completed',x.execution.error);assert.equal(x.checks.length,steps.length);assert(x.checks.every((c:any)=>c.status===0&&!c.signal&&!c.error));assert.equal(!!x.checkpoint,product==='v1');
-save(join(out,'grading-profile-process.json'),await command(['python3',join(import.meta.dir,'prepare-grading-profile.py'),study,taskId!]));
+
 const gradeStart=performance.now();let finalGrade:any,checkpointGrade:any;
 for(const view of ['final',...(x.checkpoint?['checkpoint']:[])]){
  const seconds=(720_000-(performance.now()-gradeStart))/1000;assert(seconds>0);
@@ -44,5 +63,12 @@ for(const view of ['final',...(x.checkpoint?['checkpoint']:[])]){
  save(join(out,view+'-grade-process.json'),process);const g=JSON.parse(readFileSync(join(out,view+'-grade/result.json'),'utf8'));if(view==='final')finalGrade=g;else checkpointGrade=g;
 }
 assert(finalGrade.automaticChecksPassed,JSON.stringify(finalGrade));if(x.checkpoint)assert(checkpointGrade.gradeStatus==='complete'&&!checkpointGrade.codePassed,'复核检查点应为真实未完成产物');assert(performance.now()-gradeStart<=720_000);
+const views=['final',...(x.checkpoint?['checkpoint']:[])].map(view=>({view,sha256:sha(readFileSync(join(out,view+'-grade/result.json')))}));
+save(join(out,'grading-summary.json'),{sharedSeconds:(performance.now()-gradeStart)/1000,views});
+const execEvidence=JSON.parse(readFileSync(join(out,'execution-evidence.json'),'utf8'));
+save(join(out,'review.json'),{artifactHash:sha(readFileSync(join(out,'final-snapshot.json'))),executionHash:execEvidence.executionHash,gradeHash:sha(readFileSync(join(out,'final-grade/result.json'))),reviewer:'R2 scripted reference pipeline qualification',classification:'PASS',mockOnly:true,checks:{publicContract:true,sourceChanges:true,userChanges:true,documentationExample:true,reportedChecks:true,traceIntegrity:true}});
+const reviewed=JSON.parse((await controller('review',{id:claim.id,output:out.slice(study.length+1)})).stdout);assert(reviewed.reviewed&&reviewed.classification==='PASS'&&!reviewed.paused);save(join(out,'controller-review.json'),reviewed);
 save(join(out,'result.json'),{qualified:true,mockOnly:true,task:taskId,product,executionStatus:x.execution.status,requests:x.execution.proxy.budget.generationRequests,traceDirectory:x.traceDirectory,finalArtifact:sha(readFileSync(join(out,'final-snapshot.json'))),gradingMs:performance.now()-gradeStart,checkpointCaptured:!!x.checkpoint});
 console.log(JSON.stringify({task:taskId,product,qualified:true,traceDirectory:x.traceDirectory}));
+
+} finally { verifyFacility(frozen,out); }
