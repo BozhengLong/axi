@@ -1,0 +1,142 @@
+"""在固定、无网络、只读依赖环境校准任务。此入口不能启动真实模型。"""
+from pathlib import Path
+import sys, json, os, re, shutil, hashlib, subprocess, time, datetime, fnmatch
+
+study = Path(sys.argv[1]).resolve()
+task_id = sys.argv[2]
+assert re.fullmatch(r'T\d\d', task_id)
+task = study / 'tasks' / task_id
+profile = json.loads((task / 'qualification-profile.json').read_text())
+admission = json.loads((study / 'engineering-admission.json').read_text())
+authorization = json.loads((study / 'authorization.json').read_text())
+assert admission['stage'] == 'R2' and authorization['T1'] is None
+assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline'])
+assert re.fullmatch(r'[A-Za-z0-9_-]+', sys.argv[3])
+out = task / ('qualification-' + sys.argv[3])
+out.mkdir()
+reporters = Path(__file__).parent / 'reporters'
+frozen = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__), *reporters.glob('*.mjs'), task / 'qualification-profile.json', task / 'input-manifest.json', *task.glob('*-patch.json'), * (task / 'qualification-material').glob('*')] if p.is_file()}
+
+def save(path, value):
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+
+save(out / 'facility.json', frozen)
+(out / 'facility-source').mkdir()
+for path, checksum in frozen.items():
+    (out / 'facility-source' / checksum).write_bytes(Path(path).read_bytes())
+save(out / 'plan.json', {'task': task_id, 'repeats': 5, 'roles': ['initial', *profile['references']], 'counterfactualRepeats': 5, 'sharedWindowSeconds': 720, 'mockOnly': True})
+initial_manifest = json.loads((task / 'input-manifest.json').read_text())
+original_files = [f['path'] for f in initial_manifest['files']]
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def git_state(root):
+    env = {**os.environ, 'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_OPTIONAL_LOCKS': '0'}
+    return {label: subprocess.check_output(['git', '-C', str(root), *args], env=env, text=True) for label, args in [('head', ['rev-parse', 'HEAD']), ('index', ['ls-files', '--stage'])]}
+
+def input_snapshot(root, paths):
+    return {'files': {p: {'sha256': digest(root / p), 'mode': (root / p).stat().st_mode & 511} for p in paths}, 'git': git_state(root)}
+
+def node_report(stdout):
+    marker = '# AXI_TEST_ASSERTIONS_V1 '
+    rows = [line[len(marker):] for line in stdout.splitlines() if line.startswith(marker)]
+    assert len(rows) == 1, '缺少唯一原生Node断言记录'
+    data = json.loads(rows[0])
+    summaries = [s for s in data['summaries'] if not s.get('file')]
+    assert len(summaries) == 1
+    counts = summaries[0]['counts']
+    assert counts['cancelled'] == counts['skipped'] == counts['todo'] == 0
+    assert all(f['failureType'] == 'testCodeFailure' and f['assertion'] for f in data['failures']), '失败不是行为断言'
+    return data, counts
+
+results = []
+for role in ['initial', *profile['references'], 'counterfactual']:
+    for repeat in range(1, 6):
+        case = out / f'{role}-{repeat}'
+        case.mkdir()
+        work = case / 'work'
+        shutil.copytree(task / 'initial', work, ignore=shutil.ignore_patterns('node_modules', 'dist', 'coverage', '*.tsbuildinfo'))
+        patch = {} if role == 'initial' else json.loads((task / ((profile['counterfactualReference'] if role == 'counterfactual' else role) + '-patch.json')).read_text())
+        if role == 'counterfactual':
+            patch = {p: value for p, value in patch.items() if p in profile['regressionPaths']}
+        for name, value in patch.items():
+            assert not Path(name).is_absolute() and '..' not in Path(name).parts
+            dest = work / name
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(value)
+        paths = sorted(set(original_files + list(patch)))
+        before = input_snapshot(work, paths)
+        assert before['git']['head'].strip() == initial_manifest['upstreamCommit']
+        save(case / 'before.json', before)
+        name = f'axi-r2-q-{task_id.lower()}-{role}-{repeat}'
+        args = ['docker', 'run', '-d', '--name', name, '--network', 'none', '--user', '1000:1000', '--read-only', '--cap-drop=ALL', '--security-opt', 'no-new-privileges', '--cpus', '2', '--memory', '4g', '--pids-limit', '256', '--tmpfs', '/tmp:rw,exec,size=1g', '-e', 'HOME=/tmp/home', '-e', 'TMPDIR=/tmp', '-v', f'{work}:/task', '-v', f'{case}:/evidence', '-v', f'{task}/qualification-material:/grade:ro', '-v', f'{reporters}:/reporters:ro']
+        for mount in profile['dependencyMounts']:
+            source = (study / mount['source']).resolve()
+            assert source.is_relative_to(study)
+            args += ['-v', f"{source}:{mount['target']}:ro"]
+        for mount in profile.get('cacheTmpfs', []):
+            args += ['--tmpfs', mount]
+        args += ['-w', '/task', '--entrypoint', 'sleep', profile['image'], 'infinity']
+        save(case / 'container-command.json', args)
+        started = time.monotonic()
+        deadline = started + 720
+        commands = []
+        failure = None
+        try:
+            subprocess.run(args, check=True, capture_output=True, timeout=30)
+            steps = profile['counterfactualCommands'] if role == 'counterfactual' else profile['commands']
+            for index, step in enumerate(steps):
+                if step.get('referenceOnly') and role == 'initial':
+                    continue
+                command = ['docker', 'exec', '-e', f'AXI_RESULT_PATH=/evidence/{index}.native.json', name, *step['args']]
+                save(case / f'{index}.command.json', command)
+                at = time.monotonic()
+                with (case / f'{index}.stdout').open('wb') as stdout, (case / f'{index}.stderr').open('wb') as stderr:
+                    process = subprocess.run(command, stdout=stdout, stderr=stderr, timeout=max(0.1, deadline - time.monotonic() - 5))
+                code = process.returncode
+                record = {'label': step['label'], 'args': step['args'], 'exitCode': code, 'elapsedSeconds': time.monotonic() - at}
+                commands.append(record)
+                save(case / 'commands.json', commands)
+                if step['label'] == 'target':
+                    native, counts = node_report((case / f'{index}.stdout').read_text())
+                    assert counts['tests'] == profile['targetTests']
+                    if role == 'initial':
+                        assert code == 1 and counts['failed'] == len(profile['initialFailPrefixes'])
+                        assert sorted(f['name'].split(':')[0] for f in native['failures']) == sorted(profile['initialFailPrefixes'])
+                    else:
+                        assert code == 0 and counts['failed'] == 0
+                elif step.get('framework') == 'vitest':
+                    native = json.loads((case / f'{index}.native.json').read_text())
+                    assert not native['unhandled'] and not any(s['errors'] for s in native['suites'])
+                    counts = native['counts']
+                    assert sum(counts.get(k, 0) for k in ['skip', 'todo', 'run', 'only']) == 0
+                    expected = profile['regressionTests'] if role == 'counterfactual' else profile['originalTests'] + (0 if role == 'initial' else profile['regressionTests'])
+                    assert len(native['tests']) == expected
+                    if role == 'counterfactual':
+                        assert code == 1 and counts['fail'] > 0 and native['assertionFailures']
+                        assert all(t['state'] != 'fail' or any(e['assertion'] for e in t['errors']) for t in native['tests'])
+                    else:
+                        assert code == 0 and counts['pass'] == expected and counts['fail'] == 0
+                else:
+                    assert code == 0, f"{step['label']}失败"
+                after = input_snapshot(work, paths)
+                save(case / f'{index}.protected.json', after)
+                assert after == before, '验证进程修改了源码、用户文件或Git状态'
+        except Exception as error:
+            failure = f'{type(error).__name__}: {error}'
+        finally:
+            cleanup = subprocess.run(['docker', 'rm', '-f', name], capture_output=True, text=True, timeout=max(0.1, deadline - time.monotonic()))
+            remaining = subprocess.run(['docker', 'ps', '-a', '--filter', f'name=^/{name}$', '--format', '{{.Names}}'], capture_output=True, text=True, timeout=max(0.1, deadline - time.monotonic()))
+            save(case / 'cleanup.json', {'code': cleanup.returncode, 'stdout': cleanup.stdout, 'stderr': cleanup.stderr, 'remaining': remaining.stdout})
+            if cleanup.returncode or remaining.returncode or remaining.stdout.strip():
+                failure = failure or 'cleanup incomplete'
+        row = {'role': role, 'repeat': repeat, 'passed': failure is None, 'error': failure, 'elapsedSeconds': time.monotonic() - started, 'commands': commands}
+        results.append(row)
+        save(case / 'result.json', row)
+        save(out / 'results.json', {'task': task_id, 'qualified': len(results) == (len(profile['references']) + 2) * 5 and all(r['passed'] for r in results), 'rows': results})
+        print(json.dumps({k: v for k, v in row.items() if k != 'commands'}), flush=True)
+        if failure:
+            raise SystemExit(1)
+for path, expected in frozen.items():
+    assert digest(Path(path)) == expected, f'资格期间输入或设施改变: {path}'
