@@ -2,7 +2,7 @@
 
 从零手写的终端 coding agent。不用官方 SDK，也不用 agent 框架。
 
-2026-11-16 开发状态：从旧候选 `0f4a2c4` 修复 P-02 读取授权身份绑定，开发验证已通过，新候选尚待冻结及正式验收，尚未发布。工程、C7 和 20 题仍须按新候选取得资格；见[候选说明](docs/guides/v1-beta1-candidate.md)。使用 Bun + TypeScript，手写 HTTP 请求、SSE 解析和工具循环。默认模型为 `claude-opus-5-5`。
+2026-11-16 候选状态：r2已修复 P-02 读取授权身份绑定，产品基线为 `ad6feb9103ea147bf3b5ddcb42d5a726f665a776`。开发验证已通过；本候选尚未通过正式工程、C7 和 20 题验收，尚未发布。见[候选说明](docs/guides/v1-beta1-candidate.md)。使用 Bun + TypeScript，手写 HTTP 请求、SSE 解析和工具循环。默认模型为 `claude-opus-5-5`。
 
 ## 运行
 
