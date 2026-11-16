@@ -160,7 +160,7 @@ for role in ['initial', *profile['references'], 'counterfactual']:
                     assert not native['unhandled'] and not any(s['errors'] for s in native['suites'])
                     counts = native['counts']
                     assert sum(counts.get(k, 0) for k in ['skip', 'todo', 'run', 'only']) == 0
-                    expected = profile['regressionTests'] if role == 'counterfactual' else profile['originalTests'] + (0 if role == 'initial' else profile['regressionTests'])
+                    expected = step.get('tests', profile['regressionTests'] if role == 'counterfactual' else profile['originalTests'] + (0 if role == 'initial' else profile['regressionTests']))
                     assert len(native['tests']) == expected
                     if role == 'counterfactual':
                         assert code == 1 and counts['fail'] > 0 and native['assertionFailures']

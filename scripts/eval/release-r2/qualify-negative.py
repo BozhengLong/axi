@@ -60,7 +60,7 @@ for control in controls['controls']:
             container = f"axi-r2-neg-{task_id.lower()}-{control['id'].lower()}-{repeat}"
             volume = container + '-task' if profile.get('taskStorage') == 'linux-volume' else None
             storage = ['-v', f'{volume}:/task', '-v', f'{work}:/seed:ro'] if volume else ['-v', f'{work}:/task']
-            args = ['docker', 'run', '-d', '--name', container, '--network', 'none', '--user', '1000:1000', '--read-only', '--cap-drop=ALL', '--cpus', '2', '--memory', '4g', '--pids-limit', '256', '--tmpfs', '/tmp:rw,exec,size=512m', '-e', 'HOME=/tmp', *storage, '-v', f'{task}/qualification-material:/grade:ro', '-v', f'{reporters}:/reporters:ro']
+            args = ['docker', 'run', '-d', '--name', container, '--network', 'none', '--user', '1000:1000', '--read-only', '--cap-drop=ALL', '--cpus', '2', '--memory', '4g', '--pids-limit', '256', '--tmpfs', '/tmp:rw,exec,size=512m', '-e', 'HOME=/tmp', *storage, '-v', f'{task}/qualification-material:/grade:ro', '-v', f'{reporters}:/reporters:ro', '-v', f'{case}:/evidence']
             for mount in profile['dependencyMounts']:
                 args += ['-v', f"{study / mount['source']}:{mount['target']}:ro"]
             for key, value in profile.get('environment', {}).items():
@@ -84,7 +84,7 @@ for control in controls['controls']:
                     assert seeded.returncode == 0, '输入复制失败，不能运行负例'
                 subprocess.run(args, capture_output=True, check=True, timeout=20)
                 for label, command in [('build', profile['commands'][0]['args']), ('target', next(x['args'] for x in profile['commands'] if x['label'] == 'target'))]:
-                    argv = ['docker', 'exec', container, *command]
+                    argv = ['docker', 'exec', '-e', f'AXI_RESULT_PATH=/evidence/{label}.native.json', container, *command]
                     with (case / (label + '.stdout')).open('wb') as stdout, (case / (label + '.stderr')).open('wb') as stderr:
                         result = subprocess.run(argv, stdout=stdout, stderr=stderr, timeout=60)
                     commands.append({'label': label, 'args': argv, 'code': result.returncode})

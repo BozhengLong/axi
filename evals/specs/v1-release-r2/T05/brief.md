@@ -10,7 +10,7 @@
 | C2 | 显式headers与自动推导headers均支持对象、普通数组和键值对数组。自动数组首行仍按原规则作为表头消耗；显示改名不能把它重复当成数据。空名或重复显示名合法。数据字段查找始终使用原逻辑列名，列顺序不改变。 |
 | C3 | 显示名经过现有CSV引号、转义、分隔符、换行、BOM及NUL处理。quoteHeaders/quoteColumns的对象映射仍以原逻辑列名为键，数组映射仍以原列索引为准。不改变现有字段转义规则。 |
 | C4 | 仅实际输出表头时调用新函数。writeHeaders:false、无headers、行transform过滤或空流的行为按原规则保持；alwaysWriteHeaders在原规则要求输出空流表头时也应用转换，包括该旧选项会覆盖writeHeaders:false的情形。保持includeEndRowDelimiter和原行transform的同步、回调异步及过滤语义。 |
-| C5 | 新函数抛出的Error保持同一对象，经format流的error通道报告；该流不能成功end或把坏表头当成完整输出。writeToString/writeToBuffer拒绝同一Error。异步行transform回调和空流flush也必须捕获新函数错误，不能成为uncaughtException。已有调用方data监听器抛错仍属于调用方，不能吞掉或改称表头错误。本题不扩大旧write快捷函数的全部错误事件次数保证。 |
+| C5 | 新函数抛出的Error保持同一对象，经format流的error通道报告；该流不能成功end或把坏表头当成完整输出。writeToString/writeToBuffer拒绝同一Error。异步行transform回调和空流flush也必须捕获新函数错误，不能成为uncaughtException。已有调用方data监听器抛错保持原有错误通道：当前同步format路径会报告同一stream error，不要求改成uncaughtException；不能吞掉或包装成新的表头错误。本题不扩大旧write快捷函数的全部错误事件次数保证。 |
 | H4 | 显示转换不能改变数据行的值、数量、列顺序或原对象键的查找。不能通过改写调用方headers/rows完成改名。行transform本身原有的修改效果不属于本项新增保证。 |
 
 至少涉及公开类型、选项处理及格式化三个生产模块。不要求某种内部布局。保持所有旧测试；新增回归放在`eval-regression/release-*.mjs`，辅助文件和类型验证放其子目录。实际验证公开类型、异步错误、空流与普通数据对照。README.md解释显示名与逻辑名，并新增、执行`examples/release-header-transform.mjs`。
