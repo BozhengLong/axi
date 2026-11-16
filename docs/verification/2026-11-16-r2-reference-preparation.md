@@ -41,7 +41,7 @@ T14 tar的前一份输入在Linux卷完成20/20参考/反事实及9类×5负例�
 
 私有证据根为`~/.local/share/axi-evals/v1-release-p02-r2-20261116T092836Z/`。汇总入口为`r2-reference-checkpoint.json`，逐题入口为`tasks/T*/status.json`；每次资格目录保存`facility.json`和对应源码内容。候选、模型、预算、发布阈值及原T0截止保持。仍未合并main、tag或发布。
 
-## 22:48后续：五题当前输入参考资格完成
+## 22:46后续：五题当前输入参考资格完成
 
 T14澄清后的`qualification-4`完成20/20，`negative-qualification-2`完成45/45，最慢完整资格79.50秒。此前输入的成绩仍单列保留。
 
