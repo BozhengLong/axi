@@ -43,7 +43,7 @@ export async function control(batch: Batch, action: string, data: unknown) {
 }
 export function current(): Batch { return JSON.parse(readFileSync(join(STORE, "current.json"), "utf8")); }
 
-export async function initialize(): Promise<Batch> {
+export async function initialize(onPrepared?: (batch: Batch) => void): Promise<Batch> {
   const id = `b${new Date().toISOString().replace(/[^0-9]/g, "").slice(0, 14)}`;
   const directory = join(STORE, id);
   mkdirSync(directory, { recursive: true, mode: 0o700 });
@@ -51,6 +51,9 @@ export async function initialize(): Promise<Batch> {
   const config = loadConfig();
   const admin = crypto.randomUUID();
   const relay = `axi-eval-${id}-relay`;
+  // 在第一个资源创建前写身份，宿主中断后只清理本批资源。
+  const batch: Batch = { id, directory, relay, admin, endpoint: '', image: IMAGE, created: new Date().toISOString() };
+  save(join(directory, 'private-state.json'), batch); onPrepared?.(batch);
   const envFile = join(directory, "relay.env");
   writeFileSync(envFile, `EVAL_ADMIN_TOKEN=${admin}\nEVAL_UPSTREAM_URL=${config.url}\nEVAL_UPSTREAM_KEY=${config.apiKey}\n`, { mode: 0o600 });
   // 转发服务没有宿主机工作目录，只挂载本批证据目录。
@@ -58,7 +61,7 @@ export async function initialize(): Promise<Batch> {
   unlinkSync(envFile);
   const port = (await docker(["port", relay, "8787/tcp"])).stdout.trim();
   const image = (await docker(["image", "inspect", IMAGE, "--format", "{{.Id}}"])).stdout.trim();
-  const batch = { id, directory, relay, admin, endpoint: `http://${port}`, image, created: new Date().toISOString() };
+  Object.assign(batch, { endpoint: `http://${port}`, image });
   save(join(STORE, "current.json"), batch); save(join(directory, "private-state.json"), batch);
   await Bun.sleep(500);
   return batch;

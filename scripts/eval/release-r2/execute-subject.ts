@@ -9,14 +9,15 @@ import {sealBatchTraces} from './seal.ts';
 
 // 模拟和正式任务共用这一执行路径。真实入口还须提供控制器已经claim的身份。
 export async function executeSubject(study:string,taskId:string,product:'v0'|'v1'|'claude',id:string,out:string,options:{mock?:any[];prompt:string;maxMs?:number;claim?:{mode:'mock'|'real';id:string;ledgerLabel?:string}}){
- assert(/^(T\d\d|C7-[LO])$/.test(taskId)&&/^[a-z0-9-]+$/.test(id));
+ assert(/^(health|T\d\d|C7-[LO])$/.test(taskId)&&/^[a-z0-9-]+$/.test(id));
  const auth=JSON.parse(readFileSync(join(study,'authorization.json'),'utf8'));
- if(options.mock){assert.equal(auth.T1,null);assert.equal(process.env.ANTHROPIC_API_KEY,'synthetic-local-key');assert.equal(process.env.ANTHROPIC_BASE_URL,'http://127.0.0.1:1');assert(Date.now()<Date.parse(auth.preparationDeadline))}
+ let qualificationDeadline=Infinity;
+ if(options.mock){assert(process.env.ANTHROPIC_API_KEY==='synthetic-local-key','模拟入口必须使用合成认证配置');assert(process.env.ANTHROPIC_BASE_URL==='http://127.0.0.1:1','模拟入口必须使用本地无上游配置');const gate=await command(['python3',join(import.meta.dir,'qualification_guard.py'),study,taskId]);qualificationDeadline=Date.parse(JSON.parse(gate.stdout).deadline);assert(Date.now()<qualificationDeadline)}
  else {assert(options.claim?.mode==='real','正式执行缺少控制器claim');assert(process.env.ANTHROPIC_API_KEY&&process.env.ANTHROPIC_API_KEY!=='synthetic-local-key','正式执行没有真实上游配置')}
  assert(options.claim && options.claim.mode===(options.mock?'mock':'real'),'执行与控制器模式不符');
  const admission=await command(['python3',join(import.meta.dir,'controller-gateway.py')],JSON.stringify({study,action:'launched',mode:options.claim.mode,payload:{id:options.claim.id,task:taskId,product,pid:process.pid,...(options.claim.ledgerLabel?{ledgerLabel:options.claim.ledgerLabel}:{})}}));
  const authority=JSON.parse(admission.stdout);assert(authority.authorized);save(join(out,'launch-admission.json'),authority);
- const task=join(study,taskId.startsWith('C7-')?'c7':'tasks',taskId),profile=JSON.parse(readFileSync(join(task,'qualification-profile.json'),'utf8'));
+ const task=taskId==='health'?join(study,'health'):join(study,taskId.startsWith('C7-')?'c7':'tasks',taskId),profile=JSON.parse(readFileSync(join(task,'qualification-profile.json'),'utf8'));
  assert.equal(process.env.AXI_EVAL_IMAGE,profile.image);
  assert(!existsSync(join(out,'seed')));
  save(join(out,'prepare.json'),await command(['python3',join(import.meta.dir,'prepare-runtime.py'),study,taskId,join(out,'seed')]));
@@ -27,13 +28,14 @@ export async function executeSubject(study:string,taskId:string,product:'v0'|'v1
  const taskEnv={...(profile.environment??{})};
  if(taskEnv.NX_CACHE_DIRECTORY)taskEnv.NX_SKIP_NATIVE_FILE_CACHE='true';
  save(join(out,'runtime-environment.json'),{taskEnv,taskTmpfs:profile.cacheTmpfs??[],defaultTmp:'/tmp:rw,nosuid,size=256m,mode=1777',nativeDependencies:'readonly pinned mounts'});
- const batch=await initialize();save(join(out,'batch.json'),{id:batch.id,directory:batch.directory,image:batch.image});
+ const recordBatch=(b:any)=>save(join(out,'batch.json'),{id:b.id,directory:b.directory,image:b.image,relay:b.relay,runtimeId:id});
+ const batch=await initialize(recordBatch);recordBatch(batch);
  const volume=`axi-r2-subject-${batch.id}-${id}`;let runtime:Runtime|undefined,sealed=false;
  try{
   await docker(['volume','create','--label','axi.eval.study='+study.split('/').at(-1),volume]);
   await docker(['run','--rm','--network','none','--user','0','--read-only','--cap-drop=ALL','--cap-add=CHOWN','-v',volume+':/task','--entrypoint','chown',batch.image,'1000:1000','/task']);
   await docker(['run','--rm','--network','none','--user','1000:1000','--read-only','--cap-drop=ALL','-v',volume+':/task','-v',join(out,'seed')+':/seed:ro','--entrypoint','cp',batch.image,'-R','-P','--preserve=mode','/seed/.','/task/']);
-  runtime=await createRuntime(batch,id,{mounts,taskVolume:volume,mock:options.mock,maxTotal:50,taskEnv,taskTmpfs:profile.cacheTmpfs});
+  runtime=await createRuntime(batch,id,{mounts,taskVolume:volume,mock:options.mock,maxTotal:authority.claim.slot.limit,taskEnv,taskTmpfs:profile.cacheTmpfs});
   const initial=await captureTask(batch,runtime,'initial');save(join(out,'initial-snapshot.json'),initial);
   const identity=JSON.parse(readFileSync(join(study,product==='v0'?'v0-source.json':'candidate-source.json'),'utf8'));
   const files=identity.files.filter((f:any)=>f.path.startsWith('src/')||f.path==='package.json'),entry=product==='v0'?'/opt/axi-v0':'/opt/axi-c2';
@@ -41,15 +43,15 @@ export async function executeSubject(study:string,taskId:string,product:'v0'|'v1
   save(join(runtime.directory,'source-identity.json'),{sourceHash:identity.sourceHash,result:probe});
   let checkpoint:any;
   const remainingMs=authority.claim.executionDeadline*1000-Date.now()-10_000;assert(remainingMs>0,'执行剩余窗口不足');
-  const runOptions:any={maxMs:Math.min(options.maxMs??30*60_000,remainingMs),onRound:async()=>({snapshot:(await captureTask(batch,runtime!,'round')).files})};
-  if(product==='v1')Object.assign(runOptions,{axiEntry:'/opt/axi-c2/src/main.ts',reviewMode:'auto',observeReview:true,onReviewCheckpoint:async(native:any)=>{assert(!checkpoint);save(join(runtime!.directory,'checkpoint-native.json'),native);checkpoint=await captureTask(batch,runtime!,'checkpoint');save(join(out,'checkpoint-snapshot.json'),checkpoint)}});
+  const runOptions:any={maxMs:Math.min(options.maxMs??30*60_000,remainingMs,qualificationDeadline-Date.now()-10_000),onRound:async()=>({snapshot:(await captureTask(batch,runtime!,'round')).files})};
+  if(product==='v1')Object.assign(runOptions,{axiEntry:'/opt/axi-c2/src/main.ts',reviewMode:'auto',observeReview:true,onReviewCheckpoint:async(native:any)=>{assert(!checkpoint);save(join(runtime!.directory,'checkpoint-native.json'),native);if(taskId!=='health'){checkpoint=await captureTask(batch,runtime!,'checkpoint');save(join(out,'checkpoint-snapshot.json'),checkpoint)}}});
   else if(product==='v0')runOptions.axiEntry='/opt/axi-v0/src/main.ts';
   const execution=await(product==='v1'?runAxiV1:product==='v0'?runAxi:runClaude)(batch,runtime,[options.prompt],runOptions);
   const final=await captureTask(batch,runtime,'final');save(join(out,'final-snapshot.json'),final);
   let checks:any[]=[];
   if(options.mock){const proof=await execute(runtime,['cat','/tmp/axi-pipeline-checks.json'],undefined,true);save(join(runtime.directory,'mock-checks-process.json'),proof);checks=proof.exitCode===0?JSON.parse(proof.stdout):[];save(join(out,'mock-checks.json'),checks)}
   await destroyRuntime(batch,runtime);await sealBatchTraces(batch,[runtime]);sealed=true;
-  const audit=await command(['python3',join(import.meta.dir,'execution-evidence.py'),runtime.directory,...(options.mock?['--mock']:[])]);save(join(out,'execution-evidence.json'),JSON.parse(audit.stdout));
+  const audit=await command(['python3',join(import.meta.dir,'execution-evidence.py'),runtime.directory,'--limit',String(authority.claim.slot.limit),...(options.mock?['--mock']:[])]);save(join(out,'execution-evidence.json'),JSON.parse(audit.stdout));
   save(join(out,'execution-result.json'),{execution,traceDirectory:runtime.directory,checkpointCaptured:!!checkpoint,batch:batch.id});
   return {execution,initial,final,checkpoint,checks,traceDirectory:runtime.directory,batchId:batch.id};
  }catch(error){save(join(out,'execution-failure.json'),{error:String(error),stack:error instanceof Error?error.stack:undefined});throw error}

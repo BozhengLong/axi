@@ -1,0 +1,4 @@
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';
+const root=process.argv[2],rows=[];let bytes=0;
+function walk(dir){for(const name of fs.readdirSync(dir).sort()){const p=path.join(dir,name),s=fs.lstatSync(p),relative=path.relative(root,p);if(s.isSymbolicLink())rows.push({path:relative,type:'symlink',target:fs.readlinkSync(p)});else if(s.isDirectory()){rows.push({path:relative,type:'directory',mode:s.mode&511});walk(p)}else if(s.isFile()){const data=fs.readFileSync(p);bytes+=data.length;rows.push({path:relative,type:'file',mode:s.mode&511,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')})}else throw Error('special dependency entry '+relative)}}
+walk(root);console.log(JSON.stringify({entries:rows.length,bytes,sha256:crypto.createHash('sha256').update(JSON.stringify(rows)).digest('hex'),files:rows}));

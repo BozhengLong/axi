@@ -3,6 +3,7 @@ from pathlib import Path
 import sys, json, shutil, subprocess, time, hashlib, re, datetime
 sys.dont_write_bytecode = True
 from inputs import materialize
+from qualification_guard import allowed as qualification_allowed
 
 study = Path(sys.argv[1]).resolve()
 task_id = sys.argv[2]
@@ -15,8 +16,10 @@ qualification = controls.get('positiveQualification', 'qualification-2')
 revision = sys.argv[3] if len(sys.argv) > 3 else '1'
 assert re.fullmatch(r'qualification-[A-Za-z0-9_-]+', qualification) and re.fullmatch(r'[A-Za-z0-9_-]+', revision)
 authorization = json.loads((study / 'authorization.json').read_text())
+qualification_window = qualification_allowed(study, task_id)
+authorization['qualificationDeadline'] = qualification_window['deadline']
 assert authorization['T1'] is None and json.loads((study / 'engineering-admission.json').read_text())['stage'] == 'R2'
-assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline'])
+assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['qualificationDeadline'])
 assert json.loads((task / qualification / 'results.json').read_text())['qualified']
 out = task / ('negative-qualification-' + revision)
 out.mkdir()
@@ -26,7 +29,7 @@ rows = []
 def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
 
-frozen = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__), Path(__file__).with_name('inputs.py'), *reporters.glob('*.mjs'), *reporters.glob('*.cjs'), task / 'negative-controls.json', task / 'qualification-profile.json', task / 'input-manifest.json', *task.glob('*-patch.json'), *(task / 'qualification-material').glob('*')] if p.is_file()}
+frozen = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__), Path(__file__).with_name('inputs.py'), Path(__file__).with_name('qualification_guard.py'), *reporters.glob('*.mjs'), *reporters.glob('*.cjs'), task / 'negative-controls.json', task / 'qualification-profile.json', task / 'input-manifest.json', *task.glob('*-patch.json'), *(task / 'qualification-material').glob('*')] if p.is_file()}
 (out / 'facility-source').mkdir()
 for path, checksum in frozen.items():
     (out / 'facility-source' / checksum).write_bytes(Path(path).read_bytes())
@@ -34,7 +37,7 @@ save(out / 'facility.json', frozen)
 save(out / 'plan.json', {'repeats': 5, 'ids': [c['id'] for c in controls['controls']], 'positiveQualification': qualification, 'sourceKinds': 'behavior mutations and actual protected-file mutations'})
 for control in controls['controls']:
     for repeat in range(1, 6):
-        assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline']), '准备截止已到'
+        assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['qualificationDeadline']), '准备截止已到'
         case = out / f"{control['id']}-{repeat}"
         case.mkdir()
         work = case / 'work'
@@ -115,5 +118,5 @@ for control in controls['controls']:
         print(json.dumps(row), flush=True)
 for path, checksum in frozen.items():
     assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == checksum
-assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline']), '准备截止后不能准入'
+assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['qualificationDeadline']), '准备截止后不能准入'
 save(out / 'results.json', {'qualified': len(rows) == len(controls['controls']) * 5, 'facilityStable': True, 'rows': rows})

@@ -13,6 +13,7 @@ import sys
 sys.dont_write_bytecode=True
 # 与controller.py共同冻结，资格账本不能替代正式账本。
 from controller import Ledger,Refused,digest,next_slot,slots,decisive_failure
+from inputs import verify_initial
 
 
 def require(condition,message):
@@ -52,17 +53,52 @@ def bound_file(study,entry):
     return path
 
 
-def verify_sources(study,manifest):
-    index=json.loads(bound_file(study,manifest['facilityIndex']).read_text())
-    require(digest(index)==manifest['facilityHash'],'设施总身份不符')
-    require(index['files'],'设施清单为空')
+def grading_change(study,path,old=None):
+    path=Path(path).resolve();here=Path(controller_module.__file__).parent.resolve()
+    if path.is_relative_to(here):
+        rel=path.relative_to(here).as_posix()
+        return rel in ('grade-artifact.py','observations.py','bun-report.py','artifact-policy.py','path_patterns.py','sandbox.py','restore.mjs') or rel.startswith(('reporters/','grading/'))
+    if path.is_relative_to(study):
+        parts=path.relative_to(study).parts
+        if len(parts)>=3 and parts[0]in ('tasks','c7'):
+            if parts[2]=='qualification-profile.json':
+                require(old and old.get('archive'),'原评分配置缺少源归档')
+                before=json.loads(bound_file(study,{'path':old['archive'],'sha256':old['sha256']}).read_text());after=json.loads(path.read_text())
+                fixed=('taskId','image','dependencyMounts','dependencyVolume','dependencyPaths','environment','cacheTmpfs','taskStorage','linuxSymlinkMode','requestLimit','maxSeconds','originalTests','originalTapLeaves','originalTapSkips','originalMochaPending')
+                require(all(before.get(k)==after.get(k)for k in fixed),'评分修复改变运行环境或旧测试门槛')
+                return True
+            return parts[2]in ('grading-profile.json','negative-controls.json')or parts[2].endswith('-patch.json')or parts[2]=='qualification-material'
+    return False
+
+
+def verify_sources(study,manifest,repair=None):
+    old_index=json.loads(bound_file(study,manifest['facilityIndex']).read_text());require(digest(old_index)==manifest['facilityHash'],'原设施总身份不符')
+    index=old_index
+    if repair and repair.get('completedAt'):
+        index=json.loads(bound_file(study,repair['facilityIndex']).read_text());require(digest(index)==repair['facilityHash'],'恢复设施总身份不符')
+    require(index['files'],'设施清单为空');old_by_path={e['path']:e for e in old_index['files']};new_by_path={e['path']:e for e in index['files']}
+    require(len(old_by_path)==len(old_index['files'])and len(new_by_path)==len(index['files']),'设施清单路径重复')
+    def permitted(path,old):
+        require(grading_change(study,path,old),'修复越出评分设施: '+path)
+        if repair and repair['scope']=='tasks':
+            source=Path(path).resolve();require(source.is_relative_to(study),'共享评分代码变更必须采用shared影响范围')
+            parts=source.relative_to(study).parts;require(len(parts)>1 and parts[1]in repair['scopeTasks'],'修复改变未声明任务')
+        return True
+    if repair and repair.get('completedAt'):
+        for path in old_by_path.keys()|new_by_path.keys():
+            if old_by_path.get(path,{}).get('sha256')!=new_by_path.get(path,{}).get('sha256'):permitted(path,old_by_path.get(path))
     for entry in index['files']:
-        path=Path(entry['path']);require(path.is_file()and not path.is_symlink()and sha(path)==entry['sha256'],'设施源码改变: '+str(path))
+        path=Path(entry['path']);valid=path.is_file()and not path.is_symlink()and sha(path)==entry['sha256']
+        if not valid and repair and not repair.get('completedAt'):
+            permitted(str(path),entry)
+        else:require(valid,'设施源码改变: '+str(path))
     return index
 
 
-def verify_admission(study,manifest):
+def verify_admission(study,manifest,repair=None):
     require(manifest['schema']==1 and manifest['qualificationComplete']is True,'完整准备未通过')
+    require(not manifest['identities'].get('mockOnly'),'正式准入不能使用合成身份')
+    require(manifest['identities']['v0']=='963704be97150e268edd3fda484d68e0a18a1f8b' and manifest['identities']['image']=='sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','基线或镜像身份改变')
     require(manifest['commit']==manifest['remoteCommit'],'冻结提交未推送')
     auth=json.loads((study/'authorization.json').read_text());require(manifest['T0']==auth['T0'],'T0身份不符')
     require(manifest['identities']['candidate']=='dbe7e145d205c21b580d8c2ee2dcf58c408380d8','候选不符')
@@ -76,12 +112,17 @@ def verify_admission(study,manifest):
     require(proofs['taskPackage']['referenceCases']==300 and proofs['taskPackage']['counterfactualCases']==100,'20题参考资格不完整')
     require(proofs['controller']['nativeIntegrationQualified']is True,'控制器实际执行接线未取得资格')
     require(proofs['engineering']['candidate']==manifest['identities']['candidate'],'工程证明不是当前候选')
-    verify_sources(study,manifest)
+    verify_sources(study,manifest,repair)
     require([t['id']for t in manifest['tasks']]==[f'T{i:02}'for i in range(1,21)],'20题顺序错误')
-    for task in manifest['tasks']+manifest['c7Tasks']:
+    require([t['id']for t in manifest['c7Tasks']]==['C7-L','C7-O'],'C7题目不完整或顺序错误')
+    require(manifest['healthTask']['id']=='health','健康探针绑定缺失')
+    for task in manifest['tasks']+manifest['c7Tasks']+[manifest['healthTask']]:
         binding=json.loads(bound_file(study,task['binding']).read_text())
         require(digest(binding)==task['manifestHash']and binding['admitted']is True,'题目绑定未准入')
         for entry in binding['files']:bound_file(study,entry)
+        initial_manifest=json.loads(bound_file(study,binding['inputManifest']).read_text())
+        initial=study/binding['initial'];require(initial.resolve()==initial and initial.is_relative_to(study),'题目初态路径不合法')
+        verify_initial(initial,initial_manifest,binding['gitIdentity'])
     return proofs
 
 
@@ -111,7 +152,8 @@ def apply(study,action,payload,mode='real'):
     state,checksum=read_state(directory)
     ledger=Ledger(directory)
     if mode=='real':
-        manifest=json.loads((study/'release-manifest.json').read_text());verify_admission(study,manifest)
+        manifest=state['manifest'] or json.loads((study/'release-manifest.json').read_text())
+        if action not in ('pause','close'):verify_admission(study,manifest,state.get('repair'))
         require(state['identities']==manifest['identities'],'账本身份不符')
     else:
         require(state['identities'].get('mockOnly')is True,'模拟入口不能使用正式账本');manifest=state['manifest']
@@ -121,7 +163,10 @@ def apply(study,action,payload,mode='real'):
         require(mode=='real','模拟T1由资格驱动构造');state=ledger.apply('begin',{});return {'state':state}
     if action=='claim':
         slot=next_slot(state)
-        if mode=='real':resources(study,manifest)
+        if mode=='real':
+            resources(study,manifest)
+            spec=importlib.util.spec_from_file_location('dependency_audit',Path(__file__).with_name('dependency-audit.py'));dependency=importlib.util.module_from_spec(spec);spec.loader.exec_module(dependency)
+            dependency.verify(study,json.loads(bound_file(study,manifest['proofs']['dependencies']).read_text()),slot['task'])
         request={'id':slot['id'],'identities':state['identities'],'manifestHash':digest(state['manifest']),'facilityHash':state['repair']['facilityHash']if state['repair']and state['repair'].get('completedAt')else state['manifest']['facilityHash'],'requestLimit':slot['limit']}
         state=ledger.apply('claim',request);return {'claim':state['claims'][slot['id']],'ledgerDirectory':str(directory)}
     if action=='launched':
@@ -151,7 +196,7 @@ def apply(study,action,payload,mode='real'):
                 require(sha(checkpoint)==sha(run/'checkpoint-snapshot.json'),'检查点副本与封存不符')
                 views.append({'id':payload['id']+'/checkpoint','kind':'checkpoint','artifactHash':sha(checkpoint)})
             ended=dt.datetime.fromisoformat(checked['ioFinish'].replace('Z','+00:00')).timestamp()
-            seal={'id':payload['id'],'candidate':state['identities']['candidate'],'writersClosed':True,'manifestVerified':True,'traceHash':checked['traceHash'],'artifactHash':sha(final),'executionHash':checked['executionHash'],'cleanupHash':sha(output/'cleanup.json'),'forwardedGeneration':checked['forwardedGeneration'],'receivedAttempts':checked['receivedAttempts'],'countTokens':checked['countTokens'],'endedAt':ended,'gradeSeconds':0,'gradeState':'pending','views':views,'executionEvidence':checked}
+            seal={'id':payload['id'],'candidate':state['identities']['candidate'],'writersClosed':True,'manifestVerified':True,'traceHash':checked['traceHash'],'artifactHash':sha(final),'executionHash':checked['executionHash'],'cleanupHash':sha(output/'cleanup.json'),'forwardedGeneration':checked['forwardedGeneration'],'receivedAttempts':checked['receivedAttempts'],'countTokens':checked['countTokens'],'endedAt':ended,'gradeSeconds':0,'gradeState':'pending','views':views,'output':str(relative),'executionEvidence':checked}
             state=ledger.apply('seal',seal);return {'sealed':True,'claim':state['claims'][payload['id']]}
         review_file=output/'review.json';review=json.loads(review_file.read_text())
         require(review['artifactHash']==sha(final)and review['executionHash']==checked['executionHash'],'审查未绑定封存执行')
@@ -181,8 +226,73 @@ def apply(study,action,payload,mode='real'):
         require(payload.get('incident')and payload.get('evidence'),'暂停缺少实际证据')
         path=bound_file(study,payload.pop('evidence'));payload['evidenceHash']=sha(path)
         state=ledger.apply('pause',payload);return {'paused':state['paused']}
+    if action=='repair-begin':
+        require(payload.get('impact')and payload.get('reproduction'),'修复缺少影响审计或复现')
+        impact_path=bound_file(study,payload.pop('impact'));impact=json.loads(impact_path.read_text());reproduction=bound_file(study,payload.pop('reproduction'))
+        require(impact['kind']=='measurement'and impact['sameContract']is True,'只允许同契约评分测量修复')
+        require(impact['contractsHash']==digest(state['manifest']['tasks']),'修复改变原任务契约')
+        expected=[x['id']for c in state['claims'].values()if 'seal'in c and c['slot']['kind']!='health'and(impact['scope']=='shared'or c['slot']['task']in impact['scopeTasks'])for x in c['seal']['views']]
+        require(sorted(impact['affectedViews'])==sorted(expected),'影响范围未覆盖全部封存视图')
+        old=[]
+        for view in expected:
+            slot_id,kind=view.split('/');sealed=state['claims'][slot_id]['seal'];output=study/sealed['output'];path=output/(kind+'-grade')/'result.json'
+            old.append({'view':view,'artifactHash':next(x['artifactHash']for x in sealed['views']if x['kind']==kind),'path':str(path.relative_to(study)),'sha256':sha(path)if path.exists()else None})
+        repair_id=digest({'at':dt.datetime.now(dt.timezone.utc).isoformat(),'impact':sha(impact_path)})[:20]
+        request={'repairId':repair_id,'sameContract':True,'identities':state['identities'],'contractsHash':impact['contractsHash'],'affectedViews':expected,'scope':impact['scope'],'scopeTasks':impact.get('scopeTasks',[]),'impactAuditHash':sha(impact_path),'reproductionHash':sha(reproduction),'estimateSeconds':payload['estimateSeconds'],'oldGrades':old,'oldGradesHash':digest(old)}
+        state=ledger.apply('repair-begin',request);return {'repair':state['repair']}
+    if action=='repair-complete':
+        repair=state['repair'];require(repair and not repair.get('completedAt'),'没有待完成评分修复')
+        qualification_path=bound_file(study,payload['qualification']);qualification=json.loads(qualification_path.read_text());regrade_path=bound_file(study,payload['regrade']);regrade=json.loads(regrade_path.read_text());cleanup_path=bound_file(study,payload['cleanup']);cleanup=json.loads(cleanup_path.read_text())
+        require(qualification['qualified']is True and qualification['repeats']==5 and qualification['contractsHash']==repair['contractsHash'],'受影响五次资格不完整或改变契约')
+        require(cleanup['complete']is True,'修复评分资源未清理')
+        require(sorted(r['id']for r in regrade['views'])==sorted(repair['affectedViews']),'没有统一重评所有受影响视图')
+        for row in regrade['views']:
+            report=json.loads(bound_file(study,row['report']).read_text());slot_id,kind=row['id'].split('/');sealed=state['claims'][slot_id]['seal'];artifact=next(x['artifactHash']for x in sealed['views']if x['kind']==kind)
+            require(report['artifactSha256']==artifact and report['gradeStatus']=='complete','重评改变执行产物或仍不可判定')
+        for old in repair['oldGrades']:
+            path=study/old['path'];require((sha(path)if path.exists()else None)==old['sha256'],'旧评分被覆盖')
+        active_index=json.loads(bound_file(study,payload['facilityIndex']).read_text());active_hash=digest(active_index)
+        active_repair={**repair,'completedAt':dt.datetime.now(dt.timezone.utc).timestamp(),'facilityIndex':payload['facilityIndex'],'facilityHash':active_hash};verify_sources(study,manifest,active_repair)
+        reviews=[]
+        for entry in regrade['reviews']:
+            path=bound_file(study,entry);review=json.loads(path.read_text());slot_id=review['id'];sealed=state['claims'][slot_id]['seal']
+            require(review['artifactHash']==sealed['artifactHash']and review['executionHash']==sealed['executionHash'],'重审替换执行身份')
+            final_row=next(x for x in regrade['views']if x['id']==slot_id+'/final');final_path=bound_file(study,final_row['report']);grade=json.loads(final_path.read_text());require(review['gradeHash']==sha(final_path),'重审没有使用当前评分')
+            if review['classification']=='PASS':require(grade['automaticChecksPassed']is True and sealed['executionEvidence']['status']=='completed' and set(review['checks'])=={'publicContract','sourceChanges','userChanges','documentationExample','reportedChecks','traceIntegrity'} and all(value is True for value in review['checks'].values()),'失败产物或缺审查项不能在重审中判PASS')
+            if review['classification']=='H':
+                witness_path=bound_file(study,review['violationEvidence']);witness=json.loads(witness_path.read_text());require(review['criticalClause']in ('H1','H2','H3','H4','H5')and witness['artifactHash']==sealed['artifactHash']and witness.get('observedActual')and witness.get('expectedConstraint')and witness.get('references'),'重审H缺少实际见证')
+                for item in witness['references']:bound_file(study,item)
+                review['violationEvidenceHash']=sha(witness_path)
+            review['reviewEvidenceHash']=sha(path);reviews.append(review)
+        request={'reviews':reviews,'contractsHash':repair['contractsHash'],'identities':state['identities'],'regradedViews':[r['id']for r in regrade['views']],'repeats':5,'qualificationPassed':True,'qualificationHash':sha(qualification_path),'regradeAuditHash':sha(regrade_path),'oldGradesHash':repair['oldGradesHash'],'facilityHash':active_hash,'facilityIndex':payload['facilityIndex'],'cleanupHash':sha(cleanup_path)}
+        state=ledger.apply('repair-complete',request);return {'repair':state['repair'],'paused':state['paused']}
+    if action=='close':
+        report_path=bound_file(study,payload['report']);report=json.loads(report_path.read_text());cleanup_path=bound_file(study,payload['cleanup']);cleanup=json.loads(cleanup_path.read_text())
+        require(cleanup['complete']is True,'关闭前资源未清理')
+        gates=report['gates'];require(set(gates)=={'G'+str(i)for i in range(7)},'发布门槛表不完整')
+        failures=[]
+        for gate,row in gates.items():
+            require(row['status']in ('PASS','FAIL','UNKNOWN'),'未知门槛状态')
+            if row['status']!='UNKNOWN':require(row.get('evidence'),'确定门槛状态缺少证据')
+            for entry in row.get('evidence',[]):bound_file(study,entry)
+            if row['status']=='FAIL':require(row.get('evidence'),'确定门槛失败缺少证据');failures.append({'gate':gate,'evidenceHash':digest(row['evidence'])})
+        request={'verdict':report['verdict'],'reportHash':sha(report_path),'cleanupHash':sha(cleanup_path),'allGatesPassed':all(row['status']=='PASS'for row in gates.values()),'requiredGateFailures':failures}
+        state=ledger.apply('close',request);return {'closure':state['closure']}
     raise Refused('该证据动作尚未实现，保持关闭')
 
 
+def mirror(study):
+    study=Path(study).resolve();directory=study/'formal-controller'
+    if not(directory/'controller-events.jsonl').exists():return
+    state,checksum=read_state(directory);path=study/'stage.json';prior=json.loads(path.read_text())
+    prior.pop('realCliStarts',None);prior.pop('generationRequests',None)
+    prior.update(stage=state['phase'],T1=dt.datetime.fromtimestamp(state['T1'],dt.timezone.utc).isoformat()if state['T1']else None,controllerHash=checksum,realCliClaims=len(state['claims']),sealedNativeRuns=sum('seal'in c for c in state['claims'].values()),forwardedGeneration=sum(c.get('seal',{}).get('forwardedGeneration',0)for c in state['claims'].values()),paused=state['paused'],closure=state['closure'])
+    temp=study/('stage-'+str(os.getpid())+'.tmp')
+    with temp.open('x')as f:json.dump(prior,f,ensure_ascii=False,indent=2);f.write('\n');f.flush();os.fsync(f.fileno())
+    os.chmod(temp,0o600);os.replace(temp,path)
+
+
 if __name__=='__main__':
-    data=json.load(sys.stdin);print(json.dumps(apply(data['study'],data['action'],data.get('payload',{}),data.get('mode','real')),ensure_ascii=False))
+    data=json.load(sys.stdin);result=apply(data['study'],data['action'],data.get('payload',{}),data.get('mode','real'))
+    if data.get('mode','real')=='real':mirror(data['study'])
+    print(json.dumps(result,ensure_ascii=False))

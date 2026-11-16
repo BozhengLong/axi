@@ -147,6 +147,7 @@ def transition(state, action, payload, now):
                                      'executionDeadline': min(now + (3 if slot['kind'] == 'health' else 30) * MINUTE, state['formalDeadline'] - 3 * HOUR)}
         state['phase'] = {'health': 'R3', 'c7': 'R4', 'task': 'R5'}[slot['kind']]
     elif action == 'launched':
+        require(not state['paused'], '全局暂停后不能启动已claim的槽')
         claim = state['claims'][payload['id']]
         require(claim['launch'] is None and 'seal' not in claim, '禁止重复启动已claim的槽')
         require(now < claim['executionDeadline'] and payload.get('processIdentity'), '启动超时或进程身份缺失')
@@ -227,9 +228,21 @@ def transition(state, action, payload, now):
                 claim.setdefault('reviewHistory', []).append(claim['review'])
             claim['review'] = review
         repair.update(payload, completedAt=now)
+        # 局部重评不能清除其他槽尚未解决的H/UNKNOWN，全局暂停由全部审查决定。
+        for slot_id, claim in state['claims'].items():
+            classification = claim.get('review', {}).get('classification')
+            if classification == 'H':
+                new_pause = {'reason': 'confirmed-H', 'slot': slot_id, 'at': now}
+                break
+            if classification == 'UNKNOWN' and new_pause is None:
+                new_pause = {'reason': 'untrusted-evidence', 'slot': slot_id, 'at': now}
         state['paused'] = new_pause
     elif action == 'close':
         problem = decisive_failure(state)
+        failures = payload.get('requiredGateFailures', [])
+        require(all(f.get('gate') in ('G0','G1','G2','G3','G4','G5','G6') and f.get('evidenceHash') for f in failures), '必要门槛失败必须有既定ID和证据')
+        if failures and problem is None:
+            problem = 'required-gate-failure'
         reviews = assessed(state)
         required = {x['id'] for x in slots()}
         complete = required == set(reviews) and all(x['classification'] in ('PASS', 'N') for x in reviews.values())

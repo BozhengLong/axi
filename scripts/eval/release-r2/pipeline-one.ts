@@ -3,27 +3,19 @@ import {readFileSync, mkdirSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {gzipSync} from 'node:zlib';
 import {executeSubject} from './execute-subject.ts';
+import {verifiedHostEnvironment} from './host-environment.ts';
 import {snapshotFacility,verifyFacility} from './facility-snapshot.ts';
 import {command,save} from '../core.ts';
 import {sha} from './source.ts';
 
 const [studyArg,taskId,product,revision] = process.argv.slice(2);
-assert(studyArg && /^(T\d\d|C7-[LO])$/.test(taskId!) && ['v0','v1','claude'].includes(product!) && /^[a-zA-Z0-9-]+$/.test(revision!));
-assert.equal(process.env.ANTHROPIC_API_KEY,'synthetic-local-key');
-assert.equal(process.env.ANTHROPIC_BASE_URL,'http://127.0.0.1:1');
+assert(studyArg && /^(health|T\d\d|C7-[LO])$/.test(taskId!) && ['v0','v1','claude'].includes(product!) && /^[a-zA-Z0-9-]+$/.test(revision!));
+assert(process.env.ANTHROPIC_API_KEY==='synthetic-local-key','模拟入口必须使用合成认证配置');
+assert(process.env.ANTHROPIC_BASE_URL==='http://127.0.0.1:1','模拟入口必须使用本地无上游配置');
 const study=resolve(studyArg),auth=JSON.parse(readFileSync(join(study,'authorization.json'),'utf8'));
-assert.equal(auth.T1,null); assert(Date.now()<Date.parse(auth.preparationDeadline));
-const toolchain=JSON.parse(readFileSync(join(study,'toolchain/verification.json'),'utf8'));
-// Docker Desktop位于已核对的安装目录；固定Node/Bun仍在PATH最前。
-toolchain.env.PATH += ':/Applications/Docker.app/Contents/Resources/bin';
-if(Object.entries(toolchain.env).some(([key,value])=>process.env[key]!==value)){
- assert(process.env.AXI_RELEASE_TOOLCHAIN_APPLIED!=='1','隔离工具链环境未生效');
- const child=Bun.spawn([process.execPath,...process.argv.slice(1)],{env:{...process.env,...toolchain.env,AXI_RELEASE_TOOLCHAIN_APPLIED:'1'},stdin:'inherit',stdout:'inherit',stderr:'inherit'});
- process.exit(await child.exited);
-}
-assert.equal(Bun.version,'1.3.14');
-for(const[name,wanted]of [['node','v22.23.5'],['pnpm','10.34.9']]){const actual=Bun.spawnSync([name!,'--version']);assert.equal(actual.exitCode,0);assert.equal(actual.stdout.toString().trim(),wanted)}
-const task=join(study,taskId!.startsWith('C7-')?'c7':'tasks',taskId!),profile=JSON.parse(readFileSync(join(task,'qualification-profile.json'),'utf8'));
+const qualificationWindow=JSON.parse((await command(['python3',join(import.meta.dir,'qualification_guard.py'),study,taskId!])).stdout);assert(Date.now()<Date.parse(qualificationWindow.deadline));
+await verifiedHostEnvironment(study);
+const task=taskId==='health'?join(study,'health'):join(study,taskId!.startsWith('C7-')?'c7':'tasks',taskId!),profile=JSON.parse(readFileSync(join(task,'qualification-profile.json'),'utf8'));
 assert.equal(process.env.AXI_EVAL_IMAGE,profile.image);
 const out=join(task,`pipeline-${product}-${revision}`);mkdirSync(out);
 save(join(out,'grading-profile-process.json'),await command(['python3',join(import.meta.dir,'prepare-grading-profile.py'),study,taskId!]));
@@ -39,7 +31,7 @@ const publicArgs=(args:string[])=>{
  return result.filter((v,i,a)=>!v.startsWith('--reporter=')&&!v.startsWith('--reporters=')&&!v.startsWith('--test-reporter=')&&!v.startsWith('--reporter-outfile=')&&v!=='--preload'&&a[i-1]!=='--preload'&&v!=='--reporter'&&a[i-1]!=='--reporter');
 };
 const steps=profile.commands.filter((x:any)=>x.label!=='target').map((x:any)=>({label:x.label,args:publicArgs(x.args)}));
-if(!steps.some((x:any)=>x.label==='regression')){
+if(taskId!=='health'&&!steps.some((x:any)=>x.label==='regression')){
  const selected=profile.counterfactualCommands.find((x:any)=>x.label==='regression');assert(selected);steps.push({label:'regression',args:publicArgs(selected.args)});
 }
 function shellTool(id:string,changes:Record<string,string>,validate:boolean){
@@ -49,12 +41,12 @@ function shellTool(id:string,changes:Record<string,string>,validate:boolean){
  return {content:[{type:'tool_use',id,name:product==='claude'?'Bash':'bash',input:{command:shell,...(product==='claude'?{timeout:600000}:{timeout_ms:600000})}}],stopReason:'tool_use'};
 }
 const end=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'});
-const firstTest=profile.regressionPaths[0];assert(patch[firstTest]);
+const firstTest=taskId==='health'?'result.txt':profile.regressionPaths[0];assert(patch[firstTest]);
 const mock=product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')];
 try {
 const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,claim:{mode:'mock',id:claim.id,ledgerLabel:label},prompt:'这是离线CLI流程资格。按当前公开任务完成修改和验证。模拟响应不计模型能力。'});
 save(join(out,'controller-seal.json'),JSON.parse((await controller('seal',{id:claim.id,output:out.slice(study.length+1)})).stdout));
-assert.equal(x.execution.status,'completed',x.execution.error);assert.equal(x.checks.length,steps.length);assert(x.checks.every((c:any)=>c.status===0&&!c.signal&&!c.error));assert.equal(!!x.checkpoint,product==='v1');
+assert.equal(x.execution.status,'completed',x.execution.error);assert.equal(x.checks.length,steps.length);assert(x.checks.every((c:any)=>c.status===0&&!c.signal&&!c.error));assert.equal(!!x.checkpoint,product==='v1'&&taskId!=='health');
 
 const gradeStart=performance.now();let finalGrade:any,checkpointGrade:any;
 for(const view of ['final',...(x.checkpoint?['checkpoint']:[])]){

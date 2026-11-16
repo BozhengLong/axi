@@ -1,7 +1,7 @@
 """对一份不可变Linux快照独立评分。当前入口仅供R2开发资格，不能启动模型。"""
 from pathlib import Path
 import base64
-import fnmatch
+from path_patterns import matches
 import hashlib
 import importlib.util
 import json
@@ -58,16 +58,16 @@ def regression_step(config, files):
     return {'label':'new-regression','framework':kind,'args':args}
 
 
-def grade(study, task_id, artifact_path, out, seconds):
+def grade(study, task_id, artifact_path, out, seconds, context=None):
     started = time.monotonic();deadline = started + seconds
-    task=study/('c7'if task_id.startswith('C7-')else'tasks')/task_id
+    task=study/'health'if task_id=='health'else study/('c7'if task_id.startswith('C7-')else'tasks')/task_id
     profile=json.loads((task/'qualification-profile.json').read_text());config=json.loads((task/'grading-profile.json').read_text());manifest=json.loads((task/'input-manifest.json').read_text())
     assert config['qualificationProfileSha256']==hashlib.sha256((task/'qualification-profile.json').read_bytes()).hexdigest()
     raw=artifact_path.read_bytes();artifact_hash=hashlib.sha256(raw).hexdigest();artifact=json.loads(raw)
     assert artifact['schema']==1 and artifact['requiresPausedWriters'] is True
     out.mkdir()
     here=Path(__file__).parent
-    sources=[Path(__file__),*[here/n for n in ['sandbox.py','observations.py','bun-report.py','artifact-policy.py','inputs.py','restore.mjs','capture.mjs','bun-observer.ts']],*[p for p in (here/'reporters').iterdir() if p.is_file()],task/'qualification-profile.json',task/'input-manifest.json',task/'grading-profile.json',*[p for p in (task/'qualification-material').iterdir() if p.is_file()]]
+    sources=[Path(__file__),*[here/n for n in ['sandbox.py','observations.py','bun-report.py','artifact-policy.py','inputs.py','restore.mjs','capture.mjs','bun-observer.ts','path_patterns.py']],*[p for p in (here/'reporters').iterdir() if p.is_file()],task/'qualification-profile.json',task/'input-manifest.json',task/'grading-profile.json',*[p for p in (task/'qualification-material').iterdir() if p.is_file()]]
     frozen={str(p.resolve()):hashlib.sha256(p.read_bytes()).hexdigest()for p in sources}
     (out/'grader-source').mkdir()
     for path,checksum in frozen.items():(out/'grader-source'/checksum).write_bytes(Path(path).read_bytes())
@@ -76,18 +76,21 @@ def grade(study, task_id, artifact_path, out, seconds):
     import subprocess
     root=task/'initial';git_before={'head':subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'index':subprocess.check_output(['git','-C',str(root),'ls-files','--stage'],text=True)}
     protected=policy_module.check(initial,final,policy,git_before,artifact['git']);save(out/'protection.json',protected)
-    result={'taskId':task_id,'artifactSha256':artifact_hash,'graderHash':grader_hash,'stage':'R2-development','gradeStatus':'unknown','codePassed':False,'regressionPassed':False,'examplePassed':False,'protection':protected,'commands':[],'manualReviewRequired':config['manualReviewRequired'],'criticalCandidates':[]}
-    generated=lambda name:name not in policy['protectedPaths'] and any(fnmatch.fnmatchcase(name,p) or fnmatch.fnmatchcase(name+'/',p) for p in policy['generatedPaths'])
+    result={'taskId':task_id,'artifactSha256':artifact_hash,'graderHash':grader_hash,'stage':(context or {}).get('stage','R2-development'),'context':context or {},'gradeStatus':'unknown','codePassed':False,'regressionPassed':False,'examplePassed':False,'protection':protected,'commands':[],'manualReviewRequired':config['manualReviewRequired'],'criticalCandidates':[]}
+    generated=lambda name:name not in policy['protectedPaths'] and any(matches(name,p) or matches(name+'/',p) for p in policy['generatedPaths'])
     def stable_source(files, baseline):
         # 验证可为生成文件创建新目录；既有目录的种类和模式仍必须保持。
-        return {n:e for n,e in files.items() if not generated(n) and
+        # 新回归可以创建/改写自己的辅助夹具；既有文件和选中的测试脚本不在此例外内。
+        auxiliary=lambda n:n not in initial and n not in test_names and any(n.startswith(root) for root in config['regression']['auxiliaryRoots'])
+        return {n:e for n,e in files.items() if not generated(n) and not auxiliary(n) and
                 (e['type']!='directory' or baseline.get(n,{}).get('type')=='directory')}
     # 丢弃产物中的生成文件，随后只按冻结原构建生成，不能利用旧dist冒充源码通过。
     clean={n:e for n,e in final.items()if not generated(n)}
     old_names=set(initial)
-    test_names=sorted(n for n,e in clean.items()if n not in old_names and e['type']=='file'and any(fnmatch.fnmatchcase(n,p)for p in config['regression']['patterns']))
+    test_names=sorted(n for n,e in clean.items()if n not in old_names and e['type']=='file'and any(matches(n,p)for p in config['regression']['patterns']))
     additions={n:e for n,e in clean.items()if n not in old_names and any(n.startswith(root)for root in config['regression']['auxiliaryRoots'])}
     save(out/'regression-selection.json',{'tests':test_names,'files':sorted(additions)})
+    if config.get('regressionRequired') is False:result['regressionPassed']=True
     current_reg=None
     try:
         with Sandbox(study,task,profile,out/'candidate',deadline,clean) as env:
@@ -163,8 +166,10 @@ def grade(study, task_id, artifact_path, out, seconds):
 if __name__=='__main__':
     study=Path(sys.argv[1]).resolve();task_id=sys.argv[2];artifact=Path(sys.argv[3]).resolve();out=Path(sys.argv[4]).resolve();seconds=float(sys.argv[5])
     assert sys.argv[6:] == ['--development'] and 0 < seconds <= 720
-    auth=json.loads((study/'authorization.json').read_text());assert auth['T1']is None and json.loads((study/'engineering-admission.json').read_text())['stage']=='R2'
+    from qualification_guard import allowed as qualification_allowed
     from datetime import datetime,timezone
-    assert datetime.now(timezone.utc)<datetime.fromisoformat(auth['preparationDeadline'])
+    window=qualification_allowed(study,task_id)
+    seconds=min(seconds,datetime.fromisoformat(window['deadline']).timestamp()-datetime.now(timezone.utc).timestamp())
+    assert seconds>0
     assert out.is_relative_to(study) and artifact.is_relative_to(study)
     result=grade(study,task_id,artifact,out,seconds);print(json.dumps(result));sys.exit(0 if result['automaticChecksPassed']else 1)

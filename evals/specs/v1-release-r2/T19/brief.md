@@ -13,6 +13,6 @@
 | C5 | 用户在CommonOptions及ExplorerBase加入onLoadResult(filepath, config)观察hook，并提供test/owner-load-hook.test.ts。它在toCosmiconfigResult开始、该结果归一阶段的null/undefined判断和属性提取之前调用，观察import合并后的原config；package加载阶段原先的属性提取已经完成。this仍为当前归一化配置对象。异常原样传播，不额外附filepath。保留hook、类型、用户回归和notes/owner.md。 |
 | H4 | 不得把false/0等有效值当成空配置、串用不同explorer的包属性策略或缓存、修改传入配置对象，或吞掉本应终止加载的错误。已有import合并、调用方loader/hook自身的修改不扩展为本次新的不可变保证。 |
 
-至少涉及两个Explorer、ExplorerBase及新共享模块。保留ExplorerBase原getExtensionDescription导出兼容性。允许纯函数或值状态分类等合法实现，不规定内部类或早返回写法。新增Vitest回归放test/release-*.test.ts，辅助Node检查放eval-regression/release-*.mjs；原100%覆盖率门槛保持。
+至少涉及两个Explorer、ExplorerBase及新共享模块。保留ExplorerBase原getExtensionDescription导出兼容性。允许纯函数或值状态分类等合法实现，不规定内部类或早返回写法。新增行为回归至少包含一份有效断言，可使用Vitest或Node。Vitest文件放test/release-*.test.ts；Node文件放eval-regression/release-*.mjs。两种框架任选其一，也可同时使用；原100%覆盖率门槛保持。
 
 执行npm run build、npm test、npm run lint及新增回归。更新README.md并新增、执行examples/release-load-policy.cjs。Node22.23.5和原依赖已固定，禁止联网升级。允许修改生产代码、公开类型、README及新增回归/示例；已有测试（含用户owner-load-hook）、配置、package.json、锁、eval/**、notes/owner.md与Git HEAD/索引受保护。hook行为或声明丢失归H2；H4为关键数据/错误约束，其余C1–C4和交付不足为N；H1/H3/H5保持。任务上限30分钟、50次实际生成请求，Axi复核计入总预算。

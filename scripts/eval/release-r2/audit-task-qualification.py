@@ -46,7 +46,7 @@ result = {'taskId': task_id, 'at': datetime.datetime.now(datetime.timezone.utc).
           'sourceArchivesVerified': True, 'taskInputsUnchanged': True,
           'negativeClassificationChecked': True, 'referenceCases': len(p['rows']),
           'negativeCases': len(n['rows']), 'maxReferenceSeconds': max(r['elapsedSeconds'] for r in p['rows']),
-          'admitted': False, 'remaining': ['three actual CLI/fake API pipelines', 'final package scoring/controller qualification'],
+          'admitted': False, 'remaining': [('one C2 actual CLI/fake API pipeline' if task_id.startswith('C7-') else 'three actual CLI/fake API pipelines'), 'final package scoring/controller qualification'],
           'realModelStarts': 0}
 out = task / ('qualification-audit-' + audit_revision + '.json')
 with out.open('x') as output:

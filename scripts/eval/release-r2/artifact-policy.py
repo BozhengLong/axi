@@ -1,6 +1,6 @@
 """对封存快照执行范围/保留检查。语义用户修改仍由冻结的行为检查负责。"""
 import base64
-import fnmatch
+from path_patterns import matches
 import json
 from pathlib import PurePosixPath
 
@@ -114,9 +114,9 @@ def check(initial, final, policy, initial_git, final_git):
         entry = final.get(name, initial.get(name))
         if entry['type'] == 'directory':
             continue
-        if any(fnmatch.fnmatchcase(name, pattern) for pattern in generated):
+        if any(matches(name, pattern) for pattern in generated):
             continue
-        if not any(fnmatch.fnmatchcase(name, pattern) for pattern in allowed):
+        if not any(matches(name, pattern) for pattern in allowed):
             fail('H1', name, '产物变化超出公开允许范围')
     # 生产脏改不能只靠本函数判断。正式评分必须绑定语义检查结果及源代码复查。
     return {'passed': not violations, 'violations': violations,

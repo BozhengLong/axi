@@ -66,6 +66,11 @@ def audit(run, expected_model='claude-opus-5-5', expected_effort='medium', limit
 
 
 if __name__=='__main__':
-    import sys
-    if len(sys.argv) not in (2,3)or (len(sys.argv)==3 and sys.argv[2]!='--mock'):raise ValueError('需要封存运行目录及可选--mock')
-    print(json.dumps(audit(sys.argv[1],mock=len(sys.argv)==3),ensure_ascii=False))
+    import argparse
+    parser=argparse.ArgumentParser()
+    parser.add_argument('run')
+    parser.add_argument('--mock',action='store_true')
+    parser.add_argument('--limit',type=int,default=50)
+    args=parser.parse_args()
+    if not 1<=args.limit<=50:raise ValueError('请求上限无效')
+    print(json.dumps(audit(args.run,limit=args.limit,mock=args.mock),ensure_ascii=False))

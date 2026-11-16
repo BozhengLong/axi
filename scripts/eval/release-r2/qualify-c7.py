@@ -3,6 +3,7 @@ from pathlib import Path
 import sys, json, os, re, shutil, hashlib, subprocess, time, datetime, fnmatch, traceback
 sys.dont_write_bytecode = True
 from inputs import materialize
+from qualification_guard import allowed as qualification_allowed
 import importlib.util
 _spec = importlib.util.spec_from_file_location('bun_report', Path(__file__).with_name('bun-report.py'))
 bun_report = importlib.util.module_from_spec(_spec)
@@ -15,13 +16,15 @@ task = study / 'c7' / task_id
 profile = json.loads((task / 'qualification-profile.json').read_text())
 admission = json.loads((study / 'engineering-admission.json').read_text())
 authorization = json.loads((study / 'authorization.json').read_text())
+qualification_window = qualification_allowed(study, task_id)
+authorization['qualificationDeadline'] = qualification_window['deadline']
 assert admission['stage'] == 'R2' and authorization['T1'] is None
-assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline'])
+assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['qualificationDeadline'])
 assert re.fullmatch(r'[A-Za-z0-9_-]+', sys.argv[3])
 out = task / ('qualification-' + sys.argv[3])
 out.mkdir()
 reporters = Path(__file__).parent / 'reporters'
-frozen = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__), Path(__file__).with_name('inputs.py'), *reporters.glob('*.mjs'), *reporters.glob('*.cjs'), Path(__file__).with_name('bun-report.py'), Path(__file__).with_name('bun-observer.ts'), task / 'qualification-profile.json', task / 'input-manifest.json', *task.glob('*-patch.json'), * (task / 'qualification-material').glob('*')] if p.is_file()}
+frozen = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__), Path(__file__).with_name('inputs.py'), Path(__file__).with_name('qualification_guard.py'), *reporters.glob('*.mjs'), *reporters.glob('*.cjs'), Path(__file__).with_name('bun-report.py'), Path(__file__).with_name('bun-observer.ts'), task / 'qualification-profile.json', task / 'input-manifest.json', *task.glob('*-patch.json'), * (task / 'qualification-material').glob('*')] if p.is_file()}
 
 def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
@@ -71,7 +74,7 @@ def node_report(stdout):
 results = []
 for role in ['initial', *profile['references'], 'counterfactual']:
     for repeat in range(1, 6):
-        assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline']), '准备截止已到'
+        assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['qualificationDeadline']), '准备截止已到'
         case = out / f'{role}-{repeat}'
         case.mkdir()
         work = case / 'work'
@@ -279,5 +282,5 @@ for role in ['initial', *profile['references'], 'counterfactual']:
             raise SystemExit(1)
 for path, expected in frozen.items():
     assert digest(Path(path)) == expected, f'资格期间输入或设施改变: {path}'
-assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline']), '准备截止后不能准入'
+assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['qualificationDeadline']), '准备截止后不能准入'
 save(out / 'results.json', {'task': task_id, 'qualified': len(results) == (len(profile['references']) + 2) * 5 and all(r['passed'] for r in results), 'facilityStable': True, 'rows': results})
