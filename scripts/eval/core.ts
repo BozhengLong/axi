@@ -77,7 +77,20 @@ export async function restartRelay(batch: Batch) {
   save(join(STORE, "current.json"), batch); save(join(batch.directory, "private-state.json"), batch);
   save(join(batch.directory, `relay-revision-${Date.now()}.json`), { oldImage, image: batch.image, time: new Date().toISOString() });
 }
-export async function createRuntime(batch: Batch, id: string, options: { mock?: any[]; policy?: string; files?: SeedFiles; taskVolume?: string; mounts?: string[]; maxRounds?: number; maxTotal?: number } = {}): Promise<Runtime> {
+export function validateTaskEnvironment(options: { taskEnv?: Record<string, string>; taskTmpfs?: string[] }): void {
+  // 题目专属构建环境不能覆盖产品身份、凭据或CLI用户配置。
+  const allowedTaskEnv = new Set(['NODE_PATH', 'NX_CACHE_DIRECTORY', 'NX_WORKSPACE_DATA_DIRECTORY', 'NX_DAEMON']);
+  for (const [key, value] of Object.entries(options.taskEnv ?? {})) {
+    if (!allowedTaskEnv.has(key) || typeof value !== 'string' || value.includes('\0') || value.includes('\n')) throw Error('无效题目环境变量');
+  }
+  const allowedTaskTmpfs = new Set(['/task/node_modules/.vitest:rw,nosuid,size=16m,mode=1777', '/task/documentation/node_modules/.cache:rw,uid=1000,gid=1000,size=512m']);
+  for (const mount of options.taskTmpfs ?? []) {
+    if (!allowedTaskTmpfs.has(mount)) throw Error('无效题目缓存挂载');
+  }
+}
+
+export async function createRuntime(batch: Batch, id: string, options: { mock?: any[]; policy?: string; files?: SeedFiles; taskVolume?: string; mounts?: string[]; maxRounds?: number; maxTotal?: number; taskEnv?: Record<string, string>; taskTmpfs?: string[] } = {}): Promise<Runtime> {
+  validateTaskEnvironment(options);
   const token = crypto.randomUUID(), name = `axi-eval-${batch.id}-${id}`, network = `${name}-net`;
   const directory = join(batch.directory, id); mkdirSync(directory, { mode: 0o700 });
   try {
@@ -87,10 +100,11 @@ export async function createRuntime(batch: Batch, id: string, options: { mock?: 
   const ip = addresses[network].IPAddress;
   await control(batch, "register", { id, token, mock: options.mock, policy: options.policy, maxRounds: options.maxRounds, maxTotal: options.maxTotal });
   const env: Record<string, string> = {
+    ...(options.taskEnv ?? {}),
     AXI_EVAL_RELAY_IP: ip, ANTHROPIC_BASE_URL: `http://${ip}:8787`, ANTHROPIC_API_KEY: token,
     CLAUDE_CONFIG_DIR: "/home/eval/.claude", CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1", CLAUDE_CODE_DISABLE_AUTO_MEMORY: "1",
   };
-  await docker(["run", "-d", "--name", name, "--label", `${LABEL}=${batch.id}`, "--network", network, "--user", "0", "--read-only", "--cap-drop=ALL", "--cap-add=NET_ADMIN", "--cap-add=SETUID", "--cap-add=SETGID", "--cap-add=SETPCAP", "--cap-add=CHOWN", "--security-opt", "no-new-privileges", "--cpus", "2", "--memory", "4g", "--pids-limit", "256", ...(options.taskVolume ? ["--mount", `type=volume,src=${options.taskVolume},dst=/task`] : ["--tmpfs", "/task:rw,nosuid,size=200m,mode=755"]), ...(options.mounts ?? []).flatMap(m => ["--mount", m]), "--tmpfs", "/home/eval:rw,nosuid,size=256m,mode=755", "--tmpfs", "/tmp:rw,nosuid,size=256m,mode=1777", ...Object.entries(env).flatMap(([k, v]) => ["-e", `${k}=${v}`]), batch.image]);
+  await docker(["run", "-d", "--name", name, "--label", `${LABEL}=${batch.id}`, "--network", network, "--user", "0", "--read-only", "--cap-drop=ALL", "--cap-add=NET_ADMIN", "--cap-add=SETUID", "--cap-add=SETGID", "--cap-add=SETPCAP", "--cap-add=CHOWN", "--security-opt", "no-new-privileges", "--cpus", "2", "--memory", "4g", "--pids-limit", "256", ...(options.taskVolume ? ["--mount", `type=volume,src=${options.taskVolume},dst=/task`] : ["--tmpfs", "/task:rw,nosuid,size=200m,mode=755"]), ...(options.mounts ?? []).flatMap(m => ["--mount", m]), ...(options.taskTmpfs ?? []).flatMap(m => ["--tmpfs", m]), "--tmpfs", "/home/eval:rw,nosuid,size=256m,mode=755", "--tmpfs", "/tmp:rw,nosuid,size=256m,mode=1777", ...Object.entries(env).flatMap(([k, v]) => ["-e", `${k}=${v}`]), batch.image]);
   const runtime = { id, token, name, network, ip, directory, ...(options.taskVolume ? { taskVolume: options.taskVolume } : {}) };
   await Bun.sleep(100);
   await execute(runtime, ["bun", "/opt/eval/files.ts", "seed"], encodeFiles(options.files ?? {}));
