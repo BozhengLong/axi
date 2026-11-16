@@ -9,3 +9,5 @@
 当前已写[T02公开任务](T02/brief.md)。T02完成原态/两参考各5次、同新增回归反事实5次、8类负例各5次；还未完成三方CLI模拟，因此尚未全部准入。其余题目、两份合法参考、错误变体、原态/正例各5次、60条三方任务模拟、2条C7模拟和正式控制器均须完成并冻结。原始参考、保留检查及完整Trace留在私有研究目录；公开材料记录固定身份、条款和资格结论。
 
 私有记录位于`~/.local/share/axi-evals/v1-release-p02-r2-20261116T092836Z/task-selection/`：`criteria.json`、`attempts.jsonl`、`draft-bindings.json`、原始上游问题响应、源码归档、依赖安装和初态检查。只有`engineering-admission.json`和全部题包资格共同通过，后续控制器才能放行真实模型。
+
+2026-11-16 22:28补充：新增[T06](T06/brief.md)、[T10](T10/brief.md)、[T14](T14/brief.md)及[T03重构草稿](T03/brief.md)。T02/T06/T10的当前Linux卷参考与负例资格完成；T14明确默认preservePaths边界后正在重做；T03尚未资格。完整记录见[检查点](../../../docs/verification/2026-11-16-r2-reference-preparation.md)。没有任何任务凭此单独开放真实模型。
