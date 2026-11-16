@@ -1,0 +1,1346 @@
+{
+  "candidate": "0f4a2c4df87b01d6290ff81dfea2541a5169e2ae",
+  "status": "NO-GO",
+  "note": "这是本轮执行映射，不是39项通过声明。E-03/E-04三方容器适配尚未准入；E-05仅v1工程模拟有新增完整Trace。",
+  "rows": [
+    {
+      "id": "F-01",
+      "scenario": "read 分页、中文、emoji、LF/CRLF、BOM、无末尾换行",
+      "expected": "原文与行号分离；码点不损坏；版本对应完整文件；分页范围准确",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 20,
+          "name": "test(\"F-01：分段原文保留 BOM/CRLF/中文/emoji；全文件版本不随页变化\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-02",
+      "scenario": "文件过大、增长、非法 UTF-8、NUL、单行过长",
+      "expected": "明确拒绝或不完整，不把乱码/半行当完整文本；内存与输出有界",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 31,
+          "name": "test(\"F-02：拒绝过大、非法 UTF-8、NUL、过长单行；完整行截断不损坏字节\", async () => {"
+        },
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 40,
+          "name": "test(\"F-02/W-01：读取中增长或改写不能签发旧快照版本\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-03",
+      "scenario": "glob 的子目录、隐藏普通文件和模式",
+      "expected": "在公开范围内正确匹配，结果排序；默认排除与根目录明确",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 71,
+          "name": "test(\"F-03/F-04：受控 glob 与字面量 grep；零匹配正常，排除与隐藏普通文件透明\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-04",
+      "scenario": "grep 字面量含正则符号、大小写、零匹配",
+      "expected": "不偷偷按正则解释；返回准确路径/行号；零匹配为正常结果",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 71,
+          "name": "test(\"F-03/F-04：受控 glob 与字面量 grep；零匹配正常，排除与隐藏普通文件透明\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-05",
+      "scenario": "文件数、累计字节、时间、结果数到限；权限不足",
+      "expected": "返回 incomplete、跳过原因和实际范围；不声称完整搜索",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 83,
+          "name": "test(\"F-05：搜索结果、输出和累计字节上限都明确停止\", async () => {"
+        },
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 94,
+          "name": "test(\"F-05：扫描目录项上限不伪装零匹配成功\", async () => {"
+        },
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 100,
+          "name": "test(\"F-05/I-02：扫描截止和取消可观察；不继续读剩余项目\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-06",
+      "scenario": "edit 唯一匹配，包含用户原有未提交修改",
+      "expected": "只改目标片段；其余字节、普通模式/执行位、用户修改与 Git 索引保持",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 29,
+          "name": "test(\"F-06/W-05：真实原子替换保留用户修改、字节和执行位；Git索引不变\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-07",
+      "scenario": "零匹配、多匹配（含重叠）、空 old_text、非法参数",
+      "expected": "不写文件，不进行模糊替换或偷偷 replaceAll；给明确错误",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 41,
+          "name": "test(\"F-07/F-08：零/重叠匹配、空文本、伪造版本和无效Unicode不能修改\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-08",
+      "scenario": "版本缺失、伪造、错路径、跨会话、淘汰或过期",
+      "expected": "拒绝，要求重新 read；grep/glob 结果不能充当编辑版本",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 109,
+          "name": "test(\"F-08：版本绑定会话、路径和文件模式，并按1000项淘汰\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 41,
+          "name": "test(\"F-07/F-08：零/重叠匹配、空文本、伪造版本和无效Unicode不能修改\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-09",
+      "scenario": "创建新文件；已有目标；父目录不存在",
+      "expected": "新建内容完整、权限符合约定；目标存在不覆盖；不隐式建目录",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 51,
+          "name": "test(\"F-09/W-03：write独占发布、目标存在/确认后被创建不覆盖，不隐式创建目录\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "F-10",
+      "scenario": "同一 assistant 消息连续修改同一文件",
+      "expected": "按顺序执行；旧版本不能覆盖前一条的结果；每项有独立结果",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 138,
+          "name": "test(\"F-10：同批两项使用同一旧版本，第二项必须拒绝且保留第一项\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "P-01",
+      "scenario": "相对/绝对内部路径、..、相同字符串前缀的相邻目录、NUL/URL",
+      "expected": "内部合法路径可用；其余拒绝；所有文件工具一致",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 46,
+          "name": "test(\"P-01/P-03：所有工具共用项目边界及保留名，不能用大小写或相邻前缀绕过\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 61,
+          "name": "test(\"P-01/P-02/P-03：write/edit与读取共用保留路径和链接边界\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "P-02",
+      "scenario": "根/父目录/目标 symlink、断链、FIFO、设备、多硬链接",
+      "expected": "不跟随、不阻塞读取、不修改；已观察到的身份变化使提案失效",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 55,
+          "name": "test(\"P-02：符号链接、父链接、断链、硬链接和 FIFO 均不读取\", async () => {"
+        },
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 65,
+          "name": "test(\"P-02：根目录身份变化后不能继续访问替代目录\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 61,
+          "name": "test(\"P-01/P-02/P-03：write/edit与读取共用保留路径和链接边界\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "failed",
+      "actual": "strict批准前普通目标或父目录被替换，仍读取新目标；两平台真实CLI每场景5/5复现",
+      "supplementalDrivers": [
+        "scripts/eval/release/identity-check.ts",
+        "scripts/eval/release/identity-cli.ts"
+      ],
+      "supplementalEvidence": [
+        "macos-cli-identity/results.json",
+        "linux-cli-identity/results.json"
+      ]
+    },
+    {
+      "id": "P-03",
+      "scenario": ".git/.axi、凭据名称、自有临时文件及 ASCII 大小写变体",
+      "expected": "glob/grep 不吐出内容，read/edit/write 不绕过；strict 也不放行",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 46,
+          "name": "test(\"P-01/P-03：所有工具共用项目边界及保留名，不能用大小写或相邻前缀绕过\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 61,
+          "name": "test(\"P-01/P-02/P-03：write/edit与读取共用保留路径和链接边界\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "P-04",
+      "scenario": "默认 project 读取与 strict 读取",
+      "expected": "project 无确认但有自动决定事件；strict 逐次确认；操作结果相同",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 122,
+          "name": "test(\"P-04/P-08：project自动读取与strict拒绝；模型参数不能切换权限\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "P-05",
+      "scenario": "edit/write/bash 在两种模式执行",
+      "expected": "始终逐次确认；y 只对应当前提案；没有批量允许或隐式持久授权",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 127,
+          "name": "test(\"P-05/I-05/I-07：第一项已写入，第二项确认时取消，后续调用补齐且下一轮可继续\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "P-06",
+      "scenario": "输入 n、回车、理由、yes/Y、多行粘贴、提前输入 y",
+      "expected": "默认拒绝，理由回传，旧输入不能批准新调用；保留 R1 回归",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 164,
+          "name": "test(\"P-06/P-09：文件确认默认拒绝并带理由，后续 bash 不自动获批\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "P-07",
+      "scenario": "多改动块、超长差异、路径带换行/Tab、内容含终端控制符",
+      "expected": "所有实际差异都可见；超限不确认；路径保持单行；展示不能覆盖提示",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 107,
+          "name": "test(\"P-07/W-06：预览完整、有界、不可修改；不能重用已执行的提案\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "P-08",
+      "scenario": "模型请求修改模式或把授权指令藏入文件/工具结果",
+      "expected": "不改变本地模式；只有用户在输入框的命令可切换；新会话恢复默认",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 122,
+          "name": "test(\"P-04/P-08：project自动读取与strict拒绝；模型参数不能切换权限\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "P-09",
+      "scenario": "用户拒绝文件修改后模型改用 bash 提出同一效果",
+      "expected": "仍需授权；拒绝事实和理由进入历史；模拟拒绝后文件保持；真实模型遵守程度另审查",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 164,
+          "name": "test(\"P-06/P-09：文件确认默认拒绝并带理由，后续 bash 不自动获批\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "W-01",
+      "scenario": "read 后、提案前外部改了文件",
+      "expected": "旧 base_version 拒绝，外部新内容保持",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 40,
+          "name": "test(\"F-02/W-01：读取中增长或改写不能签发旧快照版本\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 70,
+          "name": "test(\"W-01/W-02：读取后/确认期间内容、模式、目标身份变化使旧授权失效\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "W-02",
+      "scenario": "用户看差异期间外部改内容、替换目标或改权限",
+      "expected": "输入 y 后仍拒绝旧提案；不能重算内容后沿用该 y",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 70,
+          "name": "test(\"W-01/W-02：读取后/确认期间内容、模式、目标身份变化使旧授权失效\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 81,
+          "name": "test(\"W-02：父目录在确认后被替换，不能写到新的同名文件\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "W-03",
+      "scenario": "新建预览期间另一程序创建目标",
+      "expected": "write 发布失败；既有目标保持，不以普通 rename 覆盖",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 51,
+          "name": "test(\"F-09/W-03：write独占发布、目标存在/确认后被创建不覆盖，不隐式创建目录\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "W-04",
+      "scenario": "临时写入失败、空间不足、权限不足、提交前失败",
+      "expected": "目标保持原态；清理只删除本调用拥有的临时文件；清理失败明确记录",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 87,
+          "name": "test(\"W-04：真实临时文件写入途中注入ENOSPC，原文件保持且临时文件清理\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 94,
+          "name": "test(\"W-04/W-06：发布前临时内容被改变，不提交与预览不同的字节\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "W-05",
+      "scenario": "观察者读取正在编辑的文件",
+      "expected": "在支持的本地文件系统中只看到旧完整内容或新完整内容；不能用此证明无外部竞争覆盖",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 29,
+          "name": "test(\"F-06/W-05：真实原子替换保留用户修改、字节和执行位；Git索引不变\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 100,
+          "name": "test(\"W-05：观察者在分块临时写入中只看到旧文件，提交后看到完整新文件\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "W-06",
+      "scenario": "模型工具参数与展示提案不一致；重复批准旧提案",
+      "expected": "不执行；输入、预览摘要、调用 ID 与提交内容一致",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 94,
+          "name": "test(\"W-04/W-06：发布前临时内容被改变，不提交与预览不同的字节\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 107,
+          "name": "test(\"P-07/W-06：预览完整、有界、不可修改；不能重用已执行的提案\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "W-07",
+      "scenario": "提交已成功但后续日志或状态报告失败",
+      "expected": "不谎报未执行，不重复提交；停止本轮，保留实际完成状态或明确 unknown",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 146,
+          "name": "test(\"E-02/W-07：提交前日志失败不写入；提交后日志失败保留成功且停止后续模型调用\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 157,
+          "name": "test(\"W-07/I-08：提交后目标又变化，报告未知状态并停止，不自动重放\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "I-01",
+      "scenario": "Ctrl+C 在输入、模型流、重试退避",
+      "expected": "停止，半截响应不入历史；下一轮可继续，原历史与签名不变",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "I-02",
+      "scenario": "取消 read/glob/grep",
+      "expected": "不继续扫描；部分结果明确不完整；控制输入能及时处理",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-read.test.ts",
+          "line": 100,
+          "name": "test(\"F-05/I-02：扫描截止和取消可观察；不继续读剩余项目\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "I-03",
+      "scenario": "预览/确认/临时准备时取消",
+      "expected": "目标不写，清理本调用临时文件；不执行队列后续项",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 118,
+          "name": "test(\"I-03/I-04：各个提交前屏障取消都不修改目标，提交后取消保持成功\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "I-04",
+      "scenario": "最终提交前后两个受控时点取消",
+      "expected": "提交前取消不生效；已进入提交按实际结果报告 applied/未应用，不按取消信号统一改写",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 118,
+          "name": "test(\"I-03/I-04：各个提交前屏障取消都不修改目标，提交后取消保持成功\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "I-05",
+      "scenario": "第一项写入成功，第二项确认时取消，第三项尚未开始",
+      "expected": "第一项保持成功且不撤销；第二/三项未写；每个 tool_use 均有结果",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 127,
+          "name": "test(\"P-05/I-05/I-07：第一项已写入，第二项确认时取消，后续调用补齐且下一轮可继续\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "I-06",
+      "scenario": "bash 派生同进程组子进程，取消/超时/正常退出",
+      "expected": "原有残留清理通过；子进程不能延迟写测试标记；主动脱离组不在此保证内",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "I-07",
+      "scenario": "取消后继续任务",
+      "expected": "没有自动额外模型请求；用户下一次输入才继续；工具结果配对正确",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 127,
+          "name": "test(\"P-05/I-05/I-07：第一项已写入，第二项确认时取消，后续调用补齐且下一轮可继续\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "I-08",
+      "scenario": "超时、用户取消、普通 I/O 错误、未知提交状态",
+      "expected": "分类不同；未知状态不自动重放；保留可核对的实际输出",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 157,
+          "name": "test(\"W-07/I-08：提交后目标又变化，报告未知状态并停止，不自动重放\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "E-01",
+      "scenario": "自动读取、人工确认、拒绝、冲突、取消、成功提交",
+      "expected": "日志有调用关联、授权来源、前后版本、实际 modified 状态；不保存真实认证头",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 178,
+          "name": "test(\"E-01：日志版本可关联会话；启动时不沿 .axi 链接写到其他目录\", () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "E-02",
+      "scenario": "提交前后分别制造日志不可写",
+      "expected": "提交前阻止写入；提交后保留实际状态并停止后续工作，不自动重做",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 146,
+          "name": "test(\"E-02/W-07：提交前日志失败不写入；提交后日志失败保留成功且停止后续模型调用\", async () => {"
+        },
+        {
+          "file": "tests/v1-write.test.ts",
+          "line": 171,
+          "name": "test(\"E-02：仅在task_end日志失败也提示用户，不谎报所有记录已保存\", async () => {"
+        }
+      ],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "E-03",
+      "scenario": "旧 CLI 与新 CLI 的模拟交付",
+      "expected": "适配器分别识别，未看到实际完整交付不算成功；新工具不被当作 bash 处理",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "E-04",
+      "scenario": "确认界面与 API 调用/文件预览不匹配",
+      "expected": "控制器停止，不盲输 y；不通过修改产品权限来放行",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    },
+    {
+      "id": "E-05",
+      "scenario": "两个版本及 Claude Code 的 Trace",
+      "expected": "原生记录、终端、工具、权限、快照和验收收齐并校验；缺口不伪装完整",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "baselineTestReferences": [],
+      "baselineCommand": "bun test (C checkout); 5 fixed runs per OS",
+      "baselineEvidence": [
+        "macos-baseline/2.stderr",
+        "macos-baseline/3.stderr",
+        "macos-baseline/4.stderr",
+        "macos-baseline/5.stderr",
+        "macos-baseline/6.stderr",
+        "linux-baseline/2.stderr",
+        "linux-baseline/3.stderr",
+        "linux-baseline/4.stderr",
+        "linux-baseline/5.stderr",
+        "linux-baseline/6.stderr"
+      ],
+      "qualification": "not_completed",
+      "actual": "仅取得原有测试基线；P-02触发停止，未完成该ID的全部细分场景、保护审计和负例资格",
+      "supplementalDrivers": [],
+      "supplementalEvidence": []
+    }
+  ],
+  "sixNegativeMutations": "not_started_due_to_P02_stop"
+}

@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "study": "v1-release-20261116",
+  "decision": "NO-GO",
+  "stage": "S1",
+  "candidate": "0f4a2c4df87b01d6290ff81dfea2541a5169e2ae",
+  "product": "0330626249c916bf81612299cd6b58955ad8b8d9",
+  "closedAt": "2026-11-16T06:23:00.554414+00:00",
+  "liveCliStarts": 0,
+  "generationRequests": 0,
+  "formalTasksStarted": 0,
+  "selectedTasks": 0,
+  "baseline": {
+    "macos": {
+      "repeat": 5,
+      "testsEach": 126,
+      "assertionsEach": 842,
+      "fail": 0,
+      "skip": 0
+    },
+    "linux": {
+      "repeat": 5,
+      "testsEach": 126,
+      "assertionsEach": 842,
+      "fail": 0,
+      "skip": 0
+    }
+  },
+  "targetedModuleChecks": {
+    "perPlatform": 45,
+    "passPerPlatform": 15,
+    "failPerPlatform": 30,
+    "note": "glob的target/parent两个诊断变体替换同一搜索目录，不作不同根因计数"
+  },
+  "targetedCli": {
+    "perPlatform": 55,
+    "passPerPlatform": 35,
+    "failPerPlatform": 20,
+    "total": 110,
+    "mockHttpRequests": 220,
+    "driverErrors": 0,
+    "controls": [
+      "normal original read/search",
+      "deny after replacement",
+      "reject symlink target"
+    ],
+    "failingCases": [
+      "read target replacement",
+      "glob scope replacement",
+      "grep scope replacement",
+      "read parent replacement"
+    ],
+    "repeatsPerCasePerPlatform": 5
+  },
+  "issue": {
+    "id": "P02-IDENTITY-01",
+    "severity": "H1",
+    "requiredGate": "G1",
+    "contract": "P-02 and design07 §4.2",
+    "cause": "read/glob/grep closures do not bind checked target/parent identity across approval",
+    "file": "src/tools/registry.ts",
+    "lines": [
+      37,
+      38,
+      44,
+      45
+    ],
+    "fileOrGitDamageObserved": false,
+    "realSecretExposureObserved": false
+  },
+  "gates": [
+    {
+      "id": "G0",
+      "status": "not_completed",
+      "detail": "P/C frozen; remaining engineering and task qualifications stopped"
+    },
+    {
+      "id": "G1",
+      "status": "failed",
+      "detail": "P-02 deterministic identity violation"
+    },
+    {
+      "id": "G2",
+      "status": "failed",
+      "detail": "one unresolved authorization identity defect"
+    },
+    {
+      "id": "G3",
+      "status": "not_started",
+      "detail": "C7 0/2 started, no score assigned"
+    },
+    {
+      "id": "G4",
+      "status": "not_started",
+      "detail": "20 tasks not selected; 60 sessions not started"
+    },
+    {
+      "id": "G5",
+      "status": "not_completed",
+      "detail": "clean install/typecheck/baseline CLI checks passed on both OS; full declared release walkthrough not qualified"
+    },
+    {
+      "id": "G6",
+      "status": "not_completed",
+      "detail": "current stopped-run evidence audited and sealed; full release evidence not produced"
+    }
+  ],
+  "evidence": {
+    "privateRoot": "/Users/spidey0o0zheng/.local/share/axi-evals/v1-release-20261116",
+    "files": 814,
+    "bytes": 9395207,
+    "manifestSha256": "20b1bdf16dffae2ba20078f0c35c2b56de0cc2ef956c654aa5f89271216d3b06",
+    "all382CandidateFileHashesMatch": true
+  },
+  "runtimeGraderRepairsUsed": 0,
+  "sixNegativeMutationsStarted": false,
+  "newReleaseControllerQualified": false,
+  "publication": "candidate pushed; this report is committed separately; no main merge/tag/Release"
+}
