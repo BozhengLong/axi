@@ -1,6 +1,8 @@
 """在固定、无网络、只读依赖环境校准任务。此入口不能启动真实模型。"""
 from pathlib import Path
 import sys, json, os, re, shutil, hashlib, subprocess, time, datetime, fnmatch, traceback
+sys.dont_write_bytecode = True
+from inputs import materialize
 
 study = Path(sys.argv[1]).resolve()
 task_id = sys.argv[2]
@@ -15,7 +17,7 @@ assert re.fullmatch(r'[A-Za-z0-9_-]+', sys.argv[3])
 out = task / ('qualification-' + sys.argv[3])
 out.mkdir()
 reporters = Path(__file__).parent / 'reporters'
-frozen = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__), *reporters.glob('*.mjs'), *reporters.glob('*.cjs'), task / 'qualification-profile.json', task / 'input-manifest.json', *task.glob('*-patch.json'), * (task / 'qualification-material').glob('*')] if p.is_file()}
+frozen = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__), Path(__file__).with_name('inputs.py'), *reporters.glob('*.mjs'), *reporters.glob('*.cjs'), task / 'qualification-profile.json', task / 'input-manifest.json', *task.glob('*-patch.json'), * (task / 'qualification-material').glob('*')] if p.is_file()}
 
 def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
@@ -65,10 +67,11 @@ def node_report(stdout):
 results = []
 for role in ['initial', *profile['references'], 'counterfactual']:
     for repeat in range(1, 6):
+        assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline']), '准备截止已到'
         case = out / f'{role}-{repeat}'
         case.mkdir()
         work = case / 'work'
-        shutil.copytree(task / 'initial', work, symlinks=True, ignore=shutil.ignore_patterns('node_modules', 'dist', 'coverage', '*.tsbuildinfo'))
+        materialize(task / 'initial', work, initial_manifest)
         patch = {} if role == 'initial' else json.loads((task / ((profile['counterfactualReference'] if role == 'counterfactual' else role) + '-patch.json')).read_text())
         if role == 'counterfactual':
             patch = {p: value for p, value in patch.items() if p in profile['regressionPaths']}
@@ -77,8 +80,8 @@ for role in ['initial', *profile['references'], 'counterfactual']:
             dest = work / name
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_text(value)
-        paths = sorted(set(original_files + list(patch)))
-        before = input_snapshot(work, paths)
+        all_paths = sorted(set(original_files + list(patch)))
+        before = input_snapshot(work, all_paths)
         assert before['git']['head'].strip() == initial_manifest['upstreamCommit']
         for original in initial_manifest['files']:
             expected = {k: v for k, v in original.items() if k != 'path'}
@@ -87,6 +90,10 @@ for role in ['initial', *profile['references'], 'counterfactual']:
                 expected = {'type': 'file', 'sha256': hashlib.sha256(patch[original['path']].encode()).hexdigest(), 'mode': original['mode']}
             assert before['files'][original['path']] == expected, '工作副本与固定初态不符'
         save(case / 'source-before.json', before)
+        generated = profile.get('generatedPaths', [])
+        assert not any(fnmatch.fnmatch(p, pattern) for p in patch for pattern in generated), '参考源码不能藏在生成目录'
+        paths = [p for p in all_paths if not any(fnmatch.fnmatch(p, pattern) for pattern in generated)]
+        before['files'] = {p: before['files'][p] for p in paths}
         if profile.get('taskStorage') == 'linux-volume':
             # Linux 不支持修改 symlink 自身的权限位；只对这类位采用已声明的目标平台值。
             for value in before['files'].values():
@@ -104,6 +111,10 @@ for role in ['initial', *profile['references'], 'counterfactual']:
             args += ['-v', f"{source}:{mount['target']}:ro"]
         for mount in profile.get('cacheTmpfs', []):
             args += ['--tmpfs', mount]
+        for key, value in profile.get('environment', {}).items():
+            assert re.fullmatch(r'[A-Z][A-Z0-9_]*', key) and isinstance(value, str)
+            assert key not in ['PATH', 'HOME', 'NODE_OPTIONS', 'ANTHROPIC_API_KEY', 'ANTHROPIC_BASE_URL']
+            args += ['-e', f'{key}={value}']
         args += ['-w', '/task', '--entrypoint', 'sleep', profile['image'], 'infinity']
         save(case / 'container-command.json', args)
         started = time.monotonic()
@@ -116,11 +127,13 @@ for role in ['initial', *profile['references'], 'counterfactual']:
                 init = ['docker', 'run', '--rm', '--network', 'none', '--user', '0', '--read-only', '--cap-drop=ALL', '--cap-add=CHOWN', '-v', f'{volume}:/task', '--entrypoint', 'chown', profile['image'], '1000:1000', '/task']
                 save(case / 'volume-init-command.json', init)
                 subprocess.run(init, check=True, capture_output=True, timeout=10)
-            subprocess.run(args, check=True, capture_output=True, timeout=30)
-            if volume:
-                seed = ['docker', 'exec', name, 'find', '/seed', '-mindepth', '1', '-maxdepth', '1', '!', '-name', 'node_modules', '-exec', 'cp', '-R', '-P', '{}', '/task/', ';']
+                # 先复制源码再挂只读嵌套依赖，避免Docker先创建root拥有的包目录。
+                seed = ['docker', 'run', '--rm', '--network', 'none', '--user', '1000:1000', '--read-only', '--cap-drop=ALL', '-v', f'{volume}:/task', '-v', f'{work}:/seed:ro', '--entrypoint', 'cp', profile['image'], '-R', '-P', '--preserve=mode', '/seed/.', '/task/']
                 save(case / 'seed-command.json', seed)
-                subprocess.run(seed, check=True, capture_output=True, timeout=20)
+                seeded = subprocess.run(seed, capture_output=True, timeout=20)
+                save(case / 'seed-result.json', {'code': seeded.returncode, 'stdout': seeded.stdout.decode(), 'stderr': seeded.stderr.decode()})
+                assert seeded.returncode == 0, '输入复制失败，不能运行测试'
+            subprocess.run(args, check=True, capture_output=True, timeout=30)
             steps = profile['counterfactualCommands'] if role == 'counterfactual' else profile['commands']
             for index, step in enumerate(steps):
                 if step.get('referenceOnly') and role == 'initial':
@@ -165,11 +178,12 @@ for role in ['initial', *profile['references'], 'counterfactual']:
                 elif step.get('framework') == 'mocha':
                     native = json.loads((case / f'{index}.native.json').read_text())
                     assert code == 0 and not native['failures'] and native['stats']['failures'] == 0
-                    assert len(native['tests']) == native['stats']['tests'] == profile['originalTests']
-                    pending = profile['originalMochaPending']
+                    expected = step.get('tests', profile.get('originalTests'))
+                    assert expected and len(native['tests']) == native['stats']['tests'] == expected
+                    pending = step.get('pending', profile.get('originalMochaPending', []))
                     assert sorted(native['pending'], key=lambda x: (x['file'], x['name'])) == sorted(pending, key=lambda x: (x['file'], x['name']))
                     assert native['stats']['pending'] == len(pending)
-                    assert native['stats']['passes'] == profile['originalTests'] - len(pending)
+                    assert native['stats']['passes'] == expected - len(pending)
                     assert all(t['state'] == 'passed' or t['pending'] for t in native['tests'])
                 elif step.get('framework') == 'tap':
                     native = json.loads((case / f'{index}.native.json').read_text())
@@ -222,4 +236,5 @@ for role in ['initial', *profile['references'], 'counterfactual']:
             raise SystemExit(1)
 for path, expected in frozen.items():
     assert digest(Path(path)) == expected, f'资格期间输入或设施改变: {path}'
+assert datetime.datetime.now(datetime.timezone.utc) < datetime.datetime.fromisoformat(authorization['preparationDeadline']), '准备截止后不能准入'
 save(out / 'results.json', {'task': task_id, 'qualified': len(results) == (len(profile['references']) + 2) * 5 and all(r['passed'] for r in results), 'facilityStable': True, 'rows': results})
