@@ -201,8 +201,10 @@ for role in ['initial', *profile['references'], 'counterfactual']:
                     native = json.loads((case / f'{index}.native.json').read_text())
                     assert code == native['code'] == 0 and not native.get('signal') and not native.get('launchError')
                     assert not native['parserErrors'] and native['root']['ok']
-                    assert native['root']['count'] == profile['originalTests']
-                    assert native['counts']['leaves'] == profile['originalTapLeaves']
+                    extra_files = step.get('referenceAdditionalFiles', 0) if role in profile['references'] else 0
+                    extra_leaves = step.get('referenceAdditionalLeaves', 0) if role in profile['references'] else 0
+                    assert native['root']['count'] == profile['originalTests'] + extra_files
+                    assert native['counts']['leaves'] == profile['originalTapLeaves'] + extra_leaves
                     assert not native['counts']['failedLeaves'] and not native['counts']['todo']
                     assert sorted(p['name'] for p in native['points'] if p['skip']) == sorted(profile['originalTapSkips'])
                     assert all(p['ok'] and not p['tapError'] for p in native['points'])
