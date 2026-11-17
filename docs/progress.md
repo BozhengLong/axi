@@ -4,6 +4,12 @@
 
 共用规范见 [AGENTS.md](../AGENTS.md)。本文件汇总当前状态，详细过程保存在 [开发日报](devlog/) 中。
 
+## R2已按题恢复：15题材料、42条CLI通过（2026-11-18）
+
+源码9e7601a与C3保持。实际空间回升后，原r3final3父进程87465已恢复，U14三方完成，累计42条；U15三方和U16材料继续。当前按每题闭合边界核对容量，私有capacity-pause-driver.py与capacity-resume-next.py记录暂停/恢复身份；targeted-compression-queue-1只在原容量行写入后压缩闭合证据。没有暂停活动CLI、评分或资源采样，原始统计与逻辑字节保持。若父进程处于T状态，先读最新r2-cli-capacity-pause-*/result.json和resumed.json；不要新建或重跑队列。
+
+材料已有U01–U15完整五次通过。正式65条、整体审计与容量冻结尚未完成，T1为空、真实模型0。系统快照没有再次清理，80 GiB目标授权仍待答复。见[日报第11节](devlog/2026-11-18.md#11-按题闭合保全后恢复准备队列)。
+
 ## R2容量保全：14题材料通过，39条CLI完成后暂停（2026-11-18）
 
 候选C3和设施源码9e7601a保持。U01–U14材料资格通过；material-queue-r3-1继续U15及后续题/C7。统一r3final3完成U01–U13三方39条后，在等待U14材料、没有活动CLI的边界暂停父进程87465（SIGSTOP）。不能新建或重跑该队列；容量恢复后核对私有r2-cli-capacity-pause-1/result.json中的启动身份，再SIGCONT同一父进程。已完成采样和Trace未中断。
