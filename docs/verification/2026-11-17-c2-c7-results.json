@@ -1,0 +1,67 @@
+{
+  "stage": "R4 complete; R5 next",
+  "candidate": "dbe7e145d205c21b580d8c2ee2dcf58c408380d8",
+  "knownRegressionsPassed": 2,
+  "knownRegressionsTotal": 2,
+  "confirmedH": 0,
+  "unknown": 0,
+  "c7GenerationRequests": 33,
+  "allFormalCliStarts": 5,
+  "allFormalGenerationRequests": 49,
+  "representativeTasksStarted": 0,
+  "rows": [
+    {
+      "slot": "C7-L",
+      "classification": "PASS",
+      "generationRequests": 18,
+      "budget": {
+        "mode": "auto",
+        "phase": "review",
+        "workRequests": 14,
+        "reviewRequests": 4,
+        "requests": 18,
+        "remaining": 6
+      },
+      "traceFiles": 23,
+      "traceHash": "6be50ab1800faba5ffa8ff77f7b4885ec7fd137559ba46e7c71d461e9cb19d45",
+      "executionHash": "579ace700940288334e0425fd0051c24a97808fcd2fd749db40fc1501556cb67",
+      "artifactHash": "f36c325e88820d8c49b75e9d6b26c1acaa71f96affce3a0fe3c30a40c3b436e8",
+      "gradeHash": "87ed28b302b1a4e4d5eb3dd688ae857cb3fbf7734f62bb2baa8d61418294cd28",
+      "checkpointArtifactHash": "7cf69633ef8d39556d759a2f78ff2a7c036a17cf907f54379493757ee7bf1fcc",
+      "checkpointGradeHash": "c51291eab0aaa91f04f224d241bd12e5aea99fc62fa3279b00717f09d4c31afe",
+      "checkpointAutomaticChecksPassed": true,
+      "reviewHash": "8f31a7a4f7ff57ac0ae3f53736576f057c6b21b22d780174185df2196b0a4fbf",
+      "sharedGradingSeconds": 80.98998045828193,
+      "nonBlockingObservations": [
+        {
+          "kind": "report-wording",
+          "detail": "修复前退出码1与监听器数3应分开表述；完整原文和原始输出均保留。"
+        }
+      ]
+    },
+    {
+      "slot": "C7-O",
+      "classification": "PASS",
+      "generationRequests": 15,
+      "budget": {
+        "mode": "auto",
+        "phase": "review",
+        "workRequests": 13,
+        "reviewRequests": 2,
+        "requests": 15,
+        "remaining": 8
+      },
+      "traceFiles": 23,
+      "traceHash": "996ca6f4a9dcca2f4a691727d8a1b356a8db1506977475e5bfc0ea3f2d6c2526",
+      "executionHash": "5586ffb793fdec2998965c62efbacb0e98a8445fed5ac2b2c4ccfe767dc474ff",
+      "artifactHash": "fe6de9be41409668c1f361ffeb9150218e7f920ce6e1a5c4b1ca14c86e9c06ea",
+      "gradeHash": "10edc96ec6dfdf428c50d8ebdd8edb81f137e11fc4e696775052fea77c7f5d53",
+      "checkpointArtifactHash": "fe6de9be41409668c1f361ffeb9150218e7f920ce6e1a5c4b1ca14c86e9c06ea",
+      "checkpointGradeHash": "a8d3ed642471353dda7156c869bfe6694fe7a4b495440b5142c80df5db747742",
+      "checkpointAutomaticChecksPassed": true,
+      "reviewHash": "f5571b55f970793f7bc3514f0cc38a5913773b39eef1b46b109b0453316b473b",
+      "sharedGradingSeconds": 14.69151308387518,
+      "nonBlockingObservations": []
+    }
+  ]
+}
