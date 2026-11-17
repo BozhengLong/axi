@@ -28,7 +28,8 @@ if(process.argv[2]==='child'){
   while(performance.now()<until){state=await control(batch,'state',{id:runtime.id});if(state.activeRequests===1)break;await Bun.sleep(20);}
   assert.equal(state.activeRequests,1);save(join(out,'before-crash.json'),state);
   if(mode==='crash')child.kill('SIGKILL');
-  await Promise.race([child.exited,Bun.sleep(15000)]);assert.notEqual(child.exitCode,null,'故障注入后执行器仍运行');
+  const exited=await Promise.race([child.exited.then(code=>({code,signal:child.signalCode})),Bun.sleep(15000).then(()=>undefined)]);
+  assert(exited,'故障注入后执行器仍运行');save(join(out,'executor-exit.json'),exited);
   const crashedAt=performance.now();
   if(mode==='write-failure')assert(/EFBIG|file too large/i.test(readFileSync(join(out,'executor.stderr'),'utf8')),'未观察到真实文件写入错误');
   const resultPath=join(runtime.directory,'guardian-result.json');

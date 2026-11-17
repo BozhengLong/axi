@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib,json,os,shutil,subprocess,sys,time
 
 study=Path(sys.argv[1]).resolve();label=sys.argv[2];bundle=sys.argv[3]
+prior_label=sys.argv[4] if len(sys.argv)>4 else None
 assert label.startswith('r1-final-') and bundle.startswith('bundle-')
 revision=int(label.rsplit('-',1)[1]);offset=(revision-1)*100
 out=study/label;out.mkdir();repo=Path(__file__).resolve().parents[3]
@@ -39,7 +40,21 @@ for i in range(5):
       (f'large-{i+1}',['bun','scripts/eval/release-r3/runtime-qualification.ts',str(study),f'runtime-qualification-{20+i+offset}',bundle,'large'])])
 (out/'plan.json').write_text(json.dumps({'steps':steps,'repeats':5,'mockOnly':True,'bundle':bundle},indent=2)+'\n')
 rows=[]
+reuse={}
+if prior_label:
+    prior=study/prior_label;before=json.loads((prior/'source.json').read_text())
+    changed={p for p in source.keys()|before.keys() if source.get(p)!=before.get(p)}
+    # 这两个文件只调度/验证故意杀死执行器的场景，不在已通过基础/适配器的执行依赖中。
+    allowed={str(repo/'scripts/eval/release-r3'/n) for n in ('r1-final.py','orphan-qualification.ts')}
+    assert changed and changed<=allowed,'存在影响已通过执行依赖的改动，不能复用'
+    previous=json.loads((prior/'results.json').read_text());old_plan=json.loads((prior/'plan.json').read_text());assert old_plan['bundle']==bundle
+    reusable={name for name,_ in steps[:22] if name!='typecheck'}
+    reuse={r['step']:r for r in previous['rows'] if r['step'] in reusable and r['exitCode']==0}
+    assert set(reuse)==reusable,'完整五次基础或50条适配证明缺失'
+    (out/'reuse-audit.json').write_text(json.dumps({'prior':prior_label,'changedFiles':sorted(changed),'scope':'只复用不依赖故障夹具的已通过基础与适配场景；所有RT实际CLI组重新完成五次','steps':sorted(reuse),'priorResultsSha256':hashlib.sha256((prior/'results.json').read_bytes()).hexdigest()},ensure_ascii=False,indent=2)+'\n')
 for name,args in steps:
+    if name in reuse:
+        rows.append({**reuse[name],'reusedFrom':prior_label});continue
     stable();disk=os.statvfs(study);assert disk.f_bavail*disk.f_frsize>=9*1024**3,'保全空间不足'
     folder=out/name;folder.mkdir();run_env={**env,'AXI_TEST_EVIDENCE_DIR':str(folder/'traces')}
     started=time.time();print(json.dumps({'step':name,'state':'running'}),flush=True)
