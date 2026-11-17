@@ -58,6 +58,9 @@ if task_id == 'T08':protected.remove('package.json');json_changes = {'package.js
 if task_id.startswith('C7-'):protected = sorted(set(protected)|set(profile['protectedPaths']))
 regression = {'framework':'node','patterns':['eval-regression/release-*.mjs'],'auxiliaryRoots':['eval-regression/']}
 if task_id == 'T02':regression = {'framework':'vitest','patterns':['test/release-*.test.ts'],'auxiliaryRoots':['test/release-']}
+if task_id in ('T09','T19'):
+    regression['alternatives']=[{'framework':'vitest','patterns':['test/release-*.test.ts']}]
+    regression['auxiliaryRoots']+=['test/']
 if task_id == 'C7-L':regression = {'framework':'jest','patterns':['packages/listr2/tests/*.e2e-spec.ts','packages/listr2/tests/*.spec.ts'],'auxiliaryRoots':['packages/listr2/tests/']}
 if task_id == 'C7-O':regression = {'framework':'bun','patterns':['tests/*.test.ts'],'auxiliaryRoots':['tests/']}
 semantic = {'T03':['C4:owner-copy-hook'],'T07':['C4:owner-route-hook'],'T11':['C4:owner-choiceObserver'],'T19':['C5:owner-onLoadResult']}.get(task_id, [])

@@ -64,8 +64,12 @@ def build(study,plan_path):
         elif task_id.startswith('C7-'):c7_rows.append(entry)
         else:
             assert entry['repository']==manifest['repository']and entry['category']==manifest['category']
-            assert entry['userDirty']==bool(manifest['userDirty'])
-            if entry['productionDirty']:assert any(not x.startswith('notes/')for x in manifest['userDirty'])
+            user_files=entry['userFiles'];assert user_files and all(any(f['path']==name for f in manifest['files'])for name in user_files)
+            dirty=subprocess.check_output(['git','--no-optional-locks','-C',str(task/'initial'),'status','--porcelain=v1','--untracked-files=all','--',*user_files])
+            assert entry['userDirty']==bool(dirty),'用户脏改必须来自实际Git状态'
+            if entry['productionDirty']:
+                production=[name for name in user_files if not name.startswith(('notes/','test/'))];assert production
+                assert subprocess.check_output(['git','--no-optional-locks','-C',str(task/'initial'),'diff','HEAD','--',*production]),'生产脏改见证缺失'
             if entry['asyncBehavior']:assert entry.get('asyncWitness')and all((task/'initial'/x).is_file()for x in entry['asyncWitness'])
             task_rows.append(entry)
     assert len(qualified_pipelines)==62
@@ -76,6 +80,10 @@ def build(study,plan_path):
     c7_proof=out/'c7.json';put(c7_proof,{'qualified':True,'referenceAndCounterfactualCases':30,'negativeCases':30,'audits':[bound(study/'c7'/r['id']/r['audit'])for r in plan['c7Tasks']],'regressionQualification':proof(plan['c7RegressionProof'])})
     for tree in ['v0-runtime','v1-runtime']:
         facility.update(p for p in(study/tree).rglob('*')if p.is_file()and 'node_modules'not in p.parts)
+        source=read(study/('v0-source.json'if tree=='v0-runtime'else'candidate-source.json'))
+        for entry in source['files']:
+            if entry['path'].startswith('src/')or entry['path']=='package.json':
+                path=study/tree/entry['path'];assert path.is_file()and not path.is_symlink()and sha(path)==entry['sha256'],'冻结运行目录不是既定产品'
     facility.update(study/name for name in ['candidate-source.json','v0-source.json','toolchain/verification.json'])
     archive=out/'facility-source';archive.mkdir();index={'schema':1,'files':[]}
     for path in sorted(facility):
@@ -86,6 +94,7 @@ def build(study,plan_path):
     git=lambda args:subprocess.run(['git',*args],cwd=REPO,check=True,capture_output=True,text=True).stdout.strip()
     assert not git(['status','--porcelain']), '冻结前工作树必须提交'
     commit=git(['rev-parse','HEAD']);branch=git(['branch','--show-current']);remote=git(['ls-remote','origin','refs/heads/'+branch]).split()[0];assert remote==commit
+    assert git(['ls-remote','origin','refs/heads/codex/v1-beta1-candidate-r2']).split()[0]=='dbe7e145d205c21b580d8c2ee2dcf58c408380d8','候选远端身份改变'
     candidate=read(study/'candidate.json');identity={'candidate':'dbe7e145d205c21b580d8c2ee2dcf58c408380d8','sourceHash':'14be06a50a8163d4461c1d6e6a498ede412b13dc927f80fa4cf323446a552855','v0':'963704be97150e268edd3fda484d68e0a18a1f8b','image':'sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','model':'claude-opus-5-5','claude':'2.1.322'}
     proofs={key:proof(path)for key,path in plan['proofs'].items()};proofs.update(pipeline=bound(pipeline),taskPackage=bound(task_proof),c7=bound(c7_proof));assert set(proofs)=={'engineering','taskPackage','c7','controller','pipeline','capture','dependencies','resourcePolicy','evidenceAudit'}
     manifest={'schema':1,'T0':read(study/'authorization.json')['T0'],'identities':identity,'qualificationComplete':True,'commit':commit,'remoteCommit':remote,'branch':branch,'tasks':task_rows,'c7Tasks':c7_rows,'healthTask':health,'proofs':proofs,'facilityIndex':bound(index_path),'facilityHash':digest(index),'engineeringHash':proofs['engineering']['sha256'],'c7QualificationHash':proofs['c7']['sha256'],'controllerQualificationHash':proofs['controller']['sha256'],'dependencyHash':proofs['dependencies']['sha256'],'evidenceAuditHash':proofs['evidenceAudit']['sha256']}

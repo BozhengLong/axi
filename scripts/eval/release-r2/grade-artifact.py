@@ -48,14 +48,28 @@ def baseline(task, profile, label):
     return observe(step['framework'],case/f'{index}.stdout',case/f'{index}.native.json',record['exitCode'])
 
 
-def regression_step(config, files):
+def regression_step(config, files, label='new-regression'):
     kind = config['framework']
     if kind == 'node':args=['node','--test','--test-reporter=/reporters/node.mjs',*files]
     elif kind == 'vitest':args=['node','node_modules/vitest/vitest.mjs','run','--reporter=/reporters/vitest.mjs',*files]
     elif kind == 'jest':args=['pnpm','--filter','listr2','run','test','--runInBand','--runTestsByPath',*[f.removeprefix('packages/listr2/') for f in files],'--reporters=/reporters/jest.cjs']
     elif kind == 'bun':args=['bun','test','--preload','/observer.ts',*[('./'+f)for f in files],'--reporter=junit','--reporter-outfile=/evidence/new-regression.native.xml']
     else:raise ValueError('未知回归框架')
-    return {'label':'new-regression','framework':kind,'args':args}
+    return {'label':label,'framework':kind,'args':args}
+
+
+def regression_suites(config, files, initial):
+    suites=[]
+    for suite in [config,*config.get('alternatives',[])]:
+        selected=sorted(n for n,e in files.items()if n not in initial and e['type']=='file'and any(matches(n,p)for p in suite['patterns']))
+        if selected:suites.append({'config':suite,'files':selected})
+    for suite in suites:suite['label']='new-regression'+('-'+suite['config']['framework']if len(suites)>1 else'')
+    return suites
+
+
+def regression_groups_valid(pairs):
+    # 可同时交付行为回归与兼容对照；所有组现在通过，原态至少一个真实行为断言失败。
+    return bool(pairs and all(after['passed']and before['tests']>0 and before['tests']==after['tests']and not before['skips']and not after['skips']and (before['passed']or before['behaviorFailure'])for before,after in pairs)and any(regression_valid(before,after)for before,after in pairs))
 
 
 def grade(study, task_id, artifact_path, out, seconds, context=None):
@@ -87,11 +101,12 @@ def grade(study, task_id, artifact_path, out, seconds, context=None):
     # 丢弃产物中的生成文件，随后只按冻结原构建生成，不能利用旧dist冒充源码通过。
     clean={n:e for n,e in final.items()if not generated(n)}
     old_names=set(initial)
-    test_names=sorted(n for n,e in clean.items()if n not in old_names and e['type']=='file'and any(matches(n,p)for p in config['regression']['patterns']))
+    suites=regression_suites(config['regression'],clean,old_names)
+    test_names=sorted({n for suite in suites for n in suite['files']})
     additions={n:e for n,e in clean.items()if n not in old_names and any(n.startswith(root)for root in config['regression']['auxiliaryRoots'])}
-    save(out/'regression-selection.json',{'tests':test_names,'files':sorted(additions)})
+    save(out/'regression-selection.json',{'tests':test_names,'files':sorted(additions),'suites':[{'framework':suite['config']['framework'],'files':suite['files']}for suite in suites]})
     if config.get('regressionRequired') is False:result['regressionPassed']=True
-    current_reg=None
+    current_regs=[]
     try:
         with Sandbox(study,task,profile,out/'candidate',deadline,clean) as env:
             before=env.capture('before')
@@ -129,25 +144,27 @@ def grade(study, task_id, artifact_path, out, seconds, context=None):
                     if step['label'] in ('regression','example'):continue
                     record,_=run(step);code_records.append(record)
                 result['codePassed']=all(x['passed']for x in code_records)
-                if test_names:
-                    _,current_reg=run(regression_step(config['regression'],test_names))
+                for suite in suites:
+                    _,observation=run(regression_step(suite['config'],suite['files'],suite['label']));current_regs.append(observation)
                 if config.get('example'):
                     record,_=run(next(x for x in profile['commands']if x['label']=='example'));result['examplePassed']=record['passed']
                 else:result['examplePassed']=True
                 result['gradeStatus']='complete'
-        if test_names and current_reg and current_reg['passed']:
+        if suites and len(current_regs)==len(suites)and all(r and r['passed']for r in current_regs):
             counterfactual={**initial,**additions}
             counterfactual={n:e for n,e in counterfactual.items()if not generated(n)}
             with Sandbox(study,task,profile,out/'counterfactual',deadline,counterfactual) as env:
                 before=env.capture('before');build=env.run(profile['commands'][0])
                 if build['timedOut']:raise TimeoutError('反事实构建超时')
                 if build['code']==0:
-                    step=regression_step(config['regression'],test_names);process=env.run(step)
-                    if process['timedOut']:raise TimeoutError('反事实回归超时')
-                    try:
-                        old_reg=native(env.case,step['label'],step['framework'],process['code']);save(env.case/'regression-observation.json',old_reg)
-                        result['regressionPassed']=regression_valid(old_reg,current_reg)
-                    except (ValueError,KeyError,OSError)as error:result['counterfactualReportError']=str(error)
+                    pairs=[]
+                    for suite,current_reg in zip(suites,current_regs):
+                        step=regression_step(suite['config'],suite['files'],suite['label']);process=env.run(step)
+                        if process['timedOut']:raise TimeoutError('反事实回归超时')
+                        try:
+                            old_reg=native(env.case,step['label'],step['framework'],process['code']);save(env.case/(step['label']+'-observation.json'),old_reg);pairs.append((old_reg,current_reg))
+                        except (ValueError,KeyError,OSError)as error:result['counterfactualReportError']=str(error)
+                    result['regressionPassed']=len(pairs)==len(suites)and regression_groups_valid(pairs)
                 after=env.capture('after')
                 if stable_source(before['files'],before['files'])!=stable_source(after['files'],before['files'])or before['git']['head']!=after['git']['head']or before['git']['index']!=after['git']['index']:
                     raise RuntimeError('反事实验证改写源文件或Git')

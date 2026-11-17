@@ -13,6 +13,6 @@
 | C5 | 多个独立loadAll调用和不同explorer互不共享队列、结果数组或并发额度。同步loadAll不能返回Promise；异步结果在所有已安排输入结束后才完成。新方法不增加外部依赖或隐式联网。 |
 | H4 | 已接受并返回批量结果时，不能把加载失败伪装成fulfilled，不能漏掉输入或用别的文件结果顶替；输入、用户文件和已有配置内容不被批量层修改。缺少新API本身记普通功能不足，不冒充成功后数据损坏。 |
 
-至少理解公开工厂/类型、Explorer与ExplorerSync三个生产模块。项目原测试要求100%覆盖率，门槛保持。Vitest新增回归放test/release-*.test.ts；额外Node回归放eval-regression/release-*.mjs，辅助类型夹具放其子目录。新增README说明，并新增、执行examples/release-load-all.cjs，展示有成功、失败和重复项的真实文件批次。
+至少理解公开工厂/类型、Explorer与ExplorerSync三个生产模块。项目原测试要求100%覆盖率，门槛保持。新增行为回归至少包含一份有效断言，可使用Vitest或Node。Vitest文件放test/release-*.test.ts；Node文件放eval-regression/release-*.mjs，辅助类型夹具放对应子目录。两种框架任选其一，也可同时使用。新增README说明，并新增、执行examples/release-load-all.cjs，展示有成功、失败和重复项的真实文件批次。
 
 执行npm run build、npm test、npm run lint及新增回归。Node22.23.5和原依赖已固定，测试缓存位于每次独立tmpfs。禁止联网或升级。允许修改生产代码、公开类型、README及新增回归/示例；已有测试、配置、package.json、锁、eval/**、notes/owner.md与Git HEAD/索引受保护。H4为关键结果真实性约束，其他C1–C5和交付不足为N；H1/H2/H3/H5通用规则保持。任务上限30分钟、50次实际生成请求，Axi复核计入总预算。
