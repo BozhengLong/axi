@@ -1,0 +1,60 @@
+{
+  "candidate": "e684620d1fa9109fcbcf442033ed97323cf76716",
+  "sourceHash": "db1ce2d12928db759b4d43a9dc663a5eab490d733673166d33daf04306580391",
+  "status": "R1_PARTIAL",
+  "baseAndExistingBehaviorPassed": true,
+  "formalEngineeringAdmission": false,
+  "rows": [
+    {
+      "platform": "macos",
+      "baseRepeats": 5,
+      "testsPerRepeat": 208,
+      "assertionsPerRepeat": 1335,
+      "behavior": {
+        "engineering": 140,
+        "engineering-write": 130,
+        "identity-cli": 55,
+        "identity-cli-extra": 30,
+        "install-cli": 10,
+        "control-cli": 20,
+        "mutations": 35,
+        "legacy-mutations": 30
+      }
+    },
+    {
+      "platform": "linux",
+      "baseRepeats": 5,
+      "testsPerRepeat": 208,
+      "assertionsPerRepeat": 1335,
+      "behavior": {
+        "engineering": 140,
+        "engineering-write": 130,
+        "identity-cli": 55,
+        "identity-cli-extra": 30,
+        "install-cli": 10,
+        "control-cli": 20,
+        "mutations": 35,
+        "legacy-mutations": 30
+      }
+    }
+  ],
+  "realModelStarts": 0,
+  "remaining": [
+    "F3 relay/adapter/controller wiring",
+    "RT01-RT12 full qualification",
+    "E03/E04 three-actor adaptation and complete audit",
+    "R2 tasks qualification and exposure audit",
+    "Real health/C7/20 tasks"
+  ],
+  "privateStudy": "v1-release-unbounded-r3-20261117T132920Z",
+  "setupErrorsPreserved": [
+    "Missing driver before macOS product tests",
+    "Linux installer tempdir readonly; corrected TMPDIR and cache under tmpfs"
+  ],
+  "policyAndChunkUnits": {
+    "pass": 6,
+    "fail": 0,
+    "assertions": 5081,
+    "scope": "isolated modules, not live relay qualification"
+  }
+}
