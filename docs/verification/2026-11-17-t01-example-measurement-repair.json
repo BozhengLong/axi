@@ -1,0 +1,44 @@
+{
+  "study": "v1-release-p02-r2-20261116T092836Z",
+  "repairId": "9a307959101e6228bd3d",
+  "status": "qualified-awaiting-ledger-resume",
+  "repeats": 5,
+  "referenceQualificationCases": 20,
+  "entryControlCases": 20,
+  "actualFeatureCases": 25,
+  "originalNoArgReproductions": 5,
+  "mockCliCases": 3,
+  "realCliReruns": 0,
+  "affectedSealedViews": 1,
+  "oldClassification": "N",
+  "newClassification": "N",
+  "codePassed": true,
+  "examplePassed": true,
+  "regressionPassed": false,
+  "protectionPassed": true,
+  "newFacilityHash": "fb651cb3ee392692995f860dc2e8cfd1e71078f3dbdfa507da008cb6849183a9",
+  "unchangedFacilityFiles": 305,
+  "changes": [
+    {
+      "path": "tasks/T01/grading-profile.json",
+      "before": "71209e261852d591aa75c33462083e441df2da7baa71e542b1c24f9132e3ad13",
+      "after": "eddf672cefb52188e290dde04efc8d3c0bcec40a2b39a9c9e7ebf382f71a2e07"
+    },
+    {
+      "path": "tasks/T01/qualification-profile.json",
+      "before": "d5888aa8f806aaf5dff82cee1d65dbd66250affdc5b2c3b8519538eb2067c3ba",
+      "after": "4d39a575a88c6aa9649cb53a6a7e580794d0e980193b924afe39e8abce560343"
+    }
+  ],
+  "sameContract": true,
+  "oldGradesUnchanged": true,
+  "failedFirstIntegrationPreserved": true,
+  "candidate": "dbe7e145d205c21b580d8c2ee2dcf58c408380d8",
+  "evidence": {
+    "qualification.json": "c6b6ef59b08771bf36794a6198e865fb87133cf7c16a8e1591292768b7a662a0",
+    "source-audit.json": "827b165d237491e5913ffeb2ca61677a0aa821d1da3832ace75b518e035e7706",
+    "regrade-audit.json": "5eb82ec0b3fdc304cea31e8cbec9bcc82b441896ae0645c0c86b35cfe52dd22c",
+    "cleanup-audit.json": "74feba886edbf0a04969bf5e8a4e68431c93918bb665498cdbdbd6e1885c243a",
+    "facility-index.json": "5636fcab9071f248a82deaff83313469786b2740e92ef2f180785ece9adc730b"
+  }
+}
