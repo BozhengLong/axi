@@ -2,11 +2,11 @@
 
 从零手写的终端 coding agent。不用官方 SDK，也不用 agent 框架。
 
-2026-11-17 开发状态：`codex/v1-unbounded-tasks` 从冻结候选 C2 派生，取消任务请求次数上限，并保留连续故障恢复窗口。本地模拟验证已通过，尚未冻结新候选或进行正式发布验收。见[运行策略设计](docs/21-unbounded-task-execution.md)与[开发验证](docs/verification/2026-11-17-unbounded-task-development.md)。使用 Bun + TypeScript，手写 HTTP 请求、SSE 解析和工具循环。默认模型为 `claude-opus-5-5`。
+2026-11-17 候选状态：r3候选以产品 `ec5796338c3c62dd56ee6f86fdd93243856cd156` 为基础，取消任务请求次数上限，保留每次逻辑调用默认10分钟故障恢复窗口。产品、测试与依赖保持；本次只整理候选文档。新候选尚未通过正式工程、C7及20题验收，尚未发布。见[候选说明](docs/guides/v1-beta1-candidate-r3.md)。使用 Bun + TypeScript，手写 HTTP 请求、SSE 解析和工具循环，默认模型为 `claude-opus-5-5`。
 
 ## 运行
 
-需要 Git 和 Bun 1.3.14。先检出准备使用的开发提交，再在该目录安装锁定依赖。本次在 macOS 验证；新版本的 Linux 与正式安装验收尚未执行。
+需要 Git 和 Bun 1.3.14。先检出准备使用的候选提交，再在该目录安装锁定依赖。本次在 macOS 验证；新版本的 Linux 与正式安装验收尚未执行。
 
 ```sh
 bun install --frozen-lockfile

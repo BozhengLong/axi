@@ -4,6 +4,10 @@
 
 共用规范见 [AGENTS.md](../AGENTS.md)。本文件汇总当前状态，详细过程保存在 [开发日报](devlog/) 中。
 
+## r3候选冻结文档（2026-11-17）
+
+本分支从P3 ec5796338c3c62dd56ee6f86fdd93243856cd156形成C3，产品、测试、依赖与入口保持，只整理候选文档。用户已确认方案22/D1–D5，正式工程与安装、C7及20题仍待执行；不能借旧C2成绩或本机开发208项通过宣布发布。C3身份由本次提交后的外部清单登记。执行详情与后续结果统一见[设施分支进度](https://github.com/BozhengLong/axi/blob/codex/v1-tools/docs/progress.md)，候选指南见[此处](guides/v1-beta1-candidate-r3.md)。下文是开发基线历史。
+
 ## 当前开发分支（2026-11-17）
 
 `codex/v1-unbounded-tasks`从C2 `dbe7e145d205c21b580d8c2ee2dcf58c408380d8`派生。用户已确认[设计21/D1–D2](21-unbounded-task-execution.md)：取消任务次数上限，连续故障仍有等待上限。设计先以`c2c63d8`提交，产品随后实现。工作、复核及总请求均不限次数，auto仍只复核一次；独立故障恢复窗口默认10分钟，可配置。Trace为版本4。

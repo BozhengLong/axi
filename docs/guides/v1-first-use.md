@@ -1,6 +1,6 @@
 # v1 本机试用
 
-当前开发分支为 `codex/v1-unbounded-tasks`。它从C2派生，取消任务请求次数上限，并保留连续故障恢复窗口。整体交付状态以[进度](../progress.md)与验证报告为准。用户手动试用是可选项，自动验收不依赖你完成以下操作。
+当前候选分支为 `codex/v1-beta1-candidate-r3`。它从C2派生，取消任务请求次数上限，并保留连续故障恢复窗口。整体交付状态以[进度](../progress.md)与验证报告为准。用户手动试用是可选项，自动验收不依赖你完成以下操作。
 
 ## 启动一个独立练习目录
 
@@ -8,7 +8,7 @@
 
 ```sh
 axi_trial=$(mktemp -d /tmp/axi-v1.XXXXXX)
-axi_source=/Users/spidey0o0zheng/.codex/worktrees/axi-unbounded-tasks/axi
+axi_source=/Users/spidey0o0zheng/.codex/worktrees/axi-v1-beta1-candidate-r3/axi
 cp "$axi_source/examples/v0-first-use/brief.md" "$axi_trial/"
 cp "$axi_source/examples/v0-first-use/tasks.md" "$axi_trial/"
 cd "$axi_trial"
@@ -19,7 +19,7 @@ bun run "$axi_source/src/main.ts"
 
 启动后，Axi 显示固定项目根目录和权限模式。等到 `你 [medium] >` 出现再输入一行任务。练习目录不是操作系统沙箱。
 
-启动画面还会显示“任务请求次数：不限”和恢复窗口秒数。默认窗口为600秒，适用于一次模型调用连续失败后的恢复过程，不是整项任务的时限。配置与停止行为见[运行与重试](task-execution.md)。这只启动指定开发版，没有更改系统中的全局`axi`命令或旧候选。
+启动画面还会显示“任务请求次数：不限”和恢复窗口秒数。默认窗口为600秒，适用于一次模型调用连续失败后的恢复过程，不是整项任务的时限。配置与停止行为见[运行与重试](task-execution.md)。这只启动指定候选版，没有更改系统中的全局`axi`命令或旧候选。
 
 ## 观察读取、修改和停止
 
