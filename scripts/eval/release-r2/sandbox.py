@@ -6,6 +6,7 @@ import os
 import subprocess
 import time
 import uuid
+import hashlib
 from inputs import materialize
 
 HERE = Path(__file__).parent.resolve()
@@ -23,6 +24,8 @@ class Sandbox:
         self.volume = self.name + '-task'
         self.image = profile['image']
         self.case.mkdir()
+        self.owner = hashlib.sha256(str(self.case.resolve()).encode()).hexdigest()
+        save(self.case / 'sandbox.json', {'name': self.name, 'volume': self.volume, 'owner': self.owner, 'case': str(self.case.resolve())})
         self.files = files
         self.created = False
         self.running = False
@@ -54,7 +57,7 @@ class Sandbox:
         try:
             seed = self.case / 'seed'
             materialize(self.task / 'initial', seed, json.loads((self.task / 'input-manifest.json').read_text()))
-            self.checked(['docker', 'volume', 'create', self.volume], 'volume-create', 10)
+            self.checked(['docker', 'volume', 'create', '--label', 'axi.eval.grade.owner=' + self.owner, self.volume], 'volume-create', 10)
             self.created = True
             common = ['docker', 'run', '--rm', '--network', 'none', '--read-only', '--cap-drop=ALL', '-v', self.volume + ':/task']
             self.checked(common + ['--user', '0', '--cap-add=CHOWN', '--entrypoint', 'chown', self.image, '1000:1000', '/task'], 'volume-owner', 10)
@@ -62,7 +65,7 @@ class Sandbox:
             if self.files is not None:
                 save(self.case / 'restore-files.json', self.files)
                 self.checked(common + ['--user', '1000:1000', '-v', str(self.case / 'restore-files.json') + ':/files.json:ro', '-v', str(HERE / 'restore.mjs') + ':/restore.mjs:ro', '--entrypoint', 'node', self.image, '/restore.mjs', '/files.json'], 'restore', 30)
-            args = ['docker', 'run', '-d', '--name', self.name, '--network', 'none', '--user', '1000:1000', '--read-only', '--cap-drop=ALL', '--security-opt', 'no-new-privileges', '--cpus', '2', '--memory', '4g', '--pids-limit', '256', '--tmpfs', '/tmp:rw,exec,size=1g', '-e', 'HOME=/tmp/home', '-e', 'TMPDIR=/tmp', '-v', self.volume + ':/task', '-v', str(self.case) + ':/evidence', '-v', str(HERE / 'reporters') + ':/reporters:ro', '-v', str(HERE / 'bun-observer.ts') + ':/observer.ts:ro', '-v', str(self.task / 'qualification-material') + ':/grade:ro']
+            args = ['docker', 'run', '-d', '--name', self.name, '--label', 'axi.eval.grade.owner=' + self.owner, '--network', 'none', '--user', '1000:1000', '--read-only', '--cap-drop=ALL', '--security-opt', 'no-new-privileges', '--cpus', '2', '--memory', '4g', '--pids-limit', '256', '--tmpfs', '/tmp:rw,exec,size=1g', '-e', 'HOME=/tmp/home', '-e', 'TMPDIR=/tmp', '-v', self.volume + ':/task', '-v', str(self.case) + ':/evidence', '-v', str(HERE / 'reporters') + ':/reporters:ro', '-v', str(HERE / 'bun-observer.ts') + ':/observer.ts:ro', '-v', str(self.task / 'qualification-material') + ':/grade:ro']
             for mount in self.profile.get('dependencyMounts', []):
                 source = (self.study / mount['source']).resolve()
                 if not source.is_relative_to(self.study):

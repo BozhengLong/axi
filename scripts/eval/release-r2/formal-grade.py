@@ -1,6 +1,6 @@
 """为已经封存的真实槽评分。固定共享窗口，不重启旧评分，不启动模型。"""
 from pathlib import Path
-import datetime as dt,importlib.util,json,os,sys,time
+import datetime as dt,importlib.util,json,os,sys,time,subprocess
 sys.dont_write_bytecode=True
 HERE=Path(__file__).parent
 
@@ -28,7 +28,9 @@ else:
  gateway.require(not state['paused']and not state['closure']and 'review'not in claim,'当前槽不允许首次评分')
  destination=output;end_limit=state['formalDeadline']-3*3600
 start=time.monotonic();start_wall=time.time();seconds=min(900,end_limit-start_wall);gateway.require(seconds>0,'评分和收尾时间不足')
-with(destination/'grading-start.json').open('x')as f:json.dump({'pid':os.getpid(),'startedAt':dt.datetime.now(dt.timezone.utc).isoformat(),'deadline':start_wall+seconds,'sharedSeconds':seconds,'slot':slot_id,'repairId':repair_id},f,indent=2)
+process_identity=subprocess.check_output(['ps','-p',str(os.getpid()),'-o','lstart=,command='],text=True).strip()
+with(destination/'grading-start.json').open('x')as f:
+    json.dump({'pid':os.getpid(),'processIdentity':process_identity,'startedAt':dt.datetime.now(dt.timezone.utc).isoformat(),'deadline':start_wall+seconds,'sharedSeconds':seconds,'slot':slot_id,'repairId':repair_id},f,indent=2);f.flush();os.fsync(f.fileno())
 rows=[]
 for view in claim['seal']['views']:
  kind=view['kind'];artifact=output/(kind+'-snapshot.json');gateway.require(gateway.sha(artifact)==view['artifactHash'],'评分不能替换封存产物')
