@@ -1,10 +1,32 @@
 import {mkdirSync, writeFileSync, unlinkSync, existsSync,readFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {loadConfig} from '../../../src/config.ts';
-import {save, docker, control, execute, encodeFiles, validateTaskEnvironment, type Batch, type Runtime, type SeedFiles} from '../core.ts';
+import {save, docker, control, execute, freeze as legacyFreeze, encodeFiles, validateTaskEnvironment, type Batch, type Runtime, type SeedFiles} from '../core.ts';
 import {validatePolicy, type RunPolicy} from './policy.ts';
 import {collectNativeTrace} from './trace.ts';
-export {save, command, docker, control, execArgs, execute, freeze, snapshot, type Batch, type Runtime, type Snapshot} from '../core.ts';
+export {save, command, docker, control, execArgs, execute, snapshot, type Batch, type Runtime, type Snapshot} from '../core.ts';
+
+export async function freeze(runtime:Pick<Runtime,'name'> & Partial<Pick<Runtime,'directory'>>){
+  // 监督器也会发信号。先等待它完成，避免两个收尾进程相互终止。
+  if(runtime.directory){
+    const configPath=join(runtime.directory,'guardian-config.json');
+    if(existsSync(configPath)){
+      const config=JSON.parse(readFileSync(configPath,'utf8'));if(config.container!==runtime.name)throw Error('监督器身份不符');
+      const request=join(runtime.directory,'guardian-stop-request.json'),expected={action:'finish',batch:config.batch};
+      if(existsSync(request)){if(JSON.stringify(JSON.parse(readFileSync(request,'utf8')))!==JSON.stringify(expected))throw Error('监督器关闭请求不符');}
+      else save(request,expected);
+      const started=performance.now(),until=started+10000,result=join(runtime.directory,'guardian-result.json');
+      while(!existsSync(result)){
+        if(existsSync(join(runtime.directory,'guardian-failure.json'))||performance.now()>until)throw Error('监督器尚未完成，不能并行收尾');
+        await Bun.sleep(20);
+      }
+      const closed=JSON.parse(readFileSync(result,'utf8'));if(closed.closed!==true||closed.deadline!==config.deadline)throw Error('监督器关闭证明不符');
+      const proof=join(runtime.directory,'freeze-guardian-wait.json');
+      if(!existsSync(proof))save(proof,{at:new Date().toISOString(),waitMs:performance.now()-started,guardianClosed:true,reason:closed.reason});
+    }
+  }
+  await legacyFreeze(runtime);
+}
 
 export type R3Batch = Batch & {study:string; bundle:string; mode:'mock'|'real'};
 const image = 'sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1';
@@ -67,7 +89,7 @@ export async function createRuntime(batch:R3Batch,id:string,options:{executionPo
 
 export async function destroyRuntime(batch:Batch,runtime:Runtime){
   await control(batch,'revoke',{id:runtime.id});
-  const {freeze}=await import('../core.ts');await freeze(runtime);
+  await freeze(runtime);
   await collectNativeTrace(runtime);
   const native=JSON.parse(readFileSync(join(runtime.directory,'native/manifest.json'),'utf8'));
   if(native.status!=='collected')throw Error('原生Trace未收齐；保留冻结容器供保全，不删除唯一原件');
