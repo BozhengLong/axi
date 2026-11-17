@@ -44,7 +44,7 @@ function shellTool(id:string,changes:Record<string,string>,validate:boolean){
 }
 const end=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'});
 const firstTest=taskId==='health'?'result.txt':profile.regressionPaths[0];assert(patch[firstTest]);
-const mock=product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')];
+const mock=[shellTool('read_task',{},false),...(product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')])];
 try {
 const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,claim:{mode:'mock',id:claim.id,ledgerLabel:label},prompt:publicPrompt.text});
 save(join(out,'controller-seal.json'),JSON.parse((await controller('seal',{id:claim.id,output:out.slice(study.length+1)})).stdout));
