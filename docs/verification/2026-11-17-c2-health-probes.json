@@ -1,0 +1,50 @@
+{
+  "stage": "R3 complete; R4 next",
+  "candidate": "dbe7e145d205c21b580d8c2ee2dcf58c408380d8",
+  "T1": "2026-11-17T06:30:22.818135+00:00",
+  "formalDeadline": "2026-11-21T06:30:22.818135+00:00",
+  "admissionCommit": "3ade9bf2672dabe0424ca08f50ea0c5e76b29c2d",
+  "facilityHash": "c8c5f2c3ace337804b0a21ecc514901bf84338287314be6e6a00ad3d6698f82b",
+  "manifestSha256": "1a7df2821f517523e9f0e6a5b0383f3e67e18cba9ccca7ea731bd64dd585c227",
+  "realCliStarts": 3,
+  "forwardedGeneration": 16,
+  "rows": [
+    {
+      "slot": "health-v0",
+      "classification": "PASS",
+      "forwardedGeneration": 4,
+      "countTokens": 0,
+      "traceFiles": 18,
+      "traceHash": "b93fc02dd2c751c7080175ea5b2f3ffe0e22d962da274cd93ae299b8cc658017",
+      "artifactHash": "a6c6457b31891e9eccfd197d7e4ef4cd97dc313c87cbe433bd829891577f69ad",
+      "gradeHash": "94b5267fc916fd7346dce836c3f4c4f47d1fe047c39f8d9318b7aab4c3b8337c",
+      "reviewHash": "7cde4dec986b27f16855ba0b8f363b9646498277f615975596ccc66d3074c823",
+      "wallMs": 14783.166625000002
+    },
+    {
+      "slot": "health-v1",
+      "classification": "PASS",
+      "forwardedGeneration": 7,
+      "countTokens": 0,
+      "traceFiles": 20,
+      "traceHash": "f5c11d7d72a4a14261838963d01f92f1bd31a89a149b7c2d39bed32729a27ad4",
+      "artifactHash": "e30166db3a580e82109e3ed4ac01a6e71dba19bae8dc2d3b013740cd0423a1cf",
+      "gradeHash": "f80f7de7270580c74b8228f67f44f570f87b5341bced892e46606d3d29c10a86",
+      "reviewHash": "c4a99ee9c7669196506a37f55ce528dcda468ce2c3f0e2f6699e552b43d60eb9",
+      "wallMs": 50769.940375000006
+    },
+    {
+      "slot": "health-claude",
+      "classification": "PASS",
+      "forwardedGeneration": 5,
+      "countTokens": 0,
+      "traceFiles": 20,
+      "traceHash": "84035449a257a06e00b0bf1f668205ac779637c7d1c462b9879b036daeb7873c",
+      "artifactHash": "a6c6457b31891e9eccfd197d7e4ef4cd97dc313c87cbe433bd829891577f69ad",
+      "gradeHash": "7ee3b7329c7549520a156242689faa07e767cbe884da4a8663a152cb2ffda992",
+      "reviewHash": "64f74b52ef310203f0e3fadda3ae46f7fe7801915c654f5ecad554b12902e7df",
+      "wallMs": 17323.024375
+    }
+  ],
+  "scope": "health probes only; no task capability ranking; C7 and20 task trios not started"
+}
