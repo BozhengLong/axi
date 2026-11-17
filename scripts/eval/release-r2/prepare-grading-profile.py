@@ -27,6 +27,7 @@ elif task_id in ('T02','T09','T10','T14','T15','T17','T19'):
     if task_id in ('T14','T17'):generated += ['.tap/**', '.tshy-build/**', 'c\uf03a/x/y/z/\uf03c\uf07c\uf03e\uf03f\uf03a.txt']
 elif task_id in ('T03','T06','T07','T08','T13'):
     source = ['lib/**']
+    if task_id in ('T03','T06','T08'):generated = ['.nyc_output/**','coverage/**']
 elif task_id in ('T04','T12','T18'):
     source = ['packages/csv-stringify/lib/**'] if task_id == 'T18' else ['packages/*/lib/**']
     generated = ['packages/*/dist/**','demo/webpack/dist/**','demo/webpack-ts/dist/**']
@@ -57,12 +58,12 @@ json_changes = {}
 if task_id == 'T08':protected.remove('package.json');json_changes = {'package.json':['/exports/.~1jsonl']}
 if task_id.startswith('C7-'):protected = sorted(set(protected)|set(profile['protectedPaths']))
 regression = {'framework':'node','patterns':['eval-regression/release-*.mjs'],'auxiliaryRoots':['eval-regression/']}
-if task_id == 'T02':regression = {'framework':'vitest','patterns':['test/release-*.test.ts'],'auxiliaryRoots':['test/release-']}
+if task_id == 'T02':regression = {'framework':'vitest','patterns':['test/release-*.test.ts'],'auxiliaryRoots':['test/']}
 if task_id in ('T09','T19'):
     regression['alternatives']=[{'framework':'vitest','patterns':['test/release-*.test.ts']}]
     regression['auxiliaryRoots']+=['test/']
-if task_id == 'C7-L':regression = {'framework':'jest','patterns':['packages/listr2/tests/*.e2e-spec.ts','packages/listr2/tests/*.spec.ts'],'auxiliaryRoots':['packages/listr2/tests/']}
-if task_id == 'C7-O':regression = {'framework':'bun','patterns':['tests/*.test.ts'],'auxiliaryRoots':['tests/']}
+if task_id == 'C7-L':regression = {'framework':'jest','patterns':['packages/listr2/tests/**/*.e2e-spec.ts','packages/listr2/tests/**/*.spec.ts'],'auxiliaryRoots':['packages/listr2/tests/']}
+if task_id == 'C7-O':regression = {'framework':'bun','patterns':['tests/**/*.test.ts'],'auxiliaryRoots':['tests/']}
 semantic = {'T03':['C4:owner-copy-hook'],'T07':['C4:owner-route-hook'],'T11':['C4:owner-choiceObserver'],'T19':['C5:owner-onLoadResult']}.get(task_id, [])
 value = {'taskId':task_id,'state':'development-not-admitted','policy':{'protectedPaths':sorted(set(protected)),'allowedPaths':allowed,'generatedPaths':generated,'jsonChanges':json_changes,'semanticProtection':semantic},'regression':regression,'readme':readme if not task_id.startswith('C7-') else None,'example':example,'criticalPrefixes':profile.get('criticalPrefixes',{}),'manualReviewRequired':['public clause coverage','actual side effects for every suspected H','user production semantics','README and example validity','reported checks versus trace'],'qualificationProfileSha256':hashlib.sha256((task/'qualification-profile.json').read_bytes()).hexdigest()}
 if task_id=='health':
