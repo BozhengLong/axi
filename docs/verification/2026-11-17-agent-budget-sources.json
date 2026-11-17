@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-17",
+  "scope": "Read-only source and documentation comparison; no new model runs or candidate changes.",
+  "installedVersions": {
+    "claude": "2.1.326",
+    "pi": "0.84.1",
+    "codex": "0.166.0"
+  },
+  "repositories": [
+    {
+      "name": "pi",
+      "path": "/Users/spidey0o0zheng/GitHub/pi",
+      "origin": "https://github.com/earendil-works/pi.git",
+      "commit": "4afe78de1e51162c01c946dcf080e6a266685a01",
+      "shallow": true,
+      "clean": true
+    },
+    {
+      "name": "deepseek-harness",
+      "path": "/Users/spidey0o0zheng/GitHub/deepseek-harness",
+      "origin": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "commit": "39163dd30f703a79079e2d2446545cff3c453738",
+      "shallow": true,
+      "clean": true
+    },
+    {
+      "name": "claude-code",
+      "path": "/Users/spidey0o0zheng/GitHub/claude-code",
+      "origin": "https://github.com/anthropics/claude-code.git",
+      "commit": "e2c963a886e345ca22d5e882ff8a63e3192529d0",
+      "shallow": true,
+      "clean": true
+    },
+    {
+      "name": "codex",
+      "path": "/Users/spidey0o0zheng/GitHub/codex",
+      "origin": "https://github.com/openai/codex.git",
+      "commit": "2151d3a5b78ca93128496b26333bc30187385a5f",
+      "researchCommit": "59ac39addbbcd3499319c805a916846ca8ac5fef",
+      "remoteHeadVerified": "59ac39addbbcd3499319c805a916846ca8ac5fef",
+      "reusedExisting": true,
+      "worktreePreserved": true,
+      "clean": true
+    }
+  ],
+  "candidateUnchanged": "dbe7e145d205c21b580d8c2ee2dcf58c408380d8",
+  "functionalTestsRun": false
+}
