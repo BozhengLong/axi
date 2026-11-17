@@ -26,8 +26,7 @@ if is_repair:
  destination=study/'repairs'/repair_id/'grades'/slot_id;destination.mkdir(parents=True,exist_ok=False)
  end_limit=min(repair['deadline'],state['formalDeadline']-3*3600)
 else:
- gateway.require(not state['paused']and not state['closure']and 'review'not in claim,'当前槽不允许首次评分')
- destination=output;end_limit=min(state['formalDeadline']-3*3600,min(claim['seal']['endedAt'],claim['executionDeadline'])+(300 if claim['slot']['kind'] in ('health','recovery-health') else 900))
+ destination=output;end_limit=load('grading-admission').first_grade_deadline(state,claim,time.time())
 start=time.monotonic();start_wall=time.time();seconds=min(24*3600 if is_repair else 300 if claim['slot']['kind'] in ('health','recovery-health') else 900,end_limit-start_wall);gateway.require(seconds>0,'评分和收尾时间不足')
 process_identity=subprocess.check_output(['ps','-p',str(os.getpid()),'-o','lstart=,command='],text=True).strip()
 with(destination/'grading-start.json').open('x')as f:

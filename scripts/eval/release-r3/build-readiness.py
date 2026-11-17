@@ -36,15 +36,21 @@ reuse_path=put('reuse.json',{'qualified':True,'rows':reuse,'dependencyIdentity':
 r1='b7d1d110c30d902511f97550ad60c53679a9f7f1'
 paths=subprocess.check_output(['git','ls-tree','-r','--name-only',r1,'--','src','scripts/eval'],cwd=REPO,text=True).splitlines()
 unchanged=[]
+recovery_gate=read(study/'recovery-gate-qualification-1/result.json');assert recovery_gate['qualified']and recovery_gate['checks']==125
+changed_scope={'scripts/eval/release-r3/controller.py','scripts/eval/release-r3/formal-grade.py'};changed=[]
 for name in paths:
     if Path(name).suffix not in ('.py','.ts','.mjs','.cjs'):continue
     original=subprocess.check_output(['git','show',r1+':'+name],cwd=REPO)
-    assert (REPO/name).read_bytes()==original,'R1后既有执行/评分源码改变: '+name
-    unchanged.append({'path':name,'sha256':hashlib.sha256(original).hexdigest()})
-impact_path=put('r1-impact.json',{'qualified':True,'r1Commit':r1,'allExistingExecutionAndGradingSourcesUnchanged':True,'files':unchanged,'newScope':'R2 input preparation, full qualification wrappers, recovery drivers, source/capacity audits and package construction; old runtime has no new imports','adoptedR1Proof':bound(study/'engineering-admission.json')})
+    if (REPO/name).read_bytes()!=original:
+        assert name in changed_scope and sha(REPO/name)==recovery_gate['sourceHashes'][str(REPO/name)],'R1后发生未声明执行/评分改动: '+name
+        changed.append({'path':name,'beforeSha256':hashlib.sha256(original).hexdigest(),'sha256':sha(REPO/name)})
+    else:unchanged.append({'path':name,'sha256':hashlib.sha256(original).hexdigest()})
+assert {r['path']for r in changed}==changed_scope
+qualified('recovery-facility-requalification-1/result.json')
+impact_path=put('r1-impact.json',{'qualified':True,'r1Commit':r1,'allOtherExistingExecutionAndGradingSourcesUnchanged':True,'files':unchanged,'changed':changed,'scope':'恢复尝试首次评分准入与健康完成期限；正常流程沿用原共享截止计算。新65条覆盖全部正常实际流程，两恢复链覆盖实际恢复。候选、代理、适配、监督和评分语义核心未改。','gateQualification':bound(study/'recovery-gate-qualification-1/result.json'),'controllerRequalification':bound(study/'recovery-facility-requalification-1/result.json'),'adoptedR1Proof':bound(study/'engineering-admission.json')})
 engineering=read(study/'engineering-admission.json');assert engineering['qualified'];engineering.update(r2Impact=bound(study/impact_path));engineering_path=put('engineering.json',engineering)
 controller_rows=[]
-for i in range(204,209):
+for i in range(220,225):
     p=study/f'controller-qualification-{i}/result.json';d=read(p);assert d['qualified']and d['checks']==46;controller_rows.append(bound(p))
 recovery_path=qualified('recovery-chains-'+recovery_revision+'/result.json');recovery=read(study/recovery_path);assert recovery['nativeIntegrationQualified']and recovery['recoveryChains']==2
 controller_path=put('controller.json',{'qualified':True,'nativeIntegrationQualified':True,'stateMachineRepeats':5,'checksPerRepeat':46,'proofs':controller_rows,'nativeRecovery':bound(study/recovery_path),'pipelineAudit':bound(study/qualified('pipeline-audit-'+pipeline_revision+'/result.json'))})

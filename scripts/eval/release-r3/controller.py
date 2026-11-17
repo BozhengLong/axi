@@ -148,6 +148,8 @@ def update_recovery(state, claim, now):
     review = claim['review']
     target = state['claims'][recovery['target']]
     is_probe = claim['slot']['kind'] in ('health', 'recovery-health')
+    if is_probe and now > recovery['deadline']:
+        recovery['failed'] = True;state['paused'] = dict(reason='recovery-window-expired', slot=claim['id'], at=now);return
     if is_probe and (review['classification'] != 'PASS' or review.get('cleanUpstream') is not True):
         recovery['failed'] = True;state['paused'] = dict(reason='recovery-health-failed', slot=claim['id'], at=now);return
     if not is_probe:

@@ -63,7 +63,7 @@ assert(performance.now()-gradeStart<=(taskId==='health'?240000:720000));
 assert.deepEqual(grading.views.map((v:any)=>v.view),['final',...(x.checkpoint?['checkpoint']:[])]);
 const execEvidence=JSON.parse(readFileSync(join(out,'execution-evidence.json'),'utf8'));
 save(join(out,'review.json'),{artifactHash:sha(readFileSync(join(out,'final-snapshot.json'))),executionHash:execEvidence.executionHash,gradeHash:sha(readFileSync(join(out,'final-grade/result.json'))),reviewer:'R3 scripted reference pipeline qualification',classification:'PASS',mockOnly:true,checks:{publicContract:true,sourceChanges:true,userChanges:true,documentationExample:true,reportedChecks:true,traceIntegrity:true}});
-const reviewed=JSON.parse((await controller('review',{id:claim.id,output:out.slice(study.length+1)})).stdout);assert(reviewed.reviewed&&reviewed.classification==='PASS'&&!reviewed.paused);save(join(out,'controller-review.json'),reviewed);
+const reviewed=JSON.parse((await controller('review',{id:claim.id,output:out.slice(study.length+1)})).stdout);assert(reviewed.reviewed&&reviewed.classification==='PASS');assert(!reviewed.paused||reviewed.paused.reason==='environment','恢复轮不能出现其他暂停');save(join(out,'controller-review.json'),reviewed);
 save(join(out,'result.json'),{qualified:true,mockOnly:true,task:taskId,product,executionStatus:x.execution.status,requests:x.execution.proxy.meter.forwardedGeneration,traceDirectory:x.traceDirectory,finalArtifact:sha(readFileSync(join(out,'final-snapshot.json'))),gradingMs:performance.now()-gradeStart,checkpointCaptured:!!x.checkpoint});
 console.log(JSON.stringify({task:taskId,product,qualified:true,traceDirectory:x.traceDirectory}));
 
