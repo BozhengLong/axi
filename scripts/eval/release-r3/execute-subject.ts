@@ -57,7 +57,7 @@ export async function executeSubject(study:string,taskId:string,product:'v0'|'v1
   if(options.mock){const proof=await execute(runtime,['cat','/tmp/axi-pipeline-checks.json'],undefined,true);save(join(runtime.directory,'mock-checks-process.json'),proof);checks=proof.exitCode===0?JSON.parse(proof.stdout):[];save(join(out,'mock-checks.json'),checks)}
   await destroyRuntime(batch,runtime);await sealBatchTraces(batch,[runtime]);sealed=true;
   const audit=await command(['python3',join(import.meta.dir,'execution-evidence.py'),runtime.directory,...(options.mock?['--mock']:[])]);save(join(out,'execution-evidence.json'),JSON.parse(audit.stdout));
-  const inputEvidence=await command(['python3',join(import.meta.dir,'input-evidence.py'),runtime.directory,join(out,'prompt.json'),...(options.mock?['--require-document']:[])]);save(join(out,'input-evidence.json'),JSON.parse(inputEvidence.stdout));
+  const inputEvidence=await command(['python3',join(import.meta.dir,'input-evidence.py'),runtime.directory,join(out,'prompt.json'),...(options.mock&&execution.status==='completed'?['--require-document']:[])]);save(join(out,'input-evidence.json'),JSON.parse(inputEvidence.stdout));
   save(join(out,'execution-result.json'),{execution,traceDirectory:runtime.directory,checkpointCaptured:!!checkpoint,batch:batch.id});
   return {execution,initial,final,checkpoint,checks,traceDirectory:runtime.directory,batchId:batch.id};
  }catch(error){save(join(out,'execution-failure.json'),{error:String(error),stack:error instanceof Error?error.stack:undefined});throw error}

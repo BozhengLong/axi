@@ -49,7 +49,7 @@ for(const platform of ['macos','linux']) {
  for(const variant of results.plan.variants) for(let repeat=1;repeat<=5;repeat++) assert(ids.has(`${variant.tool}-${variant.variant}-${repeat}`));
  summary.push({platform,cliRuns:55,httpRequests:110,passed:results.passed,failed:results.failed,nativeAndRelayMatch:true,filesAndGitPreserved:true});
 }
-const result={label:prefix,sourceHash:manifest?.sourceHash,auditedAt:new Date().toISOString(),summary,decision:summary.some(x=>x.failed>0)?'B01-FAIL':'B01-PASS',basis:'P-02 isolated identity checks; this does not qualify the other engineering gates',liveCliStarts:0,generationRequests:0};
-writeFileSync(join(root,`${prefix}-cli-trace-audit.json`),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+const result={label:prefix,sourceHash:manifest?.sourceHash,auditedAt:new Date().toISOString(),summary,decision:summary.some(x=>x.failed>0)?'B01-FAIL':'B01-PASS',basis:'P-02 isolated identity checks; this does not qualify the other engineering gates',realModelStarts:0,mockActualCliRuns:110,mockRequests:220};
+writeFileSync(join(root,process.argv[5]??`${prefix}-cli-trace-audit.json`),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
 
 process.exitCode=summary.some(x=>x.failed>0)?1:0;

@@ -2,6 +2,7 @@
 from pathlib import Path
 import json
 import sys
+import datetime as dt
 from trace_io import events, sha, verify_run
 
 
@@ -24,19 +25,23 @@ def audit(run, mock=False, expected_model='claude-opus-5-5', expected_effort='me
     admitted = generation = count_tokens = complete = permissions = 0
     last_sequence = 0;last_generation = 0;last_complete = 0;last_kind = '';last_stop = None
     blocked_generation = blocked_count_tokens = transport_errors = 0
-    admitted_ids=set();request_ids=set();complete_ids=set()
+    admitted_ids=set();request_ids=set();complete_ids=set();request_paths={};not_forwarded={};local_deadlines=[];execution_policy=None
     external = {};local_interruption = set();model_errors = [];request_hashes = []
     for event in events(run.parent/'relay'/(run.name+'.jsonl')):
         kind, data = event['kind'], event['data'];last_kind = kind
         if kind == 'registered':
-            registered += 1
+            registered += 1;execution_policy=data['executionPolicy']
             if data['id'] != run.name or data['mock'] is not mock or data['executionPolicy']['limitMode'] != 'unlimited' or data['executionPolicy']['requestLimit'] is not None:
                 raise ValueError('模拟身份或不限次数策略不符')
         elif kind == 'writer_closed':closed += 1
         elif kind == 'request_admitted':
             if data['sequence'] <= last_sequence:raise ValueError('请求序号倒序或重复')
-            last_sequence = data['sequence'];admitted += 1;admitted_ids.add(data['sequence'])
+            last_sequence = data['sequence'];admitted += 1;admitted_ids.add(data['sequence']);request_paths[data['sequence']]=data['path']
+        elif kind == 'execution_deadline':
+            if data.get('remainingMs')!=0:raise ValueError('截止事件仍有剩余窗口')
+            local_deadlines.append(event['time'])
         elif kind == 'request_blocked':
+            request_paths[data['sequence']]=data['path'];not_forwarded[data['sequence']]={'kind':kind,'reason':data['reason']}
             if data['reason'] not in ('deadline','revoked'):raise ValueError('存在未授权请求截断')
             if data['path'].endswith('count_tokens'):blocked_count_tokens += 1
             else:blocked_generation += 1
@@ -60,10 +65,12 @@ def audit(run, mock=False, expected_model='claude-opus-5-5', expected_effort='me
                 external[data['sequence']] = {'kind':'upstream-sse','normalized':normalized}
         elif kind == 'upstream_error':
             transport_errors+=1
+            if not data.get('forwarded'):not_forwarded[data['sequence']]={'kind':kind,'reason':'local-body-interruption'}
             # 原始HTTP/SSE见证以外的断连暂不自动确认为外部；避免把代理自身错误算上游。
             if data.get('localDeadline') or data.get('revoked') or data.get('clientAborted') or not data.get('forwarded'):local_interruption.add(data['sequence'])
         elif kind in ('stream_error','request_not_forwarded'):
             transport_errors+=1
+            if kind=='request_not_forwarded':not_forwarded[data['sequence']]={'kind':kind,'reason':data['reason']}
             if data.get('localDeadline') or data.get('revoked') or data.get('clientAborted') or kind == 'request_not_forwarded':local_interruption.add(data['sequence'])
         elif kind == 'complete_response':
             if data['sequence'] not in request_ids or data['sequence'] in complete_ids:raise ValueError('响应没有唯一请求记录')
@@ -73,6 +80,7 @@ def audit(run, mock=False, expected_model='claude-opus-5-5', expected_effort='me
         elif kind == 'permission':permissions += 1
         elif kind in ('observer_parse_error','model_mismatch'):model_errors.append(data)
         elif kind in ('truncated','budget_exhausted'):raise ValueError('证据截断或旧预算仍生效')
+    if not (admitted_ids-request_ids)<=not_forwarded.keys():raise ValueError('已准入请求缺少发送或明确拒绝记录')
     if registered != 1 or closed != 1 or last_kind != 'writer_closed':raise ValueError('代理证据生命周期不完整')
     final_states=json.loads((run.parent/'relay-before-close.json').read_text())['states']
     selected=[x for x in final_states if x['id']==run.name]
@@ -140,16 +148,29 @@ def audit(run, mock=False, expected_model='claude-opus-5-5', expected_effort='me
             if event['kind']=='review_start':reviews+=1
         if native_requests != request_hashes:
             if execution['status']=='completed' or native_requests[:len(request_hashes)]!=request_hashes or len(native_requests)<=len(request_hashes):raise ValueError('原生尝试与代理请求不完全对应，需单独核对未发送原因')
+            relay_unforwarded=[(seq,w) for seq,w in sorted(not_forwarded.items()) if request_paths.get(seq)=='/v1/messages'];used_witnesses=set()
             for key in native_keys[len(request_hashes):]:
                 reason=native_errors.get(key,'')
-                if not ((cancelled and ('中止' in reason or 'abort' in reason.lower())) or (key[0] in windows and '恢复窗口' in reason)):raise ValueError('未发送尝试缺少取消/窗口截止见证')
-                native_unforwarded.append({'callId':key[0],'attempt':key[1],'reason':reason})
+                witness=None
+                for seq,w in relay_unforwarded:
+                    if seq in used_witnesses:continue
+                    body_deadline=w['kind']=='request_not_forwarded' and w['reason']=='deadline_or_revocation_during_body' and reason.startswith('HTTP 408：') and 'R3 execution deadline' in reason
+                    admission_deadline=w['kind']=='request_blocked' and w['reason'] in ('deadline','revoked') and reason.startswith('HTTP 400：') and 'R3 execution deadline' in reason
+                    if body_deadline or admission_deadline:witness={'sequence':seq,**w};used_witnesses.add(seq);break
+                if not (witness or (cancelled and ('中止' in reason or 'abort' in reason.lower())) or (key[0] in windows and '恢复窗口' in reason)):raise ValueError('未发送尝试缺少取消/窗口截止见证')
+                native_unforwarded.append({'callId':key[0],'attempt':key[1],'reason':reason,'relayWitness':witness})
         if execution['status']=='completed' and (len(ends)!=1 or ends[0].get('outcome','completed')!='completed'):raise ValueError('正常结束缺少原生证明')
         if reviews>1:raise ValueError('同一任务超过一次复核')
     cause = external.get(last_generation) if last_generation > last_complete and last_generation not in local_interruption else None
-    return dict(schema=3,mockOnly=mock,traceHash=sha(run/'trace-manifest.json'),executionHash=sha(run/'execution.json'),files=len(manifest['files']),
+    guardian_path=run/'guardian-result.json'
+    guardian=json.loads(guardian_path.read_text()) if guardian_path.exists() else {}
+    if guardian.get('reason')=='resource' or execution['status']=='resource_interrupted':cause=None
+    io_finished=dt.datetime.fromisoformat(io_end['time'].replace('Z','+00:00')).timestamp()*1000
+    deadline_reached=bool(execution['status']!='completed' and execution_policy and io_finished>=execution_policy['executionDeadline'] and (local_deadlines or guardian.get('reason')=='deadline' or any(x.get('relayWitness') for x in native_unforwarded)))
+    termination='resource_interrupted' if guardian.get('reason')=='resource' else 'deadline' if deadline_reached else execution['status']
+    return dict(schema=3,termination=termination,localDeadlineObserved=deadline_reached,mockOnly=mock,traceHash=sha(run/'trace-manifest.json'),executionHash=sha(run/'execution.json'),files=len(manifest['files']),
                 receivedAttempts=meter['receivedGeneration']+meter['receivedCountTokens'],receivedGeneration=meter['receivedGeneration'],
-                forwardedGeneration=generation,countTokens=count_tokens,completeResponses=complete,permissions=permissions,
+                forwardedGeneration=generation,admittedGeneration=meter['forwardedGeneration'],nativeLogicalCalls=len(call_requests) if io_start['data']['agent']=='axi' else None,countTokens=count_tokens,completeResponses=complete,permissions=permissions,
                 blockedGeneration=blocked_generation,status=execution['status'],ioStart=io_start['time'],ioFinish=io_end['time'],
                 nativeEnds=ends,nativeUnforwarded=native_unforwarded,reviewCheckpoints=reviews,externalEvents=len(external),externalTerminalCause=cause,
                 observerErrors=model_errors,transportErrors=transport_errors,trustworthyObservableTrace=True,
