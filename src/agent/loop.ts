@@ -1,10 +1,10 @@
-import type { CallOptions } from "../api/client.ts";
+import { RetryWindowError, type CallOptions } from "../api/client.ts";
 import { errorMessage, noLog, type Message, type ModelResponse, type RecordLog, type ToolResult, type ToolUse } from "../api/types.ts";
 import { type BashInput, type BashResult } from "../tools/bash.ts";
 import { ToolRegistry, type PermissionView, type PreparedTool } from "../tools/registry.ts";
 import { ToolError, errorCode, result, type ToolExecution } from "../tools/common.ts";
 import type { Permission, PermissionMode } from "../ui/permission.ts";
-import { GenerationBudget, RequestBudgetError, reviewPrompt, type ReviewMode } from "./review.ts";
+import { GenerationCounter, reviewPrompt, type ReviewMode } from "./review.ts";
 
 export interface AgentOptions {
   cwd: string;
@@ -15,9 +15,8 @@ export interface AgentOptions {
   registry?: ToolRegistry;
   permissionMode?: () => PermissionMode;
   record?: RecordLog;
-  maxCalls?: number;
   reviewMode?: () => ReviewMode;
-  onReviewStart?: (reason: "draft" | "work_budget") => void;
+  onReviewStart?: (reason: "draft") => void;
   onToolStart?: (tool: ToolUse, view: PermissionView, automatic: boolean) => void;
   onToolResult?: (result: ToolResult) => void;
 }
@@ -69,12 +68,12 @@ export class Agent {
     options.signal.throwIfAborted();
     this.running = true; this.turn++; this.modified.clear(); this.unknownEffects = false; this.notStarted = 0;
     const started = performance.now(), effort = options.effort, mode = this.options.permissionMode?.() ?? "project";
-    const reviewMode = this.options.reviewMode?.() ?? "auto", budget = new GenerationBudget(reviewMode);
+    const reviewMode = this.options.reviewMode?.() ?? "auto", budget = new GenerationCounter(reviewMode);
     let permissionMs = 0, halt = "", eligible = false, outcome = "failed";
-    const enterReview = (reason: "draft" | "work_budget") => {
+    const enterReview = (reason: "draft") => {
       budget.beginReview();
-      const prompt = reviewPrompt(reason, budget);
-      this.audit("review_start", { reason, source: "axi", checkpointKind: reason === "draft" ? "draft" : "work_in_progress", budget: budget.snapshot() });
+      const prompt = reviewPrompt();
+      this.audit("review_start", { reason, source: "axi", checkpointKind: "draft", budget: budget.snapshot() });
       this.messages.push({ role: "user", content: prompt });
       this.audit("internal_input", { source: "axi", purpose: "delivery_review", content: prompt });
       this.options.onReviewStart?.(reason);
@@ -84,7 +83,7 @@ export class Agent {
     this.messages.push({ role: "user", content: input });
     try {
       this.audit("task_start", { input, effort, permissionMode: mode, reviewMode, budget: budget.snapshot() });
-      for (let count = 0; count < (this.options.maxCalls ?? 50); count++) {
+      while (true) {
         options.signal.throwIfAborted();
         const response = await this.options.call(this.history, { ...options, effort, budget });
         const tools = response.content.filter(block => block.type === "tool_use") as ToolUse[];
@@ -139,7 +138,6 @@ export class Agent {
         if (this.logFailure || halt) { outcome = "tool_failure"; return `${this.logFailure || halt}\n${this.interruptionSummary}`; }
         options.signal.throwIfAborted();
         if (response.stopReason === "tool_use" && tools.length) {
-          if (reviewMode === "auto" && eligible && budget.phase === "work" && budget.remaining === 0) enterReview("work_budget");
           continue;
         }
         if (response.stopReason === "tool_use") throw new Error("API 返回 tool_use，但没有工具调用");
@@ -154,10 +152,8 @@ export class Agent {
         outcome = "completed";
         return "";
       }
-      outcome = "budget_exhausted";
-      return `本轮达到 ${this.options.maxCalls ?? 50} 次模型调用上限，未完成，已停止。`;
     } catch (error) {
-      outcome = options.signal.aborted ? "interrupted" : error instanceof RequestBudgetError ? "budget_exhausted" : "failed";
+      outcome = options.signal.aborted ? "interrupted" : error instanceof RetryWindowError ? "retry_exhausted" : "failed";
       throw error;
     } finally {
       this.running = false; options.signal.removeEventListener("abort", cancelled);

@@ -180,5 +180,5 @@ test("E-01：日志版本可关联会话；启动时不沿 .axi 链接写到其�
   symlinkSync(outside, join(root, ".axi"));
   expect(() => new SessionLog(root)).toThrow("符号链接"); expect(readdirSync(outside)).toEqual(["a.txt"]);
   const log = new SessionLog(outside); log.record("test", { ok: true }); log.close();
-  const entry = JSON.parse(readFileSync(log.path, "utf8")); expect(entry.version).toBe(3); expect(entry.sessionId).toBe(log.id); expect(entry.data).toEqual({ ok: true });
+  const entry = JSON.parse(readFileSync(log.path, "utf8")); expect(entry.version).toBe(4); expect(entry.sessionId).toBe(log.id); expect(entry.data).toEqual({ ok: true });
 });

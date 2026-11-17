@@ -2,11 +2,11 @@
 
 从零手写的终端 coding agent。不用官方 SDK，也不用 agent 框架。
 
-2026-11-16 候选状态：r2已修复 P-02 读取授权身份绑定，产品基线为 `ad6feb9103ea147bf3b5ddcb42d5a726f665a776`。开发验证已通过；本候选尚未通过正式工程、C7 和 20 题验收，尚未发布。见[候选说明](docs/guides/v1-beta1-candidate.md)。使用 Bun + TypeScript，手写 HTTP 请求、SSE 解析和工具循环。默认模型为 `claude-opus-5-5`。
+2026-11-17 开发状态：`codex/v1-unbounded-tasks` 从冻结候选 C2 派生，取消任务请求次数上限，并保留连续故障恢复窗口。本地模拟验证已通过，尚未冻结新候选或进行正式发布验收。见[运行策略设计](docs/21-unbounded-task-execution.md)与[开发验证](docs/verification/2026-11-17-unbounded-task-development.md)。使用 Bun + TypeScript，手写 HTTP 请求、SSE 解析和工具循环。默认模型为 `claude-opus-5-5`。
 
 ## 运行
 
-需要 Git 和 Bun 1.3.14。先检出准备使用的候选提交，再在该目录安装锁定依赖。本候选的 macOS 与 Linux 安装验收结果另行记录，不用旧平台结果代替。
+需要 Git 和 Bun 1.3.14。先检出准备使用的开发提交，再在该目录安装锁定依赖。本次在 macOS 验证；新版本的 Linux 与正式安装验收尚未执行。
 
 ```sh
 bun install --frozen-lockfile
@@ -51,7 +51,8 @@ API 返回思考摘要时，界面显示“思考摘要”标签。有颜色的�
 - 每次调用使用新 shell，不能沿用 `cd` 或 `export`。不支持交互程序和后台任务。
 - bash 默认超时为 120 秒，可指定 1 至 600000 毫秒。超时或中断会终止同一进程组；已经完成的文件修改不会撤销。
 - 输出超过 30000 个 Unicode 字符时，保留头尾，并说明省略数量。stdout 和 stderr 合并展示，不保证跨流的精确顺序。
-- 每轮最多 50 次实际生成请求，重试也占额度。默认 auto 模式最多 40 次工作请求和 10 次收尾复核请求。off 模式整轮最多 50 次。每次 HTTP 请求超时为 5 分钟。临时错误最多重试 3 次。
+- 整项任务不设生成请求次数上限。默认 auto 在符合条件的初稿后复核一次，工作和复核均不限次数；off 不追加复核。次数仍完整记录。
+- 429、5xx 等临时故障按时间重试。每次逻辑模型调用的恢复窗口默认 10 分钟，可用 `AXI_RETRY_WINDOW_MS` 配置；成功后下一次调用重新计时。单次 HTTP 请求最多 5 分钟，并受剩余窗口约束。窗口到期明确报告未完成，保留已有文件与 Trace。它不是整项任务的时限，详见[运行与重试](docs/guides/task-execution.md)。
 - 流中断或工具参数不是完整 JSON 时，不执行工具，不追加半截 assistant 消息。工具 JSON 错误不会自动重试，用户可以重新提出任务。
 - 文件工具处理最多 1 MiB 的普通 UTF-8 文本。edit 需要有效读取版本与唯一匹配；write 只创建新文件。grep 是字面量搜索。路径、预览和并发保证见 [v1 设计](docs/07-v1-design.md)。
 - 读取/搜索提案绑定准备时的目标和父路径身份。确认期间或执行中发现身份改变时拒绝旧调用，必须重新提出调用；strict模式须重新确认。同一对象的正常内容更新与目录增项不自动使授权失效。详见[读取身份说明](docs/guides/read-identity.md)。
@@ -97,4 +98,4 @@ bun run scripts/experiments.ts --live
 
 评测原始 Trace 与历史镜像保存在本机私有目录，不随源码发布。报告中的本机绝对路径只在原机器可用；部分 C6 复验入口依赖这些历史产物，具体条件见对应运行指南。
 
-有界收尾复核的开关、预算与Trace范围见[使用说明](docs/guides/bounded-review.md)。功能实现不代表已通过v1发布验收，当前状态见[进度](docs/progress.md)。
+自动收尾复核的开关与 Trace 范围见[使用说明](docs/guides/bounded-review.md)。功能实现不代表已通过 v1 发布验收，当前状态见[进度](docs/progress.md)。

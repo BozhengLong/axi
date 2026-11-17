@@ -1,4 +1,4 @@
-import { APIClient } from "./api/client.ts";
+import { APIClient, RetryWindowError } from "./api/client.ts";
 import { errorMessage, type Effort } from "./api/types.ts";
 import { Agent, systemPrompt } from "./agent/loop.ts";
 import { loadConfig } from "./config.ts";
@@ -48,7 +48,7 @@ export async function main(): Promise<void> {
     record: log.record,
     permissionMode: () => permissionMode,
     reviewMode: () => reviewMode,
-    onReviewStart: reason => { ui.endStream(); ui.write(`\nAxi：收尾复核（${reason === "draft" ? "待复核初稿" : "工作中检查点"}）。本阶段最多10次生成请求，重试计入，权限要求不变。\n`); },
+    onReviewStart: () => { ui.endStream(); ui.write("\nAxi：收尾复核（待复核初稿）。不设请求次数上限，权限要求不变。\n"); },
     call: async (history, options) => {
       ui.endStream();
       ui.write("正在处理…\n");
@@ -71,7 +71,7 @@ export async function main(): Promise<void> {
       ui.write(`\n工具结果${result.is_error ? "（未成功）" : ""}：\n${display}\n`);
     },
   });
-  ui.write(`${help}\n工作目录：${cwd}\n日志：${log.path}\n`);
+  ui.write(`${help}\n任务请求次数：不限。连续故障恢复窗口：${config.retryWindowMs! / 1000}秒。\n工作目录：${cwd}\n日志：${log.path}\n`);
   try {
     while (!ui.closed) {
       active = new AbortController();
@@ -100,9 +100,11 @@ export async function main(): Promise<void> {
           signal: active.signal,
           onText: text => ui.stream("text", text),
           onThinking: text => ui.stream("thinking", text),
-          onRetry: (attempt, ms, reason) => {
+          onRetry: (attempt, ms, reason, notice) => {
             ui.endStream();
-            ui.write(`本次响应未写入历史。将在 ${(ms / 1000).toFixed(1)}s 后重试（${attempt}/3）：${reason}\n`);
+            ui.write(notice.willRetry
+              ? `本次响应未写入历史。将在 ${(ms / 1000).toFixed(1)}s 后重试（第${attempt}次，窗口剩余${(notice.remainingMs / 1000).toFixed(1)}s）：${reason}\n`
+              : `本次响应未写入历史。所需等待超过恢复窗口，将在剩余${(ms / 1000).toFixed(1)}s后停止；可按Ctrl+C取消：${reason}\n`);
           },
         });
         ui.endStream();
@@ -110,7 +112,7 @@ export async function main(): Promise<void> {
       } catch (error) {
         ui.endStream();
         ui.write(active.signal.aborted ? "已中止。\n" : `错误：${errorMessage(error)}\n`);
-        if (active.signal.aborted) ui.write(agent.interruptionSummary + "\n");
+        if (active.signal.aborted || error instanceof RetryWindowError) ui.write(agent.interruptionSummary + "\n已有文件和Trace保留；没有自动重放任务。\n");
       } finally { active = undefined; }
     }
   } finally {

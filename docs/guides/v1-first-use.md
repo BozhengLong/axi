@@ -1,6 +1,6 @@
 # v1 本机试用
 
-当前实施分支为 `codex/v1-tools`。文件工具、权限和中断已实现；整体交付状态以[进度](../progress.md)与验证报告为准。用户手动试用是可选项，自动验收不依赖你完成以下操作。
+当前开发分支为 `codex/v1-unbounded-tasks`。它从C2派生，取消任务请求次数上限，并保留连续故障恢复窗口。整体交付状态以[进度](../progress.md)与验证报告为准。用户手动试用是可选项，自动验收不依赖你完成以下操作。
 
 ## 启动一个独立练习目录
 
@@ -8,15 +8,18 @@
 
 ```sh
 axi_trial=$(mktemp -d /tmp/axi-v1.XXXXXX)
-cp /Users/spidey0o0zheng/workspace/axi/examples/v0-first-use/brief.md "$axi_trial/"
-cp /Users/spidey0o0zheng/workspace/axi/examples/v0-first-use/tasks.md "$axi_trial/"
+axi_source=/Users/spidey0o0zheng/.codex/worktrees/axi-unbounded-tasks/axi
+cp "$axi_source/examples/v0-first-use/brief.md" "$axi_trial/"
+cp "$axi_source/examples/v0-first-use/tasks.md" "$axi_trial/"
 cd "$axi_trial"
-bun --env-file=/Users/spidey0o0zheng/workspace/axi/.env run /Users/spidey0o0zheng/workspace/axi/src/main.ts
+bun run "$axi_source/src/main.ts"
 ```
 
-本机已有 Bun 与项目依赖。命令假设仓库 `.env` 已配置 `ANTHROPIC_BASE_URL` 和 `ANTHROPIC_API_KEY`；也可由终端环境提供。新电脑先在仓库运行 `bun install --frozen-lockfile`。不要把凭据粘贴到聊天或提交到 Git。
+本机已有 Bun 与项目依赖。上面命令假设终端环境已配置 `ANTHROPIC_BASE_URL` 和 `ANTHROPIC_API_KEY`。若凭据保存在某个本地`.env`文件，可在最后一行显式使用`bun --env-file=/该文件的绝对路径/.env run "$axi_source/src/main.ts"`；本次没有复制或修改凭据。新电脑先在仓库运行 `bun install --frozen-lockfile`。不要把凭据粘贴到聊天或提交到 Git。
 
 启动后，Axi 显示固定项目根目录和权限模式。等到 `你 [medium] >` 出现再输入一行任务。练习目录不是操作系统沙箱。
+
+启动画面还会显示“任务请求次数：不限”和恢复窗口秒数。默认窗口为600秒，适用于一次模型调用连续失败后的恢复过程，不是整项任务的时限。配置与停止行为见[运行与重试](task-execution.md)。这只启动指定开发版，没有更改系统中的全局`axi`命令或旧候选。
 
 ## 观察读取、修改和停止
 

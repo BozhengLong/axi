@@ -4,7 +4,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {APIClient} from '../src/api/client.ts';
 import {Agent} from '../src/agent/loop.ts';
-import {RequestBudgetError,type ReviewMode} from '../src/agent/review.ts';
+import {type ReviewMode} from '../src/agent/review.ts';
 import {activeSignal,event,streamFixture,tool} from './fixtures.ts';
 const done=()=>streamFixture();
 const bash=(id:string)=>streamFixture([tool(id,'printf effect')],'tool_use');
@@ -34,40 +34,37 @@ test('普通问答、只有拒绝或只有读取不触发复核',async()=>{
  const dir=mkdtempSync(join(tmpdir(),'axi-review-read-'));try{writeFileSync(join(dir,'a.txt'),'read-only');const x=setup(n=>n===1?streamFixture([{type:'tool_use',id:'read',name:'read',input:{path:'a.txt'}}],'tool_use'):done(),{cwd:dir});await x.agent.run('读取',opts());expect(x.requests).toHaveLength(2);expect(x.ends()[0].reviewEligible).toBe(false)}finally{rmSync(dir,{recursive:true,force:true})}
 });
 
-test('模式在用户回合开始时固定，下一回合重置预算；关闭模式不增加请求',async()=>{
+test('模式在用户回合开始时固定，下一回合重置计数；关闭模式不增加请求',async()=>{
  let mode:ReviewMode='auto';const x=setup(n=>{if(n===1)mode='off';return n===1||n===4?bash('t'+n):done()},{mode:()=>mode});
  await x.agent.run('自动',opts());expect(x.requests).toHaveLength(3);const prior=x.agent.history;
  await x.agent.run('关闭',opts());expect(x.requests).toHaveLength(5);expect(x.agent.history.slice(0,prior.length)).toEqual(prior);
  expect(x.ends().map(e=>[e.reviewed,e.budget.requests])).toEqual([[true,3],[false,2]]);
 });
 
-test('40次完整工具响应后在安全点进入工作中复核，最多50次',async()=>{
- const x=setup(n=>n<50?bash('t'+n):done());await x.agent.run('长任务',opts());
- expect(x.requests).toHaveLength(50);expect(x.executed).toHaveLength(49);
- const phase=x.logs.find(x=>x.kind==='review_start').data;expect(phase).toMatchObject({reason:'work_budget',checkpointKind:'work_in_progress',budget:{workRequests:40,reviewRequests:0}});
- const lastWork=x.requests[40].messages.at(-2).content;expect(lastWork[0].tool_use_id).toBe('t40');
- expect(x.ends()[0]).toMatchObject({outcome:'completed',budget:{requests:50,workRequests:40,reviewRequests:10}});
+test('工作超过40次且复核超过10次，只有初稿才触发一次复核',async()=>{
+ const x=setup(n=>n===72||n===95?done():bash('t'+n));await x.agent.run('长任务',opts());
+ expect(x.requests).toHaveLength(95);expect(x.executed).toHaveLength(93);
+ expect(x.logs.filter(x=>x.kind==='review_start')).toHaveLength(1);
+ expect(x.logs.find(x=>x.kind==='review_start').data).toMatchObject({reason:'draft',checkpointKind:'draft',budget:{workRequests:72,reviewRequests:0}});
+ expect(x.ends()[0]).toMatchObject({outcome:'completed',reviewed:true,budget:{requests:95,workRequests:72,reviewRequests:23,remaining:null,unlimited:true}});
 });
 
-test('提前复核也最多10次，耗尽后不再发请求，已有工具结果完整',async()=>{
- const x=setup(n=>n===2?done():bash('t'+n));await expect(x.agent.run('任务',opts())).rejects.toBeInstanceOf(RequestBudgetError);
- expect(x.requests).toHaveLength(12);expect(x.executed).toHaveLength(11);expect(x.ends()[0]).toMatchObject({outcome:'budget_exhausted',budget:{workRequests:2,reviewRequests:10}});
- expect((x.agent.history.at(-1)!.content as any[])[0].tool_use_id).toBe('t12');
+test('关闭复核后超过50次仍可完成，不用另一个循环上限截断',async()=>{
+ const x=setup(n=>n<=120?bash('t'+n):done(),{mode:()=> 'off'});await x.agent.run('长任务',opts());
+ expect(x.requests).toHaveLength(121);expect(x.executed).toHaveLength(120);expect(x.ends()[0]).toMatchObject({outcome:'completed',reviewed:false,budget:{requests:121}});
 });
 
-test('关闭模式达到全任务50次后停止，不能发第51次',async()=>{
- const x=setup(n=>bash('t'+n),{mode:()=> 'off'});expect(await x.agent.run('任务',opts())).toContain('未完成');expect(x.requests).toHaveLength(50);expect(x.ends()[0]).toMatchObject({outcome:'budget_exhausted',reviewed:false,budget:{requests:50}});
-});
-
-test('重试计入复核预算，失败响应不写历史，不重做工具',async()=>{
+test('复核阶段统计重试，失败响应不写历史，不重做工具',async()=>{
  const x=setup(n=>n===1?bash('once'):n===3?error():done());await x.agent.run('任务',opts());
  expect(x.requests).toHaveLength(4);expect(x.requests[2]).toEqual(x.requests[3]);expect(x.executed).toHaveLength(1);
  expect(x.logs.filter(x=>x.kind==='response')).toHaveLength(3);expect(x.ends()[0].budget).toMatchObject({workRequests:2,reviewRequests:2});
 });
 
-test('第40次请求失败时不借复核额度继续，不追加失败响应',async()=>{
- const x=setup(n=>n===40?error():bash('t'+n));await expect(x.agent.run('任务',opts())).rejects.toBeInstanceOf(RequestBudgetError);
- expect(x.requests).toHaveLength(40);expect(x.executed).toHaveLength(39);expect(x.ends()[0].reviewed).toBe(false);expect(x.logs.filter(x=>x.kind==='review_start')).toHaveLength(0);
+test('第40次429恢复后继续超过50次，既有工具不重做并正常复核',async()=>{
+ const x=setup(n=>n===40?new Response('busy',{status:429}):n===62||n===64?done():bash('t'+n));await x.agent.run('任务',opts());
+ expect(x.requests).toHaveLength(64);expect(x.requests[39]).toEqual(x.requests[40]);expect(x.executed).toHaveLength(61);expect(new Set(x.logs.filter(e=>e.kind==='tool_start').map(e=>e.data.toolUseId)).size).toBe(61);
+ expect(x.logs.filter(x=>x.kind==='review_start')).toHaveLength(1);expect(x.ends()[0]).toMatchObject({outcome:'completed',reviewed:true,budget:{workRequests:62,reviewRequests:2}});
+ expect(x.agent.history.filter(m=>m.role==='assistant')).toHaveLength(63);
 });
 
 test('复核退避中取消后停止，并允许下个用户回合正常继续',async()=>{

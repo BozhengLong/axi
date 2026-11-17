@@ -8,6 +8,7 @@ let server: ReturnType<typeof Bun.serve> | undefined;
 let calls = 0;
 const delays: number[] = [], codes: string[] = [];
 const client = new APIClient({ url: `http://127.0.0.1:${port}/v1/messages`, apiKey: "fake-local", model: "fake", timeoutMs: 1000 }, "", {
+  maxRetries: 3,
   fetch: (async (...args: Parameters<typeof fetch>) => {
     calls++;
     try { return await fetch(...args); }

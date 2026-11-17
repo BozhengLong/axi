@@ -12,7 +12,7 @@
 
 每次启动创建一个新文件，同一进程中的多轮任务追加到这个文件。换一个项目启动，日志就在那个项目的工作目录下，不会统一写回Axi源码仓库。启动画面中的“日志：”会显示实际绝对路径。
 
-文件名和事件时间使用UTC，带`Z`；北京时间为UTC加8小时。JSONL表示每行一个JSON事件。当前事件包含version、sessionId、time、kind和data；任务/工具记录另外关联轮次与工具调用ID。
+文件名和事件时间使用UTC，带`Z`；北京时间为UTC加8小时。JSONL表示每行一个JSON事件。当前事件包含version、sessionId、time、kind和data；任务/工具记录另外关联轮次与工具调用ID。2026-11-17开发版本使用version=4；旧C2的version=3日志保持原样。
 
 退出后文件仍然保留。当前没有自动轮转、压缩或定期删除功能，也没有内置Trace浏览器。保存日志不代表支持退出后恢复对话；当前会话历史仍只在本次运行中使用。
 
@@ -23,13 +23,13 @@
 | 内容 | 日常原生日志中的记录 |
 |---|---|
 | 用户任务与配置 | task_start：输入、effort、权限模式；请求体另包含system、历史消息、模型和工具定义 |
-| API请求 | request：callId、尝试编号和实际请求体 |
+| API请求 | request：callId、尝试编号、请求体、阶段计数和恢复窗口；记录尝试不等于证明上游已接收 |
 | 模型返回 | sse：收到的原始SSE文本行；完整响应另写response，包括正文、工具调用、API返回的thinking摘要/签名和用量 |
-| 请求错误和重试 | request_error和随后各次request，保留尝试编号、错误原因和耗时；没有独立的完整重试调度记录 |
+| 请求错误和重试 | request_error、retry_scheduled和随后各次request，保留尝试编号、错误原因、等待、剩余窗口和是否还会尝试；retry_exhausted记录窗口耗尽 |
 | 工具调用与结果 | tool_start、tool_end、tool_result：参数、状态、结果和耗时 |
 | 自动读取与人工确认 | permission及permission_request：授权来源、允许/拒绝与拒绝理由；自动读取也有授权记录 |
 | 文件修改 | proposal、commit_prepared、commit_start、commit_result：差异提案、前后哈希以及适用阶段的提交状态；准备阶段被拒绝的修改不会生成成功提交记录 |
-| 任务结束与中断 | task_end、cancel_requested：任务耗时、确认等待时间、取消和已完成修改等信息 |
+| 任务结束与中断 | task_end、cancel_requested：任务耗时、确认等待时间、取消和已完成修改等信息；恢复窗口耗尽为outcome=retry_exhausted，不是completed |
 
 实现依据：[API客户端](../../src/api/client.ts)、[agent循环](../../src/agent/loop.ts)、[文件工具](../../src/tools/files.ts)。完整模型响应、工具结果与原始SSE会有内容重复，因此日志可能增长较快。
 
@@ -62,6 +62,10 @@ ls -lt .axi/logs/
 最直接的定位方式是使用启动画面显示的完整日志路径。排查某次行为时，提供对应路径即可定位该会话，不必把全部原始内容粘贴到聊天或上传到公共仓库。
 
 ## 本次核验
+
+2026-11-17，不限任务次数开发版通过208项完整本地测试、类型检查及修改测试断言后的20项针对性复验。4次真实CLI配本地模拟API的原生日志、请求/响应、stdout/stderr与生成文件已保留；共93次请求、90次完整响应，全部为version=4。包括超过旧限制、恢复到期和取消场景。详见[开发验证](../verification/2026-11-17-unbounded-task-development.md)。没有真实模型或新版正式对照运行。
+
+以下为此前版本的核验记录，不替代本次结果。
 
 2026-11-12，阅读当前日志、CLI、API、agent循环及工具实现。执行`bun test tests/log.test.ts tests/v1-cli.test.ts`，4项测试、30个断言通过。验证了新日志文件、时间戳、文件权限、外部仓库忽略，以及真实CLI配合模拟API时的自动读取、人工确认、提交和取消记录；没有调用真实模型。
 

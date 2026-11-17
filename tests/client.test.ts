@@ -24,10 +24,11 @@ describe("API 客户端", () => {
     expect((await client.call(messages, { effort: "medium", signal: activeSignal() })).usage.output_tokens).toBe(8);
     expect(messages).toEqual([{ role: "user", content: "你好" }]);
   });
-  test("最多重试三次，遵守 retry-after 和指数退避", async () => {
+  test("显式设置重试三次，遵守 retry-after 和指数退避", async () => {
     let calls = 0;
     const delays: number[] = [];
     const client = new APIClient(config, "", {
+      maxRetries: 3,
       fetch: fakeFetch(() => { calls++; return calls === 1 ? new Response("busy", { status: 429, headers: { "retry-after": "0.125" } }) : new Response("busy", { status: 529 }); }),
       sleep: async ms => { delays.push(ms); },
     });
@@ -80,7 +81,7 @@ describe("API 客户端", () => {
     await expect(pending).rejects.toThrow();
     expect(calls).toBe(1);
     const timed = new APIClient({ ...config, timeoutMs: 10 }, "", { fetch: pendingFetch, sleep: async () => {}, maxRetries: 1 });
-    await expect(timed.call([], { effort: "medium", signal: activeSignal() })).rejects.toThrow("请求超过");
+    await expect(timed.call([], { effort: "medium", signal: activeSignal() })).rejects.toThrow("等待超时");
     expect(calls).toBe(3);
   });
   test("地址规范化和 retry-after 日期", () => {

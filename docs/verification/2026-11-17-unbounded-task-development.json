@@ -1,0 +1,469 @@
+{
+  "date": "2026-11-17",
+  "status": "DEVELOPMENT_VERIFIED",
+  "base": "dbe7e145d205c21b580d8c2ee2dcf58c408380d8",
+  "branch": "codex/v1-unbounded-tasks",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "bun": "1.3.14",
+  "realModelCalls": 0,
+  "formalEvaluationStarted": false,
+  "candidateFrozen": false,
+  "checks": {
+    "full-tests": {
+      "command": [
+        "/Users/spidey0o0zheng/.bun/bin/bun",
+        "test"
+      ],
+      "exitCode": 0,
+      "seconds": 24.74055767059326
+    },
+    "typecheck": {
+      "command": [
+        "/Users/spidey0o0zheng/.bun/bin/bun",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 2,
+      "seconds": 1.0131080150604248
+    },
+    "typecheck-2": {
+      "command": [
+        "/Users/spidey0o0zheng/.bun/bin/bun",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "seconds": 0.9745950698852539
+    },
+    "targeted-final": {
+      "command": [
+        "/Users/spidey0o0zheng/.bun/bin/bun",
+        "test",
+        "tests/retry-window.test.ts",
+        "tests/review.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 0.2167048454284668
+    }
+  },
+  "fullSuite": {
+    "pass": 208,
+    "fail": 0,
+    "assertions": 1335,
+    "files": 28
+  },
+  "finalTargeted": {
+    "pass": 20,
+    "fail": 0,
+    "assertions": 101,
+    "files": 2
+  },
+  "sourceSha256": {
+    "bun.lock": "db05e20e5855f0cbab793524a3e8be41c1c491050bf82fe962da2d442d966683",
+    "package.json": "f88b9a2b1f173f6b65d4cc0fa1c55c6aa381ce5619e765073df758c8a8aa923b",
+    "src/agent/loop.ts": "30175cfdd6d06782a4c8ecd4fab11e7e53bbb8ef31fbe523b5ba3f9969d920ba",
+    "src/agent/review.ts": "7e74ed497d02c106769ed624d78427fa09411338237669aa8a52e34611bedf41",
+    "src/api/client.ts": "d2f9f4f13ac7b765b0a257b16faab132876c578761506a3d2e9bae6b83d90c8c",
+    "src/api/errors.ts": "b70a2db4cb41da457cc085614c04b8def035dae79ed5d55824dc0278351f2bc2",
+    "src/api/sse.ts": "1f29424f9fddd185a67afe664cf9704c8498d0d3f590ace5e08e3079afeeb8fa",
+    "src/api/stream.ts": "9dc54fc3885234a8055f7fc24e8234140ad393aced26d750e6dbff8ad717e455",
+    "src/api/types.ts": "5bc20fd5acc08d8301df5227066f65f289011a14dc8ccf05011a389c258441bd",
+    "src/config.ts": "851bd236d336c6f30da17730957fead88620a3b3410ff7c5eb579a2edff7c23d",
+    "src/log.ts": "eaa449b96e7836e4b8b7eeb89fae4ddb9d80698afa6e6b39b5fc0c9f85a4d945",
+    "src/main.ts": "011a077f43136359a76ba6c7da08dd4896b0c65a787fbecfeb07ba743c66194b",
+    "src/text.ts": "90a605cf8e782cc07f24550be2d4db779275aaa075d20c4fbac73d852068a4d3",
+    "src/tools/bash.ts": "fc92d8f1c1aabdffd06624c329014c41d3f1b7684f4e180c6e7a5433aef6c2f2",
+    "src/tools/common.ts": "d7315cc65174ebbd90f67e6c31c2994d4562830bfb1b18b5728351b109afe07b",
+    "src/tools/files.ts": "a8c8e6c5f0f54fc747c457205a83d1dc4324dbcbfcec0bd44a096373bb646838",
+    "src/tools/paths.ts": "1bcdfff67ebf5c478c16ea32f4ba4bb3db33f2e068e992902225cabb7b3eb17f",
+    "src/tools/registry.ts": "661c4c428c86a85b94258fcdf1f156587d489fddce55e554933874b0266b4159",
+    "src/tools/search.ts": "d4781ca6b33934c1356a9e872e4ffc6f3c1dd5aaeb1ad6fc793cf5b03307b24c",
+    "src/ui/permission.ts": "713cddd40816042262b297b5980bbe660508b894e4b9915ed271b06036f218e0",
+    "src/ui/terminal.ts": "b275d5035f3972b3ad259120b460b947449a050f4288fc69ddeea5a79831ae12",
+    "tests/agent.test.ts": "97c1f78b4c9c6182877fd2c06d0b2ba5755fa1748c725e75e9718e1ace6d313d",
+    "tests/api-errors.test.ts": "fb222410ed09fdb9695f09d0ec8ad75b6ac7f79bb32e01a6cc67843afc7ad189",
+    "tests/bash.test.ts": "5c2ae0422ff35462bac5357614067d06c7bc765b4fed9dccfe32e6817610f646",
+    "tests/cli.test.ts": "9632e9f0a130ae5130b52899f0e1980cc46359832379d1f1bd39a46ae9c267f8",
+    "tests/client-network.test.ts": "c4994d3ebc2239a8c2102b927f25236c5f49d2f5242540d3759cb9ae6d63d7bb",
+    "tests/client.test.ts": "d5323d8b014a9111c58cbe667c8f092bbb622689b4f30ff3b843b2b73398a9ad",
+    "tests/fixtures.ts": "d701bd1f294df23cd84ee76e5a6dbdc6ca6257be31fc2dbcef4cec423b3db9cb",
+    "tests/helpers/network-retry.ts": "32f058cca1cc417d86ce96d7ba364dc01c60015fffb77592afb338a677746ff6",
+    "tests/helpers/terminal-input.ts": "f2b7c610cb41048439209d22b13c5c39629a0fc68e91f914aa1831234f9e465b",
+    "tests/log.test.ts": "59d61d6a9bcd1f03ee99733d27d1e90648c15b695bf51817dfd67648ac4e1c7b",
+    "tests/protocol.test.ts": "b120089bf84aa2d4dd4764c813b4fd0ce464af9c37ae1af05948e08e889ecc38",
+    "tests/rc-budget.test.ts": "a0b505206f8f21ec66392222d43f81f68c3f81e76c02d310b8dda42fed165242",
+    "tests/read-binding.test.ts": "88fdb2a5da107ef2bac242e3f9d188eaf13cbfbf85feac8dfd2295d364235f46",
+    "tests/retry-window.test.ts": "aa568470bf4a2c425d109d81a14b5af95e8fd41ef453d185e407b59cf4df07f4",
+    "tests/review-budget.test.ts": "04c98f3509e83764e4eca7a9038ace463e74f6e54e3733f3994cf5416ce0348b",
+    "tests/review-cli.test.ts": "dc7a708a295123a1b7c7d26e7aaac26c918c12fe358f113b12ae86b655eacc66",
+    "tests/review.test.ts": "016f4674130a3635ba3b109b152c3cbe9622a44f720908a55145fbb3ae08cd7c",
+    "tests/terminal.test.ts": "10b9ba67109cd02c4e0e9d66108bd71fcc0d71a871931c8f2f1542cf7361c684",
+    "tests/v1-cli.test.ts": "d000af65cfda9f6ae1818377db58ce8b43031df927dd825d7a2e92b102e826d6",
+    "tests/v1-read.test.ts": "528e7f448e14c93ae63ca7773d4c868a0bae64a8fc010096bc25875222cffe70",
+    "tests/v1-write.test.ts": "3c3fde7ca96d9b03692f57fde1f4a027d08b2cf2cf110dda7a92fd4088d4b2ee",
+    "tsconfig.json": "4dc04b191bf94ab851419f7c62b4514bc1d1ec2eadaf8bff5b97c002f6d84b5b"
+  },
+  "unchangedSinceC2": {
+    "src/tools/bash.ts": "fc92d8f1c1aabdffd06624c329014c41d3f1b7684f4e180c6e7a5433aef6c2f2",
+    "src/tools/common.ts": "d7315cc65174ebbd90f67e6c31c2994d4562830bfb1b18b5728351b109afe07b",
+    "src/tools/files.ts": "a8c8e6c5f0f54fc747c457205a83d1dc4324dbcbfcec0bd44a096373bb646838",
+    "src/tools/paths.ts": "1bcdfff67ebf5c478c16ea32f4ba4bb3db33f2e068e992902225cabb7b3eb17f",
+    "src/tools/registry.ts": "661c4c428c86a85b94258fcdf1f156587d489fddce55e554933874b0266b4159",
+    "src/tools/search.ts": "d4781ca6b33934c1356a9e872e4ffc6f3c1dd5aaeb1ad6fc793cf5b03307b24c",
+    "src/ui/permission.ts": "713cddd40816042262b297b5980bbe660508b894e4b9915ed271b06036f218e0",
+    "package.json": "f88b9a2b1f173f6b65d4cc0fa1c55c6aa381ce5619e765073df758c8a8aa923b",
+    "bun.lock": "db05e20e5855f0cbab793524a3e8be41c1c491050bf82fe962da2d442d966683",
+    "tsconfig.json": "4dc04b191bf94ab851419f7c62b4514bc1d1ec2eadaf8bff5b97c002f6d84b5b"
+  },
+  "systemPromptUnchanged": true,
+  "cliRuns": [
+    {
+      "id": "912b214d-3aa5-4c60-a7fb-2fc0bc2056dd",
+      "meta": {
+        "mockOnly": true,
+        "retryWindowMs": 120,
+        "requests": 3,
+        "exitCode": 0
+      },
+      "eventCounts": {
+        "task_start": 2,
+        "request": 3,
+        "sse": 54,
+        "response": 2,
+        "tool_start": 1,
+        "proposal": 1,
+        "permission_request": 1,
+        "permission": 1,
+        "commit_prepared": 1,
+        "commit_start": 1,
+        "commit_result": 1,
+        "tool_end": 1,
+        "tool_result": 1,
+        "request_error": 1,
+        "retry_scheduled": 1,
+        "retry_exhausted": 1,
+        "task_end": 2
+      },
+      "tasks": [
+        {
+          "sessionId": "8ee4c806-bdc6-426d-ba59-aaa53312a105",
+          "turn": 1,
+          "outcome": "retry_exhausted",
+          "reviewMode": "auto",
+          "reviewEligible": true,
+          "reviewed": false,
+          "budget": {
+            "mode": "auto",
+            "phase": "work",
+            "workRequests": 2,
+            "reviewRequests": 0,
+            "requests": 2,
+            "unlimited": true,
+            "remaining": null
+          },
+          "effort": "medium",
+          "elapsedMs": 134.29695900000002,
+          "permissionMs": 3.799332999999997,
+          "activeMs": 130.49762600000003,
+          "aborted": false,
+          "modifiedPaths": [
+            "window-kept.txt"
+          ],
+          "unknownEffects": false
+        },
+        {
+          "sessionId": "8ee4c806-bdc6-426d-ba59-aaa53312a105",
+          "turn": 2,
+          "outcome": "completed",
+          "reviewMode": "auto",
+          "reviewEligible": false,
+          "reviewed": false,
+          "budget": {
+            "mode": "auto",
+            "phase": "work",
+            "workRequests": 1,
+            "reviewRequests": 0,
+            "requests": 1,
+            "unlimited": true,
+            "remaining": null
+          },
+          "effort": "medium",
+          "elapsedMs": 1.229332999999997,
+          "permissionMs": 0,
+          "activeMs": 1.229332999999997,
+          "aborted": false,
+          "modifiedPaths": [],
+          "unknownEffects": false
+        }
+      ]
+    },
+    {
+      "id": "a6437916-ced3-4c6b-9e7b-2f46264b3715",
+      "meta": {
+        "mockOnly": true,
+        "retryWindowMs": 600000,
+        "requests": 4,
+        "exitCode": 0
+      },
+      "eventCounts": {
+        "task_start": 2,
+        "request": 4,
+        "sse": 66,
+        "response": 3,
+        "tool_start": 1,
+        "proposal": 1,
+        "permission_request": 1,
+        "permission": 1,
+        "commit_prepared": 1,
+        "commit_start": 1,
+        "commit_result": 1,
+        "tool_end": 1,
+        "tool_result": 1,
+        "review_start": 1,
+        "internal_input": 1,
+        "request_error": 1,
+        "retry_scheduled": 1,
+        "cancel_requested": 1,
+        "review_end": 1,
+        "task_end": 2
+      },
+      "tasks": [
+        {
+          "sessionId": "ea7b2314-b582-44d5-9ad8-a5b4293e58c3",
+          "turn": 1,
+          "outcome": "interrupted",
+          "reviewMode": "auto",
+          "reviewEligible": true,
+          "reviewed": true,
+          "budget": {
+            "mode": "auto",
+            "phase": "review",
+            "workRequests": 2,
+            "reviewRequests": 1,
+            "requests": 3,
+            "unlimited": true,
+            "remaining": null
+          },
+          "effort": "medium",
+          "elapsedMs": 15.329249999999998,
+          "permissionMs": 3.0587909999999994,
+          "activeMs": 12.270458999999999,
+          "aborted": true,
+          "modifiedPaths": [
+            "kept.txt"
+          ],
+          "unknownEffects": false
+        },
+        {
+          "sessionId": "ea7b2314-b582-44d5-9ad8-a5b4293e58c3",
+          "turn": 2,
+          "outcome": "completed",
+          "reviewMode": "auto",
+          "reviewEligible": false,
+          "reviewed": false,
+          "budget": {
+            "mode": "auto",
+            "phase": "work",
+            "workRequests": 1,
+            "reviewRequests": 0,
+            "requests": 1,
+            "unlimited": true,
+            "remaining": null
+          },
+          "effort": "medium",
+          "elapsedMs": 0.651208000000004,
+          "permissionMs": 0,
+          "activeMs": 0.651208000000004,
+          "aborted": false,
+          "modifiedPaths": [],
+          "unknownEffects": false
+        }
+      ]
+    },
+    {
+      "id": "e3472531-8333-4b1a-b55a-d80816a48600",
+      "meta": {
+        "mockOnly": true,
+        "retryWindowMs": 600000,
+        "requests": 76,
+        "exitCode": 0
+      },
+      "eventCounts": {
+        "task_start": 1,
+        "request": 76,
+        "sse": 1794,
+        "response": 75,
+        "tool_start": 73,
+        "proposal": 1,
+        "permission_request": 1,
+        "permission": 73,
+        "commit_prepared": 1,
+        "commit_start": 1,
+        "commit_result": 1,
+        "tool_end": 73,
+        "tool_result": 73,
+        "read_identity_prepared": 72,
+        "read_identity_check": 144,
+        "request_error": 1,
+        "retry_scheduled": 1,
+        "review_start": 1,
+        "internal_input": 1,
+        "review_end": 1,
+        "task_end": 1
+      },
+      "tasks": [
+        {
+          "sessionId": "bd336980-44ba-4ecd-a527-dba2a5ae4c4b",
+          "turn": 1,
+          "outcome": "completed",
+          "reviewMode": "auto",
+          "reviewEligible": true,
+          "reviewed": true,
+          "budget": {
+            "mode": "auto",
+            "phase": "review",
+            "workRequests": 62,
+            "reviewRequests": 14,
+            "requests": 76,
+            "unlimited": true,
+            "remaining": null
+          },
+          "effort": "medium",
+          "elapsedMs": 1090.269542,
+          "permissionMs": 1.3199159999999992,
+          "activeMs": 1088.949626,
+          "aborted": false,
+          "modifiedPaths": [
+            "long.txt"
+          ],
+          "unknownEffects": false
+        }
+      ]
+    },
+    {
+      "id": "ec82723c-8b91-4e92-b567-4f5795c1c690",
+      "meta": {
+        "mockOnly": true,
+        "retryWindowMs": 600000,
+        "requests": 10,
+        "exitCode": 0
+      },
+      "eventCounts": {
+        "task_start": 3,
+        "request": 10,
+        "sse": 222,
+        "response": 10,
+        "tool_start": 5,
+        "proposal": 3,
+        "permission_request": 5,
+        "permission": 5,
+        "commit_prepared": 3,
+        "commit_start": 3,
+        "commit_result": 3,
+        "tool_end": 5,
+        "tool_result": 5,
+        "review_start": 2,
+        "internal_input": 2,
+        "review_end": 2,
+        "task_end": 3
+      },
+      "tasks": [
+        {
+          "sessionId": "c9677a28-2dd3-4b29-85c8-b07cd01a8c8a",
+          "turn": 1,
+          "outcome": "completed",
+          "reviewMode": "auto",
+          "reviewEligible": true,
+          "reviewed": true,
+          "budget": {
+            "mode": "auto",
+            "phase": "review",
+            "workRequests": 2,
+            "reviewRequests": 2,
+            "requests": 4,
+            "unlimited": true,
+            "remaining": null
+          },
+          "effort": "medium",
+          "elapsedMs": 24.345375000000004,
+          "permissionMs": 6.8834580000000045,
+          "activeMs": 17.461917,
+          "aborted": false,
+          "modifiedPaths": [
+            "a.txt"
+          ],
+          "unknownEffects": true
+        },
+        {
+          "sessionId": "c9677a28-2dd3-4b29-85c8-b07cd01a8c8a",
+          "turn": 2,
+          "outcome": "completed",
+          "reviewMode": "off",
+          "reviewEligible": true,
+          "reviewed": false,
+          "budget": {
+            "mode": "off",
+            "phase": "work",
+            "workRequests": 2,
+            "reviewRequests": 0,
+            "requests": 2,
+            "unlimited": true,
+            "remaining": null
+          },
+          "effort": "medium",
+          "elapsedMs": 7.875040999999996,
+          "permissionMs": 4.638999999999996,
+          "activeMs": 3.236041,
+          "aborted": false,
+          "modifiedPaths": [
+            "b.txt"
+          ],
+          "unknownEffects": false
+        },
+        {
+          "sessionId": "c9677a28-2dd3-4b29-85c8-b07cd01a8c8a",
+          "turn": 3,
+          "outcome": "completed",
+          "reviewMode": "auto",
+          "reviewEligible": true,
+          "reviewed": true,
+          "budget": {
+            "mode": "auto",
+            "phase": "review",
+            "workRequests": 2,
+            "reviewRequests": 2,
+            "requests": 4,
+            "unlimited": true,
+            "remaining": null
+          },
+          "effort": "medium",
+          "elapsedMs": 17.34170800000001,
+          "permissionMs": 13.180917000000008,
+          "activeMs": 4.160791000000003,
+          "aborted": false,
+          "modifiedPaths": [
+            "c.txt"
+          ],
+          "unknownEffects": false
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "cli": 4,
+    "tasks": 8,
+    "requests": 93,
+    "completeResponses": 90
+  },
+  "evidenceRoot": "/Users/spidey0o0zheng/.local/share/axi-evals/task-runtime-20261117T095730Z",
+  "evidenceManifest": {
+    "file": "manifest.json",
+    "sha256": "5dfd38ace7a562e549ae0316e020e92ef43fa63f7430f43c8e0e537cfead5882",
+    "files": 90
+  },
+  "priorFailuresRetained": [
+    "Early cancellation assertion expected a Chinese message; actual AbortError was correct. Assertion fixed to check name.",
+    "First final typecheck found new fake fetch casts missing Bun preconnect. Types fixed; typecheck-2 and 20 targeted tests pass."
+  ],
+  "scope": "Local macOS mock development validation only. Full suite before final test-only type casts and stronger unique tool ID assertion; production unchanged. Historical C2/formal batch untouched."
+}

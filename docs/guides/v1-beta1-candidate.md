@@ -1,5 +1,7 @@
 # v1 beta.1 候选说明
 
+> 历史说明：以下记录冻结C2的行为，不是当前`codex/v1-unbounded-tasks`开发版的使用规则。C2最终为`dbe7e145d205c21b580d8c2ee2dcf58c408380d8`；其正式验收批次已关闭INCOMPLETE，见[评测分支结果](https://github.com/BozhengLong/axi/blob/76e33c1/docs/verification/2026-11-17-p02-r2-release-results.md)。当前开发版从C2派生，取消任务次数上限，见[新设计](../21-unbounded-task-execution.md)和[运行说明](task-execution.md)。新候选尚未冻结。下文中的“当前”“本次”指2026-11-16。
+
 2026-11-16。旧候选 `0f4a2c4` 在工程阶段因 P-02 身份绑定缺陷关闭为 NO-GO。当前r2候选的产品P2为 `ad6feb9103ea147bf3b5ddcb42d5a726f665a776`，已修复只读授权并完成开发验证。候选C2在本次文档提交后由外部candidate.json登记；尚未通过正式验收，未发布。产品行为的具体变化见[读取身份说明](read-identity.md)。旧候选只改文档、源码保持0330626的历史事实保留在旧分支，不能用来描述当前修复。
 
 用户已确认候选冻结与正式发布验收方案的 D1–D5。C2相对P2只整理README/docs，源码、测试、依赖和启动入口相同。候选提交在本说明提交后由外部冻结记录登记，避免自引用提交号。[执行方案](https://github.com/BozhengLong/axi/blob/codex/v1-tools/docs/19-v1-release-acceptance-plan.md)和[验收进度](https://github.com/BozhengLong/axi/blob/codex/v1-tools/docs/progress.md)保存在评测分支，不改变候选身份。这些分支链接会更新；验收报告另记录不可变证据哈希。

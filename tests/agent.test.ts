@@ -86,10 +86,10 @@ test("API 失败不会追加半截 assistant；未知工具与截断工具不能
   }
 });
 
-test("工具失败仍返回结果；调用上限保留完整历史", async () => {
-  let calls = 0;
-  const agent = new Agent({ reviewMode: () => "off", cwd: "/test", maxCalls: 2, call: async () => response([tool(`call-${++calls}`, "pwd")], "tool_use"), approve: async () => ({ allowed: true }), execute: async () => { throw new Error("无法启动"); } });
-  expect(await agent.run("任务", runOptions())).toContain("2 次");
+test("工具失败返回完整结果，用户取消停止下一次模型调用", async () => {
+  let calls = 0; const ac = new AbortController();
+  const agent = new Agent({ reviewMode: () => "off", cwd: "/test", call: async () => response([tool(`call-${++calls}`, "pwd")], "tool_use"), approve: async () => ({ allowed: true }), execute: async () => { if(calls===2) ac.abort(); throw new Error("无法启动"); } });
+  await expect(agent.run("任务", {...runOptions(),signal:ac.signal})).rejects.toThrow();
   expect(calls).toBe(2);
   expect((agent.history.at(-1)!.content as ContentBlock[])[0]!.content).toContain("无法启动");
 });
