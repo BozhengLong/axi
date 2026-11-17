@@ -1,6 +1,6 @@
 # R3执行设施
 
-本目录执行[方案22](../../../docs/22-unbounded-candidate-acceptance-plan.md)。2026-11-18仍在R1资格阶段。正式入口需要完整冻结清单与控制账本；当前没有T1或真实模型成绩。
+本目录执行[方案22](../../../docs/22-unbounded-candidate-acceptance-plan.md)。2026-11-18已通过R1，正在执行R2材料与完整流程资格。正式入口需要完整冻结清单与控制账本；当前没有T1或真实模型成绩。
 
 ## 身份与运行
 
@@ -43,3 +43,15 @@ IO写入失败会留下失败状态，执行循环据此停止。执行器崩溃
 `pipeline-one.ts`以模拟API驱动真实CLI，并共用正式启动、输入、监督、封存、评分与审查入口。健康任务的v1复核检查点也单独保存和评分。`mutant-qualification.py`故意恢复次数截断、允许迟到执行、重复claim或将普通N恢复，要求实际断言检出。`evidence-qualification.py`重算反例哈希后检查语义，不能仅靠哈希不符拒绝错误证据。
 
 `formal-grade.py`使用R3控制账本与共享时间窗，评分语义显式复用未修改的R2核心。资格复用必须按方案22另行审计依赖；本说明不代表20题已取得资格。
+
+## R2入口
+
+`prepare-tasks.py`按旧绑定重建U02–U20与C7，独立保存业务契约哈希，只更新公开预算文字。依赖使用APFS独立克隆，并由`dependency-audit.py`在固定Linux镜像中重新检查文件、链接和模式。`exposure-audit.py`核对旧闭批账本、模拟API登记和P3源码差异。
+
+`qualify-material.py`适配未改的R2资格逻辑。它只改任务ID、批次准入和新证据路径，保存原源码、实际执行源码和逐项替换记录。当前采用完整五次；原态、参考、反事实及负例全部保存。`qualification-queue.py`逐题执行，失败停止；`audit-material.py`核对每次断言、来源和时间。
+
+`pipeline-queue.py`执行65条当前CLI模拟，等待相应材料资格后才启动。它测量本槽工作目录及宿主可用空间，不触碰其他容器。`recovery-qualification.py`完成健康目标和普通任务两条实际CLI恢复链：原始中断先封存，实际等待15分钟，三方健康通过后才完成第二次尝试。其前序是明确标记的合成账本，不是正式成绩。
+
+`audit-pipelines.py`重读65份完整Trace、实际API题面、评分和账本。`resource-policy.py`纳入73次可能尝试、实测恢复链、大Trace增长和工作峰值；估算不依赖透明压缩后的较小分配量。`build-readiness.py`和`release-package.py`只在全部证明、源码、推送和首次容量同时满足时构建正式准入。
+
+`compress-closed.py`仅透明压缩已闭合资格与完整封存Trace。它逐文件检查原字节、权限、mtime，并重验封存清单。它不处理活动输入、未完整封存现场或备份。APFS快照可能保留压缩前块，文件分配减少不等于可用空间立即增加。
