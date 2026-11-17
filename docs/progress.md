@@ -4,6 +4,12 @@
 
 共用规范见 [AGENTS.md](../AGENTS.md)。本文件汇总当前状态，详细过程保存在 [开发日报](devlog/) 中。
 
+## R2当前：17题材料通过，48条CLI闭合后等待容量（2026-11-18）
+
+设施源码9e7601a、C3保持。U01–U17材料资格完成：340份正向/反事实、885份负例；material-queue-r3-1正在U18，随后U19/U20/C7。r3final3已完成U01–U16三方48条，父进程87465在无活动CLI且等待U17材料时暂停。当前等待点是r2-cli-capacity-pause-4/result.json，尚无resumed.json；容量满足后用私有capacity-resume-next.py以参数4 U17 5恢复同一队列，不能重开同名输出或重跑48条。
+
+实际可用约13.5 GiB，尚不足下一组估算与保全余量，更未满足正式最低57 GiB及最终实测要求。targeted-compression-queue-1已处理U14–U16九条闭合流程，保持原始容量行与Trace；当前闲置等待后续结果。80 GiB目标快照回收仍待用户答复，未再次执行tmutil。T1为空，真实模型0。见[日报第12节](devlog/2026-11-18.md#12-完成17题材料与48条流程保留容量等待点)。
+
 ## R2已按题恢复：15题材料、42条CLI通过（2026-11-18）
 
 源码9e7601a与C3保持。实际空间回升后，原r3final3父进程87465已恢复，U14三方完成，累计42条；U15三方和U16材料继续。当前按每题闭合边界核对容量，私有capacity-pause-driver.py与capacity-resume-next.py记录暂停/恢复身份；targeted-compression-queue-1只在原容量行写入后压缩闭合证据。没有暂停活动CLI、评分或资源采样，原始统计与逻辑字节保持。若父进程处于T状态，先读最新r2-cli-capacity-pause-*/result.json和resumed.json；不要新建或重跑队列。
