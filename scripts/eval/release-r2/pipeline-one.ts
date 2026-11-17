@@ -7,6 +7,7 @@ import {verifiedHostEnvironment} from './host-environment.ts';
 import {snapshotFacility,verifyFacility} from './facility-snapshot.ts';
 import {command,save} from '../core.ts';
 import {sha} from './source.ts';
+import {taskPrompt} from './task-prompt.ts';
 
 const [studyArg,taskId,product,revision] = process.argv.slice(2);
 assert(studyArg && /^(health|T\d\d|C7-[LO])$/.test(taskId!) && ['v0','v1','claude'].includes(product!) && /^[a-zA-Z0-9-]+$/.test(revision!));
@@ -44,7 +45,8 @@ const end=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'});
 const firstTest=taskId==='health'?'result.txt':profile.regressionPaths[0];assert(patch[firstTest]);
 const mock=product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')];
 try {
-const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,claim:{mode:'mock',id:claim.id,ledgerLabel:label},prompt:'这是离线CLI流程资格。按当前公开任务完成修改和验证。模拟响应不计模型能力。'});
+const publicPrompt=taskPrompt(task,taskId!);save(join(out,'prompt.json'),publicPrompt);
+const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,claim:{mode:'mock',id:claim.id,ledgerLabel:label},prompt:publicPrompt.text});
 save(join(out,'controller-seal.json'),JSON.parse((await controller('seal',{id:claim.id,output:out.slice(study.length+1)})).stdout));
 assert.equal(x.execution.status,'completed',x.execution.error);assert.equal(x.checks.length,steps.length);assert(x.checks.every((c:any)=>c.status===0&&!c.signal&&!c.error));assert.equal(!!x.checkpoint,product==='v1'&&taskId!=='health');
 

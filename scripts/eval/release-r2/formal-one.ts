@@ -5,6 +5,7 @@ import {command,save} from '../core.ts';
 import {verifiedHostEnvironment} from './host-environment.ts';
 import {executeSubject} from './execute-subject.ts';
 import {sha} from './source.ts';
+import {taskPrompt} from './task-prompt.ts';
 
 const [studyArg]=process.argv.slice(2);assert(studyArg);const study=resolve(studyArg);
 await verifiedHostEnvironment(study);
@@ -15,9 +16,8 @@ assert.equal(process.env.AXI_EVAL_IMAGE,before.state.identities.image,'运行镜
 const claimed=await control('claim');const slot=claimed.claim.slot,out=join(study,'runs',slot.id);mkdirSync(out,{recursive:true});
 assert(!existsSync(join(out,'controller-claim.json')),'不能重开已有槽');save(join(out,'controller-claim.json'),claimed);
 const task=slot.task==='health'?join(study,'health'):join(study,slot.task.startsWith('C7-')?'c7':'tasks',slot.task);
-const brief=slot.task==='health'||!slot.task.startsWith('C7-')?'eval/task.md':slot.task==='C7-L'?'c7/brief.md':'brief.md';
-const prompt=readFileSync(join(task,'initial',brief),'utf8');save(join(out,'prompt.json'),{task:slot.task,source:brief,text:prompt});
 try{
+ const publicPrompt=taskPrompt(task,slot.task);save(join(out,'prompt.json'),publicPrompt);const prompt=publicPrompt.text;
  const result=await executeSubject(study,slot.task,slot.product,slot.id.toLowerCase(),out,{prompt,claim:{mode:'real',id:slot.id}});
  save(join(out,'controller-seal.json'),await control('seal',{id:slot.id,output:out.slice(study.length+1)}));
  const graded=await command(['python3',join(import.meta.dir,'formal-grade.py'),study,slot.id],undefined,true,920_000);
