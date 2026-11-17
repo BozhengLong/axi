@@ -1,7 +1,7 @@
 {
   "study": "v1-release-p02-r2-20261116T092836Z",
   "repairId": "9a307959101e6228bd3d",
-  "status": "qualified-awaiting-ledger-resume",
+  "status": "completed",
   "repeats": 5,
   "referenceQualificationCases": 20,
   "entryControlCases": 20,
@@ -40,5 +40,6 @@
     "regrade-audit.json": "5eb82ec0b3fdc304cea31e8cbec9bcc82b441896ae0645c0c86b35cfe52dd22c",
     "cleanup-audit.json": "74feba886edbf0a04969bf5e8a4e68431c93918bb665498cdbdbd6e1885c243a",
     "facility-index.json": "5636fcab9071f248a82deaff83313469786b2740e92ef2f180785ece9adc730b"
-  }
+  },
+  "completedAt": "2026-11-17T07:45:44.952395+00:00"
 }

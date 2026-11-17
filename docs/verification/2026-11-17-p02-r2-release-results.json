@@ -1,6 +1,6 @@
 {
   "study": "v1-release-p02-r2-20261116T092836Z",
-  "status": "audit-complete-awaiting-closure",
+  "status": "closed",
   "verdict": "INCOMPLETE",
   "candidate": "dbe7e145d205c21b580d8c2ee2dcf58c408380d8",
   "product": "ad6feb9103ea147bf3b5ddcb42d5a726f665a776",
@@ -244,5 +244,9 @@
     "oldGradesPreserved": true
   },
   "traceAuditSha256": "19ebfced8b911fc4540341474a3bfd4376290f90fea0e430fcd094c9f36b5d94",
-  "cleanupSha256": "2896799cbbe65a99870c478d61c473690df8ad47b45dbd0511946e22b5f7ba9f"
+  "cleanupSha256": "2896799cbbe65a99870c478d61c473690df8ad47b45dbd0511946e22b5f7ba9f",
+  "closedAt": "2026-11-17T08:01:39.933041+00:00",
+  "closureSha256": "00a3e88ac0fb1d1f5c503771c699e575aaeaba3ff9714232e13462e455d643f0",
+  "closureLedgerHash": "b517a918ebf2940e0849c41cec3e87ab2ded6d7ad4e81ca2afe6ce134915d650",
+  "reportCommitBeforeClosure": "2ad479a0f85d5f35c4269d97afee404b11308519"
 }
