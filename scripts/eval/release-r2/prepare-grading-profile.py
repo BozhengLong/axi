@@ -30,7 +30,7 @@ elif task_id in ('T03','T06','T07','T08','T13'):
     if task_id in ('T03','T06','T08'):generated = ['.nyc_output/**','coverage/**']
 elif task_id in ('T04','T12','T18'):
     source = ['packages/csv-stringify/lib/**'] if task_id == 'T18' else ['packages/*/lib/**']
-    generated = ['packages/*/dist/**','demo/webpack/dist/**','demo/webpack-ts/dist/**']
+    generated = ['packages/*/dist/**','demo/webpack/dist/**','demo/webpack-ts/dist/**','packages/csv/samples/example.fs.input.csv','packages/csv/samples/example.fs.output.csv']
 elif task_id in ('T05','T16'):
     source = ['packages/*/src/**']; generated = ['packages/*/build/**','examples/*/build/**','documentation/build/**','documentation/.docusaurus/**','coverage/**','**/*.tsbuildinfo','**/*.tmp.csv']
 elif task_id == 'C7-L':
