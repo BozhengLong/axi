@@ -1,6 +1,16 @@
 # v1正式验收执行与复查
 
-当前批次`v1-release-20261116`已NO-GO关闭。[结果报告](../verification/2026-11-16-v1-release-acceptance-results.md)说明P-02身份缺陷。不得删除closure或复用额度继续模型任务。方案19允许在工程产品缺陷处停止，因此本轮没有实现或宣布完整正式运行控制器、C7/20题包及三方资格可用。
+## 当前C2批次（2026-11-17）
+
+`v1-release-p02-r2-20261116T092836Z`完成工程、完整题包资格、三方健康和新C7；T01/v1受上游429影响，按规则INCOMPLETE收尾。见[结果](../verification/2026-11-17-p02-r2-release-results.md)、[逐槽JSON](../verification/2026-11-17-p02-r2-release-results.json)及[C2试用入口](v1-beta1-c2-status.md)。
+
+设施位于`scripts/eval/release-r2/`；正式账本为私有根下`formal-controller/controller-events.jsonl`，不能删除closure重开槽。`final-audit-1/trace-audit.json`绑定7条真实运行、138份Trace和9个视图；`repairs/9a307959101e6228bd3d/`保留唯一修复前后的评分。原始证据不推送公开Git。
+
+复查时先核对哈希链和封存清单，再读每槽review及实际评分。T01/v0当前采用修复目录的新评分，原`runs/T01-v0/final-grade/`仍保存原机判；T01/v1是受上游干扰的UNKNOWN，不能当普通N或PASS。未启动58槽没有模型Trace。
+
+## 旧C1批次（2026-11-16，以下为历史记录）
+
+旧批次`v1-release-20261116`已NO-GO关闭。[结果报告](../verification/2026-11-16-v1-release-acceptance-results.md)说明P-02身份缺陷。不得删除closure或复用额度继续模型任务。方案19允许在工程产品缺陷处停止，因此本轮没有实现或宣布完整正式运行控制器、C7/20题包及三方资格可用。
 
 ## 已有设施
 
