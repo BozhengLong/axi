@@ -1,0 +1,893 @@
+{
+  "schema": 1,
+  "study": "v1-release-unbounded-r3-20261117T132920Z",
+  "at": "2026-11-17T22:54:43.883133+00:00",
+  "atBeijing": "2026-11-18T06:54:43.883133+08:00",
+  "materialQualified": true,
+  "formalAdmissionComplete": false,
+  "candidate": "e684620d1fa9109fcbcf442033ed97323cf76716",
+  "facilityExecutionSourceCommit": "9e7601a39a42b41e03bb6b9139b815114f1f602c",
+  "T1": null,
+  "formalModelStarts": 0,
+  "counts": {
+    "taskCount": 20,
+    "initialAndTwoReferenceCases": 300,
+    "counterfactualCases": 100,
+    "negativeCases": 1080,
+    "c7InitialReferenceAndCounterfactualCases": 30,
+    "c7NegativeCases": 30,
+    "mockCliCompleted": 51,
+    "mockCliRequired": 65
+  },
+  "coverage": {
+    "categories": {
+      "R1": 5,
+      "R2": 5,
+      "R3": 5,
+      "R4": 5
+    },
+    "repositories": {
+      "yargs/yargs-parser": 1,
+      "cosmiconfig/cosmiconfig": 3,
+      "jprichardson/node-fs-extra": 3,
+      "adaltas/node-csv": 3,
+      "C2FO/fast-csv": 2,
+      "caolan/async": 2,
+      "markdown-it/markdown-it": 2,
+      "tj/commander.js": 2,
+      "isaacs/node-tar": 2
+    },
+    "userDirty": 18,
+    "productionDirty": 4,
+    "async": 9
+  },
+  "tasks": [
+    {
+      "task": "U01",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 55,
+      "maxReferenceSeconds": 16.047527291812003,
+      "audit": {
+        "path": "tasks/U01/qualification-audit-r3-u01.json",
+        "sha256": "c375ea3eca47a278be72584fb08b732d184f74a76939575d90c617884d101c6c"
+      },
+      "positive": {
+        "path": "tasks/U01/qualification-r3-u01/results.json",
+        "sha256": "235bf279d7d112a1fae160077f3a82ac5dd2683f134aa8d42c7d0916ce090e87"
+      },
+      "negative": {
+        "path": "tasks/U01/negative-qualification-r3-u01/results.json",
+        "sha256": "411512374fcf787aa31e846d8a6ca44e04bc6b52e68fb24651837b9126cf557f"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "为Node入口增加可选JSON响应文件",
+      "repository": "yargs/yargs-parser",
+      "category": "R1",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    },
+    {
+      "task": "U02",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 40,
+      "maxReferenceSeconds": 10.799093542154878,
+      "audit": {
+        "path": "tasks/U02/qualification-audit-r3-1.json",
+        "sha256": "af8f2bdbb020deb435b77d1883bfc1d0df731d08def5ccd947b3a5cdce778c66"
+      },
+      "positive": {
+        "path": "tasks/U02/qualification-r3-1/results.json",
+        "sha256": "6c556691f2735165497db3120084f68e1437de12040907341628ff9a88de179b"
+      },
+      "negative": {
+        "path": "tasks/U02/negative-qualification-r3-1/results.json",
+        "sha256": "9a9ff0a22b58cccdd81fa2bda8b8a0f69b79f64c43100b4e33d23a1a8c32a52f"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T02：修复共享导入配置的相互污染",
+      "repository": "cosmiconfig/cosmiconfig",
+      "category": "R2",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    },
+    {
+      "task": "U03",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 45,
+      "maxReferenceSeconds": 14.170897957868874,
+      "audit": {
+        "path": "tasks/U03/qualification-audit-r3-1.json",
+        "sha256": "47474af8cc181dc888be7ab040a3bace9305c5cffb668362098a23e6429c369f"
+      },
+      "positive": {
+        "path": "tasks/U03/qualification-r3-1/results.json",
+        "sha256": "21a9f0a3240ebb41f6556c3f8f3b97ede543da2480484e4308286ae3c13ba70c"
+      },
+      "negative": {
+        "path": "tasks/U03/negative-qualification-r3-1/results.json",
+        "sha256": "77edbe3b1ab7b77cf48532dc222719bf1aaaba89f33ce1568ed8c7228b0bd4ca"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T03：合并同步与异步copy的选项策略",
+      "repository": "jprichardson/node-fs-extra",
+      "category": "R3",
+      "userDirty": true,
+      "productionDirty": true,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md",
+        "lib/copy/copy.js",
+        "lib/copy/copy-sync.js"
+      ],
+      "statusSha256": "a45ca395a369cbe87bd66caa299be00e34d7526843c3a80d7a417c259f37908d",
+      "productionDiffSha256": "01a1710e02e8d4722be0a422de2ad6ed62add93680e51e4e4dc2f72d48c6b5a0",
+      "asyncWitness": [
+        "lib/copy/copy.js"
+      ]
+    },
+    {
+      "task": "U04",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 40,
+      "maxReferenceSeconds": 181.33289233408868,
+      "audit": {
+        "path": "tasks/U04/qualification-audit-r3-1.json",
+        "sha256": "9ae77157c7fbd04de328e62c7bcc79137f894df0fbf6954e909249b62e316a7e"
+      },
+      "positive": {
+        "path": "tasks/U04/qualification-r3-1/results.json",
+        "sha256": "6e39b8e0a360cb45189b83e515af7a0f15b44c9d57640f39a5ced3337acb7937"
+      },
+      "negative": {
+        "path": "tasks/U04/negative-qualification-r3-1/results.json",
+        "sha256": "f4ae90bddfef79536040385ea33cfd0246c4e9128b8c4feeade393999554bf27"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T04：重复 CSV 列分组必须完整保留 cast 的字段值",
+      "repository": "adaltas/node-csv",
+      "category": "R4",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    },
+    {
+      "task": "U05",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 60,
+      "maxReferenceSeconds": 68.74607375031337,
+      "audit": {
+        "path": "tasks/U05/qualification-audit-r3-1.json",
+        "sha256": "06bd8102a6628be9e29cb6a13cfdd507a59fbd97ddd413c8a2883ad73a8ece76"
+      },
+      "positive": {
+        "path": "tasks/U05/qualification-r3-1/results.json",
+        "sha256": "2eedc502636dd6267c56997a6c150d4b9b24bf4aa24a4ac17f848fd58cf4b0d4"
+      },
+      "negative": {
+        "path": "tasks/U05/negative-qualification-r3-1/results.json",
+        "sha256": "d05779b473807afa4b5012a01da5901b90f3bd687a31cc0014375b0d1859ebe7"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T05：在不改变数据映射的前提下转换 CSV 显示表头",
+      "repository": "C2FO/fast-csv",
+      "category": "R1",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    },
+    {
+      "task": "U06",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 40,
+      "maxReferenceSeconds": 14.56892062490806,
+      "audit": {
+        "path": "tasks/U06/qualification-audit-r3-1.json",
+        "sha256": "e72102096afbda6697f6b1e6d7636514e11841cf665e8112d688a6a202987964"
+      },
+      "positive": {
+        "path": "tasks/U06/qualification-r3-1/results.json",
+        "sha256": "ad290bf77665283b244eddf13ff7ca57c6239b7366791fccd71301e6f2aaf0cc"
+      },
+      "negative": {
+        "path": "tasks/U06/negative-qualification-r3-1/results.json",
+        "sha256": "8a318eed68ce4a3214d1638b6e83dfa83177d3eb770911fd16d392dab5b9db51"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T06：修复未知 inode 导致的复制与移动误判",
+      "repository": "jprichardson/node-fs-extra",
+      "category": "R2",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    },
+    {
+      "task": "U07",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 50,
+      "maxReferenceSeconds": 25.823320915922523,
+      "audit": {
+        "path": "tasks/U07/qualification-audit-r3-1.json",
+        "sha256": "0d7bbb4df572905552d0aa98c1335eb93b1df9912ad1ebbffec4f0f374deec22"
+      },
+      "positive": {
+        "path": "tasks/U07/qualification-r3-1/results.json",
+        "sha256": "b5edd060d3832b1b6904a7918e9690f65688a540e0dd6a6d231285e7aedde24d"
+      },
+      "negative": {
+        "path": "tasks/U07/negative-qualification-r3-1/results.json",
+        "sha256": "9b7ed0603ab28f0a202a72223d62eb17194a77c844ed684c0b7b03e95c39e512"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T07：集中管理集合执行路线，保留各路线原有行为",
+      "repository": "caolan/async",
+      "category": "R3",
+      "userDirty": true,
+      "productionDirty": true,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md",
+        "lib/eachOfLimit.js"
+      ],
+      "statusSha256": "0eac49bbafa8b56f3931e981b693c81181ac183c1a8fc496c3ff05c289b545cb",
+      "productionDiffSha256": "72525dbb0809eaf2f0795a11d03e97bc5d13ffa7b3cd39e1ae458bcde319abc1",
+      "asyncWitness": [
+        "lib/internal/eachOfLimit.js"
+      ]
+    },
+    {
+      "task": "U08",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 55,
+      "maxReferenceSeconds": 14.80114462506026,
+      "audit": {
+        "path": "tasks/U08/qualification-audit-r3-1.json",
+        "sha256": "63d640750c5fdb5d799bb65e2b9d4561f8433e7546d62f3611b4b55f2d78e8b5"
+      },
+      "positive": {
+        "path": "tasks/U08/qualification-r3-1/results.json",
+        "sha256": "8f175dd191bf732004578e69eebe2e55acb89215b56c97ef09d67ea25ef3c05e"
+      },
+      "negative": {
+        "path": "tasks/U08/negative-qualification-r3-1/results.json",
+        "sha256": "5bb939ee33958b456fb7ff8833a7f4822037ff87eb3b9f640f8b11bf4adfc108"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T08：逐行读取JSONL，提供精确行号、错误策略和有界资源",
+      "repository": "jprichardson/node-fs-extra",
+      "category": "R4",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": [
+        "lib/json/index.js"
+      ]
+    },
+    {
+      "task": "U09",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 50,
+      "maxReferenceSeconds": 12.656004541087896,
+      "audit": {
+        "path": "tasks/U09/qualification-audit-r3-1.json",
+        "sha256": "36f2de5654be6e966587a70a91af83d652c39b92644d3a4a69690a4630204bc6"
+      },
+      "positive": {
+        "path": "tasks/U09/qualification-r3-1/results.json",
+        "sha256": "e84ca7f236ce497cad59c69b3560584c219670c21dcf4e6358abbee5c22bd4cf"
+      },
+      "negative": {
+        "path": "tasks/U09/negative-qualification-r3-1/results.json",
+        "sha256": "52c93102fccd4f236011743feed112c08a161a6bd086836f3d25f1d5c00ef105"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T09：按输入顺序汇总多个配置文件的加载结果",
+      "repository": "cosmiconfig/cosmiconfig",
+      "category": "R1",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": [
+        "src/Explorer.ts"
+      ]
+    },
+    {
+      "task": "U10",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 40,
+      "maxReferenceSeconds": 16.691471500322223,
+      "audit": {
+        "path": "tasks/U10/qualification-audit-r3-1.json",
+        "sha256": "883c70441f0c0da20d820befa0d26973b3dabbc86fff7abce6057685eab57683"
+      },
+      "positive": {
+        "path": "tasks/U10/qualification-r3-1/results.json",
+        "sha256": "28c77137d7eac277a2fc95a539c05e902c90b04e8e3241951c15f4654f4dd5dd"
+      },
+      "negative": {
+        "path": "tasks/U10/negative-qualification-r3-1/results.json",
+        "sha256": "2a4a575c55c916efdfb288b3451cb8b32e009cd5dfced2c9bd31fa1b6c4574d1"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T10：保留嵌套图片alt中的实体与转义文本",
+      "repository": "markdown-it/markdown-it",
+      "category": "R2",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    },
+    {
+      "task": "U11",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 50,
+      "maxReferenceSeconds": 25.243034458719194,
+      "audit": {
+        "path": "tasks/U11/qualification-audit-r3-1.json",
+        "sha256": "90accbf1c5dd8db6cca175e1a5e20a2c4d7c2128bb3a9d4af0a0b56f0cab7a9c"
+      },
+      "positive": {
+        "path": "tasks/U11/qualification-r3-1/results.json",
+        "sha256": "a7e36d2df6eed0534a0192acc7054a71314a27c79760b1ce1c13763d653c888d"
+      },
+      "negative": {
+        "path": "tasks/U11/negative-qualification-r3-1/results.json",
+        "sha256": "6eee092cd6651e59a7d8763eec8dbb4e0c7ca85e619c207e16e757b0959b7430"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T11：共享choices解析器，保留调用者绑定与用户观察hook",
+      "repository": "tj/commander.js",
+      "category": "R3",
+      "userDirty": true,
+      "productionDirty": true,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md",
+        "lib/option.js",
+        "lib/argument.js",
+        "typings/index.d.ts"
+      ],
+      "statusSha256": "dc6a3c17db7771dfbcb5e7510d4f13f585b74932c76a5426514c3c4aa470a87c",
+      "productionDiffSha256": "5027ba0af97b5fb2aee868af0e0c603b1908e3e9193b1b7125ffaa659870f3c8",
+      "asyncWitness": []
+    },
+    {
+      "task": "U12",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 40,
+      "maxReferenceSeconds": 157.14856887515634,
+      "audit": {
+        "path": "tasks/U12/qualification-audit-r3-1.json",
+        "sha256": "afdce9f5876424df582e0bddc345e0d7632ec2d8d4d425e392bafc417a5ca91e"
+      },
+      "positive": {
+        "path": "tasks/U12/qualification-r3-1/results.json",
+        "sha256": "bf03b3f0d646ff538c894eb29709698c984d4430d5a58584b5545aa8ddd1b4bc"
+      },
+      "negative": {
+        "path": "tasks/U12/negative-qualification-r3-1/results.json",
+        "sha256": "f0ae74396c139f5e678d1b4294d25d9a77bc722ac6708b8edf1ca1c4b36e46e2"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T12：BOM自动识别后的CSV空白处理不得破坏UTF-16字段",
+      "repository": "adaltas/node-csv",
+      "category": "R4",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": [
+        "packages/csv-parse/lib/index.js"
+      ]
+    },
+    {
+      "task": "U13",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 65,
+      "maxReferenceSeconds": 26.276393542066216,
+      "audit": {
+        "path": "tasks/U13/qualification-audit-r3-1.json",
+        "sha256": "f5c3418dae12d899f2d3a2379ec2af585c8a7b471bc86cedeff9fa893389b10f"
+      },
+      "positive": {
+        "path": "tasks/U13/qualification-r3-1/results.json",
+        "sha256": "49f592e158159bc7d1484bbd3b748345d1a33cef9895d313ed4c1d25c934385f"
+      },
+      "negative": {
+        "path": "tasks/U13/negative-qualification-r3-1/results.json",
+        "sha256": "e921fe012c4ccbdc755b52e0485c0b25f2c68c08ef263b5d3515f0054ca20897"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T13：失败后停止启动，并等待已启动的并行任务结束",
+      "repository": "caolan/async",
+      "category": "R1",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": [
+        "lib/parallel.js"
+      ]
+    },
+    {
+      "task": "U14",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 45,
+      "maxReferenceSeconds": 68.81670245807618,
+      "audit": {
+        "path": "tasks/U14/qualification-audit-r3-1.json",
+        "sha256": "ed1be657aaa1177d87b9164df885a238318ddf7a70a4d2ae6c402332b79c4eec"
+      },
+      "positive": {
+        "path": "tasks/U14/qualification-r3-1/results.json",
+        "sha256": "c780743b65764198e3b85722beedd1243c7f80a0f7bf06f78c667bb00fe29306"
+      },
+      "negative": {
+        "path": "tasks/U14/negative-qualification-r3-1/results.json",
+        "sha256": "76548ce8f6844a3a7c682901dc2f3f47255f6332e2449975ddef0a18c528301a"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T14：修复路径与祖先同时预约造成的抽取停滞",
+      "repository": "isaacs/node-tar",
+      "category": "R2",
+      "userDirty": false,
+      "productionDirty": false,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": [
+        "src/path-reservations.ts"
+      ]
+    },
+    {
+      "task": "U15",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 90,
+      "maxReferenceSeconds": 15.534204584080726,
+      "audit": {
+        "path": "tasks/U15/qualification-audit-r3-1.json",
+        "sha256": "8136719964b4b41f2605b28d795985efd39bdf2ac32f7173125c9bcfdd5e1cb7"
+      },
+      "positive": {
+        "path": "tasks/U15/qualification-r3-1/results.json",
+        "sha256": "0c368340ee6518fa755dba44321c908731baa2f93bf232c0846c185ae3b167c4"
+      },
+      "negative": {
+        "path": "tasks/U15/negative-qualification-r3-1/results.json",
+        "sha256": "54dc30f34a1834cf6a9834025183e9e3b3e623585b120a200e341d8dd4c75767"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T15：集中块解析的代码缩进判定，保持现有行为",
+      "repository": "markdown-it/markdown-it",
+      "category": "R3",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    },
+    {
+      "task": "U16",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 60,
+      "maxReferenceSeconds": 61.91358583420515,
+      "audit": {
+        "path": "tasks/U16/qualification-audit-r3-1.json",
+        "sha256": "9406295a73c21db309a93644be23a13eec7bd5b97a20e3753370ee8454f6d987"
+      },
+      "positive": {
+        "path": "tasks/U16/qualification-r3-1/results.json",
+        "sha256": "cfe6630bae5a5cec5f268d1172eb45fa263881aebd3ed7e5f332ec828b9a7d99"
+      },
+      "negative": {
+        "path": "tasks/U16/negative-qualification-r3-1/results.json",
+        "sha256": "36349b5db6fb8b636d38dbf5936c99fbc04561a59c2a1a90f994210e1bae1f9a"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T16：保留CSV无效行的列数诊断",
+      "repository": "C2FO/fast-csv",
+      "category": "R4",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    },
+    {
+      "task": "U17",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 60,
+      "maxReferenceSeconds": 77.86662195809186,
+      "audit": {
+        "path": "tasks/U17/qualification-audit-r3-1.json",
+        "sha256": "69ab5856a8b3d0dbfb9df5d1b94e1c2df7eb383521e0acdb9c58a753bccdaf87"
+      },
+      "positive": {
+        "path": "tasks/U17/qualification-r3-1/results.json",
+        "sha256": "7e5299f4e24c9691307b617696f45e38cd153b25191392ca968b3c79a2a20b24"
+      },
+      "negative": {
+        "path": "tasks/U17/negative-qualification-r3-1/results.json",
+        "sha256": "6e9918373b6d411aebf604dc215a83e6b3551f37b758e43455ac7e34f6d062db"
+      },
+      "completedMockPipelines": [
+        "v0",
+        "v1",
+        "claude"
+      ],
+      "title": "T17：创建归档时显式忽略查找阶段不存在的文件",
+      "repository": "isaacs/node-tar",
+      "category": "R1",
+      "userDirty": false,
+      "productionDirty": false,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": [
+        "src/pack.ts"
+      ]
+    },
+    {
+      "task": "U18",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 55,
+      "maxReferenceSeconds": 161.24696020875126,
+      "audit": {
+        "path": "tasks/U18/qualification-audit-r3-1.json",
+        "sha256": "8f8b1e3848993d8ffff55634299ee78d84e886241b338558c5347488b159d8d9"
+      },
+      "positive": {
+        "path": "tasks/U18/qualification-r3-1/results.json",
+        "sha256": "77693c3fb946b26cd94ad1de4876357a919403705fb6df22a397cfcb5b34121b"
+      },
+      "negative": {
+        "path": "tasks/U18/negative-qualification-r3-1/results.json",
+        "sha256": "10a6d4f4b27b5667b07d2bba82450ab60b64587c1fdcf53275dd36f82c8d4c5f"
+      },
+      "completedMockPipelines": [],
+      "title": "T18：把记录读取异常交给CSV字符串化的错误通道",
+      "repository": "adaltas/node-csv",
+      "category": "R2",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": true,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": [
+        "packages/csv-stringify/lib/index.js"
+      ]
+    },
+    {
+      "task": "U19",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 70,
+      "maxReferenceSeconds": 13.67252662498504,
+      "audit": {
+        "path": "tasks/U19/qualification-audit-r3-1.json",
+        "sha256": "20903b86e0001cb4cda731fc779ef8c804cd72d6fdcbf0888b1bd4571e270a4f"
+      },
+      "positive": {
+        "path": "tasks/U19/qualification-r3-1/results.json",
+        "sha256": "d27b204abd06b468d154ad20e2cb117392a9eee4530932762cbb397ece7a8b91"
+      },
+      "negative": {
+        "path": "tasks/U19/negative-qualification-r3-1/results.json",
+        "sha256": "99355c5e01e040645411290d7f1f260a14521b8cde72c7175c021861fbf2a555"
+      },
+      "completedMockPipelines": [],
+      "title": "T19：共享配置加载策略，保持空值、错误边界与用户hook",
+      "repository": "cosmiconfig/cosmiconfig",
+      "category": "R3",
+      "userDirty": true,
+      "productionDirty": true,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md",
+        "src/types.ts",
+        "src/ExplorerBase.ts",
+        "test/owner-load-hook.test.ts"
+      ],
+      "statusSha256": "6b92e433ed57f27f898574b955249cf8dc6167915f12e891f2c718e39098a81f",
+      "productionDiffSha256": "061c698b7086d469e099ad3ab272dfa632fdfa16c9cfbf7cdf9ec8bb7b0fb566",
+      "asyncWitness": []
+    },
+    {
+      "task": "U20",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 20,
+      "negativeCases": 70,
+      "maxReferenceSeconds": 19.60811633337289,
+      "audit": {
+        "path": "tasks/U20/qualification-audit-r3-1.json",
+        "sha256": "feb00981d53fc8680a50aaa784e3457a258950d870d540d608769d7dbad6868d"
+      },
+      "positive": {
+        "path": "tasks/U20/qualification-r3-1/results.json",
+        "sha256": "d39080fad1514ff8972536ff99a3e336776ea9978756ea66a70de3330eb23147"
+      },
+      "negative": {
+        "path": "tasks/U20/negative-qualification-r3-1/results.json",
+        "sha256": "778d1fb9f31e52aaa623d3ff8692cfad877a1dd93972fbd4ad982a53d1c3820a"
+      },
+      "completedMockPipelines": [],
+      "title": "T20：为一次解析注入环境变量并保持实例隔离",
+      "repository": "tj/commander.js",
+      "category": "R4",
+      "userDirty": true,
+      "productionDirty": false,
+      "async": false,
+      "userFiles": [
+        "notes/owner.md"
+      ],
+      "statusSha256": "69e32a68381195747350781ea2abb696e8713ba27d787fbc4b0c1f81984a2090",
+      "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "asyncWitness": []
+    }
+  ],
+  "c7": [
+    {
+      "task": "C7-L",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 15,
+      "negativeCases": 15,
+      "maxReferenceSeconds": 29.256184375379235,
+      "audit": {
+        "path": "c7/C7-L/qualification-audit-r3-1.json",
+        "sha256": "93d5e9796404b2494c1e1cd84e1a51ccb20b1746c9caaa4662ef6f708ccd973d"
+      },
+      "positive": {
+        "path": "c7/C7-L/qualification-r3-1/results.json",
+        "sha256": "8a81a1f5c1fa80aa29e35cedaed687c700632a36778397399010940f8594fb14"
+      },
+      "negative": {
+        "path": "c7/C7-L/negative-qualification-r3-1/results.json",
+        "sha256": "d14c66a4e36c149a86a909705c5cddb7b392e851898d991468d40dabbb9c0c7d"
+      },
+      "completedMockPipelines": [],
+      "title": "修复 JSONL renderer 的结束清理问题"
+    },
+    {
+      "task": "C7-O",
+      "qualified": true,
+      "mode": "current-five",
+      "positiveAndCounterfactualCases": 15,
+      "negativeCases": 15,
+      "maxReferenceSeconds": 3.7789022498764098,
+      "audit": {
+        "path": "c7/C7-O/qualification-audit-r3-1.json",
+        "sha256": "18746867a68db8ae041741457d2949dd6bbc182289a14baf6143ec452eb4bb8b"
+      },
+      "positive": {
+        "path": "c7/C7-O/qualification-r3-1/results.json",
+        "sha256": "7a36a5037b5491e691060ff92fab0885af852968c20475f88c840268d77f5372"
+      },
+      "negative": {
+        "path": "c7/C7-O/negative-qualification-r3-1/results.json",
+        "sha256": "7725eca9e404495e34221f940893a0b30764e3e2bbd5706306c60e24af000bd9"
+      },
+      "completedMockPipelines": [],
+      "title": "修复订单服务的故障异常分类"
+    }
+  ],
+  "proofs": {
+    "cohort": {
+      "path": "cohort-audit-1/result.json",
+      "sha256": "7102521272206f52236a13dfe05721bfea6d6b567f976e9cb328b74d72c525db"
+    },
+    "exposure": {
+      "path": "exposure-audit-1/result.json",
+      "sha256": "c2b8bf69720be29a4db8c4a560effb89639acf11f877c871bafab25f6247d103"
+    },
+    "dependencies": {
+      "path": "dependency-audit-1/result.json",
+      "sha256": "d42dd5f6a7e75e16b062cc457051752046ca9a0436828604151c8628fe9a250f"
+    },
+    "dependencyCopyIdentity": {
+      "path": "dependency-audit-1/old-copy-identity.json",
+      "sha256": "c1651dd4b1210e4fb064670215e937f296624544adcded35b5f09dd250b4a454"
+    },
+    "capture": {
+      "path": "capture-qualification-r3v1/results.json",
+      "sha256": "d752972b624d9a36134d1dfffa1ce3ea52a7765509619fce869b039599c5bf09"
+    },
+    "c7InvalidRegression": {
+      "path": "c7-regression-qualification-r3v1/results.json",
+      "sha256": "c3256a177f1752748c74d0702373962ffa76e6ad5c9b5b104d8fe2ca923ee7e3"
+    },
+    "nativeRecovery": {
+      "path": "recovery-chains-r3v3/result.json",
+      "sha256": "23e3aa38ec052ba9695d78f1b71322b121172c36e5f8d41c7f853b003e264e94"
+    },
+    "materialQueue": {
+      "path": "material-queue-r3-1/result.json",
+      "sha256": "68010ab0db440e29129bc9990d758a1170b025c46dcbff19fe3dc94bcc2a9fb6"
+    }
+  },
+  "freeBytesAtReport": 16347979776,
+  "formalMinimumFloorBytes": 61203283968,
+  "operatingFloorBytes": 9663676416,
+  "snapshotReclaim80GiBApprovalPending": true,
+  "pending": [
+    "完成剩余当前CLI模拟",
+    "全65条完整证据与输入复核",
+    "73次可能尝试的容量实测及实际准入",
+    "F3正式冻结",
+    "真实健康探针、新C7及20组三方对照"
+  ],
+  "note": "本文件仅证明当前材料资格。没有沿用旧五次通过结论，没有真实模型能力成绩。完整Trace及失败历史私有保留。"
+}
