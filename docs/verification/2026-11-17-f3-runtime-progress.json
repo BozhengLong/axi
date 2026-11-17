@@ -1,0 +1,73 @@
+{
+  "status": "R1_PARTIAL",
+  "candidate": "e684620d1fa9109fcbcf442033ed97323cf76716",
+  "study": "v1-release-unbounded-r3-20261117T132920Z",
+  "T1": null,
+  "realModelStarts": 0,
+  "largeTrace": {
+    "kind": "large-trace",
+    "actor": "v1",
+    "status": "completed",
+    "requests": 28001,
+    "responses": 1,
+    "checkpoints": 0,
+    "events": 112019,
+    "terminalBytes": 226930517,
+    "nativeBytes": 613359851,
+    "traceDirectory": "runtime/r3-20261117152619-706621ce/large-trace"
+  },
+  "guardCases": 6,
+  "semanticNegativeCases": 9,
+  "unitTests": 10,
+  "unitAssertions": 5265,
+  "controllerChecks": 46,
+  "earlyAdapterCases": 50,
+  "evidence": [
+    {
+      "path": "resource-recovery-1/result.json",
+      "sha256": "397929706ce9e166e14475a67d1c7b0c6f66e40daec9a1e993d1caa12ef92cc6"
+    },
+    {
+      "path": "facility-units-3/result.json",
+      "sha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "controller-qualification-3/result.json",
+      "sha256": "bb81b305f004eed6668520aab948a083714624b5e1b5e753702130aff6e32037"
+    },
+    {
+      "path": "c3-adapter-cli-1/summary.json",
+      "sha256": "67e993ccb0eb1c7a6135261a16a723370a301ad2c394e31d256d05ad7df534ec"
+    },
+    {
+      "path": "runtime-qualification-2/results.json",
+      "sha256": "d8c9c2753d984ad5bed8c07cf6dc4672072abec226786959c51d39f9e6a11062"
+    },
+    {
+      "path": "runtime-qualification-3/results.json",
+      "sha256": "80ce84fc678f0492f5d2dcfabf59ce792c2cd0a6c6ccd280a538457839fde138"
+    },
+    {
+      "path": "runtime-qualification-4/results.json",
+      "sha256": "bff3cee207106eaaa551bad92d3e9e6945baf7db3ea89939b16b4b4f0ed26793"
+    },
+    {
+      "path": "large-trace-audit-1/result.json",
+      "sha256": "cd74bb864b13c03ecbe37fd93854edf6c5e71b74a50afb31f43c0744c15f5adb"
+    },
+    {
+      "path": "guard-qualification-1/results.json",
+      "sha256": "a5a8f48c9d89d9c86f5478f6461965d91ddc1ad6bf8b3273d60badd6d5d9ed8a"
+    },
+    {
+      "path": "evidence-qualification-1/results.json",
+      "sha256": "b689eb3e7105982b8e399a2220122cac988a9989302b11ff27d509fc387d6f0d"
+    },
+    {
+      "path": "cancel-qualification-1/results.json",
+      "sha256": "31a75a61477846b2d60da403bfad8d2f9814145f4067794e72aa805e2ff7939f"
+    }
+  ],
+  "scope": "设施仍在准备；各证据对应当时源码，最终依赖身份资格尚未收敛。",
+  "cancelCases": 3
+}
