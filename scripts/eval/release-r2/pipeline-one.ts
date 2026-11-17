@@ -19,6 +19,7 @@ await verifiedHostEnvironment(study);
 const task=taskId==='health'?join(study,'health'):join(study,taskId!.startsWith('C7-')?'c7':'tasks',taskId!),profile=JSON.parse(readFileSync(join(task,'qualification-profile.json'),'utf8'));
 assert.equal(process.env.AXI_EVAL_IMAGE,profile.image);
 const out=join(task,`pipeline-${product}-${revision}`);mkdirSync(out);
+const publicPrompt=taskPrompt(task,taskId!);save(join(out,'prompt.json'),publicPrompt);
 save(join(out,'grading-profile-process.json'),await command(['python3',join(import.meta.dir,'prepare-grading-profile.py'),study,taskId!]));
 const label=`${taskId!.toLowerCase()}-${product}-${revision}`;
 const claimProcess=await command(['python3',join(import.meta.dir,'controller-fixtures.py'),study,label,taskId!,product!]);
@@ -36,8 +37,8 @@ if(taskId!=='health'&&!steps.some((x:any)=>x.label==='regression')){
  const selected=profile.counterfactualCommands.find((x:any)=>x.label==='regression');assert(selected);steps.push({label:'regression',args:publicArgs(selected.args)});
 }
 function shellTool(id:string,changes:Record<string,string>,validate:boolean){
- const data=gzipSync(JSON.stringify({changes,steps:validate?steps:[]})).toString('base64');
- const js=`const fs=require('node:fs'),path=require('node:path'),z=require('node:zlib'),cp=require('node:child_process');const payload=JSON.parse(z.gunzipSync(Buffer.from(${JSON.stringify(data)},'base64')).toString());for(const[n,v]of Object.entries(payload.changes)){fs.mkdirSync(path.dirname(n),{recursive:true});fs.writeFileSync(n,v)}const rows=[];for(const s of payload.steps){const p=cp.spawnSync(s.args[0],s.args.slice(1),{encoding:'utf8',maxBuffer:128*1024*1024,timeout:540000});rows.push({...s,status:p.status,signal:p.signal,error:p.error?.message,stdout:p.stdout,stderr:p.stderr});fs.writeFileSync('/tmp/axi-pipeline-checks.json',JSON.stringify(rows));process.stdout.write(p.stdout||'');process.stderr.write(p.stderr||'');if(p.status!==0||p.signal||p.error)process.exit(1)}console.log('MOCK_TOOL_COMPLETED');`;
+ const data=gzipSync(JSON.stringify({changes,steps:validate?steps:[],taskDocument:{path:publicPrompt.source,sha256:publicPrompt.sha256}})).toString('base64');
+ const js=`const fs=require('node:fs'),path=require('node:path'),z=require('node:zlib'),cp=require('node:child_process'),crypto=require('node:crypto');const payload=JSON.parse(z.gunzipSync(Buffer.from(${JSON.stringify(data)},'base64')).toString());const brief=fs.readFileSync(payload.taskDocument.path);if(crypto.createHash('sha256').update(brief).digest('hex')!==payload.taskDocument.sha256)throw Error('task document mismatch');process.stdout.write(brief);console.log('MOCK_TASK_DOCUMENT_READ '+payload.taskDocument.sha256);for(const[n,v]of Object.entries(payload.changes)){fs.mkdirSync(path.dirname(n),{recursive:true});fs.writeFileSync(n,v)}const rows=[];for(const s of payload.steps){const p=cp.spawnSync(s.args[0],s.args.slice(1),{encoding:'utf8',maxBuffer:128*1024*1024,timeout:540000});rows.push({...s,status:p.status,signal:p.signal,error:p.error?.message,stdout:p.stdout,stderr:p.stderr});fs.writeFileSync('/tmp/axi-pipeline-checks.json',JSON.stringify(rows));process.stdout.write(p.stdout||'');process.stderr.write(p.stderr||'');if(p.status!==0||p.signal||p.error)process.exit(1)}console.log('MOCK_TOOL_COMPLETED');`;
  const shell="node -e '"+js.replaceAll("'","'\"'\"'")+"'";assert(Buffer.byteLength(shell)<96000,'模拟命令过大');
  return {content:[{type:'tool_use',id,name:product==='claude'?'Bash':'bash',input:{command:shell,...(product==='claude'?{timeout:600000}:{timeout_ms:600000})}}],stopReason:'tool_use'};
 }
@@ -45,7 +46,6 @@ const end=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'});
 const firstTest=taskId==='health'?'result.txt':profile.regressionPaths[0];assert(patch[firstTest]);
 const mock=product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')];
 try {
-const publicPrompt=taskPrompt(task,taskId!);save(join(out,'prompt.json'),publicPrompt);
 const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,claim:{mode:'mock',id:claim.id,ledgerLabel:label},prompt:publicPrompt.text});
 save(join(out,'controller-seal.json'),JSON.parse((await controller('seal',{id:claim.id,output:out.slice(study.length+1)})).stdout));
 assert.equal(x.execution.status,'completed',x.execution.error);assert.equal(x.checks.length,steps.length);assert(x.checks.every((c:any)=>c.status===0&&!c.signal&&!c.error));assert.equal(!!x.checkpoint,product==='v1'&&taskId!=='health');

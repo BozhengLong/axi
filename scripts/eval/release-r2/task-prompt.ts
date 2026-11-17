@@ -14,6 +14,9 @@ export function taskPrompt(task:string,taskId:string){
  for(const part of entry.path.split('/')){current=join(current,part);assert(!lstatSync(current).isSymbolicLink(),'题面路径不能是链接')}
  assert(lstatSync(current).isFile());
  const bytes=readFileSync(current);assert.equal(sha(bytes),entry.sha256,'公开题面与输入清单不符');
- const text=bytes.toString('utf8');assert(text.trim());
- return {task:taskId,source:entry.path,text,sha256:entry.sha256};
+ const document=bytes.toString('utf8');assert(document.trim());
+ // 三方共用同一单行入口；完整题面保留在工作区，避免行式终端截断多行输入。
+ const text=`请先完整读取 ${entry.path} 中的用户任务说明，再按其中全部条款完成修改、验证和交付。该文件是本次任务的完整题面。`;
+ assert(!/[\r\n]/.test(text));
+ return {task:taskId,source:entry.path,text,document,sha256:entry.sha256};
 }
