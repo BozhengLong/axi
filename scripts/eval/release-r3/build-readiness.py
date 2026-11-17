@@ -39,18 +39,19 @@ paths=subprocess.check_output(['git','ls-tree','-r','--name-only',r1,'--','src',
 unchanged=[]
 recovery_gate=read(study/'recovery-gate-qualification-1/result.json');assert recovery_gate['qualified']and recovery_gate['checks']==125
 freeze_audit=read(study/'freeze-serialization-qualification-1/audit.json');assert freeze_audit['qualified']and freeze_audit['actualMockCli']==45 and freeze_audit['sourceStable']
-changed_scope={'scripts/eval/release-r3/controller.py','scripts/eval/release-r3/formal-grade.py','scripts/eval/release-r3/core.ts'};changed=[]
+grading_paths=read(study/'grading-path-qualification-1/result.json');assert grading_paths['qualified']and grading_paths['checks']==195 and grading_paths['onlyGradingChangeFunctionModified']
+changed_scope={'scripts/eval/release-r3/controller.py','scripts/eval/release-r3/formal-grade.py','scripts/eval/release-r3/core.ts','scripts/eval/release-r3/controller-gateway.py'};changed=[]
 for name in paths:
     if Path(name).suffix not in ('.py','.ts','.mjs','.cjs'):continue
     original=subprocess.check_output(['git','show',r1+':'+name],cwd=REPO)
     if (REPO/name).read_bytes()!=original:
-        expected=freeze_audit['coreSha256']if name.endswith('/core.ts')else recovery_gate['sourceHashes'].get(str(REPO/name))
+        expected=freeze_audit['coreSha256']if name.endswith('/core.ts')else grading_paths['sourceSha256']if name.endswith('/controller-gateway.py')else recovery_gate['sourceHashes'].get(str(REPO/name))
         assert name in changed_scope and sha(REPO/name)==expected,'R1后发生未声明执行/评分改动: '+name
         changed.append({'path':name,'beforeSha256':hashlib.sha256(original).hexdigest(),'sha256':sha(REPO/name)})
     else:unchanged.append({'path':name,'sha256':hashlib.sha256(original).hexdigest()})
 assert {r['path']for r in changed}==changed_scope
 qualified('recovery-facility-requalification-1/result.json')
-impact_path=put('r1-impact.json',{'qualified':True,'r1Commit':r1,'allOtherExistingExecutionAndGradingSourcesUnchanged':True,'files':unchanged,'changed':changed,'scope':'恢复评分准入、健康完成期限与监督/收尾序列。当前45条重验截止、资源、崩溃、写入失败及完整截止归因；新65条覆盖全部正常流程，两恢复链覆盖实际恢复。候选、代理、适配、监督脚本和评分语义核心未改。','gateQualification':bound(study/'recovery-gate-qualification-1/result.json'),'controllerRequalification':bound(study/'recovery-facility-requalification-1/result.json'),'freezeRequalification':bound(study/'freeze-serialization-qualification-1/audit.json'),'adoptedR1Proof':bound(study/'engineering-admission.json')})
+impact_path=put('r1-impact.json',{'qualified':True,'r1Commit':r1,'allOtherExistingExecutionAndGradingSourcesUnchanged':True,'files':unchanged,'changed':changed,'scope':'恢复评分准入、健康完成期限、监督/收尾序列及评分修复文件位置。当前45条重验截止、资源、崩溃、写入失败及完整截止归因；新65条覆盖全部正常流程，两恢复链覆盖实际恢复。路径修正只影响grading_change，其他入口AST保持；195项边界验证实际R2评分文件，产品/执行/控制文件仍不可修复。候选、代理、适配、监督脚本和评分语义核心未改。','gateQualification':bound(study/'recovery-gate-qualification-1/result.json'),'controllerRequalification':bound(study/'recovery-facility-requalification-1/result.json'),'freezeRequalification':bound(study/'freeze-serialization-qualification-1/audit.json'),'gradingPaths':bound(study/'grading-path-qualification-1/result.json'),'adoptedR1Proof':bound(study/'engineering-admission.json')})
 engineering=read(study/'engineering-admission.json');assert engineering['qualified'];replaced=[]
 for evidence in engineering['runtimeEvidence'].values():
     for i,entry in enumerate(evidence):

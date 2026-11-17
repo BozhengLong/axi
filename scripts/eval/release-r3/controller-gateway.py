@@ -56,9 +56,11 @@ def bound_file(study,entry):
 
 def grading_change(study,path,old=None):
     path=Path(path).resolve();here=Path(controller_module.__file__).parent.resolve()
-    if path.is_relative_to(here):
-        rel=path.relative_to(here).as_posix()
-        return rel in ('grade-artifact.py','observations.py','bun-report.py','artifact-policy.py','path_patterns.py','sandbox.py','restore.mjs') or rel.startswith(('reporters/','grading/'))
+    # 正式评分显式复用R2模块；只给这些评分文件相同的窄修复边界。
+    for grading_root in (here,here.parent/'release-r2'):
+        if path.is_relative_to(grading_root):
+            rel=path.relative_to(grading_root).as_posix()
+            return rel in ('grade-artifact.py','observations.py','bun-report.py','artifact-policy.py','path_patterns.py','sandbox.py','restore.mjs') or rel.startswith(('reporters/','grading/'))
     if path.is_relative_to(study):
         parts=path.relative_to(study).parts
         if len(parts)>=3 and parts[0]in ('tasks','c7'):
