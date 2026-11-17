@@ -8,15 +8,18 @@ import {execArgs, save, type Runtime, type Batch} from '../core.ts';
 export class IOTrace {
   private writer:ChunkWriter;
   private started=performance.now();
-  // 与旧驱动接口兼容；R3写入失败直接抛错，不丢弃后续记录。
-  readonly truncated=false;
+  private failed=false;
+  // PTY回调异常不一定结束Bun进程。记住失败，主循环才能停止CLI。
+  get truncated(){return this.failed;}
   constructor(readonly directory:string,agent:string,args:string[]){
     this.writer=new ChunkWriter(join(directory,'io.chunks'));
     this.event('start',{agent,args,version:3});
   }
   event(kind:string,data:unknown){
-    this.writer.write(JSON.stringify({time:new Date().toISOString(),elapsedMs:performance.now()-this.started,kind,data})+'\n');
-    if(kind==='finish')this.writer.finish();
+    try{
+      this.writer.write(JSON.stringify({time:new Date().toISOString(),elapsedMs:performance.now()-this.started,kind,data})+'\n');
+      if(kind==='finish')this.writer.finish();
+    }catch(error){this.failed=true;throw error;}
   }
   bytes(kind:string,bytes:Uint8Array|string){const b=Buffer.from(bytes);this.event(kind,{encoding:'base64',bytes:b.byteLength,data:b.toString('base64')});}
 }

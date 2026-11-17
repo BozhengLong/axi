@@ -1,4 +1,4 @@
-import {mkdirSync, writeFileSync, unlinkSync, existsSync} from 'node:fs';
+import {mkdirSync, writeFileSync, unlinkSync, existsSync,readFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {loadConfig} from '../../../src/config.ts';
 import {save, docker, control, execute, encodeFiles, validateTaskEnvironment, type Batch, type Runtime, type SeedFiles} from '../core.ts';
@@ -18,7 +18,7 @@ export async function initialize(study:string,bundle:string,mode:'mock'|'real',o
   const config=mode==='mock'?{url:'http://127.0.0.1:1/v1/messages',apiKey:'synthetic-r3-upstream'}:loadConfig();
   const envFile=join(directory,'relay.env');
   writeFileSync(envFile,`EVAL_ADMIN_TOKEN=${batch.admin}\nEVAL_UPSTREAM_URL=${config.url}\nEVAL_UPSTREAM_KEY=${config.apiKey}\nEVAL_MOCK_ONLY=${mode==='mock'?'1':'0'}\n`,{mode:0o600});
-  try{
+  try{try{
     await docker(['run','-d','--name',batch.relay,'--label','axi.eval.study='+study.split('/').at(-1),'--label','axi.eval.batch='+id,
       '--user','1000:1000','--read-only','--cap-drop=ALL','--security-opt','no-new-privileges','--memory','512m','--pids-limit','64',
       '--tmpfs','/tmp:rw,noexec,nosuid,size=64m','--env-file',envFile,'--mount',`type=bind,src=${join(directory,'relay')},dst=/evidence`,
@@ -32,7 +32,8 @@ export async function initialize(study:string,bundle:string,mode:'mock'|'real',o
     catch(error){checks.push({at:new Date().toISOString(),error:String(error)});}
     await Bun.sleep(100);
   }
-  save(join(directory,'ready-failure.json'),{checks});await relayConsole(batch);await docker(['rm','-f',batch.relay],undefined,true);throw Error('R3代理未就绪');
+  save(join(directory,'ready-failure.json'),{checks});throw Error('R3代理未就绪');
+  }catch(error){save(join(directory,'startup-failure.json'),{error:String(error)});await relayConsole(batch).catch(()=>{});await docker(['rm','-f',batch.relay],undefined,true);throw error;}
 }
 
 export async function createRuntime(batch:R3Batch,id:string,options:{executionPolicy:RunPolicy;mock?:any[];policy?:string;files?:SeedFiles;taskVolume?:string;mounts?:string[];taskEnv?:Record<string,string>;taskTmpfs?:string[];mockRetryWindowMs?:number}):Promise<Runtime>{
@@ -58,7 +59,8 @@ export async function createRuntime(batch:R3Batch,id:string,options:{executionPo
     const runtime:Runtime={id,token,name,network,ip,directory,...(options.taskVolume?{taskVolume:options.taskVolume}:{})};
     await execute(runtime,['bun','/opt/eval/files.ts','seed'],encodeFiles(options.files??{}));return runtime;
   }catch(error){
-    await control(batch,'revoke',{id}).catch(()=>{});await docker(['rm','-f',name],undefined,true);
+    save(join(directory,'startup-failure.json'),{error:String(error)});
+    await control(batch,'revoke',{id}).catch(()=>{});await control(batch,'close',{id}).catch(()=>{});await docker(['rm','-f',name],undefined,true);
     await docker(['network','disconnect',network,batch.relay],undefined,true);await docker(['network','rm',network],undefined,true);throw error;
   }
 }
@@ -66,10 +68,10 @@ export async function createRuntime(batch:R3Batch,id:string,options:{executionPo
 export async function destroyRuntime(batch:Batch,runtime:Runtime){
   await control(batch,'revoke',{id:runtime.id});
   const {freeze}=await import('../core.ts');await freeze(runtime);
-  try{await collectNativeTrace(runtime);}
-  finally{
-    await docker(['rm','-f',runtime.name],undefined,true);await docker(['network','disconnect',runtime.network,batch.relay],undefined,true);await docker(['network','rm',runtime.network],undefined,true);
-  }
+  await collectNativeTrace(runtime);
+  const native=JSON.parse(readFileSync(join(runtime.directory,'native/manifest.json'),'utf8'));
+  if(native.status!=='collected')throw Error('原生Trace未收齐；保留冻结容器供保全，不删除唯一原件');
+  await docker(['rm','-f',runtime.name],undefined,true);await docker(['network','disconnect',runtime.network,batch.relay],undefined,true);await docker(['network','rm',runtime.network],undefined,true);
 }
 
 export async function relayConsole(batch:Batch){

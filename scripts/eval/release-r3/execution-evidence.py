@@ -98,14 +98,19 @@ def audit(run, mock=False, expected_model='claude-opus-5-5', expected_effort='me
         if item['path'] in native_names or path.is_symlink() or not path.resolve().is_relative_to(run/'native') or not path.is_file() or path.stat().st_size!=item['bytes'] or sha(path)!=item['sha256']:raise ValueError('原生日志文件身份或字节不符')
         native_names.add(item['path'])
     native_requests = [];ends = [];reviews = 0;native_keys=[];native_key_set=set();native_errors={};cancelled=False;windows=set();native_unforwarded=[]
-    session=None;turn_requests=0;work_requests=0;review_requests=0
+    session=None;turn_requests=0;work_requests=0;review_requests=0;call_requests={}
     if io_start['data']['agent'] == 'axi':
+        entry=io_start['data']['args'][-1]
+        if entry not in ('/opt/axi-c3/src/main.ts','/opt/axi-v0/src/main.ts'):raise ValueError('Axi入口身份未绑定')
+        native_v4=entry=='/opt/axi-c3/src/main.ts'
         paths = [run/'native'/f['path'] for f in native['files'] if f['path'].startswith('axi-session/') and f['path'].endswith('.jsonl')]
         if len(paths) != 1:raise ValueError('Axi原生会话不唯一')
         import hashlib
         for event in events(paths[0]):
-            if session is None:session=event.get('sessionId')
-            if not session or event.get('sessionId')!=session:raise ValueError('原生会话身份漂移')
+            if native_v4:
+                if session is None:session=event.get('sessionId')
+                if event.get('version')!=4 or not session or event.get('sessionId')!=session:raise ValueError('原生会话身份漂移')
+            elif event.get('version') is not None:raise ValueError('冻结v0原生格式改变')
             if event['kind']=='task_start':turn_requests=work_requests=review_requests=0
             if event['kind']=='request':
                 key=(event['data']['callId'],event['data']['attempt'])
@@ -118,7 +123,12 @@ def audit(run, mock=False, expected_model='claude-opus-5-5', expected_effort='me
                     elif phase=='review':review_requests+=1
                     else:raise ValueError('原生阶段无效')
                     if b.get('unlimited') is not True or b.get('remaining') is not None or (b.get('requests'),b.get('workRequests'),b.get('reviewRequests'))!=(turn_requests,work_requests,review_requests):raise ValueError('原生不限次数计量不连续')
-                native_requests.append(hashlib.sha256(json.dumps(event['data']['body'],sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest());native_keys.append((event['data']['callId'],event['data']['attempt']))
+                body_hash=hashlib.sha256(json.dumps(event['data']['body'],sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
+                previous=call_requests.get(key[0])
+                if previous is None:
+                    if key[1]!=0:raise ValueError('逻辑调用首个尝试不是0')
+                elif previous[0]!=body_hash or previous[1]+1!=key[1]:raise ValueError('重试改变请求快照或尝试不连续')
+                call_requests[key[0]]=(body_hash,key[1]);native_requests.append(body_hash);native_keys.append(key)
             if event['kind']=='request_error':native_errors[(event['data']['callId'],event['data']['attempt'])]=event['data'].get('reason','')[:500]
             if event['kind']=='cancel_requested':cancelled=True
             if event['kind']=='retry_exhausted':windows.add(event['data']['callId'])

@@ -2,7 +2,7 @@ import {mkdirSync,readFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import assert from 'node:assert/strict';
 import {initialize,createRuntime,destroyRuntime,save,docker,relayConsole,type Runtime} from './core.ts';
-import {guardRuntime} from './runtime-guard.ts';
+import {startGuardian} from './guardian.ts';
 import {runAxiV1} from './v1-adapter.ts';
 import {runAxi,runClaude} from './adapters.ts';
 import {sealBatchTraces} from './seal.ts';
@@ -14,19 +14,18 @@ const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c3,readonl
 const rows=[];
 for(const actor of ['v0','v1','claude'])for(const reason of ['deadline','resource']){
  const id=actor+'-'+reason,batch=await initialize(study,join(study,bundleLabel),'mock',b=>save(join(out,id+'-batch.json'),b));
- let runtime:Runtime|undefined,sealed=false,guard:ReturnType<typeof guardRuntime>|undefined;
+ let runtime:Runtime|undefined,sealed=false,guard:Awaited<ReturnType<typeof startGuardian>>|undefined;
  try{
   const deadline=Date.now()+5000;
   runtime=await createRuntime(batch,id,{mounts,mock:[{content:[{type:'text',text:'LATE'}],stopReason:'end_turn',delayMs:30000}],executionPolicy:{version:'r3',limitMode:'unlimited',requestLimit:null,executionDeadline:reason==='deadline'?deadline:Date.now()+60000}});
-  let firstRead=performance.now();
-  guard=guardRuntime(batch,runtime,deadline,{pollMs:50,...(reason==='resource'?{mockFreeBytes:()=>performance.now()-firstRead>2000?8*1024**3:10*1024**3}:{})});
+  guard=await startGuardian(batch,runtime,deadline,reason==='resource'?{mockLowSpaceAfterMs:2000}:{});
   const options:any={maxMs:15000,getStopCause:()=>guard!.cause,onRound:async()=>({snapshot:{}})};
   if(actor==='v1')Object.assign(options,{axiEntry:'/opt/axi-c3/src/main.ts',reviewMode:'off',observeReview:true});
   if(actor==='v0')options.axiEntry='/opt/axi-v0/src/main.ts';
   const execution=await(actor==='v1'?runAxiV1:actor==='v0'?runAxi:runClaude)(batch,runtime,['等待受控回复'],options);
   await guard.finish();
   await destroyRuntime(batch,runtime);await sealBatchTraces(batch,[runtime]);sealed=true;
-  const stop=JSON.parse(readFileSync(join(runtime.directory,'runtime-stop.json'),'utf8'));
+  const stop=JSON.parse(readFileSync(join(runtime.directory,'guardian-result.json'),'utf8')).stop;
   assert.equal(stop.reason,reason);assert(stop.processStoppedMs<=5000);assert.equal(stop.killed.exitCode,0);
   assert.equal(execution.status,reason==='deadline'?'task_timeout':'resource_interrupted');
   let responses=0,finished:any;

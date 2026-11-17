@@ -5,6 +5,7 @@ import {initialize,createRuntime,destroyRuntime,execute,save,docker,relayConsole
 import {runAxiV1} from './v1-adapter.ts';
 import {runAxi,runClaude} from './adapters.ts';
 import {sealBatchTraces} from './seal.ts';
+import {startGuardian} from './guardian.ts';
 import {readEvents,fileHash} from './trace.ts';
 
 const [studyArg,label,bundleLabel,selected='short']=process.argv.slice(2);
@@ -21,7 +22,7 @@ const archive=join(out,'source-archive');mkdirSync(archive);for(const f of JSON.
 const rows:any[]=[];
 for(const kind of cases){
  const batch=await initialize(study,join(study,bundleLabel),'mock',b=>save(join(out,kind+'-batch.json'),b));
- let runtime:Runtime|undefined,sealed=false,volume:string|undefined;
+ let runtime:Runtime|undefined,sealed=false,guardian:Awaited<ReturnType<typeof startGuardian>>|undefined,volume:string|undefined;
  try{
   let mock:any[],reviewMode:'auto'|'off'='off',windowMs:number|undefined,maxMs=90000,expected='completed';
   if(kind==='off-long')mock=[...Array.from({length:75},(_,i)=>tool('read-'+i,'read',{path:'kept.txt'})),text('DONE')];
@@ -36,15 +37,17 @@ for(const kind of cases){
    windowMs=150;expected='retry_exhausted';
    mock=kind==='late-response'?[{...text('LATE'),delayMs:2000}]:kind==='transport-expiry'?[{...text(''),connectionError:true,repeat:1000}]:[{...busy(kind==='retry503-expiry'?503:429),repeat:1000}];
   }
-  runtime=await createRuntime(batch,kind,{mounts,mock,files:{'kept.txt':'original\n'},taskVolume:volume,mockRetryWindowMs:windowMs,executionPolicy:{version:'r3',limitMode:'unlimited',requestLimit:null,executionDeadline:Date.now()+maxMs+10000}});
+  const deadline=Date.now()+maxMs+10000;
+  runtime=await createRuntime(batch,kind,{mounts,mock,files:{'kept.txt':'original\n'},taskVolume:volume,mockRetryWindowMs:windowMs,executionPolicy:{version:'r3',limitMode:'unlimited',requestLimit:null,executionDeadline:deadline}});
+  guardian=await startGuardian(batch,runtime,deadline);
   let checkpoints=0;
-  const options:any={maxMs,onRound:async()=>({snapshot:{}})};
+  const options:any={getStopCause:()=>guardian!.cause,maxMs,onRound:async()=>({snapshot:{}})};
   const actor=kind.startsWith('v0')?'v0':kind.startsWith('claude')?'claude':'v1';
   if(actor==='v1')Object.assign(options,{axiEntry:'/opt/axi-c3/src/main.ts',reviewMode,observeReview:true,onReviewCheckpoint:async()=>{checkpoints++;}});
   if(actor==='v0')options.axiEntry='/opt/axi-v0/src/main.ts';
   const execution=await(actor==='v1'?runAxiV1:actor==='v0'?runAxi:runClaude)(batch,runtime,['请完成指定任务。'],options);
   assert.equal((await execute(runtime,['cat','/task/kept.txt'])).stdout,'original\n');
-  await destroyRuntime(batch,runtime);await sealBatchTraces(batch,[runtime]);sealed=true;
+  await guardian.finish();await destroyRuntime(batch,runtime);await sealBatchTraces(batch,[runtime]);sealed=true;
   const counts:Record<string,number>={};let total=0;
   readEvents(join(batch.directory,'relay',runtime.id+'.chunks'),e=>{counts[e.kind]=(counts[e.kind]??0)+1;total++;});
   const terminalBytes=statSync(execution.stdoutPath).size;
@@ -60,6 +63,7 @@ for(const kind of cases){
   rows.push({...row,qualified:true});save(join(out,'results.json'),{qualified:rows.length===cases.length,rows});console.log(JSON.stringify(rows.at(-1)));
  }catch(error){save(join(out,kind+'-failure.json'),{error:String(error),stack:error instanceof Error?error.stack:undefined,sealed});throw error;}
  finally{
+  await guardian?.finish();
   if(runtime&&!sealed){try{await destroyRuntime(batch,runtime);await sealBatchTraces(batch,[runtime]);}catch(error){save(join(out,kind+'-cleanup-error.json'),{error:String(error)});}}
   if(!sealed){await relayConsole(batch);await docker(['rm','-f',batch.relay],undefined,true);}
   if(volume&&sealed)await docker(['volume','rm',volume]);

@@ -189,6 +189,8 @@ def apply(study,action,payload,mode='real'):
         spec=importlib.util.spec_from_file_location('execution_evidence',Path(controller_module.__file__).with_name('execution-evidence.py'))
         evidence=importlib.util.module_from_spec(spec);spec.loader.exec_module(evidence)
         checked=evidence.audit(run,mock=mode=='mock')
+        batch=json.loads((output/'batch.json').read_text());require(Path(batch['directory']).resolve()==run.parent and batch['runtimeId']==run.name and receipt['batch']==batch['id'],'执行与运行身份不符')
+        input_proof=json.loads((output/'input-evidence.json').read_text());require(input_proof['qualified'] is True and input_proof['traceHash']==checked['traceHash'] and input_proof['promptHash']==sha(output/'prompt.json'),'输入证明未绑定执行')
         final=output/'final-snapshot.json';require(sha(final)==sha(run/'final-snapshot.json'),'产物副本与封存不符')
         cleanup=json.loads((output/'cleanup.json').read_text());require(cleanup['complete']and cleanup['traceSealed'],'执行清理或Trace未完成')
         if action=='seal':
@@ -199,10 +201,10 @@ def apply(study,action,payload,mode='real'):
                 views.append({'id':payload['id']+'/checkpoint','kind':'checkpoint','artifactHash':sha(checkpoint)})
             ended=dt.datetime.fromisoformat(checked['ioFinish'].replace('Z','+00:00')).timestamp()
             termination='completed' if checked['status']=='completed' else 'deadline' if checked['status']=='task_timeout' else 'retry_exhausted' if checked['status']=='retry_exhausted' else 'upstream_interrupted' if checked.get('externalTerminalCause') else checked['status']
-            guard=json.loads((run/'runtime-guard.json').read_text());require(guard['closed'] is True and guard['deadline']==int(claim['executionDeadline']*1000),'运行监控未绑定截止')
-            stop=json.loads((run/'runtime-stop.json').read_text()) if (run/'runtime-stop.json').exists() else None
+            guard=json.loads((run/'guardian-result.json').read_text());require(guard['closed'] is True and guard['deadline']==int(claim['executionDeadline']*1000),'运行监控未绑定截止')
+            stop=guard.get('stop')
             if stop and stop['reason']=='resource':termination='resource'
-            seal={'termination':termination,'deadlineEnforced':bool(stop and stop['reason']=='deadline' and stop['processStoppedMs']<=5000),'id':payload['id'],'candidate':state['identities']['candidate'],'writersClosed':True,'manifestVerified':True,'traceHash':checked['traceHash'],'artifactHash':sha(final),'executionHash':checked['executionHash'],'cleanupHash':sha(output/'cleanup.json'),'forwardedGeneration':checked['forwardedGeneration'],'receivedAttempts':checked['receivedAttempts'],'countTokens':checked['countTokens'],'endedAt':ended,'gradeSeconds':0,'gradeState':'pending','views':views,'output':str(relative),'executionEvidence':checked}
+            seal={'termination':termination,'deadlineEnforced':bool(stop and stop['reason']=='deadline' and stop['processStoppedMs']<=5000),'id':payload['id'],'candidate':state['identities']['candidate'],'writersClosed':True,'manifestVerified':True,'traceHash':checked['traceHash'],'artifactHash':sha(final),'executionHash':checked['executionHash'],'cleanupHash':sha(output/'cleanup.json'),'forwardedGeneration':checked['forwardedGeneration'],'receivedAttempts':checked['receivedAttempts'],'countTokens':checked['countTokens'],'endedAt':ended,'gradeSeconds':0,'gradeState':'pending','views':views,'output':str(relative),'executionEvidence':checked,'inputEvidenceHash':sha(output/'input-evidence.json')}
             state=ledger.apply('seal',seal);return {'sealed':True,'claim':state['claims'][payload['id']]}
         review_file=output/'review.json';review=json.loads(review_file.read_text())
         require(review['artifactHash']==sha(final)and review['executionHash']==checked['executionHash'],'审查未绑定封存执行')
@@ -214,6 +216,8 @@ def apply(study,action,payload,mode='real'):
             report=output/(item['view']+'-grade')/'result.json';require(sha(report)==item['sha256'],'评分报告改变')
             data=json.loads(report.read_text());expected=next(x['artifactHash']for x in claim['seal']['views']if x['kind']==item['view'])
             require(data['artifactSha256']==expected,'评分读了另一份产物')
+        if 'finishedAt' in grading:
+            require(dt.datetime.fromisoformat(grading['finishedAt']).timestamp()<=min(claim['seal']['endedAt'],claim['executionDeadline'])+(300 if claim['slot']['kind'] in ('health','recovery-health') else 900),'评分完成超过共享截止')
         final_grade=json.loads((output/'final-grade/result.json').read_text())
         require(review['gradeHash']==sha(output/'final-grade/result.json'),'审查未绑定当前评分')
         if review['classification']=='PASS':

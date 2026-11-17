@@ -98,11 +98,14 @@ const server = Bun.serve({ hostname: process.env.EVAL_RELAY_HOST ?? "0.0.0.0", p
       if (budget.remainingMs() <= 0) return new Response("execution deadline", {status:409});
       const writer = new ChunkWriter(`${evidenceRoot}/${data.id}.chunks`);
       const run: Run = { id: data.id, token: data.token, mock: data.mock, policy: data.policy ?? "normal", denied: false, revoked: false, requests: 0, budget, writer, closed: false, responseCount: 0, permissionCount: 0, deadlineTimer: undefined as any, events: 0, evidenceBytes: 0, tools: [], responses: [], permissions: [], faults: [], transportIssues: [], controllers: new Set(), started: performance.now() };
-      run.deadlineTimer = setTimeout(()=>{
+      const expire=()=>{
         if(run.closed || run.revoked)return;
+        // Bun定时器可能按整数毫秒取整。再次读单调时钟，不能提前宣称截止。
+        const left=run.budget.remainingMs();if(left>0){run.deadlineTimer=setTimeout(expire,Math.ceil(left));return;}
         log(run,"execution_deadline",run.budget.snapshot());
         for(const c of run.controllers)c.abort(new DOMException("R3 execution deadline","TimeoutError"));
-      },budget.remainingMs());
+      };
+      run.deadlineTimer = setTimeout(expire,Math.ceil(budget.remainingMs()));
       runs.set(run.id, run); log(run, "registered", { id: run.id, policy: run.policy, mock: !!run.mock, executionPolicy:budget.policy });
       return Response.json({ ok: true });
     }
@@ -136,7 +139,13 @@ const server = Bun.serve({ hostname: process.env.EVAL_RELAY_HOST ?? "0.0.0.0", p
   const started = performance.now();let streamActive = false, forwarded = false;
   const clientAbort=()=>controller.abort(new DOMException("downstream request closed","AbortError"));
   if(req.signal.aborted)clientAbort();else req.signal.addEventListener("abort",clientAbort,{once:true});
-  const timer = setTimeout(() => controller.abort(new DOMException("R3 upstream wait timeout", "TimeoutError")), Math.min(360000, run.budget.remainingMs()));
+  const deadlineBound=run.budget.remainingMs()<=360000;
+  let timer:ReturnType<typeof setTimeout>;
+  const timeout=()=>{
+    if(deadlineBound&&run.budget.remainingMs()>0){timer=setTimeout(timeout,Math.ceil(run.budget.remainingMs()));return;}
+    controller.abort(new DOMException(deadlineBound?"R3 execution deadline":"R3 upstream wait timeout","TimeoutError"));
+  };
+  timer=setTimeout(timeout,Math.ceil(Math.min(360000, run.budget.remainingMs())));
   try {
     const bodyText = await Promise.race([req.text(), new Promise<never>((_,reject)=>{
       if(controller.signal.aborted)reject(controller.signal.reason);

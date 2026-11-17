@@ -10,7 +10,7 @@ def mounts(study,task=None):
     profiles=[study/'health/qualification-profile.json',*sorted((study/'tasks').glob('U*/qualification-profile.json')),*sorted((study/'c7').glob('C7-*/qualification-profile.json'))]
     for profile in profiles:
         p=json.loads(profile.read_text())
-        if task and p['taskId']!=task:continue
+        if task and profile.parent.name!=task:continue
         for m in p.get('dependencyMounts',[]):roots['bind:'+m['source']]={'kind':'bind','source':str(study/m['source'])}
         if p.get('dependencyVolume'):roots['volume:'+p['dependencyVolume']]={'kind':'volume','source':p['dependencyVolume']}
     return roots
