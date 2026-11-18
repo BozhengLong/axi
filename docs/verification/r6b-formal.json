@@ -3,13 +3,22 @@
   "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
   "facilityCommit": "2511213cffef2a1f5416794a6ef9e61d5a424655",
   "T1Beijing": "2026-11-19 02:42:51",
-  "phase": "R3",
-  "closure": null,
+  "phase": "R6",
+  "closure": {
+    "allGatesPassed": false,
+    "at": 1795028570.104829,
+    "cleanupHash": "e16136ef5b14e4f523c19dfbd5d1c594767e51621c9bf7cf7b7096810a577141",
+    "decisiveFailure": null,
+    "reportHash": "30be9df9751ff59bbd8b22ad65d9866da2b882d7628ba9b742d9e382c1ead9b0",
+    "requiredGateFailures": [],
+    "verdict": "INCOMPLETE"
+  },
   "recoveryEvents": [
     {
       "cooldownUntil": 1795028323.381172,
       "deadline": 1795031023.381172,
       "externalEvidenceHash": "c58d8e8a9d9c7bc4066ded82501f1ae0df42c561eeb3df2b246d6f3719fe62df",
+      "failed": true,
       "incidentHash": "b2eca6a026a92b70379639caef9bf1b404f83b329f8365343f1d2d0b23b7a916",
       "number": 1,
       "startedAt": 1795027423.381172,
@@ -69,6 +78,154 @@
           "automaticChecksPassed": false
         }
       ]
+    },
+    {
+      "id": "health-v0-a2",
+      "task": "health",
+      "product": "v0",
+      "kind": "health",
+      "attempt": 2,
+      "recovery": 0,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 4,
+        "completeResponses": 4
+      },
+      "requests": 4,
+      "completeResponses": 4,
+      "externalEvents": 0,
+      "wallSeconds": 13.4,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 4,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 4,
+        "status": "clean",
+        "traceHash": "fa3f80432d331de0ad4163854d69bb43f8cddfdaef90a7c00bcaac78ca3828d4"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "仅新增33字节的 result.txt，原输入与追加行完全匹配。原生回执 HEALTH_OK、exit=0，与终端报告一致。用户修改和 Git 保护均通过。"
+      ],
+      "evidenceRoot": "runs/health-v0-a2",
+      "traceHash": "fa3f80432d331de0ad4163854d69bb43f8cddfdaef90a7c00bcaac78ca3828d4",
+      "reviewHash": "9438e778c070e264b3b27a0e61f51a04f4c8ffa04eb30fe89ad6cb98a0096c75",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "e3aeda723a8b12aa277ac278c5d0fd04619be09792c880c682cfadf226f99daf",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "recovery-1-health-v1-a1",
+      "task": "health",
+      "product": "v1",
+      "kind": "recovery-health",
+      "attempt": 1,
+      "recovery": 0,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 8,
+        "completeResponses": 8
+      },
+      "requests": 8,
+      "completeResponses": 8,
+      "externalEvents": 0,
+      "wallSeconds": 32.5,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 8,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 8,
+        "status": "clean",
+        "traceHash": "ba84a8c3329fb5831713296995351d059504551f61fa8dcbf3485a6dbb5314a2"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "最终及检查点的正确字节与保护均通过。原生 verify 的 exit 为 0，cmp_exit=0，与报告的检查对象和观测限制相符。8 次转发均取得完整响应。"
+      ],
+      "evidenceRoot": "runs/recovery-1-health-v1-a1",
+      "traceHash": "ba84a8c3329fb5831713296995351d059504551f61fa8dcbf3485a6dbb5314a2",
+      "reviewHash": "77e941886daa4b46dd442bff649adef396ece17150f1b785b1cdd3779557348e",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "d3b04dba95002c6a36dd6e1958d5f1a9fe4beda8f4031f40fda39bcedbdded06",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "d6219103789c3b694da26d00bc7947bdb7c6115acc5fc90ff5e996c87509b00f",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "recovery-1-health-claude-a1",
+      "task": "health",
+      "product": "claude",
+      "kind": "recovery-health",
+      "attempt": 1,
+      "recovery": 0,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 8,
+        "completeResponses": 5
+      },
+      "requests": 8,
+      "completeResponses": 5,
+      "externalEvents": 0,
+      "wallSeconds": 25.3,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "status": "unresolved",
+        "traceHash": "6aaca0846703e42bda55f19e5893fc95634c9e164e5295b5d8eb94e0b8ca2988"
+      },
+      "cleanUpstream": false,
+      "reviewNotes": [
+        "只新增33字节的 result.txt，独立评分与保护通过，原生工具验证退出 0。此次交付通过。代理序号1记录客户端中断，2和3返回 HTTP 401/OAuth 访问令牌过期，4至8取得完整响应。按冻结规则，恢复健康判定为 unresolved。"
+      ],
+      "evidenceRoot": "runs/recovery-1-health-claude-a1",
+      "traceHash": "6aaca0846703e42bda55f19e5893fc95634c9e164e5295b5d8eb94e0b8ca2988",
+      "reviewHash": "3d14e36ae6545f15148f19a09066cd62b3bdd17b9efedfbac829a6213df930fb",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "f2b0a1816203d47c2d16c3565c685826973fd8740f76f503b2de8bb1b2a17bae",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
     }
   ],
   "validRepresentative": {},
@@ -79,5 +236,78 @@
     "v0": 0,
     "v1": 0,
     "claude": 0
+  },
+  "verdict": "INCOMPLETE",
+  "reason": "v0 首次健康遇到上游流内限流。固定冷却后，v0、v1 和 Claude Code 三个恢复探针均正确交付。Claude 的序号 1 出现流中断，序号 2、3 返回 HTTP 401 并报告上游 OAuth 令牌过期，4 至 8 才取得完整响应。恢复准入为 2/3，控制器停止新增；本批未进入 C7 或 20 题。",
+  "closedBeijing": "2026-11-19 03:02:50",
+  "controllerHash": "f20ea403af7e27eb8444497e5870319ab434611abe471f8598aa3b4cd57eb266",
+  "gateStatus": {
+    "G0": "PASS",
+    "G1": "PASS",
+    "G5": "PASS",
+    "G2": "PASS",
+    "G3": "UNKNOWN",
+    "G4": "UNKNOWN",
+    "G6": "PASS"
+  },
+  "firstResults": {
+    "health-v0": "ENV_INTERRUPTED"
+  },
+  "adoptedResults": {
+    "health-v0": "PASS"
+  },
+  "representativeValidCounts": {
+    "v0": 0,
+    "v1": 0,
+    "claude": 0
+  },
+  "representativeSuccessCounts": {
+    "v0": null,
+    "v1": null,
+    "claude": null
+  },
+  "representativeCategoriesV1": {
+    "R1": {
+      "valid": 0,
+      "passed": 0,
+      "planned": 5
+    },
+    "R2": {
+      "valid": 0,
+      "passed": 0,
+      "planned": 5
+    },
+    "R3": {
+      "valid": 0,
+      "passed": 0,
+      "planned": 5
+    },
+    "R4": {
+      "valid": 0,
+      "passed": 0,
+      "planned": 5
+    }
+  },
+  "baselineOnlyPass": [],
+  "healthPassed": 1,
+  "c7Passed": 0,
+  "formalAttemptCount": 4,
+  "rawTraceFiles": 108,
+  "gradedViews": 5,
+  "privateTraceIndex": {
+    "path": "TRACE-INDEX.md",
+    "sha256": "a784855034477eb8868fb29d9b5bc4aad051b2658c2c70a4bf34f6ba6a2bba51"
+  },
+  "formalReport": {
+    "path": "final-audit-r6b/release-report.json",
+    "sha256": "30be9df9751ff59bbd8b22ad65d9866da2b882d7628ba9b742d9e382c1ead9b0"
+  },
+  "cleanup": {
+    "path": "final-audit-r6b/cleanup.json",
+    "sha256": "e16136ef5b14e4f523c19dfbd5d1c594767e51621c9bf7cf7b7096810a577141"
+  },
+  "preclaimAudit": {
+    "path": "preclaim-path-audit.json",
+    "sha256": "847654cf319b5a5e5043320906bddb5721a784275f81d4161d4131b99af39059"
   }
 }
