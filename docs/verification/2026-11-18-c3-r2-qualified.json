@@ -1,0 +1,28 @@
+{
+  "study": "v1-release-unbounded-r3-20261117T132920Z",
+  "checkedAt": "2026-11-18T10:40:01.376458+08:00",
+  "candidate": "e684620d1fa9109fcbcf442033ed97323cf76716",
+  "actualModelStarts": 0,
+  "mockPipelines": 65,
+  "taskPipelines": 60,
+  "c7Pipelines": 2,
+  "healthPipelines": 3,
+  "prior51Retained": true,
+  "completeDocumentSeen": 65,
+  "minimumFreeBytes": 74456752086,
+  "availableBytes": 71723438080,
+  "estimatedFutureBytes": 43195383780,
+  "capacityAtCheck": false,
+  "proofs": {
+    "material-qualification-summary-r3.json": "5d8abe15bb281a84367d4372373f78ffbb70a83e9a772dd62657145d202ef894",
+    "resource-recovery-2/result.json": "34a8ead82846bd542d9d77d31072e3fb0ae3fc94affff2c32246d2c524c80648",
+    "resource-recovery-2/resume.json": "fb4fe3dd7115910541fde72eb2e84c699e7f93173c3a12ef356e077d704217df",
+    "pipeline-queue-r3final3/result.json": "352cd75944417410b9087ef16015055c7ecb8fd8fcce920816af61842fec129f",
+    "pipeline-audit-r3final3/result.json": "93e8df690abc22c6f2b2c93584241cdbb8b00418c98e7398cd2c2b0f46a11832",
+    "resource-policy-r3final3/result.json": "f761d033d6496748e23898eac7c8be958b1926a262f372fd6ada278de5e9f09d",
+    "readiness-r3final3/plan.json": "ffd3278089a9214e4ca869fdc80a4f52d2a1a5d049b9f9040430b371f3e01f07",
+    "readiness-r3final3/engineering.json": "c93265cacaf19a779835c72789c7cadb45f4a37648d84fc3b522be412b7f8397",
+    "readiness-r3final3/r1-impact.json": "7542e7ac7b3e46905fda5925ff14290ea6d72fb5f4528d3aab610b5ca54319b1",
+    "recovery-chains-r3v3/result.json": "23e3aa38ec052ba9695d78f1b71322b121172c36e5f8d41c7f853b003e264e94"
+  }
+}
