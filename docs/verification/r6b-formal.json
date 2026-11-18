@@ -309,5 +309,51 @@
   "preclaimAudit": {
     "path": "preclaim-path-audit.json",
     "sha256": "847654cf319b5a5e5043320906bddb5721a784275f81d4161d4131b99af39059"
+  },
+  "gatewayIncident": {
+    "slot": "recovery-1-health-claude-a1",
+    "firstStreamClientAborted": true,
+    "authenticationErrors": [
+      {
+        "sequence": 2,
+        "at": "2026-11-18T19:00:52.679Z",
+        "http": 401,
+        "providerClass": "LiteLLM AuthenticationError",
+        "message": "OAuth access token has expired. Re-authenticate to continue."
+      },
+      {
+        "sequence": 3,
+        "at": "2026-11-18T19:00:55.971Z",
+        "http": 401,
+        "providerClass": "LiteLLM AuthenticationError",
+        "message": "OAuth access token has expired. Re-authenticate to continue."
+      }
+    ],
+    "subsequentCompleteResponses": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "upstreamRequestIdsPreservedPrivately": 2,
+    "identifiedProviderCredential": false,
+    "privateWitness": {
+      "path": "runs/recovery-1-health-claude-a1/gateway-recovery-incident.json",
+      "sha256": "32047a4c0bfa95c6d1590ace593eade767b6faa5d7f360f069170001b40a69af"
+    }
+  },
+  "recoveryProbeDeliveries": {
+    "passed": 3,
+    "attempted": 3
+  },
+  "recoveryProbesAdmitted": {
+    "passed": 2,
+    "attempted": 3
+  },
+  "c7": {
+    "launched": 0,
+    "planned": 2,
+    "score": null
   }
 }
