@@ -1,0 +1,154 @@
+{
+  "study": "v1-release-check-attempts-r4-20261118T055712Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "facilityCommit": "66092c18b22fdaafbb0d36e1a03b0946201aa11c",
+  "verdict": "INCOMPLETE",
+  "reason": "首次Axi v0健康请求遇到流内限流。冷却后v0第二次尝试通过，Axi v1恢复探针自动重试四次限流并完整交付。恢复轮未满足上游无临时错误的准入要求，控制器停止新增。当前C7及代表题均无正式能力结果。",
+  "startedAtBeijing": "2026-11-18T17:46:22.915554+08:00",
+  "closedAtBeijing": "2026-11-18T18:06:38.768495+08:00",
+  "stopReason": "recovery-health-failed",
+  "confirmedGateFailures": [],
+  "gates": {
+    "G0": {
+      "status": "PASS",
+      "evidence": [
+        {
+          "path": "release-manifest.json",
+          "sha256": "227973445a5262eae16cc69402f79fe1297241a518bcb6ab7cbece28645d58f4"
+        },
+        {
+          "path": "final-audit-c4/identity.json",
+          "sha256": "8aed00610ee9958b39d6208098c6631626173abf1a8c1585318ccad579ba7c14"
+        }
+      ]
+    },
+    "G1": {
+      "status": "PASS",
+      "evidence": [
+        {
+          "path": "engineering-admission.json",
+          "sha256": "0c140e0afa08b4306a6b8e0a6933bead71fff993ff019d6f15600f24250921fa"
+        }
+      ]
+    },
+    "G5": {
+      "status": "PASS",
+      "evidence": [
+        {
+          "path": "engineering-audit-c4/results.json",
+          "sha256": "0ad3b9bbbbd70b62b1a651e6a25c1f4ec6139046981cc43521450ecddb5b8934"
+        }
+      ]
+    },
+    "G2": {
+      "status": "PASS",
+      "evidence": [
+        {
+          "path": "final-audit-c4/trace-audit.json",
+          "sha256": "510ee37ca1bb2d9265f937359ed1344ac9a7ae4576f5a6c47e735e2d4f3349dd"
+        }
+      ]
+    },
+    "G3": {
+      "status": "UNKNOWN",
+      "evidence": []
+    },
+    "G4": {
+      "status": "UNKNOWN",
+      "evidence": []
+    },
+    "G6": {
+      "status": "PASS",
+      "evidence": [
+        {
+          "path": "final-audit-c4/trace-audit.json",
+          "sha256": "510ee37ca1bb2d9265f937359ed1344ac9a7ae4576f5a6c47e735e2d4f3349dd"
+        },
+        {
+          "path": "final-audit-c4/cleanup.json",
+          "sha256": "c0aac259c18e2dfdfff68c52d2f8c046add9c7b8985d58e158bc2f1393e4dcf9"
+        },
+        {
+          "path": "final-audit-c4/identity.json",
+          "sha256": "8aed00610ee9958b39d6208098c6631626173abf1a8c1585318ccad579ba7c14"
+        }
+      ]
+    }
+  },
+  "attempts": [
+    {
+      "id": "health-v0-a1",
+      "task": "health",
+      "product": "v0",
+      "logicalId": "health-v0",
+      "attempt": 1,
+      "classification": "ENV_INTERRUPTED",
+      "forwardedGeneration": 1,
+      "completeResponses": 0,
+      "externalEvents": 1,
+      "externalCause": {
+        "kind": "upstream-sse",
+        "normalized": {
+          "errorType": "rate_limit_error",
+          "message": "This request would exceed your account's rate limit. Please try again later.",
+          "format": "string",
+          "rule": "gateway-rate-limit-v1",
+          "retryable": true
+        }
+      },
+      "wallSeconds": 2.5,
+      "adoptedAsCompleteDelivery": false
+    },
+    {
+      "id": "health-v0-a2",
+      "task": "health",
+      "product": "v0",
+      "logicalId": "health-v0",
+      "attempt": 2,
+      "classification": "PASS",
+      "forwardedGeneration": 4,
+      "completeResponses": 4,
+      "externalEvents": 0,
+      "externalCause": null,
+      "wallSeconds": 16.7,
+      "adoptedAsCompleteDelivery": true
+    },
+    {
+      "id": "recovery-1-health-v1-a1",
+      "task": "health",
+      "product": "v1",
+      "logicalId": "recovery-1-health-v1",
+      "attempt": 1,
+      "classification": "PASS",
+      "forwardedGeneration": 12,
+      "completeResponses": 8,
+      "externalEvents": 4,
+      "externalCause": null,
+      "wallSeconds": 46.2,
+      "adoptedAsCompleteDelivery": true
+    }
+  ],
+  "recoveryEvents": [
+    {
+      "cooldownUntil": 1794996208.94788,
+      "deadline": 1794998908.94788,
+      "externalEvidenceHash": "2cb653ad1c93219865dd65aa01d139a2cf77d1d82636a478f1ffe8b971daf1a8",
+      "failed": true,
+      "incidentHash": "ca2df29a8fc9f1435ce062f767327a4355141f363e7b5fec27cf8d9b7431e948",
+      "number": 1,
+      "startedAt": 1794995308.94788,
+      "target": "health-v0-a1"
+    }
+  ],
+  "completedTaskGroups": 0,
+  "unstartedRepresentativeSlots": 60,
+  "forwardedGeneration": 17,
+  "completeResponses": 12,
+  "verifiedTraceFiles": 80,
+  "gradeViews": 4,
+  "cleanedRuns": 3,
+  "sealedReportSha256": "da7cb3af07125f095c0d05fe2adeab260bcdc0a8626549bbc762c24e65d359a1",
+  "cleanupSha256": "c0aac259c18e2dfdfff68c52d2f8c046add9c7b8985d58e158bc2f1393e4dcf9",
+  "finalLedgerSha256": "fcdf27076f5062d69257ae0931ec31319dc9e37a1ee0342bfe93cdc125e9bab8",
+  "rawTraceIndex": "~/.local/share/axi-evals/v1-release-check-attempts-r4-20261118T055712Z/TRACE-INDEX.md"
+}

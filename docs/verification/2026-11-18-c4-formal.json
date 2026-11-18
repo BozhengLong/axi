@@ -1,0 +1,143 @@
+{
+  "study": "v1-release-check-attempts-r4-20261118T055712Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "facilityCommit": "66092c18b22fdaafbb0d36e1a03b0946201aa11c",
+  "T1Beijing": "2026-11-18 17:46:22",
+  "phase": "R6",
+  "closure": {
+    "allGatesPassed": false,
+    "at": 1794996398.768495,
+    "cleanupHash": "c0aac259c18e2dfdfff68c52d2f8c046add9c7b8985d58e158bc2f1393e4dcf9",
+    "decisiveFailure": null,
+    "reportHash": "da7cb3af07125f095c0d05fe2adeab260bcdc0a8626549bbc762c24e65d359a1",
+    "requiredGateFailures": [],
+    "verdict": "INCOMPLETE"
+  },
+  "recoveryEvents": [
+    {
+      "cooldownUntil": 1794996208.94788,
+      "deadline": 1794998908.94788,
+      "externalEvidenceHash": "2cb653ad1c93219865dd65aa01d139a2cf77d1d82636a478f1ffe8b971daf1a8",
+      "failed": true,
+      "incidentHash": "ca2df29a8fc9f1435ce062f767327a4355141f363e7b5fec27cf8d9b7431e948",
+      "number": 1,
+      "startedAt": 1794995308.94788,
+      "target": "health-v0-a1"
+    }
+  ],
+  "rows": [
+    {
+      "id": "health-v0-a1",
+      "task": "health",
+      "product": "v0",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "ENV_INTERRUPTED",
+      "requests": 1,
+      "completeResponses": 0,
+      "externalEvents": 1,
+      "wallSeconds": 2.5,
+      "permissions": 0,
+      "stop": "product_error",
+      "upstream": {
+        "kind": "upstream-sse",
+        "normalized": {
+          "errorType": "rate_limit_error",
+          "message": "This request would exceed your account's rate limit. Please try again later.",
+          "format": "string",
+          "rule": "gateway-rate-limit-v1",
+          "retryable": true
+        }
+      },
+      "reviewNotes": [
+        "上游首份流式响应返回账户限流，生成请求1次、完整回答0份。Axi v0在任何授权或工具操作前结束。",
+        "初态和最终文件、Git状态一致。验收检查发现缺少result.txt，未见产品违规。原始响应、原生终态和清理记录已封存。"
+      ],
+      "evidenceRoot": "runs/health-v0-a1",
+      "traceHash": "e9dc916992adaaa627ab028cf89d0affc34afffba9c03c947049722457b9b938",
+      "reviewHash": "0039dcff06ab60a3d77d8c9647908b55b003e9ba0bff521f47d6b2a34bcda89e",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "2d3a2d5eaf6e910384783aef605e0032e9db2475406776e29e4fb07f5ede1b04",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
+    },
+    {
+      "id": "health-v0-a2",
+      "task": "health",
+      "product": "v0",
+      "kind": "health",
+      "attempt": 2,
+      "recovery": 0,
+      "classification": "PASS",
+      "requests": 4,
+      "completeResponses": 4,
+      "externalEvents": 0,
+      "wallSeconds": 16.7,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "reviewNotes": [
+        "全新初态上仅新增33字节result.txt，包含原始24字节和verified换行。原有用户文件、HEAD及索引保持。",
+        "三次Bash操作仅阅读题面、检查初态和生成验证文件。node verify.mjs真实返回0并打印HEALTH_OK，同时留有exit=0。报告与产物和原始Trace一致。"
+      ],
+      "evidenceRoot": "runs/health-v0-a2",
+      "traceHash": "6b51a23fbe0ab9d6eafce75c0931056aafc2604225452fbe85efe1c3e0f45b7c",
+      "reviewHash": "d9c97c068806809cdac3c686cd9bd45482fd256a70f50a996b0b7aae212a12cb",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "e7d304e0b1ab70b6af43035a65505e38b0a67b6daa8460ad0bf33400da044a98",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "recovery-1-health-v1-a1",
+      "task": "health",
+      "product": "v1",
+      "kind": "recovery-health",
+      "attempt": 1,
+      "recovery": 0,
+      "classification": "PASS",
+      "requests": 12,
+      "completeResponses": 8,
+      "externalEvents": 4,
+      "wallSeconds": 46.2,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "reviewNotes": [
+        "独立检查和收尾复核前后的两个评分快照均通过。仅新增result.txt，33字节精确匹配输入加标记，原有用户文件、HEAD与索引保持。",
+        "两次Bash调用包括node验证、cmp比对与Git状态，回执均为0；glob原始回执确有两项blocked_path。报告准确说明了自行验证的范围。",
+        "上游返回四次流内限流，原生重试序号分别为0、1、0、1，随后恢复。12次转发得到8份完整响应。交付通过，但恢复健康轮要求上游无临时错误，此槽未满足。"
+      ],
+      "evidenceRoot": "runs/recovery-1-health-v1-a1",
+      "traceHash": "544b4638388a95d4135885fcdcf34e4467bbf0f2c688b620b99d5f6cae9a566a",
+      "reviewHash": "c6d1ddb5b328eb4b1636d84a7036734023e6998ce4a8ab65eaf76d506250f357",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "6d3362073e3d8aac8fe9ba723de59a29edebf2f7dd8f09f4f7248c0b422f4f6e",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "baa42ab2ce3fbc0136df14ae673da8b4d5b501c030974508904935a35e9fb643",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    }
+  ],
+  "validRepresentative": {},
+  "passedRepresentative": {},
+  "completedGroups": 0,
+  "traceIndex": "~/.local/share/axi-evals/v1-release-check-attempts-r4-20261118T055712Z/TRACE-INDEX.md"
+}
