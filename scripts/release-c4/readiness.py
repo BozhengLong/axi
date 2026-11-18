@@ -51,7 +51,8 @@ def main(study, old, revision):
     for field,minimum in [('userDirty',10),('productionDirty',4),('asyncBehavior',8)]:
         assert sum(r[field] for r in tasks)>=minimum
     write(out/'reuse.json',{'qualified':True,'rows':reuse,'sources':bind(study/'material-source-audit.json'),
-          'dependencies':passed('dependency-identity.json'),'queue':passed('material-queue-c4/result.json')})
+          'dependencies':passed('dependency-identity.json'),'exposure':passed('exposure-audit-c4/result.json'),
+          'engineeringImpact':passed('r1-postqualification-sources.json'),'queue':passed('material-queue-c4/result.json')})
     recovery=passed('recovery-chains-'+revision+'/result.json')
     pipeline=passed('pipeline-audit-'+revision+'/result.json')
     controller_proofs=[passed(f'controller-qualification-{i}/result.json') for i in range(104,109)]
