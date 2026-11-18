@@ -19,14 +19,19 @@ const prompts = read("prompts.json");
 for (const [arm, repo] of Object.entries({baseline:base, experiment})) {
   assert.equal((await load(repo, "src/agent/review.ts")).reviewPrompt(), prompts[arm]);
 }
-const outputs = join(study, "trials"), blind = join(study, "blind");
+const withAttempts = manifest.schema === "check-attempts-v1";
+const pilot = withAttempts && process.argv[5] === "pilot";
+if (withAttempts && !pilot) assert(read("pilot-grade.json").reviewed === true, "先审查独立试报");
+const outputs = join(study, pilot ? "pilot-trials" : "trials"), blind = join(study, pilot ? "pilot-answer" : "blind");
 mkdirSync(outputs); mkdirSync(blind);
 const {APIClient} = await load(base, "src/api/client.ts");
 const config = (await load(base, "src/config.ts")).loadConfig();
 assert.equal(config.model,"claude-opus-5-5");
 let completed = 0;
-for (const trial of read("key.json").order) {
-  const body = read("inputs/" + trial.case + ".json");
+const schedule = pilot ? [{case:"history", arm:"experiment", blind:"pilot-c7-l"}] : read("key.json").order;
+for (const trial of schedule) {
+  const inputDir = withAttempts && trial.arm === "experiment" ? "inputs-experiment/" : "inputs/";
+  const body = read(inputDir + trial.case + ".json");
   const matches = body.messages.filter((m: any) => m.role === "user" && m.content === prompts.baseline);
   assert.equal(matches.length, 1); matches[0].content = prompts[trial.arm];
   const dir = join(outputs, trial.blind); mkdirSync(dir);
@@ -55,7 +60,7 @@ for (const trial of read("key.json").order) {
     const answer = result.content.filter((c:any)=>c.type==="text").map((c:any)=>c.text).join("\n");
     save(join(dir,"result.json"), {started,finished:new Date().toISOString(),stopReason:result.stopReason,usage:result.usage,attempts:attempt,answer});
     save(join(blind,trial.blind+".json"),{id:trial.blind,case:trial.case,answer,stopReason:result.stopReason});
-    console.log(JSON.stringify({completed:++completed, of:24}));
+    console.log(JSON.stringify({completed:++completed, of:schedule.length}));
   } catch(error) {
     save(join(dir,"failure.json"),{started,finished:new Date().toISOString(),attempts:attempt,error:String(error).replaceAll(config.apiKey,"[redacted]")});
     throw error;
