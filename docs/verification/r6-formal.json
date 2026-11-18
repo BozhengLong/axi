@@ -3,8 +3,21 @@
   "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
   "facilityCommit": "2511213cffef2a1f5416794a6ef9e61d5a424655",
   "T1Beijing": "2026-11-19 01:57:53",
-  "phase": "R4",
-  "closure": null,
+  "phase": "R6",
+  "closure": {
+    "allGatesPassed": false,
+    "at": 1795027090.583238,
+    "cleanupHash": "81612dd45af6d72531a62d51d2cab5977f68ba6c125437f0d0e677ffaf77313c",
+    "decisiveFailure": "required-gate-failure",
+    "reportHash": "104fca12a14f8e07ffd71b263e7870d83290a6c6d32286667525eacb253f5fdf",
+    "requiredGateFailures": [
+      {
+        "evidenceHash": "7eafac86001289a5ff81f44e462b3a2e4b151fd4411e38cf45d6b8907f49785f",
+        "gate": "G0"
+      }
+    ],
+    "verdict": "NO-GO"
+  },
   "recoveryEvents": [],
   "rows": [
     {
@@ -263,5 +276,22 @@
     "v0": 0,
     "v1": 0,
     "claude": 0
-  }
+  },
+  "verdict": "NO-GO",
+  "gateStatus": {
+    "G0": "FAIL",
+    "G1": "PASS",
+    "G5": "PASS",
+    "G2": "PASS",
+    "G3": "PASS",
+    "G4": "UNKNOWN",
+    "G6": "PASS"
+  },
+  "representativeScores": {
+    "v0": null,
+    "v1": null,
+    "claude": null
+  },
+  "cause": "frozen-dependency-path-mismatch",
+  "successor": "v1-release-gateway-r6b-20261118T183834Z"
 }
