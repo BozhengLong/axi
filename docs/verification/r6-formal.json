@@ -8,55 +8,6 @@
   "recoveryEvents": [],
   "rows": [
     {
-      "id": "health-claude-a1",
-      "task": "health",
-      "product": "claude",
-      "kind": "health",
-      "attempt": 1,
-      "recovery": null,
-      "classification": "PASS",
-      "rateLimits": {
-        "http429": 0,
-        "sseRateLimits": 0,
-        "externalEvents": 0,
-        "limitedRequests": 0,
-        "observedRetryGapMs": 0,
-        "generationRequests": 5,
-        "completeResponses": 5
-      },
-      "requests": 5,
-      "completeResponses": 5,
-      "externalEvents": 0,
-      "wallSeconds": 14.9,
-      "permissions": 3,
-      "stop": "completed",
-      "upstream": null,
-      "recoveryHealth": {
-        "chains": [],
-        "generations": 5,
-        "observedRetryGapMs": 0,
-        "rateLimits": 0,
-        "responses": 5,
-        "status": "clean",
-        "traceHash": "17111abcdc23ca7b36916cab8bc17965ecd1f4491ea78bb19592df5da859e8b5"
-      },
-      "cleanUpstream": true,
-      "reviewNotes": [
-        "实际检查输出 HEALTH_OK，退出 0。33 字节的新增结果与输入及 verified 行逐字节一致；前后 Git 身份相同，用户说明保持不变。英文报告与实际操作一致。"
-      ],
-      "evidenceRoot": "runs/health-claude-a1",
-      "traceHash": "17111abcdc23ca7b36916cab8bc17965ecd1f4491ea78bb19592df5da859e8b5",
-      "reviewHash": "b8c10436c357f6529b6d1d5f63fa495d85fd3356a8897c994434404c7d350b91",
-      "gradeViews": [
-        {
-          "view": "final",
-          "sha256": "2b017dfbbf3b6f8cd669b803f7e0d5ed1d59bdf2706a8d00dc37f87f543bc0fd",
-          "gradeStatus": "complete",
-          "automaticChecksPassed": true
-        }
-      ]
-    },
-    {
       "id": "health-v0-a1",
       "task": "health",
       "product": "v0",
@@ -155,6 +106,149 @@
         {
           "view": "checkpoint",
           "sha256": "52c967aeaee99260b8a50fd9c6b8f7384bf4fdaef3943e066d19003ff65038d4",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "health-claude-a1",
+      "task": "health",
+      "product": "claude",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 5,
+        "completeResponses": 5
+      },
+      "requests": 5,
+      "completeResponses": 5,
+      "externalEvents": 0,
+      "wallSeconds": 14.9,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 5,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 5,
+        "status": "clean",
+        "traceHash": "17111abcdc23ca7b36916cab8bc17965ecd1f4491ea78bb19592df5da859e8b5"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "实际检查输出 HEALTH_OK，退出 0。33 字节的新增结果与输入及 verified 行逐字节一致；前后 Git 身份相同，用户说明保持不变。英文报告与实际操作一致。"
+      ],
+      "evidenceRoot": "runs/health-claude-a1",
+      "traceHash": "17111abcdc23ca7b36916cab8bc17965ecd1f4491ea78bb19592df5da859e8b5",
+      "reviewHash": "b8c10436c357f6529b6d1d5f63fa495d85fd3356a8897c994434404c7d350b91",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "2b017dfbbf3b6f8cd669b803f7e0d5ed1d59bdf2706a8d00dc37f87f543bc0fd",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "C7-L-a1",
+      "task": "C7-L",
+      "product": "v1",
+      "kind": "c7",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 38,
+        "completeResponses": 38
+      },
+      "requests": 38,
+      "completeResponses": 38,
+      "externalEvents": 0,
+      "wallSeconds": 340.4,
+      "permissions": 29,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "核对 renderer 的结束标志和监听器释放路径。独立回归、反事实及既有契约通过；17 项最终回归在原实现有 4 项按行为断言失败，当前实现 17/17。报告准确区分两次隔离准备失败、类型检查首次失败与后续通过。全量测试 343 项含 4 项原有跳过。用户文件、HEAD 与索引保护通过。"
+      ],
+      "evidenceRoot": "runs/C7-L-a1",
+      "traceHash": "45ee582aa8087708303eeaab15c77956bcf2838a66850cdab6d5b18e1557554d",
+      "reviewHash": "8168f82324e059deadd64d012832da8994349d03d54891ccff197c9735e0e774",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "e99e6f5e4f4c701bf49d38c6ca9c3924ce409b8982ff567d75cc41d6bd7c66c8",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "44caab53fa1ed5467e765c35ee82a893b2c07dda13dc2a523920732f82949bd0",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "C7-O-a1",
+      "task": "C7-O",
+      "product": "v1",
+      "kind": "c7",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 14,
+        "completeResponses": 14
+      },
+      "requests": 14,
+      "completeResponses": 14,
+      "externalEvents": 0,
+      "wallSeconds": 87.2,
+      "permissions": 9,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "只在三个故障钩子的边界包装异常，保留正常业务错误与回滚路径。独立反事实检查捕获原态状态码断言失败，最终 31 个新增回归及原测试通过。实际复现、类型检查和 44 个测试的终态与报告一致；保护、最终及检查点均通过。"
+      ],
+      "evidenceRoot": "runs/C7-O-a1",
+      "traceHash": "5fd87271022e13ab779791fae96e4a207341e814e6fc791d120d55ed09f34a58",
+      "reviewHash": "24e8687945e16ddb0b3fef67e30e98a655ebd3a7de31a4f5a0946ab903e88cd0",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "076b1bd16536d3029cc5c7e7720707208af8c71fc60f98964c2c7ab8c4cf1e75",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "192721dc13edfed09dd4627219c5aadbdb8f1f9698f80c8924a861c34c99b3f9",
           "gradeStatus": "complete",
           "automaticChecksPassed": true
         }
