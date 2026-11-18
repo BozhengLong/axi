@@ -1,0 +1,70 @@
+{
+  "at": "2026-11-18T11:06:39.907324+08:00",
+  "candidate": "e684620d1fa9109fcbcf442033ed97323cf76716",
+  "facilityHash": "6d8c3ca788adbe4b3034910879fc96b1ba211e7bc46fd3a5a8f6d7ba296a7118",
+  "T1": "2026-11-18T11:01:42.917924+08:00",
+  "lastEventHash": "f6e42d4814ce5ea14106f14bbfac6ee1e70700339aa60e2faaa000c169e3c8fb",
+  "reviewedAttempts": 3,
+  "ledgerClaims": 4,
+  "recoveries": 0,
+  "rows": [
+    {
+      "task": "health",
+      "product": "v0",
+      "attempt": 1,
+      "slot": "health-v0-a1",
+      "classification": "PASS",
+      "requests": 4,
+      "responses": 4,
+      "externalEvents": 0,
+      "reason": "唯一新增result.txt，原24字节加verified换行共33字节。原生工具结果记录HEALTH_OK和退出0，报告与原件一致。用户文件及Git保护检查通过。",
+      "traceHash": "1d2645a05c86a41d1faff48b952d4d1beda801f25065bf18193e0276492ea21b",
+      "gradeHash": "496becd054bf9f72b0bd45b2840562792c283888bfc0f2590ff59a3d178d702b",
+      "reviewHash": "e6694a61e205119a173234bc15e6cdaa414a22bbbcc6374fdafae7f6098ea42b",
+      "executionHash": "a13a3c0b1b8c7e35053e57d023f4298024a313649d6a4e27b76b735bc8b4cee6",
+      "inputEvidenceHash": "f310b2904f83376994f5d007ea5c97099cb08b7032d27b05c4e7c6438b74ca77",
+      "views": [
+        "final"
+      ]
+    },
+    {
+      "task": "health",
+      "product": "v1",
+      "attempt": 1,
+      "slot": "health-v1-a1",
+      "classification": "PASS",
+      "requests": 8,
+      "responses": 8,
+      "externalEvents": 0,
+      "reason": "初稿和最终固定检查均通过。结果前24字节及追加行相符，原生工具记录PREFIX_OK和两次HEALTH_OK，git状态、独立保护审查与复核报告对应。",
+      "traceHash": "0a8728dc1a3ad52c9e8b40a7e2a205d7938efc1a3724608e261555afbeefac32",
+      "gradeHash": "cd2c21331b6e232544c019beb6f8420416d1ea855c4bd777e9baa92daae8cbcf",
+      "reviewHash": "20043968ec0e71f7fec45a011ef23ecfec2578ec77698ad1072252054574ce90",
+      "executionHash": "3af5641d4b56b92791485976197cddf80b96b8bd21e86b6fb903c21c90510c4a",
+      "inputEvidenceHash": "19b2cc4742647cb4792cac260dc824d2abe74042ee8ab2d3475d03b3bc802b80",
+      "views": [
+        "final",
+        "checkpoint"
+      ]
+    },
+    {
+      "task": "health",
+      "product": "claude",
+      "attempt": 1,
+      "slot": "health-claude-a1",
+      "classification": "PASS",
+      "requests": 5,
+      "responses": 5,
+      "externalEvents": 0,
+      "reason": "封存快照只新增33字节result.txt。原生工具结果含HEALTH_OK、exit=0和用户未提交文件状态，最终报告一致。独立保护检查、输出和固定测试通过。",
+      "traceHash": "46d6dad8177d74fecc35fbfb4460405e9ecbcd972238a86c6c9faa0928a1dcef",
+      "gradeHash": "26958bf429ed9fc2cbb268e5e7b0004230548e96d2f19e2bc9546b6b00a45a1c",
+      "reviewHash": "b58395e9e564457ee32ca7a0ac507228c6a9081b142afc52e372f58656f1040e",
+      "executionHash": "d4747b15a47a70316127a3b4c91287ba2f278befb58ea797a182922914753251",
+      "inputEvidenceHash": "14e519ce64775d386a658b28bc8402c0bf8fa669ff2ff3b480ecf67ca9486ca6",
+      "views": [
+        "final"
+      ]
+    }
+  ]
+}
