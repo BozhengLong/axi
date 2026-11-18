@@ -1,0 +1,772 @@
+{
+  "study": "v1-release-check-attempts-r4-20261118T055712Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "sourceHash": "75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519",
+  "realFormalStarts": 0,
+  "realFormalStartTime": null,
+  "currentMockCliPipelines": 65,
+  "taskPipelines": 60,
+  "knownRegressionPipelines": 2,
+  "healthPipelines": 3,
+  "recoveryInterruptedCli": 2,
+  "recoveryCli": 7,
+  "resourcePolicy": {
+    "maximumAttempts": 73,
+    "minimumFreeBytes": 74469503286,
+    "operatingFloorBytes": 9663676416,
+    "estimatedFutureBytes": 43203884580,
+    "measuredNormalEvidenceBytes": 31380058112,
+    "extraRecoveryEvidenceBytes": 4374020096,
+    "longTraceGrowthAllowanceBytes": 3096421924,
+    "measuredWorkingAllocatedPeak": 58417152,
+    "additionalWorkAllowanceBytes": 4294967296,
+    "availableAtMeasurement": 15905669120
+  },
+  "proofs": [
+    {
+      "path": "pipeline-audit-c4final/result.json",
+      "sha256": "b3516b4ad9799812e0c0a3d9374934c21da048a010f94fbe727901105a365da3"
+    },
+    {
+      "path": "recovery-chains-c4final/result.json",
+      "sha256": "13f2dd1360c4de9751a386a810e15a8c726724341304fe2d412e0e2e09d24fe6"
+    },
+    {
+      "path": "resource-policy-c4final/result.json",
+      "sha256": "ec818510a266632d61cbd3678c880bcdb5f5b01e7b71752bcb7fa0d6dcbc308e"
+    },
+    {
+      "path": "readiness-c4final/plan.json",
+      "sha256": "53b744b4e5f7f48ebaef386100eb195576f481de454e9871b57de934e37ec269"
+    },
+    {
+      "path": "manual-review-protocol.md",
+      "sha256": "db23967ee2c95f3fb9a107f296699c7dec2feb9765e15b8c7c9edd4ba483bf6b"
+    },
+    {
+      "path": "material-source-audit.json",
+      "sha256": "72f0d49bc6f212fc812031d2e79f25050ac9e9c72e66fc0c46bf5891878ae456"
+    },
+    {
+      "path": "dependency-identity.json",
+      "sha256": "57eb6d08084043b837b576ab33588d430e2d42251db41da3c0d17f274e0aeb00"
+    }
+  ],
+  "rows": [
+    {
+      "task": "U01",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U01/pipeline-v0-c4final/result.json",
+        "sha256": "2317125d02d56fb20e96e4bec45681777a0822a0caeb2851c9e87160638ea7e7"
+      },
+      "traceHash": "ba60dc765e7fba8c72d2f0decfb747d77eeab91971974028a1004361945655a6",
+      "completeDocumentSeen": true,
+      "ledgerHash": "ba5b5ecd286b80c624e9d60f74019bddcb602e60eaa3ea025dfd5f877652de3a"
+    },
+    {
+      "task": "U01",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U01/pipeline-v1-c4final/result.json",
+        "sha256": "0cae3753bc7366888ee4582cdecf524cdd14d491a0266d750376b0a12ab5ed31"
+      },
+      "traceHash": "247a23373543c6a9bfea17b99077d751f84a63b05cdef3f4308f7ddf18af62ec",
+      "completeDocumentSeen": true,
+      "ledgerHash": "d43203862f0b240113c6235d251aca5a9558d8450795181616f1188509b38742"
+    },
+    {
+      "task": "U01",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U01/pipeline-claude-c4final/result.json",
+        "sha256": "2d4a6fa4b6629ac983d2ffba53ae23c6391ee2577c1fdf83008e309ee94ea2b5"
+      },
+      "traceHash": "ee9e2d059b47c9a258ed1b71b0de21fcc5bf3a61dc4f63646d6c3f396a59906e",
+      "completeDocumentSeen": true,
+      "ledgerHash": "689e0b8a48ba9f1a072b2c9a56aab4871e46f68aed1f4e67f78907292b6ec632"
+    },
+    {
+      "task": "U02",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U02/pipeline-v0-c4final/result.json",
+        "sha256": "9bff678ece4479fafafc94365c7aee63f6a9f43c415f5325ec71f390238248a2"
+      },
+      "traceHash": "7a1a06570c057882d2dbc3b60e78b2d190e2bf3e4dfce2b811fc1ed89cfa9aa2",
+      "completeDocumentSeen": true,
+      "ledgerHash": "d2e5e360e8143665d679c9a9830a8ec683f99bafcf8c4512f88abc1580d58e57"
+    },
+    {
+      "task": "U02",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U02/pipeline-v1-c4final/result.json",
+        "sha256": "b60f9793f0c50ead11e0849f8ed34a95bdab8d752398e7642316bfb5f31ee157"
+      },
+      "traceHash": "14689084cddb50c15c1882554a0715bbbe855f25f731d4d350ab19a568643e22",
+      "completeDocumentSeen": true,
+      "ledgerHash": "41e7a79b902499ff768ee6e09614c7220f0ccfee311f284363bc090286f0d84f"
+    },
+    {
+      "task": "U02",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U02/pipeline-claude-c4final/result.json",
+        "sha256": "3e04903f36b2ae1752481856409ae19aebec8fe4945ed414e3ee794f850cb3f3"
+      },
+      "traceHash": "68108822f64a009af569387b0c384b26ead5a5b3f933c17f7767ba417bbdc89a",
+      "completeDocumentSeen": true,
+      "ledgerHash": "8489e3d4626dcc2d1f293bc8de072572e1bf1ed2c83a83c61eb83c0eb9d74a6f"
+    },
+    {
+      "task": "U03",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U03/pipeline-v0-c4final/result.json",
+        "sha256": "005897305bfec5c05b9c8566ccb0ee85be52ab41f3cd190417d2eb7e3ce9ac69"
+      },
+      "traceHash": "e9fea8eb5e08181fdce4cad0a68de874ae73cadfb1ab4975184684704fd10bb3",
+      "completeDocumentSeen": true,
+      "ledgerHash": "e42bcce7086bee3d7b3df43456f43621dffa3dad8b5eac962af70652f1664886"
+    },
+    {
+      "task": "U03",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U03/pipeline-v1-c4final/result.json",
+        "sha256": "6188153ae278850a97483e72d43ea5f745d16ba9b91a9ddea0310f95abc373a9"
+      },
+      "traceHash": "52c3bf3121cfe557ffcaf4e7a5035e204cefa0ad091609d226192e7e897ff6f0",
+      "completeDocumentSeen": true,
+      "ledgerHash": "954637f89a68ae9705b94fe4e7b2563d5c2d779fad280e89c373197c1624f444"
+    },
+    {
+      "task": "U03",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U03/pipeline-claude-c4final/result.json",
+        "sha256": "b076d97fcb7200ad8d6a613029d93b0af83236065f5f94e799e2e977d919f156"
+      },
+      "traceHash": "d1feb432d2c1243335c8cea08a6d778f0d506c903ea93e4bb582c7c2544d938c",
+      "completeDocumentSeen": true,
+      "ledgerHash": "72cf986ac31683db38afc0f7c27224b2d64c2f9a41f13adca52f5fb69e3f6cd2"
+    },
+    {
+      "task": "U04",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U04/pipeline-v0-c4final/result.json",
+        "sha256": "5fbd6f06003412e8a97dd60f930c1e2c561ea125799a662c94e2af565da4d47f"
+      },
+      "traceHash": "e52cfc580e44e605a8bd27f9542ee77a3c8b3ca09cc3fb1fc9eef56947ec5b8d",
+      "completeDocumentSeen": true,
+      "ledgerHash": "1f04f3c71231c13f825e322fb60eeb58847aa1cbb4a2ab1e2568e40a3247d3be"
+    },
+    {
+      "task": "U04",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U04/pipeline-v1-c4final/result.json",
+        "sha256": "37ad119b3953611fb3cd2dbd8ff5e240d71bdec083f1b3667f54344cd877411c"
+      },
+      "traceHash": "5a47ced76da218a093ebf1c8a04e40271c161d8989c55cbd778f2bc96ed58116",
+      "completeDocumentSeen": true,
+      "ledgerHash": "614f8ecc10b48a076072430594009b3319a92d15bc42622f745d5d3cc3715f3c"
+    },
+    {
+      "task": "U04",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U04/pipeline-claude-c4final/result.json",
+        "sha256": "16bbd86876e07a0f7e83d8468411ec99458997c0edf12c6365216d0cd9db699a"
+      },
+      "traceHash": "498eaa3ccb42bef21bacff7ea3f80fd4fcaa09bdd9d7a1ce9230b1b2fa3d202c",
+      "completeDocumentSeen": true,
+      "ledgerHash": "9f599334f8ef6af1003a02455c721bfc7f6f8dcf0e5625f7176a21be66244832"
+    },
+    {
+      "task": "U05",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U05/pipeline-v0-c4final/result.json",
+        "sha256": "ac0493f43731c788b651bae017d2ea56ddf79d338f5d9d8efa0d204f814709e0"
+      },
+      "traceHash": "6e008bb80b7cdd32e2cebd84e1a3828a0054fd896ee449eac47333f28c49d7ba",
+      "completeDocumentSeen": true,
+      "ledgerHash": "624fd2befcc937e76b9fab945c705233b2b2e498e63eb65676b2cd9274589588"
+    },
+    {
+      "task": "U05",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U05/pipeline-v1-c4final/result.json",
+        "sha256": "7d566ed702376f653ea9b4f8ba06753371da235f53c984dd7a4ba7cf82b2c2de"
+      },
+      "traceHash": "21d46cdf95a1d1222259713e8e81de54cb1f94f97e3d44699b9a7d69adf74590",
+      "completeDocumentSeen": true,
+      "ledgerHash": "853c667fe5590f2c3000ffa499965983fcb4e1974c6429778d1817e9d0987ceb"
+    },
+    {
+      "task": "U05",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U05/pipeline-claude-c4final/result.json",
+        "sha256": "0e6929b50db31dbbc9c6bafae6180f0cfae491f6134284664e59dd7d2bfc7d7e"
+      },
+      "traceHash": "4b72bcbf5e0b3093aee037b8313e75ebebb692c8b7d8b9b3709cf28fd1fef1a1",
+      "completeDocumentSeen": true,
+      "ledgerHash": "6b84f65b651597346a7c5bb6d2fe4874794461eb961f5e174aaf8c5de81a25e0"
+    },
+    {
+      "task": "U06",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U06/pipeline-v0-c4final/result.json",
+        "sha256": "219f18e393431c904ff2f42266098ac6d67210bc5f642e1fc7dc4ec7a7a23349"
+      },
+      "traceHash": "ef8ba3ad3536b57d3351e6bdce0dbb792d13b51388d07647e357f2de77c4b9fc",
+      "completeDocumentSeen": true,
+      "ledgerHash": "bbb21c40757b99dd89e64f3b67cbad3853751c0513535535e153200af4b51735"
+    },
+    {
+      "task": "U06",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U06/pipeline-v1-c4final/result.json",
+        "sha256": "64a149ed05ea493fbc84d4fab5261eb595e0c980b78b6d1abb2aac6cba8e53d1"
+      },
+      "traceHash": "66663f64c04685f80d8e1f0ff33f66a6692910e20aab0d27ca4cb71b50da7976",
+      "completeDocumentSeen": true,
+      "ledgerHash": "21d026fdba8f53707f8419e72d2a25423c2f5caa2bd66f5426120f0614348cc6"
+    },
+    {
+      "task": "U06",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U06/pipeline-claude-c4final/result.json",
+        "sha256": "292c939fef272c72714773be88a5990915dc1c25b7ec9911eb5ea06699c14ad0"
+      },
+      "traceHash": "4abf69ee4e3d75f394e703b929f628c3aed9226d06437e9ffcef0ef4b72736d5",
+      "completeDocumentSeen": true,
+      "ledgerHash": "2a3bd15abbce2c3ec9e65f16cd201119f04eb0f525f011f72012bf01dbbf3231"
+    },
+    {
+      "task": "U07",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U07/pipeline-v0-c4final/result.json",
+        "sha256": "70b0ef6776f8cea81eab201f03206ec57891db98c20d688971888621e6e383ee"
+      },
+      "traceHash": "120afc5a530be97689140e944b658c4f2aeb95624b0dfd228a8e7052a9622532",
+      "completeDocumentSeen": true,
+      "ledgerHash": "238d84092159c7f77cfad77f2c3c4eb6627321efed63fbfba3065b4fd8211aa5"
+    },
+    {
+      "task": "U07",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U07/pipeline-v1-c4final/result.json",
+        "sha256": "d0d013657bee36328aca181fc3410b41284d2340f91a584ef98a8b59125b4cd8"
+      },
+      "traceHash": "3d72035e9a9eb59410f3f0f654d20ff4feb9a81912e02afa953a80875d2e0adb",
+      "completeDocumentSeen": true,
+      "ledgerHash": "31e811c578ea8cebaf78b4d0c47ed82cdd02f6f81852613a75dae2d6c558c597"
+    },
+    {
+      "task": "U07",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U07/pipeline-claude-c4final/result.json",
+        "sha256": "2fa5b19a281ef1ae220735777b9840908565823c1afc6494d8695bc022251b5e"
+      },
+      "traceHash": "50774dc7aa98d2a5d3e75a5018e110883ca1afe0b06924287a70d9618b4efb06",
+      "completeDocumentSeen": true,
+      "ledgerHash": "fdf8bbd7f1182481dccba7ea9825ce9a666400bf202855329b26bb44829ad3a0"
+    },
+    {
+      "task": "U08",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U08/pipeline-v0-c4final/result.json",
+        "sha256": "926f0c03561f067c7bda8519553612315dc769315098d90b5b464bbcb01527ce"
+      },
+      "traceHash": "72fae274a397a0f2b5788393612317c704e668f0b02ef87ffd29a66b04b6b687",
+      "completeDocumentSeen": true,
+      "ledgerHash": "be1f008bdfef67a18c42182529e375e6b91705589d8625a3f5d4964fded052da"
+    },
+    {
+      "task": "U08",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U08/pipeline-v1-c4final/result.json",
+        "sha256": "98b7d45eca3c230b16e26ab79d3a42f239880e0e6ba3dd6ad903e9e130e72bca"
+      },
+      "traceHash": "7e84831848146bd762e232f0163e75d022646a4f1ed987766ad4ac771c45db82",
+      "completeDocumentSeen": true,
+      "ledgerHash": "7c18b9301b8877f5764ca30ca6a2093d0634ba6f7e6d2341ebeb3a07a952a296"
+    },
+    {
+      "task": "U08",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U08/pipeline-claude-c4final/result.json",
+        "sha256": "23868619b45ed50487850641117261a0a91e6cc5d62dcd867c636c3bb7081b8b"
+      },
+      "traceHash": "054614af3e41f2107d4a4db7ef1cc8376ceb62c6abc52ce15da99f74beb52ddc",
+      "completeDocumentSeen": true,
+      "ledgerHash": "5d574a2e07db53315accb511c33400b5fb98f0af299f065bfe36d79c248f9fdb"
+    },
+    {
+      "task": "U09",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U09/pipeline-v0-c4final/result.json",
+        "sha256": "207c42e0246384904e6c82c4a263d43554470e7f4d084830fc98409c3a5350f0"
+      },
+      "traceHash": "785447d4f895d94216b1ce19e64c6c8a060834f9174e08c1b0d8c75ed2096ad5",
+      "completeDocumentSeen": true,
+      "ledgerHash": "d98a84df6d3369828614414c049be6b509eb9a0e0a8bb431deb7a0a9ebdbf20b"
+    },
+    {
+      "task": "U09",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U09/pipeline-v1-c4final/result.json",
+        "sha256": "b571deac1338a70abd1311afbef15660c19890070fc14b8f1bc2f7864451ff90"
+      },
+      "traceHash": "7cf5665ea2c03b11033603518fe13b79b8d15a93a445b57825ae87db4ab8f8a5",
+      "completeDocumentSeen": true,
+      "ledgerHash": "e0e327726d022b3281aa57e15d71a17b82dac14ec86d30b61fb5dc5c68b7d5b3"
+    },
+    {
+      "task": "U09",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U09/pipeline-claude-c4final/result.json",
+        "sha256": "85e9fcb9a5d3d76e739bc202d42cc23e66d3a40a11fc90354ce266aa6cf3d838"
+      },
+      "traceHash": "1b22177fca84dd1a7614f82bcbb29e6edca0bfdc2336d4e7e0c87b1e72c3a009",
+      "completeDocumentSeen": true,
+      "ledgerHash": "c75d2a8fa141901c220d40030d1662663f2d0d690b6040cdd61cd8890df66f89"
+    },
+    {
+      "task": "U10",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U10/pipeline-v0-c4final/result.json",
+        "sha256": "a04996f5bd2063318ae93b95bded7c439a364d173f9968a2914aa7e397c33a75"
+      },
+      "traceHash": "2d547311985a39f0a23c706f45b3e933c8bc9a10daad25ea85bcd0753b709f67",
+      "completeDocumentSeen": true,
+      "ledgerHash": "1d3d2e553d44b1db87df10162fd371e5cb6d44bd87a93394af26f938eff506ed"
+    },
+    {
+      "task": "U10",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U10/pipeline-v1-c4final/result.json",
+        "sha256": "e9b277af9d1a366f50d48a92fee66e13439003b4de013b0e741a7f5d311e475c"
+      },
+      "traceHash": "21c220f3bae4e5456c0395383855762c49775e81f2ba66b22b27b9f4d4ae1054",
+      "completeDocumentSeen": true,
+      "ledgerHash": "c995611c53c219f0d613cf311000e28d9d7b46d08e630725f4f2071fc260bfc4"
+    },
+    {
+      "task": "U10",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U10/pipeline-claude-c4final/result.json",
+        "sha256": "e8ffb9291ecdb6afa6cd6864e7099cd564b940ed6aa729ce5ef2012869fdc349"
+      },
+      "traceHash": "e9c9590dc17269ea40e7a61d6d57f71e5cda53f512ceeac8a934aa205e45f452",
+      "completeDocumentSeen": true,
+      "ledgerHash": "cf119477cd29f1e19c6e961cdda0fc7ded479137f86551d55cbe995874795201"
+    },
+    {
+      "task": "U11",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U11/pipeline-v0-c4final/result.json",
+        "sha256": "10b8e7ff6772798f0798883f0751292ee11abae9ec70a0524ee4e8e3b4680441"
+      },
+      "traceHash": "5d552d1406d6b1f2ac300241e0a111749e06de4e1cd0b3aa44a34896e05c862e",
+      "completeDocumentSeen": true,
+      "ledgerHash": "d56bbbc0ad0ae5bdc701296256666202e59eeb7e90f949f0cf2264af905515f1"
+    },
+    {
+      "task": "U11",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U11/pipeline-v1-c4final/result.json",
+        "sha256": "1000488378582e783d6ac8989b677f3673736f12ac56eba3f9441e13db2ce645"
+      },
+      "traceHash": "c18c1e0a3f99779ba8321ffd08bdca7bdf929614da87dac3b2bce5cc958370f2",
+      "completeDocumentSeen": true,
+      "ledgerHash": "a500bd73ebcbb7b3a6a0d4ee586b94d18e2eab04ef9a94fd66ed07a684607d24"
+    },
+    {
+      "task": "U11",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U11/pipeline-claude-c4final/result.json",
+        "sha256": "4e5f4d31f0edeae88d09fb55344ebee591d1bee5df5238c2b79b7a4529232a9c"
+      },
+      "traceHash": "72dcb68b275a993875e6830354e1d3d0532f04ff0a76fb90c37fb4c77a414b78",
+      "completeDocumentSeen": true,
+      "ledgerHash": "23b0159a5da559250964dcb37c9f178135ae2e32b4515e3dc886a78d9f77c3ad"
+    },
+    {
+      "task": "U12",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U12/pipeline-v0-c4final/result.json",
+        "sha256": "a1129e3dcd1987e92a50512d91aaee094ac6ca03a05a08864484bde8bae1e59d"
+      },
+      "traceHash": "ecb21f645c403f27de12ffa865cd5985f69396debff8ac1bfc24453a93eaf361",
+      "completeDocumentSeen": true,
+      "ledgerHash": "e2e610ac7ae4ffd24d90dcf01c2cbccab58e93746c2c7155c022031531c690b0"
+    },
+    {
+      "task": "U12",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U12/pipeline-v1-c4final/result.json",
+        "sha256": "7423e561554717341b9847df07e56f2bfbb6b81e39dbb16ae249206e64210218"
+      },
+      "traceHash": "fb319e6bed65d75fc40c1415b6ff463b1350130e4b3298b65f94ad6a77507e35",
+      "completeDocumentSeen": true,
+      "ledgerHash": "1bc517b825777a55e24770a15fa1488d1105923bfa4424fe511db65da3a90518"
+    },
+    {
+      "task": "U12",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U12/pipeline-claude-c4final/result.json",
+        "sha256": "25f980daac67f42cd64d67108e436447fce612fd7810e93336fffa94f98e4536"
+      },
+      "traceHash": "1543faba87d67a9e78f44dc5706fbdd08d1ba180c7044db5ca2df306d99be9dc",
+      "completeDocumentSeen": true,
+      "ledgerHash": "ee670496a64a5f20dbfa88570b5a60e3531d12adce9b35c0f7ae8adbd5358787"
+    },
+    {
+      "task": "U13",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U13/pipeline-v0-c4final/result.json",
+        "sha256": "4270436fe0b2bb6b5782b2f34a100485e4451de262d1e32f8139a61f023542d6"
+      },
+      "traceHash": "5c0c15ca7e3156ceabb9f9ddc2e12e7fa3472c1af27303d941664b0a1e67783d",
+      "completeDocumentSeen": true,
+      "ledgerHash": "249fd098ea3f58690137709f19eae6f894e28226dd22e2071addd379f499712d"
+    },
+    {
+      "task": "U13",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U13/pipeline-v1-c4final/result.json",
+        "sha256": "8ff23e6b570aaefcd4865321ab881abbb80762a7f6107ed4475564d70ff2f189"
+      },
+      "traceHash": "ac1771a7e0ff14222848a5fa0fd11cdf3e337d1edbf61403fe0a3086bb07221a",
+      "completeDocumentSeen": true,
+      "ledgerHash": "00b76b09d18a57ed5fdf7f8e54b60f9e107d6b1bb6940cbde55120f5f098b563"
+    },
+    {
+      "task": "U13",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U13/pipeline-claude-c4final/result.json",
+        "sha256": "4427d38fc0ea0fa603dc94bfeed24ae365708bef993723cd79d963d63bcec918"
+      },
+      "traceHash": "d68bc0b3118d186a76971594fbaeab8aa49b1354e4461b773f4df37d19875f20",
+      "completeDocumentSeen": true,
+      "ledgerHash": "83b05bddd666c636dada0a1245ec7247ea1cdb1b580e811a83e0042b22d66f38"
+    },
+    {
+      "task": "U14",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U14/pipeline-v0-c4final/result.json",
+        "sha256": "412aeb20d3df6974f5e11c7921c86b9d8fdeed4d7f89d19ccebdf2eba577d8a8"
+      },
+      "traceHash": "ae5cd6c78bc60799692ac1e5f03075e6996f70f660fe0fd77eae1bede52d0f75",
+      "completeDocumentSeen": true,
+      "ledgerHash": "415e0df5ef407edb54148086c0f3784e146123dd2a646d3386d5390caea08d1a"
+    },
+    {
+      "task": "U14",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U14/pipeline-v1-c4final/result.json",
+        "sha256": "4feda6db8ee0c838db954dd1367dd5144f8f98b7412af843448b169e8afda57b"
+      },
+      "traceHash": "055975b18b017f83cb58e66faebc63cae4ecf6f3fd6d361cc9e70314db58817d",
+      "completeDocumentSeen": true,
+      "ledgerHash": "60f51c90e84ea04db3e2693a6b1f5a9a4006fd1c9e8fa4926e0fedb0011efc17"
+    },
+    {
+      "task": "U14",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U14/pipeline-claude-c4final/result.json",
+        "sha256": "0146eab75ab2386e82345e2ec83d2a1777f46c5fa3d944aec58ed3d4f2309cda"
+      },
+      "traceHash": "4babc8d825e1c780061fedb75bd489c5421bd21c640de85d30be79dda2f5bb91",
+      "completeDocumentSeen": true,
+      "ledgerHash": "b5037988f672f7485366503fe1522956d837d157712ab7f99155be34f132d717"
+    },
+    {
+      "task": "U15",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U15/pipeline-v0-c4final/result.json",
+        "sha256": "f2fdc496494cbc33336581fdbeb3a1e8870153f065f2cfa6ff43cdb04aa47890"
+      },
+      "traceHash": "b8629365a6fbae0f9d7d400752fcf659864da1aa3dd8291182e87ae7c60c6410",
+      "completeDocumentSeen": true,
+      "ledgerHash": "7c18110e5d6bae102c7723f3ef7f981a831d60b580f310c23dffb87623fe0814"
+    },
+    {
+      "task": "U15",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U15/pipeline-v1-c4final/result.json",
+        "sha256": "a61a31fb7507e0cc61acc1e4117d3d109eec77ff7bdde08272b2930d892637b6"
+      },
+      "traceHash": "d281c503e29b30202f6fc30a4a13c0f21844eab844f7e99b31c687e0240b051d",
+      "completeDocumentSeen": true,
+      "ledgerHash": "8189ab79dc01e3c04adfd28ae2f21770f3b34105fd360a109054650982a025e0"
+    },
+    {
+      "task": "U15",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U15/pipeline-claude-c4final/result.json",
+        "sha256": "737f7d423fe4151e5c4de0dcaa2055bd54ec112c1b3d23de2fa8074163d5da37"
+      },
+      "traceHash": "002f0b620e6a61128ea21251df3275f44876b0bae056f94be7ec9cb55df77e81",
+      "completeDocumentSeen": true,
+      "ledgerHash": "838605eab16a4c5d07e92c1928d77ca7299abf44efb261f7b499648d073b33ae"
+    },
+    {
+      "task": "U16",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U16/pipeline-v0-c4final/result.json",
+        "sha256": "891baca9866b93dffaea130b0d6629bfeff6db4e93b1159213fcd4da951f8fe2"
+      },
+      "traceHash": "1321da3f54681101bb89badb4130448cc91984e32c3fd7f660c77ca2f708aa6b",
+      "completeDocumentSeen": true,
+      "ledgerHash": "df0e520348f9ce0f8a0daa1279a47547640b3ed5ba20ac0672205ce36e225016"
+    },
+    {
+      "task": "U16",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U16/pipeline-v1-c4final/result.json",
+        "sha256": "98c72c74fbe24b3ad6be77875c277666341278e9a7d38076500ea2be777463f9"
+      },
+      "traceHash": "ffcd7f60474e355b0dc2b6cea1f3916981b3b06826fccfb18d31cbf506e7ca6a",
+      "completeDocumentSeen": true,
+      "ledgerHash": "ccd2cd8f57754804c430a65372bc3a52eb083fbb17801967332f7ae9bf27297e"
+    },
+    {
+      "task": "U16",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U16/pipeline-claude-c4final/result.json",
+        "sha256": "781cd5beceb87fc88618f9ef9ad08e36561488dd0be777c62b6c86ede870e8b0"
+      },
+      "traceHash": "745a0fff0eb07bda6223133bb91d7d026d9776903366e0c233c91083fe53ed33",
+      "completeDocumentSeen": true,
+      "ledgerHash": "1bf449a01368764f49568b16ad22a1af81f86ae76e0e34faeeaf362aed96bb88"
+    },
+    {
+      "task": "U17",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U17/pipeline-v0-c4final/result.json",
+        "sha256": "33a8ed98e3bf91745afc4360aa2d8e3577381f4cdf722a51aeffe9cf019e2840"
+      },
+      "traceHash": "7256fcbba3ccd72225fe380782eab11272c1834cb20d7ebf4896a4887b0cbbd8",
+      "completeDocumentSeen": true,
+      "ledgerHash": "27f58c5e51ad0837739fa31a8ffdd3a7338f934245792bf74a6523f14aa7321d"
+    },
+    {
+      "task": "U17",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U17/pipeline-v1-c4final/result.json",
+        "sha256": "ad8fba2191cac60ede92cbf797f28df66af9aba4cfda6a39d339f5d1cb59ce63"
+      },
+      "traceHash": "64a35454089b5e881a147100b27b383c36537f8487ba5a78fac9104279b8fd0f",
+      "completeDocumentSeen": true,
+      "ledgerHash": "951396552133289951863e6a5879b80ef92c3954a51c056b0f9227f7308b2ea6"
+    },
+    {
+      "task": "U17",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U17/pipeline-claude-c4final/result.json",
+        "sha256": "3915b29225469c13f9d4eae2f17982317ea16ab7c5e7cb9111593191658703d1"
+      },
+      "traceHash": "cd7d9a3f327f08ed45c29326e72131f059bba189799bd07919dce39da9e3423c",
+      "completeDocumentSeen": true,
+      "ledgerHash": "22d41f6c58e32823468b22038130eb389a7de8ca7d4b803d6bdbb8c1a74184d1"
+    },
+    {
+      "task": "U18",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U18/pipeline-v0-c4final/result.json",
+        "sha256": "7285170d40e887812184f8b034332e394b2cb9ed0b96bb1632fca7480d133430"
+      },
+      "traceHash": "1aa4546eaa3acf44cb07d70188231f92992408b0f1cc16df1a4464e45e86f559",
+      "completeDocumentSeen": true,
+      "ledgerHash": "c68d1892f77210fb37a7daa5b2cebb42e4f124d08132f7b98bfbbb86539e77ba"
+    },
+    {
+      "task": "U18",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U18/pipeline-v1-c4final/result.json",
+        "sha256": "7c7fb203ca61b517fd0b1217b58f57c26ce27f5bb5482e6555786d66afe51f67"
+      },
+      "traceHash": "9a8b7f8396e6e319426df81700e8c6960dfbf1e433fc2fe8a9425845ff434c67",
+      "completeDocumentSeen": true,
+      "ledgerHash": "4225844cea5cc01d8acd464ba372799805b176d9b5bb1820274b370744693616"
+    },
+    {
+      "task": "U18",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U18/pipeline-claude-c4final/result.json",
+        "sha256": "f0ec9b36864fa0874fbb8df89e6f664a76147c02db7bc2659fec7835fc19c6a3"
+      },
+      "traceHash": "57d3ccdac1c45051d9b68b242f7d050cf510149b2602d7dca4948dab5dc011f1",
+      "completeDocumentSeen": true,
+      "ledgerHash": "675c5a1b9d67eac8e8205dc351155486cbd4ba4b270c577d6e7f46675e7b1d9c"
+    },
+    {
+      "task": "U19",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U19/pipeline-v0-c4final/result.json",
+        "sha256": "e92ad4d571308dd19b679ab802b900cc8f07eb6488695e38149d054932955c85"
+      },
+      "traceHash": "415ceb7ffcc7cefa3a267cc2d04bcc6684081ed5603262a54939e09a9a7fa4e1",
+      "completeDocumentSeen": true,
+      "ledgerHash": "4dd1220f21674081f5a0dcd516b9466472b1f620ef9e4d0afa417596dbfe3c2a"
+    },
+    {
+      "task": "U19",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U19/pipeline-v1-c4final/result.json",
+        "sha256": "e452e8bd18675330fdb3138eb66e079ee619f16047a7fe51b0942f2ca655f236"
+      },
+      "traceHash": "2d522f333b3bc02068aaaca6b3cfc334d249e27b388f1b71f05ca7da765f2a14",
+      "completeDocumentSeen": true,
+      "ledgerHash": "7f0fd5a1acf860cf79e968c5d7f8a6b9d458b2f4a97b1eb4cec295f326e60236"
+    },
+    {
+      "task": "U19",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U19/pipeline-claude-c4final/result.json",
+        "sha256": "5c64e9e903de337bdac6a43049f4e87164cbb3dea01679ef7fc41cef7222202c"
+      },
+      "traceHash": "996d1a359bfbb834dacf307e22a670f5cfb0341d750023cbcbf2a923a7c369fc",
+      "completeDocumentSeen": true,
+      "ledgerHash": "e96f574bd7a081e754f90b879ce2968c8bb86887c993165ebc5adfd44071c304"
+    },
+    {
+      "task": "U20",
+      "product": "v0",
+      "result": {
+        "path": "tasks/U20/pipeline-v0-c4final/result.json",
+        "sha256": "8f631f05fca93543b0b9b6e7c473611400c209b022c82088b1f50ab8c1a1730a"
+      },
+      "traceHash": "c9e9c599b97de830fa9407cfff7c2fbaaac7983069a9e33706ae520c5a2c4b99",
+      "completeDocumentSeen": true,
+      "ledgerHash": "6b3e5564e1fec6c0b533d913c2681a49c3dbf9e3c3e7ea06ee4d1a80822bc371"
+    },
+    {
+      "task": "U20",
+      "product": "v1",
+      "result": {
+        "path": "tasks/U20/pipeline-v1-c4final/result.json",
+        "sha256": "d5fc30565e4f3f4316aa12afc5c6cddf91cdfa24c41d27e4650a90d8d35d5312"
+      },
+      "traceHash": "23b78b3c85155e5574b922394a7815d8ae98da6eec6f3c6606cce3495175be02",
+      "completeDocumentSeen": true,
+      "ledgerHash": "9efacfcadcbf131078df61160449ba338d279499833f73b73ad9a1acf871324a"
+    },
+    {
+      "task": "U20",
+      "product": "claude",
+      "result": {
+        "path": "tasks/U20/pipeline-claude-c4final/result.json",
+        "sha256": "6d799d8c5f9278b7e579e9594973d0b5788f2786c2dbcad6149d97cd6d34278f"
+      },
+      "traceHash": "7a7604db239c8d8ddb15544d8f121c01773a20926d6278c8a8c3cb4304d7180c",
+      "completeDocumentSeen": true,
+      "ledgerHash": "f6e840a30892061553c4fcfba3c742a0640e59832ee50c7c5a79c3b0eabfc180"
+    },
+    {
+      "task": "C7-L",
+      "product": "v1",
+      "result": {
+        "path": "c7/C7-L/pipeline-v1-c4final/result.json",
+        "sha256": "da1a1a3c5c4d2da17eb51deb19626737515bb59d0f493349f9e5e2c3e0dd5b48"
+      },
+      "traceHash": "b7805993086964b33a88d704a61611cb3552778af5b4146bae2bfcd6dd3448f3",
+      "completeDocumentSeen": true,
+      "ledgerHash": "57a2b849ae9a7e9a42928eb5d3dbe9330639356289a764e92b40c718842c768e"
+    },
+    {
+      "task": "C7-O",
+      "product": "v1",
+      "result": {
+        "path": "c7/C7-O/pipeline-v1-c4final/result.json",
+        "sha256": "4b0223228afc65df0788b118440a12001894b4019a11fa16f647ce50f6cc3463"
+      },
+      "traceHash": "8ffa8a6b24b9bf4304692e4b6dda474f5a7bd0acced3db1ddc412e2af72c144f",
+      "completeDocumentSeen": true,
+      "ledgerHash": "bb79e984d3c04e49b16c2d00dabd6543471f0ca26535d8181a4ea42ee1bee3f9"
+    },
+    {
+      "task": "health",
+      "product": "v0",
+      "result": {
+        "path": "health/pipeline-v0-c4final/result.json",
+        "sha256": "c0def85381d354171e44dc024753a37eeeef7a08ad62b9b2eec82ae1c40f2f5b"
+      },
+      "traceHash": "547da8c235d9031e08cc4bb7f059d3b5c8eeb3b7d91d36937c2c36d3f1a3daf1",
+      "completeDocumentSeen": true,
+      "ledgerHash": "26b0f017ffa48e1943ff6222b20ca0659c72dcd4f955fc804d9f9618d08c0d93"
+    },
+    {
+      "task": "health",
+      "product": "v1",
+      "result": {
+        "path": "health/pipeline-v1-c4final/result.json",
+        "sha256": "b4f973a90886c5cc8441522a81ca931ac7b44f156248c62406416ecc7dd58303"
+      },
+      "traceHash": "2638bfc3690f038e6ece197c481e16b77f05a7f029e854bdbe55ee9c506999fa",
+      "completeDocumentSeen": true,
+      "ledgerHash": "d9af540eeb6b81c636674690385c627cd421e87ece874a77c219ba6d92f141ef"
+    },
+    {
+      "task": "health",
+      "product": "claude",
+      "result": {
+        "path": "health/pipeline-claude-c4final/result.json",
+        "sha256": "365aca3efdf6933684fea180020b76777e2c6350fe8b0b02c296f1eaef994f0d"
+      },
+      "traceHash": "babf0b14b48c220e85cd29d90595cc374ab07aef79763b2b0a9e1d8af4beaaa8",
+      "completeDocumentSeen": true,
+      "ledgerHash": "f8e9177dd492ec8e9b6c23dd16b5826369e23030331d839b4b1c1ff7dc06b03e"
+    }
+  ]
+}
