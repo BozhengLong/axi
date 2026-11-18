@@ -1,0 +1,16 @@
+{
+  "probe": "gateway-check-20261118T174956Z",
+  "attempts": 1,
+  "http": 200,
+  "frozenIdentityMatched": true,
+  "actualModel": "claude-opus-5-5",
+  "effort": "medium",
+  "endTurn": "end_turn",
+  "lastEvent": "message_stop",
+  "matchedRandomText": true,
+  "responseSha256": "0767309423a46b4d23d2c0b2c9eecb1584ffbb6ff7250fe98402ae49229d83c5",
+  "finishedUtc": "2026-11-18T17:51:12.511Z",
+  "changedCredentials": false,
+  "observedUpstreamRefresh": false,
+  "formalStudy": "v1-release-gateway-r6-20261118T175359Z"
+}
