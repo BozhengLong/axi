@@ -1,0 +1,330 @@
+{
+  "study": "v1-release-check-attempts-r4-20261118T055712Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "qualifiedMaterials": 22,
+  "formalRealStarts": 0,
+  "oldProofRepeats": 5,
+  "newRepeatsPerRole": 1,
+  "cases": [
+    {
+      "taskId": "U01",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 11,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 55,
+      "priorAuditSha256": "c375ea3eca47a278be72584fb08b732d184f74a76939575d90c617884d101c6c",
+      "audit": {
+        "path": "tasks/U01/qualification-audit-r3-u01.json",
+        "sha256": "09404b2a2b48f5feeb65c92abbd335246116bea8efc8b29bb80dfaedcf31fb97"
+      }
+    },
+    {
+      "taskId": "U02",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 8,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 40,
+      "priorAuditSha256": "af8f2bdbb020deb435b77d1883bfc1d0df731d08def5ccd947b3a5cdce778c66",
+      "audit": {
+        "path": "tasks/U02/qualification-audit-r3-1.json",
+        "sha256": "46a438744577ec281a81e170453787c3ac9ed4ab027d97c8316fc22894cebff0"
+      }
+    },
+    {
+      "taskId": "U03",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 9,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 45,
+      "priorAuditSha256": "47474af8cc181dc888be7ab040a3bace9305c5cffb668362098a23e6429c369f",
+      "audit": {
+        "path": "tasks/U03/qualification-audit-r3-1.json",
+        "sha256": "921bd1a223d11384273503cf7a56edea043305b46a527a74c8e53d42fb174d63"
+      }
+    },
+    {
+      "taskId": "U04",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 8,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 40,
+      "priorAuditSha256": "9ae77157c7fbd04de328e62c7bcc79137f894df0fbf6954e909249b62e316a7e",
+      "audit": {
+        "path": "tasks/U04/qualification-audit-r3-1.json",
+        "sha256": "dec0e8774e3f6c1cdfc49a698d3ea02a7c7d622cb97477cbc92c331317a74e17"
+      }
+    },
+    {
+      "taskId": "U05",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 12,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 60,
+      "priorAuditSha256": "06bd8102a6628be9e29cb6a13cfdd507a59fbd97ddd413c8a2883ad73a8ece76",
+      "audit": {
+        "path": "tasks/U05/qualification-audit-r3-1.json",
+        "sha256": "0def7c8584e664c65d85b3e467a2068efc9519149b5144bee86bbbc92a2efa18"
+      }
+    },
+    {
+      "taskId": "U06",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 8,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 40,
+      "priorAuditSha256": "e72102096afbda6697f6b1e6d7636514e11841cf665e8112d688a6a202987964",
+      "audit": {
+        "path": "tasks/U06/qualification-audit-r3-1.json",
+        "sha256": "49ee6ca8f2516c302964703e5ae805122803bbb599766aebd844d2f550766219"
+      }
+    },
+    {
+      "taskId": "U07",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 10,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 50,
+      "priorAuditSha256": "0d7bbb4df572905552d0aa98c1335eb93b1df9912ad1ebbffec4f0f374deec22",
+      "audit": {
+        "path": "tasks/U07/qualification-audit-r3-1.json",
+        "sha256": "c24a9ce3d95bb3363577d24087bd93ab7a84075c6da3981e315fe3cd12c4ba69"
+      }
+    },
+    {
+      "taskId": "U08",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 11,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 55,
+      "priorAuditSha256": "63d640750c5fdb5d799bb65e2b9d4561f8433e7546d62f3611b4b55f2d78e8b5",
+      "audit": {
+        "path": "tasks/U08/qualification-audit-r3-1.json",
+        "sha256": "3bc07d2eba6d929aa78fa61ee16bff1be5e37316b38afeb23c995c39151bda9c"
+      }
+    },
+    {
+      "taskId": "U09",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 10,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 50,
+      "priorAuditSha256": "36f2de5654be6e966587a70a91af83d652c39b92644d3a4a69690a4630204bc6",
+      "audit": {
+        "path": "tasks/U09/qualification-audit-r3-1.json",
+        "sha256": "4a517e9e5da4b1409582eec26f284752c2011ab692109e8ec5bfcba777689c53"
+      }
+    },
+    {
+      "taskId": "U10",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 8,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 40,
+      "priorAuditSha256": "883c70441f0c0da20d820befa0d26973b3dabbc86fff7abce6057685eab57683",
+      "audit": {
+        "path": "tasks/U10/qualification-audit-r3-1.json",
+        "sha256": "06373650acfd615a2180f0704bfa34ff7f08ea37289f33c9f9660312926489f5"
+      }
+    },
+    {
+      "taskId": "U11",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 10,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 50,
+      "priorAuditSha256": "90accbf1c5dd8db6cca175e1a5e20a2c4d7c2128bb3a9d4af0a0b56f0cab7a9c",
+      "audit": {
+        "path": "tasks/U11/qualification-audit-r3-1.json",
+        "sha256": "d6c89635b0c67cf81883c4623fdd7f64d55cfce2b9d87ab2926d67716331150c"
+      }
+    },
+    {
+      "taskId": "U12",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 8,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 40,
+      "priorAuditSha256": "afdce9f5876424df582e0bddc345e0d7632ec2d8d4d425e392bafc417a5ca91e",
+      "audit": {
+        "path": "tasks/U12/qualification-audit-r3-1.json",
+        "sha256": "1acfea00abc69174029bdc7ad804d4ea9cec962889bb2b284e932d5510ed820f"
+      }
+    },
+    {
+      "taskId": "U13",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 13,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 65,
+      "priorAuditSha256": "f5c3418dae12d899f2d3a2379ec2af585c8a7b471bc86cedeff9fa893389b10f",
+      "audit": {
+        "path": "tasks/U13/qualification-audit-r3-1.json",
+        "sha256": "f7517a54ae5eeb6a833650e8ef342ee7a11e309aa76078027502d0da2b3a517a"
+      }
+    },
+    {
+      "taskId": "U14",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 9,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 45,
+      "priorAuditSha256": "ed1be657aaa1177d87b9164df885a238318ddf7a70a4d2ae6c402332b79c4eec",
+      "audit": {
+        "path": "tasks/U14/qualification-audit-r3-1.json",
+        "sha256": "61821bb9a41340a81abe8fdd74db8d6de19a2c0ef9978d9dfce6941e315e7027"
+      }
+    },
+    {
+      "taskId": "U15",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 18,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 90,
+      "priorAuditSha256": "8136719964b4b41f2605b28d795985efd39bdf2ac32f7173125c9bcfdd5e1cb7",
+      "audit": {
+        "path": "tasks/U15/qualification-audit-r3-1.json",
+        "sha256": "5bff39ce163a2fa53c9b7559bd4545c279aa216619f50bfd9ac9f4fe450a5556"
+      }
+    },
+    {
+      "taskId": "U16",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 12,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 60,
+      "priorAuditSha256": "9406295a73c21db309a93644be23a13eec7bd5b97a20e3753370ee8454f6d987",
+      "audit": {
+        "path": "tasks/U16/qualification-audit-r3-1.json",
+        "sha256": "42bfc9fb750d6e85ae7c375c7c12acea3313e0f0f98d221d9aacb2888a0f37f2"
+      }
+    },
+    {
+      "taskId": "U17",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 12,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 60,
+      "priorAuditSha256": "69ab5856a8b3d0dbfb9df5d1b94e1c2df7eb383521e0acdb9c58a753bccdaf87",
+      "audit": {
+        "path": "tasks/U17/qualification-audit-r3-1.json",
+        "sha256": "78ccf6368d74455f0fda0d0f7f84966fa67f8213b47dee5906f31e9165270989"
+      }
+    },
+    {
+      "taskId": "U18",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 11,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 55,
+      "priorAuditSha256": "8f8b1e3848993d8ffff55634299ee78d84e886241b338558c5347488b159d8d9",
+      "audit": {
+        "path": "tasks/U18/qualification-audit-r3-1.json",
+        "sha256": "76486aeff7124a0165fd93a0bffc744797206b621fe7e4bec003e28e5d58b71a"
+      }
+    },
+    {
+      "taskId": "U19",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 14,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 70,
+      "priorAuditSha256": "20903b86e0001cb4cda731fc779ef8c804cd72d6fdcbf0888b1bd4571e270a4f",
+      "audit": {
+        "path": "tasks/U19/qualification-audit-r3-1.json",
+        "sha256": "d18bc7362f6a5f44e3857c5b5b195c7beb1349b16b94629636befdd4dbbfcc90"
+      }
+    },
+    {
+      "taskId": "U20",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 4,
+      "negativeCases": 14,
+      "priorReferenceCases": 20,
+      "priorNegativeCases": 70,
+      "priorAuditSha256": "feb00981d53fc8680a50aaa784e3457a258950d870d540d608769d7dbad6868d",
+      "audit": {
+        "path": "tasks/U20/qualification-audit-r3-1.json",
+        "sha256": "a45f3bde162018c08869786d79cc97a87d01053104bb1273b95752b79dd70ce4"
+      }
+    },
+    {
+      "taskId": "C7-L",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 3,
+      "negativeCases": 3,
+      "priorReferenceCases": 15,
+      "priorNegativeCases": 15,
+      "priorAuditSha256": "93d5e9796404b2494c1e1cd84e1a51ccb20b1746c9caaa4662ef6f708ccd973d",
+      "audit": {
+        "path": "c7/C7-L/qualification-audit-r3-1.json",
+        "sha256": "0f6e50b69537c5f7c5dc4721ba58779657717afbb9e68182ee5ce27169003580"
+      }
+    },
+    {
+      "taskId": "C7-O",
+      "mode": "old-five-plus-current-one",
+      "referenceCases": 3,
+      "negativeCases": 3,
+      "priorReferenceCases": 15,
+      "priorNegativeCases": 15,
+      "priorAuditSha256": "18746867a68db8ae041741457d2949dd6bbc182289a14baf6143ec452eb4bb8b",
+      "audit": {
+        "path": "c7/C7-O/qualification-audit-r3-1.json",
+        "sha256": "8f9b14665650f6b797248ad13d2613a031d52f523968d0ca887b0ba91ad51322"
+      }
+    }
+  ],
+  "proofs": [
+    {
+      "path": "material-queue-c4/result.json",
+      "sha256": "90deeaf59a6dd249df2f8fb0eea983b65400e7e1e97d45abd50bed989808100a"
+    },
+    {
+      "path": "material-source-audit.json",
+      "sha256": "72f0d49bc6f212fc812031d2e79f25050ac9e9c72e66fc0c46bf5891878ae456"
+    },
+    {
+      "path": "dependency-identity.json",
+      "sha256": "57eb6d08084043b837b576ab33588d430e2d42251db41da3c0d17f274e0aeb00"
+    },
+    {
+      "path": "exposure-audit-c4/result.json",
+      "sha256": "c47edb22195e1042ca9ab6c80dacab21f77efc1cad4f103f24c7d55ed96a26e9"
+    },
+    {
+      "path": "recovery-chains-c4final/result.json",
+      "sha256": "13f2dd1360c4de9751a386a810e15a8c726724341304fe2d412e0e2e09d24fe6"
+    },
+    {
+      "path": "c7-regression-qualification-c4/results.json",
+      "sha256": "bee333353809a8bf075efcc58845b4ee1f47402eafb48282b714332a27f1530f"
+    },
+    {
+      "path": "capture-qualification-c4a/results.json",
+      "sha256": "d752972b624d9a36134d1dfffa1ce3ea52a7765509619fce869b039599c5bf09"
+    },
+    {
+      "path": "r1-postqualification-sources.json",
+      "sha256": "4368169cd15dce5c76ddcf73e6fd1f43a43565474afb89488b39ac54245c45a1"
+    }
+  ]
+}
