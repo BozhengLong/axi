@@ -1,0 +1,173 @@
+{
+  "study": "v1-release-gateway-r6-20261118T175359Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "facilityCommit": "2511213cffef2a1f5416794a6ef9e61d5a424655",
+  "T1Beijing": "2026-11-19 01:57:53",
+  "phase": "R4",
+  "closure": null,
+  "recoveryEvents": [],
+  "rows": [
+    {
+      "id": "health-claude-a1",
+      "task": "health",
+      "product": "claude",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 5,
+        "completeResponses": 5
+      },
+      "requests": 5,
+      "completeResponses": 5,
+      "externalEvents": 0,
+      "wallSeconds": 14.9,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 5,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 5,
+        "status": "clean",
+        "traceHash": "17111abcdc23ca7b36916cab8bc17965ecd1f4491ea78bb19592df5da859e8b5"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "实际检查输出 HEALTH_OK，退出 0。33 字节的新增结果与输入及 verified 行逐字节一致；前后 Git 身份相同，用户说明保持不变。英文报告与实际操作一致。"
+      ],
+      "evidenceRoot": "runs/health-claude-a1",
+      "traceHash": "17111abcdc23ca7b36916cab8bc17965ecd1f4491ea78bb19592df5da859e8b5",
+      "reviewHash": "b8c10436c357f6529b6d1d5f63fa495d85fd3356a8897c994434404c7d350b91",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "2b017dfbbf3b6f8cd669b803f7e0d5ed1d59bdf2706a8d00dc37f87f543bc0fd",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "health-v0-a1",
+      "task": "health",
+      "product": "v0",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 4,
+        "completeResponses": 4
+      },
+      "requests": 4,
+      "completeResponses": 4,
+      "externalEvents": 0,
+      "wallSeconds": 10.6,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 4,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 4,
+        "status": "clean",
+        "traceHash": "f45005df0acff750104afe7642552e7756b064341bb22cd6e73b24c3c85b3624"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "仅新增 result.txt。初末快照显示用户说明和 Git 身份保持，文件原字节后追加 verified 与换行。验证输出 HEALTH_OK、退出 0，与最终报告一致。"
+      ],
+      "evidenceRoot": "runs/health-v0-a1",
+      "traceHash": "f45005df0acff750104afe7642552e7756b064341bb22cd6e73b24c3c85b3624",
+      "reviewHash": "c7f0fe07fdcc0ed7527fc3b26b37f61308f8a93d53dabca84ef6f3dc161ad4b4",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "4028b9489c692a2e7ea785d8e93a7e8574245c7427643ada8e70d4b35ed1b60c",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "health-v1-a1",
+      "task": "health",
+      "product": "v1",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 8,
+        "completeResponses": 8
+      },
+      "requests": 8,
+      "completeResponses": 8,
+      "externalEvents": 0,
+      "wallSeconds": 24.9,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 8,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 8,
+        "status": "clean",
+        "traceHash": "80713128ab34fc0884219fb2461f7e86c0f8ae6380487711791d767e288d6150"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "最终和检查点评分合格。只有 result.txt 新增；独立字节比对正确。原生工具记录的 verify、cmp、git status 均退出 0。报告披露了用户说明初始状态的观察范围，初末快照证实原文件和 Git 状态受保护。"
+      ],
+      "evidenceRoot": "runs/health-v1-a1",
+      "traceHash": "80713128ab34fc0884219fb2461f7e86c0f8ae6380487711791d767e288d6150",
+      "reviewHash": "85641b7cc1f35c640df32404dc0460a1606aa950d6ac7f34b173593b6416df85",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "92622bad1769a4bd1728cbea0a68f86ec95cbb4d4bfc8bc717d6583bd1e90bbb",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "52c967aeaee99260b8a50fd9c6b8f7384bf4fdaef3943e066d19003ff65038d4",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    }
+  ],
+  "validRepresentative": {},
+  "passedRepresentative": {},
+  "completedGroups": 0,
+  "traceIndex": "TRACE-INDEX.md",
+  "firstValid": {
+    "v0": 0,
+    "v1": 0,
+    "claude": 0
+  }
+}
