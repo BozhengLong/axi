@@ -10,7 +10,7 @@ import {readEvents} from './trace.ts';
 
 const [studyArg,label,bundleLabel]=process.argv.slice(2);if(!studyArg||!/^cancel-qualification-\d+$/.test(label??'')||!bundleLabel)throw Error('需要新取消资格标签');
 const study=resolve(studyArg),out=join(study,label!);mkdirSync(out);
-const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c3,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
+const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c4,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
 const text=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'}),write={content:[{type:'tool_use',id:'once',name:'write',input:{path:'kept.txt',content:'kept after cancellation\n'}}],stopReason:'tool_use'};
 const rows=[];
 for(const kind of ['request','backoff','review']){
@@ -25,7 +25,7 @@ for(const kind of ['request','backoff','review']){
    while(!monitorDone&&performance.now()<until){const state=await control(batch,'state',{id:runtime!.id});if(state.meter.forwardedGeneration===2&&(kind==='request'?state.activeRequests===1:state.activeRequests===0)){save(join(runtime!.directory,'cancel-trigger.json'),state);await execute(runtime!,['touch','/tmp/interrupt-now']);return;}await Bun.sleep(20);}
    if(!monitorDone)throw Error('未到达指定取消阶段');
   })();
-  const execution=await runAxiV1(batch,runtime,['执行任务并保留已完成文件。','继续下一项任务。'],{getStopCause:()=>guardian!.cause,axiEntry:'/opt/axi-c3/src/main.ts',maxMs:30000,reviewMode:'auto',observeReview:true,interruptOnReview:kind==='review',interruptMarker:kind==='review'?undefined:'/tmp/interrupt-now',onRound:async()=>({snapshot:{}})});
+  const execution=await runAxiV1(batch,runtime,['执行任务并保留已完成文件。','继续下一项任务。'],{getStopCause:()=>guardian!.cause,axiEntry:'/opt/axi-c4/src/main.ts',maxMs:30000,reviewMode:'auto',observeReview:true,interruptOnReview:kind==='review',interruptMarker:kind==='review'?undefined:'/tmp/interrupt-now',onRound:async()=>({snapshot:{}})});
   monitorDone=true;await monitor;
   assert.equal((await execute(runtime,['cat','kept.txt'])).stdout,'kept after cancellation\n');
   await guardian.finish();await destroyRuntime(batch,runtime);await sealBatchTraces(batch,[runtime]);sealed=true;

@@ -104,8 +104,8 @@ def verify_admission(study,manifest,repair=None):
     require(manifest['identities']['v0']=='963704be97150e268edd3fda484d68e0a18a1f8b' and manifest['identities']['image']=='sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','基线或镜像身份改变')
     require(manifest['commit']==manifest['remoteCommit'],'冻结提交未推送')
     auth=json.loads((study/'authorization.json').read_text());require(manifest['T0']==auth['T0'],'T0身份不符')
-    require(manifest['identities']['candidate']=='e684620d1fa9109fcbcf442033ed97323cf76716','候选不符')
-    require(manifest['identities']['sourceHash']=='db1ce2d12928db759b4d43a9dc663a5eab490d733673166d33daf04306580391','产品源码不符')
+    require(manifest['identities']['candidate']=='280d1f3debf95455b7a763b0b9ffc579bac6c5bd','候选不符')
+    require(manifest['identities']['sourceHash']=='75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519','产品源码不符')
     require(manifest['identities']['model']=='claude-opus-5-5'and manifest['identities']['claude']=='2.1.322','冻结模型或参照不符')
     required={'engineering','taskPackage','c7','controller','pipeline','capture','dependencies','resourcePolicy','evidenceAudit','reuse'}
     require(set(manifest['proofs'])==required,'准备证明种类不完整')

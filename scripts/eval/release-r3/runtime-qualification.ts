@@ -16,7 +16,7 @@ const tool=(id:string,name:string,input:any)=>({content:[{type:'tool_use',id,nam
 const busy=(status=429)=>({content:[],stopReason:'end_turn',status,headers:{'retry-after':'0'},raw:'synthetic temporary error'});
 const short=['off-long','http40-http50','retry429-expiry','retry503-expiry','transport-expiry','late-response','v0-native50','v0-truncated','claude-truncated'];
 const cases=selected==='short'?short:selected==='large'?['large-trace']:[selected];
-const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c3,readonly`,`type=bind,src=${join(study,'v0-runtime')},dst=/opt/axi-v0,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
+const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c4,readonly`,`type=bind,src=${join(study,'v0-runtime')},dst=/opt/axi-v0,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
 save(join(out,'source.json'),{files:['runtime-qualification.ts','relay.ts','core.ts','adapters.ts','v1-adapter.ts','trace.ts','seal.ts','execution-evidence.py'].map(p=>({path:p,sha256:fileHash(join(import.meta.dir,p))})),bundle:JSON.parse(readFileSync(join(study,bundleLabel,'manifest.json'),'utf8')),cases,mockOnly:true});
 const archive=join(out,'source-archive');mkdirSync(archive);for(const f of JSON.parse(readFileSync(join(out,'source.json'),'utf8')).files)copyFileSync(join(import.meta.dir,f.path),join(archive,f.path));
 const rows:any[]=[];
@@ -43,7 +43,7 @@ for(const kind of cases){
   let checkpoints=0;
   const options:any={getStopCause:()=>guardian!.cause,maxMs,onRound:async()=>({snapshot:{}})};
   const actor=kind.startsWith('v0')?'v0':kind.startsWith('claude')?'claude':'v1';
-  if(actor==='v1')Object.assign(options,{axiEntry:'/opt/axi-c3/src/main.ts',reviewMode,observeReview:true,onReviewCheckpoint:async()=>{checkpoints++;}});
+  if(actor==='v1')Object.assign(options,{axiEntry:'/opt/axi-c4/src/main.ts',reviewMode,observeReview:true,onReviewCheckpoint:async()=>{checkpoints++;}});
   if(actor==='v0')options.axiEntry='/opt/axi-v0/src/main.ts';
   const execution=await(actor==='v1'?runAxiV1:actor==='v0'?runAxi:runClaude)(batch,runtime,['请完成指定任务。'],options);
   assert.equal((await execute(runtime,['cat','/task/kept.txt'])).stdout,'original\n');

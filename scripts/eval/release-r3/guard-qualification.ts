@@ -10,7 +10,7 @@ import {readEvents} from './trace.ts';
 
 const [studyArg,label,bundleLabel]=process.argv.slice(2);if(!studyArg||!/^guard-qualification-\d+$/.test(label??'')||!bundleLabel)throw Error('需要新资格标签');
 const study=resolve(studyArg),out=join(study,label!);mkdirSync(out);
-const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c3,readonly`,`type=bind,src=${join(study,'v0-runtime')},dst=/opt/axi-v0,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
+const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c4,readonly`,`type=bind,src=${join(study,'v0-runtime')},dst=/opt/axi-v0,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
 const rows=[];
 for(const actor of ['v0','v1','claude'])for(const reason of ['deadline','resource']){
  const id=actor+'-'+reason,batch=await initialize(study,join(study,bundleLabel),'mock',b=>save(join(out,id+'-batch.json'),b));
@@ -20,7 +20,7 @@ for(const actor of ['v0','v1','claude'])for(const reason of ['deadline','resourc
   runtime=await createRuntime(batch,id,{mounts,mock:[{content:[{type:'text',text:'LATE'}],stopReason:'end_turn',delayMs:30000}],executionPolicy:{version:'r3',limitMode:'unlimited',requestLimit:null,executionDeadline:reason==='deadline'?deadline:Date.now()+60000}});
   guard=await startGuardian(batch,runtime,deadline,reason==='resource'?{mockLowSpaceAfterMs:2000}:{});
   const options:any={maxMs:15000,getStopCause:()=>guard!.cause,onRound:async()=>({snapshot:{}})};
-  if(actor==='v1')Object.assign(options,{axiEntry:'/opt/axi-c3/src/main.ts',reviewMode:'off',observeReview:true});
+  if(actor==='v1')Object.assign(options,{axiEntry:'/opt/axi-c4/src/main.ts',reviewMode:'off',observeReview:true});
   if(actor==='v0')options.axiEntry='/opt/axi-v0/src/main.ts';
   const execution=await(actor==='v1'?runAxiV1:actor==='v0'?runAxi:runClaude)(batch,runtime,['等待受控回复'],options);
   await guard.finish();

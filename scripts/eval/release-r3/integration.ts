@@ -21,10 +21,10 @@ let runtime:Runtime|undefined,sealed=false,guardian:Awaited<ReturnType<typeof st
 try{
   const deadline=Date.now()+60000;
   runtime=await createRuntime(batch,'long-v1',{executionPolicy:{version:'r3',limitMode:'unlimited',requestLimit:null,executionDeadline:deadline},mock,
-    mounts:[`type=bind,src=${candidate.worktree},dst=/opt/axi-c3,readonly`,...['/opt/axi','/opt/c6','/opt/axi-current'].map(dst=>`type=bind,src=${empty},dst=${dst},readonly`)]});
+    mounts:[`type=bind,src=${candidate.worktree},dst=/opt/axi-c4,readonly`,...['/opt/axi','/opt/c6','/opt/axi-current'].map(dst=>`type=bind,src=${empty},dst=${dst},readonly`)]});
   guardian=await startGuardian(batch,runtime,deadline);
   let checkpoint=0;
-  const result=await runAxiV1(batch,runtime,['请完成指定任务。'],{getStopCause:()=>guardian!.cause,axiEntry:'/opt/axi-c3/src/main.ts',maxMs:50000,observeReview:true,reviewMode:'auto',onReviewCheckpoint:async native=>{checkpoint++;save(join(runtime!.directory,'review-observed.json'),native);},onRound:async()=>({snapshot:{}})});
+  const result=await runAxiV1(batch,runtime,['请完成指定任务。'],{getStopCause:()=>guardian!.cause,axiEntry:'/opt/axi-c4/src/main.ts',maxMs:50000,observeReview:true,reviewMode:'auto',onReviewCheckpoint:async native=>{checkpoint++;save(join(runtime!.directory,'review-observed.json'),native);},onRound:async()=>({snapshot:{}})});
   save(join(out,'execution.json'),result);
   const file=await execute(runtime,['cat','/task/kept.txt']);assert.equal(file.stdout,'saved');
   await guardian.finish();await destroyRuntime(batch,runtime);await sealBatchTraces(batch,[runtime]);sealed=true;

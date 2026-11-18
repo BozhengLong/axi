@@ -109,8 +109,8 @@ def audit(run, mock=False, expected_model='claude-opus-5-5', expected_effort='me
     session=None;turn_requests=0;work_requests=0;review_requests=0;call_requests={}
     if io_start['data']['agent'] == 'axi':
         entry=io_start['data']['args'][-1]
-        if entry not in ('/opt/axi-c3/src/main.ts','/opt/axi-v0/src/main.ts'):raise ValueError('Axi入口身份未绑定')
-        native_v4=entry=='/opt/axi-c3/src/main.ts'
+        if entry not in ('/opt/axi-c4/src/main.ts','/opt/axi-v0/src/main.ts'):raise ValueError('Axi入口身份未绑定')
+        native_v4=entry=='/opt/axi-c4/src/main.ts'
         paths = [run/'native'/f['path'] for f in native['files'] if f['path'].startswith('axi-session/') and f['path'].endswith('.jsonl')]
         if len(paths) != 1:raise ValueError('Axi原生会话不唯一')
         import hashlib

@@ -10,14 +10,14 @@ import {fileHash} from './trace.ts';
 if(process.argv[2]==='child'){
  const {batch,runtime,deadline}=JSON.parse(readFileSync(process.argv[3]!,'utf8'));
  const guardian=await startGuardian(batch,runtime,deadline);
- await runAxiV1(batch,runtime,['等待受控长请求'],{axiEntry:'/opt/axi-c3/src/main.ts',reviewMode:'off',observeReview:true,maxMs:50000,getStopCause:()=>guardian.cause});
+ await runAxiV1(batch,runtime,['等待受控长请求'],{axiEntry:'/opt/axi-c4/src/main.ts',reviewMode:'off',observeReview:true,maxMs:50000,getStopCause:()=>guardian.cause});
  await guardian.finish();
 }else{
  const [studyArg,label,bundle,mode='crash']=process.argv.slice(2);if(!studyArg||!/^orphan-qualification-\d+$/.test(label??'')||!bundle||!['crash','write-failure'].includes(mode))throw Error('需要独立的新证据目录');
  const study=resolve(studyArg),out=join(study,label!);mkdirSync(out);
  const batch=await initialize(study,join(study,bundle),'mock',b=>save(join(out,'batch.json'),b));
  const deadline=Date.now()+60000;
- const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c3,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
+ const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c4,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
  const mock=mode==='crash'?[{content:[{type:'text',text:'LATE'}],stopReason:'end_turn',delayMs:30000}]:[{content:[],stopReason:'end_turn',status:429,raw:'X'.repeat(8000),headers:{'retry-after':'0'},delayMs:500},{content:[],stopReason:'end_turn',status:429,raw:'X'.repeat(8000),headers:{'retry-after':'0'},repeat:1000}];
  const runtime=await createRuntime(batch,'orphan',{mounts,executionPolicy:{version:'r3',limitMode:'unlimited',requestLimit:null,executionDeadline:deadline},mock});
  const config=join(out,'executor.json');save(config,{batch,runtime,deadline});

@@ -23,7 +23,7 @@ export async function executeSubject(study:string,taskId:string,product:'v0'|'v1
  assert.equal(process.env.AXI_EVAL_IMAGE,profile.image);
  assert(!existsSync(join(out,'seed')));
  save(join(out,'prepare.json'),await command(['python3',join(import.meta.dir,'../release-r2/prepare-runtime.py'),study,taskId,join(out,'seed')]));
- const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c3,readonly`,`type=bind,src=${join(study,'v0-runtime')},dst=/opt/axi-v0,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
+ const mounts=[`type=bind,src=${join(study,'v1-runtime')},dst=/opt/axi-c4,readonly`,`type=bind,src=${join(study,'v0-runtime')},dst=/opt/axi-v0,readonly`,...['/opt/c6','/opt/axi-current','/opt/axi'].map(dst=>`type=bind,src=${join(study,'empty-subject-mount')},dst=${dst},readonly`)];
  for(const m of profile.dependencyMounts??[])mounts.push(`type=bind,src=${join(study,m.source)},dst=${m.target},readonly`);
  for(const path of profile.dependencyPaths??[])mounts.push(`type=volume,src=${profile.dependencyVolume},dst=/task/${path},volume-subpath=${path},readonly`);
  // 固定只读依赖可直接加载；避免Nx将原生模块复制到noexec的/tmp后退回不完整WASM。
@@ -42,13 +42,13 @@ export async function executeSubject(study:string,taskId:string,product:'v0'|'v1
   guard=await startGuardian(batch,runtime,Math.floor(authority.claim.executionDeadline*1000));
   const initial=await captureTask(batch,runtime,'initial');save(join(out,'initial-snapshot.json'),initial);
   const identity=JSON.parse(readFileSync(join(study,product==='v0'?'v0-source.json':'candidate-source.json'),'utf8'));
-  const files=identity.files.filter((f:any)=>f.path.startsWith('src/')||f.path==='package.json'),entry=product==='v0'?'/opt/axi-v0':'/opt/axi-c3';
+  const files=identity.files.filter((f:any)=>f.path.startsWith('src/')||f.path==='package.json'),entry=product==='v0'?'/opt/axi-v0':'/opt/axi-c4';
   const probe=await execute(runtime,['bun','-e',`import{readFileSync,readdirSync,existsSync}from'node:fs';for(const f of await Bun.stdin.json())if(new Bun.CryptoHasher('sha256').update(readFileSync(${JSON.stringify(entry)}+'/'+f.path)).digest('hex')!==f.sha256)throw Error('source mismatch');if(process.getuid()!==1000||readdirSync('/opt/c6').length||existsSync('/var/run/docker.sock'))throw Error('isolation mismatch');console.log('frozen source identity verified')`],JSON.stringify(files));
   save(join(runtime.directory,'source-identity.json'),{sourceHash:identity.sourceHash,result:probe});
   let checkpoint:any;
   const remainingMs=authority.claim.executionDeadline*1000-Date.now();assert(remainingMs>0,'执行剩余窗口不足');
   const runOptions:any={getStopCause:()=>guard!.cause,maxMs:Math.min(options.maxMs??30*60_000,remainingMs,qualificationDeadline-Date.now()-10_000),onRound:async()=>({snapshot:(await captureTask(batch,runtime!,'round')).files})};
-  if(product==='v1')Object.assign(runOptions,{axiEntry:'/opt/axi-c3/src/main.ts',reviewMode:'auto',observeReview:true,onReviewCheckpoint:async(native:any)=>{assert(!checkpoint);save(join(runtime!.directory,'checkpoint-native.json'),native);checkpoint=await captureTask(batch,runtime!,'checkpoint');save(join(out,'checkpoint-snapshot.json'),checkpoint)}});
+  if(product==='v1')Object.assign(runOptions,{axiEntry:'/opt/axi-c4/src/main.ts',reviewMode:'auto',observeReview:true,onReviewCheckpoint:async(native:any)=>{assert(!checkpoint);save(join(runtime!.directory,'checkpoint-native.json'),native);checkpoint=await captureTask(batch,runtime!,'checkpoint');save(join(out,'checkpoint-snapshot.json'),checkpoint)}});
   else if(product==='v0')runOptions.axiEntry='/opt/axi-v0/src/main.ts';
   const execution=await(product==='v1'?runAxiV1:product==='v0'?runAxi:runClaude)(batch,runtime,[options.prompt],runOptions);
   await guard.finish();
