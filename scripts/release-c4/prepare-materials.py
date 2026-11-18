@@ -68,8 +68,8 @@ def main(old, study):
     assert any(row['path'].endswith('/grade-artifact.py') for row in grading_sources)
     resource = read(old / manifest['proofs']['resourcePolicy']['path'])
     assert sha(old / manifest['proofs']['resourcePolicy']['path']) == manifest['proofs']['resourcePolicy']['sha256']
-    info = json.loads(subprocess.check_output(['docker', 'info', '--format', '{{json .}}']))
-    assert (resource['dockerMemory'],resource['dockerCpus']) == (info['MemTotal'],info['NCPU'])
+    docker_info = json.loads(subprocess.check_output(['docker', 'info', '--format', '{{json .}}']))
+    assert (resource['dockerMemory'],resource['dockerCpus']) == (docker_info['MemTotal'],docker_info['NCPU'])
     for role in ('bun','pnpm','node'):
         assert read(old/'toolchain/verification.json')['versions'][role] == read(study/'toolchain/verification.json')['versions'][role]
 
@@ -146,7 +146,7 @@ def main(old, study):
     write(study / 'material-source-audit.json', {'candidate':read(study / 'candidate.json')['candidate'],
           'previous':str(old), 'formalClaims':claims, 'ledgerSha256':sha(ledger),
           'tasks':tasks, 'bindMounts':sorted(mounts), 'gradingSources':grading_sources,
-          'dockerMemory':info['MemTotal'], 'dockerCpus':info['NCPU'], 'realModelStarts':0,
+          'dockerMemory':docker_info['MemTotal'], 'dockerCpus':docker_info['NCPU'], 'realModelStarts':0,
           'scope':'核对素材和上一批五次资格。当前批的依赖测量、重验与端到端模拟另行登记。'})
 
 
