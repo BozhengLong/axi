@@ -25,11 +25,18 @@ def checksums(proof):
 
 
 def run(args, out):
-    with out.with_suffix('.stdout').open('xb') as stdout, out.with_suffix('.stderr').open('xb') as stderr:
+    prefix = out
+    attempt = 1
+    while prefix.with_suffix('.stdout').exists() or prefix.with_suffix('.stderr').exists():
+        attempt += 1
+        prefix = out.with_name(f'{out.name}-attempt-{attempt}')
+    with prefix.with_suffix('.stdout').open('xb') as stdout, prefix.with_suffix('.stderr').open('xb') as stderr:
         subprocess.run([sys.executable,'-B',*args],stdout=stdout,stderr=stderr,check=True)
 
 
 def main(old, study):
+    os.environ.update(read(study/'toolchain/verification.json')['env'])
+    os.environ['PYTHONDONTWRITEBYTECODE'] = '1'
     assert read(study/'engineering-admission.json')['qualified'] and read(study/'status.json')['phase']=='R2'
     out=study/'material-queue-c4';out.mkdir(exist_ok=True)
     if not (study/'material-source-audit.json').exists():
