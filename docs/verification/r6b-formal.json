@@ -1,0 +1,83 @@
+{
+  "study": "v1-release-gateway-r6b-20261118T183834Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "facilityCommit": "2511213cffef2a1f5416794a6ef9e61d5a424655",
+  "T1Beijing": "2026-11-19 02:42:51",
+  "phase": "R3",
+  "closure": null,
+  "recoveryEvents": [
+    {
+      "cooldownUntil": 1795028323.381172,
+      "deadline": 1795031023.381172,
+      "externalEvidenceHash": "c58d8e8a9d9c7bc4066ded82501f1ae0df42c561eeb3df2b246d6f3719fe62df",
+      "incidentHash": "b2eca6a026a92b70379639caef9bf1b404f83b329f8365343f1d2d0b23b7a916",
+      "number": 1,
+      "startedAt": 1795027423.381172,
+      "target": "health-v0-a1"
+    }
+  ],
+  "rows": [
+    {
+      "id": "health-v0-a1",
+      "task": "health",
+      "product": "v0",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "ENV_INTERRUPTED",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 1,
+        "externalEvents": 1,
+        "limitedRequests": 1,
+        "observedRetryGapMs": null,
+        "generationRequests": 1,
+        "completeResponses": 0
+      },
+      "requests": 1,
+      "completeResponses": 0,
+      "externalEvents": 1,
+      "wallSeconds": 1.5,
+      "permissions": 0,
+      "stop": "product_error",
+      "upstream": {
+        "kind": "upstream-sse",
+        "normalized": {
+          "errorType": "rate_limit_error",
+          "message": "This request would exceed your account's rate limit. Please try again later.",
+          "format": "string",
+          "rule": "gateway-rate-limit-v1",
+          "retryable": true
+        }
+      },
+      "recoveryHealth": {
+        "status": "not-completed",
+        "traceHash": "a9fa00bc208f248932255f7b0c242ee53f38304a3a1fa9936ea0956849a02a63"
+      },
+      "cleanUpstream": false,
+      "reviewNotes": [
+        "首次生成的事件流直接给出账户限流，无完整响应、工具授权和文件或 Git 变更。产物未生成，保护检查通过。按原方案登记一次有界环境恢复。"
+      ],
+      "evidenceRoot": "runs/health-v0-a1",
+      "traceHash": "a9fa00bc208f248932255f7b0c242ee53f38304a3a1fa9936ea0956849a02a63",
+      "reviewHash": "31334aed5a683fe1e354a8992bf3e72b6459a829b55b811492d7de0cd89ee912",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "8d108f6d9fcd9beda7580ca1aa6e0ad28f1ddae84dab3d01226f625468621ec1",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
+    }
+  ],
+  "validRepresentative": {},
+  "passedRepresentative": {},
+  "completedGroups": 0,
+  "traceIndex": "TRACE-INDEX.md",
+  "firstValid": {
+    "v0": 0,
+    "v1": 0,
+    "claude": 0
+  }
+}

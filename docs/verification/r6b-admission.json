@@ -1,0 +1,32 @@
+{
+  "study": "v1-release-gateway-r6b-20261118T183834Z",
+  "product": {
+    "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+    "sourceHash": "75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519",
+    "v0": "963704be97150e268edd3fda484d68e0a18a1f8b",
+    "image": "sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1",
+    "model": "claude-opus-5-5",
+    "claude": "2.1.322"
+  },
+  "T0": "2026-11-18T18:38:34.430333+00:00",
+  "T1": "2026-11-18T18:42:51.017417+00:00",
+  "inheritedFacilityCommit": "2511213cffef2a1f5416794a6ef9e61d5a424655",
+  "bindingImplementationCommit": "062b159813c610f91687f438848ce4924d37f436",
+  "facilityHash": "5aecf587c6e971ccf0db21b69bc481fca3d78aaad9fcac08cea8594f55b6043a",
+  "dependencyHash": "56775336c33c5dd84a10b9b9a7eee73748f8e74a0e0b690fcec72bb9c74bd468",
+  "dependencyProof": {
+    "path": "dependency-r6/result.json",
+    "sha256": "56775336c33c5dd84a10b9b9a7eee73748f8e74a0e0b690fcec72bb9c74bd468"
+  },
+  "beforeClaim": {
+    "path": "preclaim-path-audit.json",
+    "sha256": "847654cf319b5a5e5043320906bddb5721a784275f81d4161d4131b99af39059"
+  },
+  "allTaskChecks": 23,
+  "uniqueMounts": 26,
+  "inheritedMaterials": 308,
+  "inheritedMockPipelines": 65,
+  "inheritedFormalOutcomes": 0,
+  "initialFreeGiB": 84.93,
+  "minimumFreeGiB": 69.37
+}

@@ -4,6 +4,10 @@
 
 共用规范见 [AGENTS.md](../AGENTS.md)。本文件汇总当前状态，详细过程保存在 [开发日报](devlog/) 中。
 
+## R6b 当前正式阶段（2026-11-19）
+
+23 份输入的领取前依赖核验均通过。v0 首次健康遇到流内限流，已登记受控恢复。[准入凭据](verification/r6b-admission.json) · [正式记录](verification/r6b-formal.md)
+
 ## R6 已关闭，R6b 已登记（2026-11-19）
 
 R6 因设施 G0 失败关闭，保留健康 3/3、C7 2/2 和 0 份代表题成绩。新批独立使用修正后的依赖证明。[R6 结论](verification/r6-formal.md) · [本日记录](devlog/2026-11-19.md)
