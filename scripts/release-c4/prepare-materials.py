@@ -53,6 +53,26 @@ def main(old, study):
     checksums = read(old / manifest['facilityIndex']['path'])['files']
     assert sha(old / manifest['facilityIndex']['path']) == manifest['facilityIndex']['sha256']
     frozen = {Path(row['path']):row['sha256'] for row in checksums}
+    grading_sources = []
+    # 确定性题目资格在候选程序外运行。对照整套 R2 评分源码与准备阶段实际使用的 R3 函数。
+    for path, checksum in frozen.items():
+        if 'scripts' not in path.parts:
+            continue
+        relative = Path(*path.parts[path.parts.index('scripts'):])
+        if (relative.is_relative_to('scripts/eval/release-r2') or
+            str(relative) in ('scripts/eval/release-r3/qualification_guard.py',
+                              'scripts/eval/release-r3/qualify-material.py',
+                              'scripts/eval/release-r3/dependency-audit.py')):
+            assert sha(REPO / relative) == checksum
+            grading_sources.append({'path':str(relative),'sha256':checksum})
+    assert any(row['path'].endswith('/grade-artifact.py') for row in grading_sources)
+    resource = read(old / manifest['proofs']['resourcePolicy']['path'])
+    assert sha(old / manifest['proofs']['resourcePolicy']['path']) == manifest['proofs']['resourcePolicy']['sha256']
+    info = json.loads(subprocess.check_output(['docker', 'info', '--format', '{{json .}}']))
+    assert (resource['dockerMemory'],resource['dockerCpus']) == (info['MemTotal'],info['NCPU'])
+    for role in ('bun','pnpm','node'):
+        assert read(old/'toolchain/verification.json')['versions'][role] == read(study/'toolchain/verification.json')['versions'][role]
+
     entries = manifest['tasks'] + manifest['c7Tasks']
     assert [item['id'] for item in entries] == [f'U{i:02}' for i in range(1, 21)] + ['C7-L', 'C7-O']
     mounts = set()
@@ -115,7 +135,8 @@ def main(old, study):
         copy(old / relative, study / relative)
     write(study / 'material-source-audit.json', {'candidate':read(study / 'candidate.json')['candidate'],
           'previous':str(old), 'formalClaims':claims, 'ledgerSha256':sha(ledger),
-          'tasks':tasks, 'bindMounts':sorted(mounts), 'realModelStarts':0,
+          'tasks':tasks, 'bindMounts':sorted(mounts), 'gradingSources':grading_sources,
+          'dockerMemory':info['MemTotal'], 'dockerCpus':info['NCPU'], 'realModelStarts':0,
           'scope':'核对素材和上一批五次资格。当前批的依赖测量、重验与端到端模拟另行登记。'})
 
 
