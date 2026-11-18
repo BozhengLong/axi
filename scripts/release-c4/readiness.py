@@ -60,7 +60,7 @@ def main(study, old, revision):
     write(out/'controller.json',{'qualified':True,'nativeIntegrationQualified':True,'stateMachineRepeats':5,
           'checksPerRepeat':values[0],'proofs':controller_proofs,'nativeRecovery':recovery,'pipelineAudit':pipeline})
     proofs={'engineering':'engineering-admission.json','controller':str((out/'controller.json').relative_to(study)),
-            'capture':'capture-qualification-c4/results.json','dependencies':'dependency-audit-1/result.json',
+            'capture':'capture-qualification-c4a/results.json','dependencies':'dependency-audit-1/result.json',
             'resourcePolicy':'resource-policy-'+revision+'/result.json','evidenceAudit':pipeline['path'],
             'reuse':str((out/'reuse.json').relative_to(study))}
     for path in proofs.values():passed(path)
