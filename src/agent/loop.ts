@@ -1,3 +1,4 @@
+import { CheckAttempts } from "../tools/check-attempts.ts";
 import { RetryWindowError, type CallOptions } from "../api/client.ts";
 import { errorMessage, noLog, type Message, type ModelResponse, type RecordLog, type ToolResult, type ToolUse } from "../api/types.ts";
 import { type BashInput, type BashResult } from "../tools/bash.ts";
@@ -70,6 +71,7 @@ export class Agent {
     const started = performance.now(), effort = options.effort, mode = this.options.permissionMode?.() ?? "project";
     const reviewMode = this.options.reviewMode?.() ?? "auto", budget = new GenerationCounter(reviewMode);
     let permissionMs = 0, halt = "", eligible = false, outcome = "failed";
+    const checkAttempts = new CheckAttempts();
     const enterReview = (reason: "draft") => {
       budget.beginReview();
       const prompt = reviewPrompt();
@@ -129,6 +131,11 @@ export class Agent {
           if (executed.modified === "unknown") this.unknownEffects = true;
           if (executed.fatal) halt = executed.status === "unknown" ? "提交状态不确定，已停止后续操作。请先检查现场。" : "操作结果已保留，但记录或清理失败，已停止后续操作。请检查现场。";
           const toolResult: ToolResult = { type: "tool_result", tool_use_id: tool.id, content: executed.content, is_error: executed.isError };
+          if (reviewMode === "auto" && tool.name === "bash" && executed.shellExit !== undefined) {
+            const attempt = checkAttempts.record(tool.id, String(tool.input.command), executed.content, executed.shellExit, executed.status);
+            this.auditAfter("check_attempt", attempt);
+            toolResult.content += checkAttempts.render();
+          }
           results.push(toolResult);
           this.auditAfter("tool_end", { toolUseId: tool.id, name: tool.name, status: executed.status, modified: executed.modified, durationMs: performance.now() - toolStarted });
         }

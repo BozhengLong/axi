@@ -12,6 +12,7 @@ export interface ToolExecution {
   modified: boolean | "unknown";
   path?: string;
   fatal?: boolean;
+  shellExit?: number | null;
 }
 export function result(operation: string, path: string, data: JsonObject, isError = false): ToolExecution {
   const body = { status: "completed", code: "ok", operation, path, modified: false, truncated: false, ...data };

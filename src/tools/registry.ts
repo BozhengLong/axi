@@ -53,7 +53,7 @@ export class ToolRegistry {
       const parsed: BashInput = parseBashInput(input);
       return freeze({ tool, effect: "shell", execute: async (signal: AbortSignal) => {
         const r: BashResult = await this.bash(parsed, this.cwd, signal);
-        return { content: r.content, isError: r.isError, status: r.outcome, modified: "unknown" };
+        return { content: r.content, isError: r.isError, status: r.outcome, shellExit: r.exitCode, modified: "unknown" };
       } });
     }
     if (tool.name === "read") {
