@@ -1,0 +1,51 @@
+{
+  "study": "v1-release-recovery-r5-20261118T143038Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "qualifiedMockCli": 65,
+  "mockBreakdown": {
+    "healthCases": 3,
+    "c7Cases": 2,
+    "taskCases": 60
+  },
+  "materialCases": 308,
+  "minimumFreeBytes": 74480458038,
+  "maximumAttempts": 73,
+  "formalStartsAtPreparation": 0,
+  "proofs": {
+    "engineering": {
+      "path": "engineering-admission.json",
+      "sha256": "4ef1d2b4b17ebfe9ff4f294a631a109686ccf028a547657023cb1ef9fe4263e7"
+    },
+    "controller": {
+      "path": "readiness-r5final/controller.json",
+      "sha256": "4fcc111ee2f5549ba2fe470ac526dce543460acfbe76ce975869d9ceb7f73a69"
+    },
+    "capture": {
+      "path": "capture-qualification-c4a/results.json",
+      "sha256": "d752972b624d9a36134d1dfffa1ce3ea52a7765509619fce869b039599c5bf09"
+    },
+    "dependencies": {
+      "path": "dependency-audit-1/result.json",
+      "sha256": "d3947086a2f65e3971bd0bce27b673d155625d6d41bf5ad092a844bab5e11abd"
+    },
+    "resourcePolicy": {
+      "path": "resource-policy-r5final/result.json",
+      "sha256": "d43b71b5af5e5c1fed2946fa4d0338e66be80de84bdfacd3f09754950d4cd0b1"
+    },
+    "evidenceAudit": {
+      "path": "pipeline-audit-r5final/result.json",
+      "sha256": "0fc25dd3a2cc34a2a329004c90ce07bd9e3b5f73c7ef8e6fb5410873aafa6d55"
+    },
+    "reuse": {
+      "path": "readiness-r5final/reuse.json",
+      "sha256": "254f43f316b09d3d89b129e99b25eeba45df97fdffc0d4f5e3f0bdcaa5ab606c"
+    }
+  },
+  "snapshotCheck": {
+    "measuredMinimumBytes": 74480458038,
+    "freeBefore": 18527240192,
+    "freeAfter": 29887389696,
+    "admitted": false
+  },
+  "privateIndex": "TRACE-INDEX.md"
+}
