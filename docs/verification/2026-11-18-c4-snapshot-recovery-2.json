@@ -1,0 +1,41 @@
+{
+  "study": "v1-release-check-attempts-r4-20261118T055712Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "measuredAt": "2026-11-18T17:30:09.136163+08:00",
+  "consent": "允许按需回收这三份新快照",
+  "measurements": [
+    {
+      "snapshot": "2026-11-18-142237",
+      "beforeBytes": 14944243712,
+      "afterBytes": 25853263872,
+      "deltaBytes": 10909020160,
+      "measurementSha256": "73cc8807aad409258476dc40849d15351b2eb9880324b7329c814e56bbd6ed41"
+    },
+    {
+      "snapshot": "2026-11-18-152307",
+      "beforeBytes": 25853239296,
+      "afterBytes": 37172936704,
+      "deltaBytes": 11319697408,
+      "measurementSha256": "d62196908225b1d7c24f3bf99ee6408b52e0654f2b98cb153c583e2922c8c69d"
+    },
+    {
+      "snapshot": "2026-11-18-162438",
+      "beforeBytes": 37172924416,
+      "afterBytes": 52882812928,
+      "deltaBytes": 15709888512,
+      "measurementSha256": "e16765e38ab6f7c5cb8cba2f92511e8487a5e990fb69e3295d16fbb90b2bfbcd"
+    }
+  ],
+  "openingFreeBytes": 14944243712,
+  "finalFreeBytes": 52882804736,
+  "netFreeChangeBytes": 37938561024,
+  "minimumFreeBytes": 74469503286,
+  "shortfallBytes": 21586698550,
+  "stillListedTimeMachineSnapshots": [
+    "com.apple.TimeMachine.2026-11-18-172232.local"
+  ],
+  "formalAdmission": false,
+  "T1": null,
+  "formalCliStarts": 0,
+  "mockPipelinesQualified": 65
+}
