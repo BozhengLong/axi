@@ -1,0 +1,184 @@
+{
+  "study": "v1-release-recovery-r5-20261118T143038Z",
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "facilityCommit": "2511213cffef2a1f5416794a6ef9e61d5a424655",
+  "T1Beijing": "2026-11-19 01:36:51",
+  "phase": "R6",
+  "closure": {
+    "allGatesPassed": false,
+    "at": 1795023628.36019,
+    "cleanupHash": "bce5fd17bd834b6ef60847b20e601245abeff820ba5ee4c232e48a83d0725b2b",
+    "decisiveFailure": null,
+    "reportHash": "32e824f49494288aaabf7a7015e4c90941ff8b4b6572d9b911b1f584bb738c7d",
+    "requiredGateFailures": [],
+    "verdict": "INCOMPLETE"
+  },
+  "recoveryEvents": [],
+  "rows": [
+    {
+      "id": "health-v0-a1",
+      "task": "health",
+      "product": "v0",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 4,
+        "completeResponses": 4
+      },
+      "requests": 4,
+      "completeResponses": 4,
+      "externalEvents": 0,
+      "wallSeconds": 11.2,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 4,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 4,
+        "status": "clean",
+        "traceHash": "efd6c18d92ea370b194a58fb20e13d5643b2945d734b08304a49fc2cbcca1771"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "独立核对了初末快照，唯一新增文件 result.txt 为 input.txt 原字节追加 verified 和换行，共 33 字节。node verify.mjs 的原生回执为 HEALTH_OK、退出 0，与最终报告一致。用户说明、Git HEAD 与索引保护通过。"
+      ],
+      "evidenceRoot": "runs/health-v0-a1",
+      "traceHash": "efd6c18d92ea370b194a58fb20e13d5643b2945d734b08304a49fc2cbcca1771",
+      "reviewHash": "76a9ee997c3f3499e51fd7adf6cf77158e9ee323da03552126f1758f1a59a352",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "7e52a643761035caff47532af1b6bad6904f05ea36045651ff1664dee355dca1",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "health-v1-a1",
+      "task": "health",
+      "product": "v1",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "UNKNOWN",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "generationRequests": 1,
+        "completeResponses": 0
+      },
+      "requests": 1,
+      "completeResponses": 0,
+      "externalEvents": 0,
+      "wallSeconds": 1.7,
+      "permissions": 0,
+      "stop": "product_error",
+      "upstream": null,
+      "recoveryHealth": {
+        "status": "not-completed",
+        "traceHash": "1fa07aeab7d968d1c81d901461e806e6d519e771624d635df51538b561888378"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "上游 HTTP 200 的事件流明确返回 OAuth 访问令牌过期。原生同一调用第 0 次尝试收到相同原因，未重试。",
+        "共转发 1 次，无完整模型响应、工具调用或文件修改。正式配置指纹相同。当前证据无法定位是哪一层持有到期令牌。",
+        "方案22第4节规定鉴权失败停止新增。此处 UNKNOWN 表示交付能力未判定，鉴权故障已有直接证据。"
+      ],
+      "evidenceRoot": "runs/health-v1-a1",
+      "traceHash": "1fa07aeab7d968d1c81d901461e806e6d519e771624d635df51538b561888378",
+      "reviewHash": "68aef98d942dfadf5f15aa93ff45b46b9320834e58068f1882a4ead5c2e302bc",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "6cb6c6f579ea429f012e49768e68769e922c387f52027d0e8e1d48489e7c21c6",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
+    }
+  ],
+  "validRepresentative": {},
+  "passedRepresentative": {},
+  "completedGroups": 0,
+  "traceIndex": "TRACE-INDEX.md",
+  "firstValid": {
+    "v0": 0,
+    "v1": 0,
+    "claude": 0
+  },
+  "verdict": "INCOMPLETE",
+  "closedBeijing": "2026-11-19T01:40:28+08:00",
+  "controllerHash": "5c61f6400134ace71c15c5bcf7ca5f9b5f8593fd99ead1bc709ea8bce2cdeeff",
+  "cause": {
+    "classification": "configuration-admission-failure",
+    "upstreamMessage": "OAuth access token has expired. Re-authenticate to continue.",
+    "evidence": {
+      "path": "runs/health-v1-a1/configuration-incident.json",
+      "sha256": "4ba589e8e0a0c5864cff8385140c8c7137851ed71c797a59c3c3c2198b7ccb9e"
+    }
+  },
+  "gateStatus": {
+    "G0": "PASS",
+    "G1": "PASS",
+    "G5": "PASS",
+    "G2": "UNKNOWN",
+    "G3": "UNKNOWN",
+    "G4": "UNKNOWN",
+    "G6": "PASS"
+  },
+  "representativeScores": {
+    "v0": null,
+    "v1": null,
+    "claude": null
+  },
+  "c7": {
+    "launched": 0,
+    "planned": 2,
+    "score": null
+  },
+  "formalAttemptCount": 2,
+  "qualifiedMockPipelines": 65,
+  "privateTraceIndex": {
+    "path": "TRACE-INDEX.md",
+    "sha256": "dd9d4e85ffdfcb8c88345b350d5d57b88ae41745cb4edffc0500c2e29f54c7e4"
+  },
+  "traceAudit": {
+    "path": "final-audit-r5/trace-audit.json",
+    "sha256": "34a888755aa80a2d81d01a16e993381e90ec25672c0e35e60c95dde739813792"
+  },
+  "cleanup": {
+    "path": "final-audit-r5/cleanup.json",
+    "sha256": "bce5fd17bd834b6ef60847b20e601245abeff820ba5ee4c232e48a83d0725b2b"
+  },
+  "formalReport": {
+    "path": "final-audit-r5/release-report.json",
+    "sha256": "32e824f49494288aaabf7a7015e4c90941ff8b4b6572d9b911b1f584bb738c7d"
+  },
+  "storageEvidence": {
+    "recheckedFiles": 20307,
+    "originalBytesRechecked": 35929141792,
+    "fileAllocatedBytesSaved": 24722214912,
+    "systemAddedMetadata": {
+      "com.apple.provenance": 1206
+    },
+    "ledgerHashesMatched": 3,
+    "receipt": {
+      "path": "all-compression-verified.json",
+      "sha256": "2a488e6d5ea7ba123f1fda902d0fde67e2287425490ba01de71a81b5c6f1cb9a"
+    }
+  }
+}
