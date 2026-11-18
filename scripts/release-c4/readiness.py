@@ -55,11 +55,14 @@ def main(study, old, revision):
           'engineeringImpact':passed('r1-postqualification-sources.json'),'queue':passed('material-queue-c4/result.json')})
     recovery=passed('recovery-chains-'+revision+'/result.json')
     pipeline=passed('pipeline-audit-'+revision+'/result.json')
-    controller_proofs=[passed(f'controller-qualification-{i}/result.json') for i in range(104,109)]
+    policy=read(study/'authorization.json').get('recoveryHealthPolicy')
+    controller_proofs=([passed(f'controller-r5-{i}/result.json') for i in range(1,6)] if policy else
+                       [passed(f'controller-qualification-{i}/result.json') for i in range(104,109)])
     values=[read(study/r['path'])['checks'] for r in controller_proofs]
     assert len(set(values))==1 and values[0]>=46
     write(out/'controller.json',{'qualified':True,'nativeIntegrationQualified':True,'stateMachineRepeats':5,
-          'checksPerRepeat':values[0],'proofs':controller_proofs,'nativeRecovery':recovery,'pipelineAudit':pipeline})
+          'checksPerRepeat':values[0],'proofs':controller_proofs,
+          **({'recoveryHealthPolicy':policy, 'recoveryHealthProofs':read(study/'engineering-admission.json')['recoveryHealthProofs']} if policy else {}),'nativeRecovery':recovery,'pipelineAudit':pipeline})
     proofs={'engineering':'engineering-admission.json','controller':str((out/'controller.json').relative_to(study)),
             'capture':'capture-qualification-c4a/results.json','dependencies':'dependency-audit-1/result.json',
             'resourcePolicy':'resource-policy-'+revision+'/result.json','evidenceAudit':pipeline['path'],

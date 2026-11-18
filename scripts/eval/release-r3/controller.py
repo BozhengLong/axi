@@ -8,6 +8,7 @@ import os
 
 MINUTE = 60
 HOUR = 3600
+RECOVERY_POLICY = 'recoverable-rate-limit-v1'
 PRODUCTS = ('v0', 'v1', 'claude')
 ORDERS = (('v0', 'v1', 'claude'), ('v1', 'claude', 'v0'), ('claude', 'v0', 'v1'),
           ('v0', 'claude', 'v1'), ('claude', 'v1', 'v0'), ('v1', 'v0', 'claude'))
@@ -49,7 +50,9 @@ def new_state(authorization, identities):
     require(authorization['limitMode'] == 'unlimited' and authorization['requestLimit'] is None, '请求策略不符')
     require(timestamp(authorization['preparationDeadline']) == t0 + 72*HOUR and timestamp(authorization['absoluteDeadline']) == t0 + 168*HOUR, '绝对时钟不符')
     require(all(identities.get(k) for k in ('candidate', 'sourceHash', 'v0', 'image', 'model', 'claude')), '冻结身份缺失')
-    return dict(schema=3, T0=t0, preparationDeadline=t0+72*HOUR, absoluteDeadline=t0+168*HOUR,
+    policy = authorization.get('recoveryHealthPolicy')
+    require(policy in (None, RECOVERY_POLICY), '未知恢复健康策略')
+    return dict(**({'recoveryHealthPolicy': policy} if policy else {}), schema=3, T0=t0, preparationDeadline=t0+72*HOUR, absoluteDeadline=t0+168*HOUR,
                 identities=identities, T1=None, formalDeadline=None, phase='R0', manifest=None,
                 claims={}, paused=None, repair=None, recoveries=[], activeRecovery=None, closure=None)
 
@@ -91,6 +94,18 @@ def attempt_slot(slot, attempt=1, recovery=None):
     return {**slot, 'logicalId': slot['id'], 'id': slot['id'] + '-a' + str(attempt), 'attempt': attempt, 'recovery': recovery}
 
 
+def recovery_probe_passed(state, claim):
+    review = claim.get('review', {})
+    if review.get('classification') != 'PASS':
+        return False
+    if state.get('recoveryHealthPolicy') is None:
+        return review.get('cleanUpstream') is True
+    proof = review.get('recoveryHealth', {})
+    return (state['recoveryHealthPolicy'] == RECOVERY_POLICY
+            and proof.get('status') in ('clean', 'recovered-rate-limit')
+            and bool(proof.get('traceHash')) and proof['traceHash'] == claim['seal']['traceHash'])
+
+
 def next_slot(state, now):
     require(not state['closure'], '批次已关闭')
     require(all('review' in c for c in state['claims'].values()), '上一尝试尚未封存和审查')
@@ -107,8 +122,7 @@ def next_slot(state, now):
                 slot = attempt_slot(base, 1, state['activeRecovery'])
             if slot['id'] not in state['claims']:
                 return slot
-            review = state['claims'][slot['id']]['review']
-            require(review['classification'] == 'PASS' and review.get('cleanUpstream') is True, '恢复健康检查不合格')
+            require(recovery_probe_passed(state, state['claims'][slot['id']]), '恢复健康检查不合格')
         require(target['slot']['kind'] != 'health', '健康目标已由恢复轮补齐')
         return attempt_slot(target['slot'], 2, state['activeRecovery'])
     require(not state['paused'], '全局暂停')
@@ -150,7 +164,7 @@ def update_recovery(state, claim, now):
     is_probe = claim['slot']['kind'] in ('health', 'recovery-health')
     if is_probe and now > recovery['deadline']:
         recovery['failed'] = True;state['paused'] = dict(reason='recovery-window-expired', slot=claim['id'], at=now);return
-    if is_probe and (review['classification'] != 'PASS' or review.get('cleanUpstream') is not True):
+    if is_probe and not recovery_probe_passed(state, claim):
         recovery['failed'] = True;state['paused'] = dict(reason='recovery-health-failed', slot=claim['id'], at=now);return
     if not is_probe:
         if review['classification'] in ('PASS', 'N'):
@@ -162,7 +176,7 @@ def update_recovery(state, claim, now):
         for product in PRODUCTS:
             logical = target['logicalId'] if product == target['slot']['product'] else f'recovery-{recovery["number"]}-health-{product}'
             matches = [c for c in state['claims'].values() if c['logicalId'] == logical and c.get('recovery') == state['activeRecovery']]
-            done.append(bool(matches) and matches[-1].get('review', {}).get('classification') == 'PASS' and matches[-1]['review'].get('cleanUpstream') is True)
+            done.append(len(matches) == 1 and recovery_probe_passed(state, matches[0]))
         if all(done):
             recovery['completedAt'] = now;state['activeRecovery'] = None;state['paused'] = None
 
@@ -174,6 +188,7 @@ def transition(state, action, payload, now):
         require(state['manifest'] is None and state['T1'] is None and now <= state['preparationDeadline'], '准备截止或已经冻结')
         require(payload['identities'] == state['identities'] and payload['qualificationComplete'] is True and payload['remoteCommit'] == payload['commit'], '冻结身份、资格或推送不符')
         require(payload['executionPolicy'] == {'version': 'r3', 'limitMode': 'unlimited', 'requestLimit': None}, '运行策略不符')
+        require(payload.get('recoveryHealthPolicy') == state.get('recoveryHealthPolicy'), '冻结恢复策略与授权不符')
         tasks = payload['tasks']
         require(len(tasks) == 20 and [t['id'] for t in tasks] == [f'U{i:02}' for i in range(1, 21)], '任务槽不符')
         require(all(t.get('admitted') is True and t.get('manifestHash') and t['category'] == 'R'+str(i % 4+1) for i, t in enumerate(tasks)), '任务资格或类别不符')

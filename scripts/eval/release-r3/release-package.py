@@ -24,6 +24,8 @@ def build(study,plan_path):
         p=study/relative;value=read(p);assert value['qualified']is True,relative;return bound(p)
     qualified_pipelines=[];task_rows=[];c7_rows=[];facility=set()
     facility.update((REPO/'scripts/release-c4').glob('*.py'))
+    if read(study/'authorization.json').get('recoveryHealthPolicy'):
+        facility.update((REPO/'scripts/release-r5').glob('*.py'))
     for root in [HERE,HERE.parent/'release-r2',HERE.parent/'container',REPO/'src']:
         facility.update(p for p in root.rglob('*')if p.is_file()and p.suffix in ('.py','.ts','.mjs','.cjs')and '__pycache__'not in p.parts)
     for name in ['core.ts','adapters.ts','trace.ts','v1/adapter.ts','v1/preview.ts']:facility.add(REPO/'scripts/eval'/name)
@@ -122,6 +124,8 @@ def build(study,plan_path):
     candidate=read(study/'candidate.json');identity={'candidate':'280d1f3debf95455b7a763b0b9ffc579bac6c5bd','sourceHash':'75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519','v0':'963704be97150e268edd3fda484d68e0a18a1f8b','image':'sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','model':'claude-opus-5-5','claude':'2.1.322'}
     proofs={key:proof(path)for key,path in plan['proofs'].items()};proofs.update(pipeline=bound(pipeline),taskPackage=bound(task_proof),c7=bound(c7_proof));assert set(proofs)=={'engineering','taskPackage','c7','controller','pipeline','capture','dependencies','resourcePolicy','evidenceAudit','reuse'}
     manifest={'schema':3,'executionPolicy':{'version':'r3','limitMode':'unlimited','requestLimit':None},'T0':read(study/'authorization.json')['T0'],'identities':identity,'qualificationComplete':True,'commit':commit,'remoteCommit':remote,'branch':branch,'tasks':task_rows,'c7Tasks':c7_rows,'healthTask':health,'proofs':proofs,'facilityIndex':bound(index_path),'facilityHash':digest(index),'engineeringHash':proofs['engineering']['sha256'],'c7QualificationHash':proofs['c7']['sha256'],'controllerQualificationHash':proofs['controller']['sha256'],'dependencyHash':proofs['dependencies']['sha256'],'evidenceAuditHash':proofs['evidenceAudit']['sha256'],'reuseAuditHash':proofs['reuse']['sha256']}
+    policy=read(study/'authorization.json').get('recoveryHealthPolicy')
+    if policy:manifest['recoveryHealthPolicy']=policy
     spec=importlib.util.spec_from_file_location('gateway',HERE/'controller-gateway.py');gateway=importlib.util.module_from_spec(spec);spec.loader.exec_module(gateway);gateway.verify_admission(study,manifest);gateway.resources(study,manifest,initial=True)
     put(study/'release-manifest.json',manifest);return {'qualified':True,'commit':commit,'facilityHash':manifest['facilityHash'],'tasks':20,'pipelines':65}
 

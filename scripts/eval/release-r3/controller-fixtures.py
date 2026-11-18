@@ -15,6 +15,10 @@ def seed(study,label,task,product,claim_age=5):
  auth={'T0':iso(now-3600),'T1':None,'preparationDeadline':iso(now-3600+72*3600),'absoluteDeadline':iso(now-3600+168*3600),'maximumRealCli':73,'limitMode':'unlimited','requestLimit':None}
  identity={'candidate':'280d1f3debf95455b7a763b0b9ffc579bac6c5bd','sourceHash':'75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519','v0':'963704be97150e268edd3fda484d68e0a18a1f8b','image':'fixed-qualification-image','model':'claude-opus-5-5','claude':'2.1.322','mockOnly':True}
  manifest={'identities':identity,'qualificationComplete':True,'commit':'synthetic-qualification','remoteCommit':'synthetic-qualification','engineeringHash':'synthetic','c7QualificationHash':'synthetic','controllerQualificationHash':'synthetic','facilityHash':'synthetic','dependencyHash':'synthetic','evidenceAuditHash':'synthetic','reuseAuditHash':'synthetic','executionPolicy':{'version':'r3','limitMode':'unlimited','requestLimit':None},'tasks':[{'id':f'U{i:02}','category':'R'+str((i-1)%4+1),'repository':'synthetic-'+str(i%8),'admitted':True,'manifestHash':'synthetic-'+str(i),'userDirty':True,'productionDirty':i<=4,'asyncBehavior':i<=10}for i in range(1,21)]}
+ policy=json.loads((study/'authorization.json').read_text()).get('recoveryHealthPolicy')
+ if policy:
+  auth['recoveryHealthPolicy']=policy
+  manifest['recoveryHealthPolicy']=policy
  source=Path(controller_module.__file__).resolve();raw=source.read_bytes();checksum=hashlib.sha256(raw).hexdigest();archive=directory/'controller-source.py';archive.write_bytes(raw)
  index={'schema':1,'mockOnly':True,'files':[{'path':str(source),'sha256':checksum,'archive':str(archive.relative_to(study))}]};index_path=directory/'facility-index.json';index_path.write_text(json.dumps(index,indent=2)+'\n');manifest['facilityIndex']={'path':str(index_path.relative_to(study)),'sha256':hashlib.sha256(index_path.read_bytes()).hexdigest()};manifest['facilityHash']=digest(index)
  ledger=Ledger(directory);ledger.apply('initialize',{'authorization':auth,'identities':identity},now);ledger.apply('freeze',manifest,now);state=ledger.apply('begin',{},now)

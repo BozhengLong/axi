@@ -15,6 +15,7 @@ sys.dont_write_bytecode=True
 from controller import Ledger,Refused,digest,next_slot,slots,decisive_failure
 sys.path.append(str(Path(__file__).resolve().parent.parent/'release-r2'))
 from inputs import verify_initial
+from recovery_health import decision as recovery_decision
 
 
 def require(condition,message):
@@ -104,6 +105,7 @@ def verify_admission(study,manifest,repair=None):
     require(manifest['identities']['v0']=='963704be97150e268edd3fda484d68e0a18a1f8b' and manifest['identities']['image']=='sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','基线或镜像身份改变')
     require(manifest['commit']==manifest['remoteCommit'],'冻结提交未推送')
     auth=json.loads((study/'authorization.json').read_text());require(manifest['T0']==auth['T0'],'T0身份不符')
+    require(auth.get('recoveryHealthPolicy') == manifest.get('recoveryHealthPolicy'), '恢复策略未绑定授权')
     require(manifest['identities']['candidate']=='280d1f3debf95455b7a763b0b9ffc579bac6c5bd','候选不符')
     require(manifest['identities']['sourceHash']=='75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519','产品源码不符')
     require(manifest['identities']['model']=='claude-opus-5-5'and manifest['identities']['claude']=='2.1.322','冻结模型或参照不符')
@@ -115,6 +117,19 @@ def verify_admission(study,manifest,repair=None):
     require(len(proofs['taskPackage']['tasks'])==20 and all(t['qualified'] is True and t['repeatRuleSatisfied'] is True for t in proofs['taskPackage']['tasks']),'20题参考资格不完整')
     require(set(proofs['engineering']['runtimeChecks'])=={f'RT{i:02}' for i in range(1,13)} and all(proofs['engineering']['runtimeChecks'].values()),'运行策略资格缺失')
     require(proofs['controller']['nativeIntegrationQualified']is True,'控制器实际执行接线未取得资格')
+    if auth.get('recoveryHealthPolicy'):
+        policy = proofs['controller'].get('recoveryHealthPolicy')
+        require(policy == auth['recoveryHealthPolicy'], '控制器资格未绑定新恢复策略')
+        entries = proofs['controller']['recoveryHealthProofs']
+        require(set(entries) == {'replay','protocol','native'}, '恢复专项证明不完整')
+        evidence = {k:json.loads(bound_file(study,v).read_text()) for k,v in entries.items()}
+        require(all(v.get('qualified') is True for v in evidence.values()), '恢复专项资格未通过')
+        require(evidence['replay']['replay']['replayOnlyNextSlot'] == 'recovery-1-health-claude-a1', 'C4回放未通过')
+        native = evidence['native']
+        require(native['mockOnly'] and len(native['rows']) == 9 and all(row['qualified'] for row in native['rows'])
+                and {(r['product'],r['fault']) for r in native['rows']}
+                == {(product,fault) for product in ('v0','v1','claude') for fault in ('clean','http429','sse429')},
+                '三方模拟场景缺失')
     require(proofs['engineering']['candidate']==manifest['identities']['candidate'],'工程证明不是当前候选')
     verify_sources(study,manifest,repair)
     require([t['id']for t in manifest['tasks']]==[f'U{i:02}'for i in range(1,21)],'20题顺序错误')
@@ -238,6 +253,10 @@ def apply(study,action,payload,mode='real'):
             require(review.get('protectionReviewed') is True and review.get('confirmedH') is False,'外部中断必须先完成保护审查')
             review.update(externalCauseConfirmed=True,externalEvidenceHash=review['externalEvidence']['sha256'])
         review.update(allChecksPassed=review['classification']=='PASS',cleanUpstream=checked['externalEvents']==0 and checked.get('transportErrors',0)==0 and not checked['observerErrors'])
+        review.pop('recoveryHealth', None)
+        if state.get('recoveryHealthPolicy') and claim['slot']['kind'] in ('health', 'recovery-health'):
+            require(checked['traceHash'] == claim['seal']['traceHash'], '审查 Trace 与封存不符')
+            review['recoveryHealth'] = recovery_decision(run, checked, claim['executionDeadline'])
         review.update(id=payload['id'],reviewEvidenceHash=sha(review_file),gradeSeconds=grading['sharedSeconds'],gradingSummaryHash=sha(output/'grading-summary.json'))
         state=ledger.apply('review',review);return {'reviewed':True,'classification':review['classification'],'paused':state['paused'],'decisiveFailure':decisive_failure(state)}
     if action=='environment-begin':

@@ -9,7 +9,7 @@ import {command,save} from '../core.ts';
 import {sha} from '../release-r2/source.ts';
 import {taskPrompt} from '../release-r2/task-prompt.ts';
 
-const [studyArg,taskId,product,revision] = process.argv.slice(2);
+const [studyArg,taskId,product,revision,fault] = process.argv.slice(2);
 assert(studyArg && /^(health|U\d\d|C7-[LO])$/.test(taskId!) && ['v0','v1','claude'].includes(product!) && /^[a-zA-Z0-9-]+$/.test(revision!));
 assert(process.env.ANTHROPIC_API_KEY==='synthetic-local-key','模拟入口必须使用合成认证配置');
 assert(process.env.ANTHROPIC_BASE_URL==='http://127.0.0.1:1','模拟入口必须使用本地无上游配置');
@@ -45,16 +45,42 @@ function shellTool(id:string,changes:Record<string,string>,validate:boolean){
 const end=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'});
 const firstTest=taskId==='health'?'result.txt':profile.regressionPaths[0];assert(patch[firstTest]);
 const mock=[shellTool('read_task',{},false),...(product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]!},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')])];
+if (fault) {
+ assert(taskId === 'health' && auth.recoveryHealthPolicy === 'recoverable-rate-limit-v1');
+ assert(fault === 'http429' || fault === 'sse429');
+ const error = JSON.stringify({type:'error',error:{type:'rate_limit_error',message:'Synthetic health probe rate limit'}});
+ const reply = fault === 'http429'
+   ? {content:[],stopReason:'',status:429,headers:{'content-type':'application/json','retry-after':'0'},raw:error}
+   : {content:[],stopReason:'',raw:'event: error\ndata: '+error+'\n\n'};
+ mock.unshift(reply);
+}
 try {
 const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,claim:{mode:'mock',id:claim.id,ledgerLabel:label},prompt:publicPrompt.text});
 save(join(out,'controller-seal.json'),JSON.parse((await controller('seal',{id:claim.id,output:out.slice(study.length+1)})).stdout));
-assert.equal(x.execution.status,'completed',x.execution.error??'');assert.equal(x.checks.length,steps.length);assert(x.checks.every((c:any)=>c.status===0&&!c.signal&&!c.error));assert.equal(!!x.checkpoint,product==='v1');
-
 const gradeStart=performance.now();
 const graded=await command(['python3',join(import.meta.dir,'formal-grade.py'),study,claim.id,'--mock-ledger',label],undefined,true,taskId==='health'?305000:905000);
 save(join(out,'grade-process.json'),graded);assert.equal(graded.exitCode,0);assert(!graded.timedOut);
 const grading=JSON.parse(readFileSync(join(out,'grading-summary.json'),'utf8'));
 const finalGrade=JSON.parse(readFileSync(join(out,'final-grade/result.json'),'utf8'));
+if (fault && x.execution.status !== 'completed') {
+ const evidence=JSON.parse(readFileSync(join(out,'execution-evidence.json'),'utf8'));
+ const cause=evidence.externalTerminalCause;
+ assert(cause && evidence.externalEvents===1 && evidence.permissions===0);
+ assert(finalGrade.gradeStatus==='complete' && finalGrade.protection.passed);
+ const relative=out.slice(study.length+1);
+ const witness=join(out,'external.json');
+ save(witness,{cause,executionHash:evidence.executionHash});
+ save(join(out,'review.json'),{classification:'ENV_INTERRUPTED',reviewer:'recovery health mock qualification',
+   artifactHash:sha(readFileSync(join(out,'final-snapshot.json'))),executionHash:evidence.executionHash,
+   gradeHash:sha(readFileSync(join(out,'final-grade/result.json'))),protectionReviewed:true,confirmedH:false,
+   externalEvidence:{path:relative+'/external.json',sha256:sha(readFileSync(witness))}});
+ const reviewed=JSON.parse((await controller('review',{id:claim.id,output:relative})).stdout);
+ assert.equal(reviewed.classification,'ENV_INTERRUPTED');
+ save(join(out,'controller-review.json'),reviewed);
+ save(join(out,'result.json'),{qualified:true,mockOnly:true,task:taskId,product,fault,executionStatus:x.execution.status,traceDirectory:x.traceDirectory});
+} else {
+assert.equal(x.execution.status,'completed',x.execution.error??'');assert.equal(x.checks.length,steps.length);assert(x.checks.every((c:any)=>c.status===0&&!c.signal&&!c.error));assert.equal(!!x.checkpoint,product==='v1');
+
 assert(finalGrade.automaticChecksPassed,JSON.stringify(finalGrade));
 if(x.checkpoint){const checkpointGrade=JSON.parse(readFileSync(join(out,'checkpoint-grade/result.json'),'utf8'));assert(checkpointGrade.gradeStatus==='complete'&&(taskId==='health'?checkpointGrade.codePassed:!checkpointGrade.codePassed),'检查点实际状态不符');}
 assert(performance.now()-gradeStart<=(taskId==='health'?240000:720000));
@@ -65,4 +91,5 @@ const reviewed=JSON.parse((await controller('review',{id:claim.id,output:out.sli
 save(join(out,'result.json'),{qualified:true,mockOnly:true,task:taskId,product,executionStatus:x.execution.status,requests:x.execution.proxy.meter.forwardedGeneration,traceDirectory:x.traceDirectory,finalArtifact:sha(readFileSync(join(out,'final-snapshot.json'))),gradingMs:performance.now()-gradeStart,checkpointCaptured:!!x.checkpoint});
 console.log(JSON.stringify({task:taskId,product,qualified:true,traceDirectory:x.traceDirectory}));
 
+}
 } finally { verifyFacility(frozen,out); }
