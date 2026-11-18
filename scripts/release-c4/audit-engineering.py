@@ -106,7 +106,7 @@ def main(study):
         for prefix,lo,hi,delta in [('integration-',303,307,-200),('runtime-qualification-',310,324,-200),
                                   ('guard-qualification-',310,314,-200),('cancel-qualification-',310,314,-200),
                                   ('orphan-qualification-',310,319,-200),('controller-qualification-',204,208,-100),
-                                  ('mutant-qualification-',202,206,-100),('evidence-qualification-',202,206,-100)]:
+                                  ('mutant-qualification-',202,206,-100),('evidence-qualification-',401,405,-299)]:
             m=re.match(re.escape(prefix)+r'(\d+)/(.*)',path)
             if m and lo<=int(m[1])<=hi:return prefix+str(int(m[1])+delta)+'/'+m[2]
         return (path.replace('final-observable-audit-1/results.json','engineering-observable-audit/result.json')
