@@ -25,13 +25,13 @@ for i in range(5):
     steps.extend([
       (f'units-{i+1}',['bun','test',*[f'scripts/eval/release-r3/{n}.test.ts' for n in ('policy','chunks','json-lines','relay')]]),
       (f'controller-{i+1}',['python3','-B','scripts/eval/release-r3/controller-qualification.py',str(study/f'controller-qualification-{4+i+offset}')]),
-      (f'mutants-{i+1}',['python3','-B','scripts/eval/release-r3/mutant-qualification.py',str(study),f'mutant-qualification-{2+i+offset}']),
-      (f'evidence-{i+1}',['python3','-B','scripts/eval/release-r3/evidence-qualification.py',str(study),f'evidence-qualification-{2+i+offset}'])])
+      (f'mutants-{i+1}',['python3','-B','scripts/eval/release-r3/mutant-qualification.py',str(study),f'mutant-qualification-{2+i+offset}'])])
 steps.append(('adapters',['bun','scripts/eval/release-r3/adapter-cli.ts',str(study),f'c3-adapter-cli-{2+offset}',bundle]))
 for i in range(5):
     steps.extend([
       (f'auto-{i+1}',['bun','scripts/eval/release-r3/integration.ts',str(study),f'integration-{3+i+offset}',bundle]),
       (f'runtime-{i+1}',['bun','scripts/eval/release-r3/runtime-qualification.ts',str(study),f'runtime-qualification-{10+i+offset}',bundle,'short']),
+      (f'evidence-{i+1}',['python3','-B','scripts/eval/release-r3/evidence-qualification.py',str(study),f'evidence-qualification-{2+i+offset}',f'runtime-qualification-{10+i+offset}',f'c3-adapter-cli-{2+offset}']),
       (f'guard-{i+1}',['bun','scripts/eval/release-r3/guard-qualification.ts',str(study),f'guard-qualification-{10+i+offset}',bundle]),
       (f'cancel-{i+1}',['bun','scripts/eval/release-r3/cancel-qualification.ts',str(study),f'cancel-qualification-{10+i+offset}',bundle]),
       (f'orphan-{i+1}',['bun','scripts/eval/release-r3/orphan-qualification.ts',str(study),f'orphan-qualification-{10+2*i+offset}',bundle,'crash']),
@@ -48,7 +48,7 @@ if prior_label:
     allowed={str(repo/'scripts/eval/release-r3'/n) for n in ('r1-final.py','orphan-qualification.ts')}
     assert changed and changed<=allowed,'存在影响已通过执行依赖的改动，不能复用'
     previous=json.loads((prior/'results.json').read_text());old_plan=json.loads((prior/'plan.json').read_text());assert old_plan['bundle']==bundle
-    reusable={name for name,_ in steps[:22] if name!='typecheck'}
+    reusable={name for name,_ in steps if name=='adapters' or name.startswith(('units-', 'controller-', 'mutants-'))}
     reuse={r['step']:r for r in previous['rows'] if r['step'] in reusable and r['exitCode']==0}
     assert set(reuse)==reusable,'完整五次基础或50条适配证明缺失'
     (out/'reuse-audit.json').write_text(json.dumps({'prior':prior_label,'changedFiles':sorted(changed),'scope':'只复用不依赖故障夹具的已通过基础与适配场景；所有RT实际CLI组重新完成五次','steps':sorted(reuse),'priorResultsSha256':hashlib.sha256((prior/'results.json').read_bytes()).hexdigest()},ensure_ascii=False,indent=2)+'\n')

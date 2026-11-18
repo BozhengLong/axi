@@ -38,8 +38,11 @@ def modify_first(rows,kind,edit):
 
 def main():
     study=Path(sys.argv[1]).resolve();out=study/sys.argv[2];out.mkdir()
-    source=Path(json.loads((study/'runtime-qualification-2/http40-http50.json').read_text())['traceDirectory'])
-    claude_batch=json.loads((study/'c3-adapter-cli-1/batch.json').read_text());claude=Path(claude_batch['directory'])/'claude-allow-1'
+    runtime_dir, adapter_dir = sys.argv[3:5]
+    source=Path(json.loads((study/runtime_dir/'http40-http50.json').read_text())['traceDirectory'])
+    claude_batch=json.loads((study/adapter_dir/'batch.json').read_text());claude=Path(claude_batch['directory'])/'claude-allow-1'
+    assert source.is_relative_to(study) and claude.is_relative_to(study)
+    save(out/'sources.json',{'axi':str(source),'claude':str(claude)})
     cases=[('request-cap','模拟身份或不限次数策略不符'),('missing-request','响应没有唯一请求记录'),('duplicate-response','响应没有唯一请求记录'),('wrong-model','请求模型/档位不符'),('native-count','原生不限次数计量不连续'),('native-terminal','正常结束缺少原生证明'),('writer-missing','代理证据生命周期不完整'),('io-missing','CLI生命周期或终态不符'),('claude-is-error','Claude没有正常完成记录')]
     rows=[]
     for name,expected in cases:
