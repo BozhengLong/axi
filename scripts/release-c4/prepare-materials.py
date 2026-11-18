@@ -73,6 +73,15 @@ def main(old, study):
     for role in ('bun','pnpm','node'):
         assert read(old/'toolchain/verification.json')['versions'][role] == read(study/'toolchain/verification.json')['versions'][role]
 
+    adopted_audits = {}
+    for key in ('taskPackage', 'c7'):
+        proof = manifest['proofs'][key]
+        assert sha(old / proof['path']) == proof['sha256']
+        package = read(old / proof['path'])
+        assert package['qualified']
+        audits = [row['audit'] for row in package['tasks']] if key == 'taskPackage' else package['audits']
+        adopted_audits.update({row['path']:row['sha256'] for row in audits})
+    assert len(adopted_audits) == 22
     entries = manifest['tasks'] + manifest['c7Tasks']
     assert [item['id'] for item in entries] == [f'U{i:02}' for i in range(1, 21)] + ['C7-L', 'C7-O']
     mounts = set()
@@ -103,6 +112,7 @@ def main(old, study):
                     assert sha(local) == checksum
         profile = read(dest / 'qualification-profile.json')
         mounts.update(row['source'] for row in profile.get('dependencyMounts', []))
+        assert sha(source / entry['audit']) == adopted_audits[str(relative / entry['audit'])]
         audit = read(source / entry['audit'])
         assert audit['qualified'] and audit['repeatRuleSatisfied']
         expected_roles = {'initial', *profile['references'], 'counterfactual'}

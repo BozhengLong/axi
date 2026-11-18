@@ -2,7 +2,6 @@
 from pathlib import Path
 from collections import Counter
 import datetime as dt
-import hashlib
 import importlib.util
 import json
 import sys

@@ -1,6 +1,5 @@
 """核对依赖，并按已登记的原态、参考、反事实和负例执行当前批复验。"""
 from pathlib import Path
-import hashlib
 import json
 import os
 import subprocess
