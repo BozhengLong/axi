@@ -26,7 +26,6 @@ def main(old, study, matrix):
     manifest = read(old/'release-manifest.json')
     index = manifest['facilityIndex']
     assert sha(old/index['path']) == index['sha256']
-    old_repo = Path(read(old/'candidate.json')['worktree'])
     product = read(study/'candidate.json')
     assert read(study/'r0-verified.json')['qualified']
     assert product['candidate'] == manifest['identities']['candidate'] == read(old/'candidate.json')['candidate']
