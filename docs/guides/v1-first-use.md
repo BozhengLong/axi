@@ -1,6 +1,6 @@
 # v1 本机试用
 
-当前候选分支为 `codex/v1-beta1-candidate-r3`。它从C2派生，取消任务请求次数上限，并保留连续故障恢复窗口。整体交付状态以[进度](../progress.md)与验证报告为准。用户手动试用是可选项，自动验收不依赖你完成以下操作。
+当前候选分支为 `codex/v1-beta1-candidate-r4`。它基于C3，在自动复核的工具结果中加入检查尝试记录。整体交付状态以[进度](../progress.md)与验证报告为准。用户手动试用是可选项，自动验收不依赖你完成以下操作。
 
 ## 启动一个独立练习目录
 
@@ -8,7 +8,7 @@
 
 ```sh
 axi_trial=$(mktemp -d /tmp/axi-v1.XXXXXX)
-axi_source=/Users/spidey0o0zheng/.codex/worktrees/axi-v1-beta1-candidate-r3/axi
+axi_source=/Users/spidey0o0zheng/.codex/worktrees/axi-v1-beta1-candidate-r4/axi
 cp "$axi_source/examples/v0-first-use/brief.md" "$axi_trial/"
 cp "$axi_source/examples/v0-first-use/tasks.md" "$axi_trial/"
 cd "$axi_trial"
