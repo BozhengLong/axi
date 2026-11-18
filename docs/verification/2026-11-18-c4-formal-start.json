@@ -1,0 +1,53 @@
+{
+  "candidate": "280d1f3debf95455b7a763b0b9ffc579bac6c5bd",
+  "facilityCommit": "66092c18b22fdaafbb0d36e1a03b0946201aa11c",
+  "facilityHash": "ce8d642ed435318939cd6df3a6aa5da6e545f62b9f3287f27a64228df899ce34",
+  "releaseManifestSha256": "227973445a5262eae16cc69402f79fe1297241a518bcb6ab7cbece28645d58f4",
+  "T1Beijing": "2026-11-18T17:46:22.915554+08:00",
+  "minimumFreeBytes": 74469503286,
+  "snapshot": {
+    "stamp": "2026-11-18-172232",
+    "beforeBytes": 53215649792,
+    "afterBytes": 55332876288,
+    "exitCode": 0,
+    "listedAfter": false
+  },
+  "oldEvidenceVerification": {
+    "at": "2026-11-18T09:50:08.316732+00:00",
+    "filesReverified": 688,
+    "logicalBytesVerified": 22779413213,
+    "savedFileAllocationBytes": 20227022848,
+    "ledgers": [
+      {
+        "result": "c2-compression-20261118T174311/result.json",
+        "sha256": "296cd701c067111210b6fa631297a90514b1f825fa84e2f528ea8daac4546d71",
+        "compressed": 688
+      },
+      {
+        "result": "c2-compression-20261118T174558/result.json",
+        "sha256": "034ee59f5be7610d98d58098ef62a3f0113a5457cf78a432356408b5bb57d2d5",
+        "compressed": 0
+      }
+    ]
+  },
+  "initialHealth": {
+    "slot": "health-v0-a1",
+    "classification": "ENV_INTERRUPTED",
+    "httpStatus": 200,
+    "sseError": "rate_limit_error",
+    "generatedRequests": 1,
+    "completeResponses": 0,
+    "filesChanged": false,
+    "gitChanged": false,
+    "traceHash": "e9dc916992adaaa627ab028cf89d0affc34afffba9c03c947049722457b9b938",
+    "externalEvidenceSha256": "2cb653ad1c93219865dd65aa01d139a2cf77d1d82636a478f1ffe8b971daf1a8"
+  },
+  "recovery": {
+    "number": 1,
+    "target": "health-v0-a1",
+    "startedAt": 1794995308.94788,
+    "cooldownUntil": 1794996208.94788,
+    "deadline": 1794998908.94788,
+    "incidentHash": "ca2df29a8fc9f1435ce062f767327a4355141f363e7b5fec27cf8d9b7431e948"
+  }
+}
