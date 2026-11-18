@@ -18,7 +18,7 @@ recovery=read(study/('recovery-chains-'+recovery_revision)/'result.json');assert
 rows=queue['rows'];measure=lambda r:max(r['logicalBytes'],r['allocatedBytes'])
 normal=sum(measure(r)for r in rows);health=max(measure(r)for r in rows if r['task']=='health');task=max(measure(r)for r in rows if r['task']!='health')
 stress=[]
-for i in range(320,325):
+for i in range(120,125):
     result=read(study/f'runtime-qualification-{i}/results.json');assert result['qualified']
     r=result['rows'][0];assert r['kind']=='large-trace'and r['requests']==28001 and r['terminalBytes']>200*2**20 and r['events']>100000
     stress.append({'proof':f'runtime-qualification-{i}/results.json',**tree(Path(r['traceDirectory']).parent)})

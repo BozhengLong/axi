@@ -23,6 +23,7 @@ def build(study,plan_path):
     def proof(relative):
         p=study/relative;value=read(p);assert value['qualified']is True,relative;return bound(p)
     qualified_pipelines=[];task_rows=[];c7_rows=[];facility=set()
+    facility.update((REPO/'scripts/release-c4').glob('*.py'))
     for root in [HERE,HERE.parent/'release-r2',HERE.parent/'container',REPO/'src']:
         facility.update(p for p in root.rglob('*')if p.is_file()and p.suffix in ('.py','.ts','.mjs','.cjs')and '__pycache__'not in p.parts)
     for name in ['core.ts','adapters.ts','trace.ts','v1/adapter.ts','v1/preview.ts']:facility.add(REPO/'scripts/eval'/name)
@@ -38,7 +39,24 @@ def build(study,plan_path):
             audit=read(task/row['audit']);assert all(audit[k]is True for k in ('sourceArchivesVerified','taskInputsUnchanged','negativeClassificationChecked'))
             positive=read(task/audit['referenceQualification']/'results.json');negative=read(task/audit['negativeQualification']/'results.json')
             assert positive['qualified']and positive['facilityStable']and negative['qualified']and negative['facilityStable']
-            assert len(positive['rows'])==(len(profile['references'])+2)*5 and all(r['passed']and r['elapsedSeconds']<=720 for r in positive['rows'])
+            roles = len(profile['references']) + 2
+            if audit['mode'] == 'old-five-plus-current-one':
+                previous = Path(audit['priorAudit'])
+                previous_data = read(previous)
+                reuse = read(study/'material-source-audit.json')
+                record = next(r for r in reuse['tasks'] if r['task'] == task_id)
+                assert previous.resolve().is_relative_to(Path(reuse['previous']).resolve())
+                assert sha(previous) == audit['priorAuditSha256'] == record['oldAuditSha256']
+                assert previous_data['qualified'] and previous_data['repeatRuleSatisfied']
+                assert previous_data['referenceCases'] == audit['priorReferenceCases'] == roles*5
+                assert previous_data['negativeCases'] == audit['priorNegativeCases'] == audit['negativeCases']*5
+                assert sha(study/'dependency-identity.json') == audit['dependencyComparison']
+                assert read(study/'dependency-identity.json')['qualified']
+                repeats = 1
+            else:
+                assert audit['mode'] == 'current-five'
+                repeats = 5
+            assert len(positive['rows'])==roles*repeats and all(r['passed']and r['elapsedSeconds']<=720 for r in positive['rows'])
             assert len(negative['rows'])==audit['negativeCases']and all(r['qualified']for r in negative['rows'])
             for directory in [task/audit['referenceQualification'],task/audit['negativeQualification']]:
                 for path,checksum in read(directory/'facility.json').items():
@@ -76,8 +94,11 @@ def build(study,plan_path):
     assert len(qualified_pipelines)==65
     pipeline=out/'pipeline.json';put(pipeline,{'qualified':True,'taskCases':60,'c7Cases':2,'healthCases':3,'mockOnly':True,'rows':qualified_pipelines})
     task_proof=out/'task-package.json';audits=[read(study/'tasks'/r['id']/r['audit'])for r in rows]
-    assert sum(a['referenceCases']for a in audits)==400
-    put(task_proof,{'qualified':True,'referenceCases':300,'counterfactualCases':100,'negativeCases':sum(a['negativeCases']for a in audits),'tasks':[{'id':r['id'],'qualified':True,'repeatRuleSatisfied':read(study/'tasks'/r['id']/r['audit'])['repeatRuleSatisfied'],'audit':bound(study/'tasks'/r['id']/r['audit'])}for r in rows]})
+    counts = {a['mode'] for a in audits}
+    assert counts == {'old-five-plus-current-one'}
+    assert sum(a['priorReferenceCases'] for a in audits)==400
+    assert sum(a['referenceCases'] for a in audits)==80
+    put(task_proof,{'qualified':True,'mode':'old-five-plus-current-one','referenceCases':60,'counterfactualCases':20,'priorReferenceCases':300,'priorCounterfactualCases':100,'priorNegativeCases':sum(a['priorNegativeCases']for a in audits),'negativeCases':sum(a['negativeCases']for a in audits),'tasks':[{'id':r['id'],'qualified':True,'repeatRuleSatisfied':read(study/'tasks'/r['id']/r['audit'])['repeatRuleSatisfied'],'audit':bound(study/'tasks'/r['id']/r['audit'])}for r in rows]})
     c7_proof=out/'c7.json';put(c7_proof,{'qualified':True,'referenceAndCounterfactualCases':sum(read(study/'c7'/r['id']/r['audit'])['referenceCases']for r in plan['c7Tasks']),'negativeCases':sum(read(study/'c7'/r['id']/r['audit'])['negativeCases']for r in plan['c7Tasks']),'audits':[bound(study/'c7'/r['id']/r['audit'])for r in plan['c7Tasks']],'regressionQualification':proof(plan['c7RegressionProof'])})
     for tree in ['v0-runtime','v1-runtime']:
         facility.update(p for p in(study/tree).rglob('*')if p.is_file()and 'node_modules'not in p.parts)

@@ -8,7 +8,7 @@ const manifest=loadSource(join(root,'candidate-macos-2'),join(root,'candidate-so
 const summary:any[]=[];
 for(const platform of ['macos','linux']){
  const check=read(join(root,`c3-${platform}-check-2/results.json`));assert.equal(check.identity,manifest.sourceHash);assert.equal(check.rows.length,6);assert(check.rows.every((x:any)=>x.exitCode===0&&!x.timedOut));
- for(let i=1;i<=5;i++){const s=readFileSync(join(root,`c3-${platform}-check-2/${i}.stderr`),'utf8');assert(/208 pass\s+0 fail\s+1335 expect\(\) calls/.test(s));assert(!/\d+ (skip|todo)/.test(s))}
+ for(let i=1;i<=5;i++){const s=readFileSync(join(root,`c3-${platform}-check-2/${i}.stderr`),'utf8');assert(/210 pass\s+0 fail\s+1360 expect\(\) calls/.test(s));assert(!/\d+ (skip|todo)/.test(s))}
  for(const label of ['engineering-1','engineering-write-1']){
   const dir=join(root,`c3-${platform}-${label}`),plan=read(join(dir,'plan.json')),data=read(join(dir,'results.json'));assert.equal(plan.sourceHash,manifest.sourceHash);assert.equal(plan.repeats,5);assert.equal(data.rows.length,plan.cases.length*5);const seen=new Set();
   for(const row of data.rows){const id=`${row.id}-${row.repeat}`;assert(!seen.has(id));seen.add(id);assert(row.passed&&!row.error);const evidence=join(dir,id),result=read(join(evidence,'result.json')),before=read(join(evidence,'before.json')),after=read(join(evidence,'after.json'));assert(result.qualified&&!result.error);assert.equal(before.head,after.head);assert.equal(before.index,after.index);const user=(v:any)=>v.files.find((f:any)=>f.path==='project/user.txt');assert.deepEqual(user(before),user(after));}
