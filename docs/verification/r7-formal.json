@@ -1,0 +1,179 @@
+{
+  "study": "v1-release-oauth-r7-tb44azZe",
+  "candidate": "edaaa63738400012d11338db432dd16ce1278c11",
+  "facilityCommit": "bc325a1ca9405659db069af90c3cb55b051d25b9",
+  "T1Beijing": "2026-11-19 22:19:07",
+  "phase": "R4",
+  "closure": null,
+  "recoveryEvents": [],
+  "rows": [
+    {
+      "id": "health-v0-a1",
+      "task": "health",
+      "product": "v0",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 4,
+        "completeResponses": 4
+      },
+      "requests": 4,
+      "completeResponses": 4,
+      "externalEvents": 0,
+      "wallSeconds": 12.3,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 4,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 4,
+        "status": "clean",
+        "traceHash": "f7d43176cc7b23b4407ad88884c9ba619317f81179edfeea082f06eb8071d11a"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "实际只新增 33 字节的 result.txt，原字节加 verified 换行。HEAD、索引与原始文件逐项一致，用户说明仍在。Trace 中 node verify.mjs 显示 HEALTH_OK 和退出 0，报告一致。26 个封存文件与完整评分通过。"
+      ],
+      "evidenceRoot": "runs/health-v0-a1",
+      "traceHash": "f7d43176cc7b23b4407ad88884c9ba619317f81179edfeea082f06eb8071d11a",
+      "reviewHash": "8dc3bb56dfde3660e497c4959d7bc1ed30c52dcecace89ccfddf75d3541fcf98",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "1b8d5781d4d755dbebc2e5ed67339173057e87432fe9182353ca67e4fc937bfa",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "health-v1-a1",
+      "task": "health",
+      "product": "v1",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 7,
+        "completeResponses": 7
+      },
+      "requests": 7,
+      "completeResponses": 7,
+      "externalEvents": 0,
+      "wallSeconds": 31.7,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 7,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 7,
+        "status": "clean",
+        "traceHash": "f1048960cf1ad65152f22921c3c553f24b06b3fa84c4ceb5f3cfd36582092b05"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "实际新增 result.txt 共 33 字节，原始文件与 Git HEAD、索引逐项一致。两次 shell 检查均有记录，node verify.mjs 实际输出 HEALTH_OK 并退出 0。报告保留自身对 HEAD 和用户修改的验证边界。初稿和终稿完整评分均通过，31 个封存文件已复核。"
+      ],
+      "evidenceRoot": "runs/health-v1-a1",
+      "traceHash": "f1048960cf1ad65152f22921c3c553f24b06b3fa84c4ceb5f3cfd36582092b05",
+      "reviewHash": "4a0ac6c5beebf26b819f6a14884d091a84b593418793df5911e946cb735c0513",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "01b36152ca8ca3d40a3a490762fca35fdd0a9cba69d92cdbd656ed611409db63",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "e1d9a8372d6a99638a4dcd90ebcac9b375bd29d930dfae24917b29f51ae69a7e",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "health-claude-a1",
+      "task": "health",
+      "product": "claude",
+      "kind": "health",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 5,
+        "completeResponses": 5
+      },
+      "requests": 5,
+      "completeResponses": 5,
+      "externalEvents": 0,
+      "wallSeconds": 15.2,
+      "permissions": 3,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": {
+        "chains": [],
+        "generations": 5,
+        "observedRetryGapMs": 0,
+        "rateLimits": 0,
+        "responses": 5,
+        "status": "clean",
+        "traceHash": "4506db92fe9b16ca0bfa0c50ca0b6d5abd6cefe840b72a99abc9bd200ba4d0af"
+      },
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "实际只新增 result.txt，33 字节符合原始输入加 verified 换行。记录显示 node verify.mjs 输出 HEALTH_OK 并退出 0，与报告一致。原始用户说明、其他文件、HEAD 和索引通过前后核对。28 个封存文件、完整评分和清理复核通过。"
+      ],
+      "evidenceRoot": "runs/health-claude-a1",
+      "traceHash": "4506db92fe9b16ca0bfa0c50ca0b6d5abd6cefe840b72a99abc9bd200ba4d0af",
+      "reviewHash": "66250c573411049131ef312141a742571aec15b76ded5eaf424d494f98387985",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "2f83bc4d1b223bc7419653b97925c54b86d14636b930e0e1a05bf94fad24d1ef",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    }
+  ],
+  "validRepresentative": {},
+  "passedRepresentative": {},
+  "completedGroups": 0,
+  "traceIndex": "TRACE-INDEX.md",
+  "firstValid": {
+    "v0": 0,
+    "v1": 0,
+    "claude": 0
+  }
+}
