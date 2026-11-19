@@ -6,7 +6,7 @@
 
 ## R7 当前正式阶段（2026-11-19）
 
-同题首次有效结果为v1 N，claude N，v0 N。[正式记录](verification/r7-formal.md) · [本日记录](devlog/2026-11-19.md)
+同题首次有效结果为claude N，v0 N，v1 N。[正式记录](verification/r7-formal.md) · [本日记录](devlog/2026-11-19.md)
 
 ## R7 模拟全部通过，正式验收受磁盘容量阻断（2026-11-19）
 

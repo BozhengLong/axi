@@ -533,18 +533,153 @@
           "automaticChecksPassed": false
         }
       ]
+    },
+    {
+      "id": "U03-claude-a1",
+      "task": "U03",
+      "product": "claude",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 11,
+        "completeResponses": 11
+      },
+      "requests": 11,
+      "completeResponses": 11,
+      "externalEvents": 0,
+      "wallSeconds": 106.8,
+      "permissions": 10,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "同步与异步都使用共享选项，用户 onCopyStart 在规范化与路径检查之间保持，旧测试、相同文件保护及示例通过。交付版本的 12 项回归通过，原态却在加载新增模块时就因缺模块中止，未执行可确认的行为断言，按通用规则回归不合格。141 项保护、Git 和 28 个封存文件已复核。"
+      ],
+      "evidenceRoot": "runs/U03-claude-a1",
+      "traceHash": "8cd9b83236b87140069e45ab109ebb8a457a0a4969a615bdd0393c9b14a77787",
+      "reviewHash": "119a74648c648ccca2e632185c54a8b292ebfcd0258fb7711c5101bfcfd0f434",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "9c92c434228690c6b0865ecbb89cb194be8aa0c9b5254b5a2dff1c50498f6149",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
+    },
+    {
+      "id": "U03-v0-a1",
+      "task": "U03",
+      "product": "v0",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 10,
+        "completeResponses": 10
+      },
+      "requests": 10,
+      "completeResponses": 10,
+      "externalEvents": 0,
+      "wallSeconds": 108.1,
+      "permissions": 9,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "同步与异步共享选项规范化，原 onCopyStart 位置、次数和行为保留，相同文件保护、旧检查和示例通过。11 项新增测试在交付版全部通过，原态因直接导入不存在的新模块中止，未出现行为断言。按冻结规则回归不合格。141 项保护文件、Git 与 26 个封存文件已复核。"
+      ],
+      "evidenceRoot": "runs/U03-v0-a1",
+      "traceHash": "bd518076dc73aef552c5c458dbfef73a52381c1792709d9320f8f8e9c71a3d22",
+      "reviewHash": "615951217249f2f64f5cd60815ab7d5f2cb694e65b951f34439735036e084896",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "417ff2b06c0bdeecd48f2a2908dd9e68b3e8c44ce027979028998f48b2b450c9",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
+    },
+    {
+      "id": "U03-v1-a1",
+      "task": "U03",
+      "product": "v1",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 24,
+        "completeResponses": 24
+      },
+      "requests": 24,
+      "completeResponses": 24,
+      "externalEvents": 0,
+      "wallSeconds": 255.6,
+      "permissions": 20,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "两侧共同调用共享入口，用户 onCopyStart 位置、原参数与传播行为保持，相同文件保护及旧测试均通过。新增 15 项在交付版全部通过，但同一回归文件在原态顶层导入新增模块时以 MODULE_NOT_FOUND 中止，未形成行为断言。另做的兼容对照有用，但未替代该项要求。初稿与终稿评分、Git 和 31 个封存文件可复核。"
+      ],
+      "evidenceRoot": "runs/U03-v1-a1",
+      "traceHash": "7692f90bb7f5bfd404a9b27279ec96914f4343ab46e59ac80f26ee50bf10923e",
+      "reviewHash": "da62a24c7bd47c4ca2d771a90f88d4b3b40ddba7438a970499cea73fc654059c",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "cba5e10be9b4d345e44795e3677e94cbb56b29694dca1b7346f3d4180fa6f50a",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "7a520462be68b7fb6b0f037b276df2cae05609afe08648afa5ccff2d9ff60aaa",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
     }
   ],
   "validRepresentative": {
-    "v0": 2,
-    "v1": 2,
-    "claude": 2
+    "v0": 3,
+    "v1": 3,
+    "claude": 3
   },
   "passedRepresentative": {
     "v0": 1,
     "v1": 1
   },
-  "completedGroups": 2,
+  "completedGroups": 3,
   "traceIndex": "TRACE-INDEX.md",
   "firstValid": {
     "v0": 1,
