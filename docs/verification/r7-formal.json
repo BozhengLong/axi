@@ -668,18 +668,153 @@
           "automaticChecksPassed": false
         }
       ]
+    },
+    {
+      "id": "U04-v0-a1",
+      "task": "U04",
+      "product": "v0",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 27,
+        "completeResponses": 27
+      },
+      "requests": 27,
+      "completeResponses": 27,
+      "externalEvents": 0,
+      "wallSeconds": 300.9,
+      "permissions": 26,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "分组 Map 保留完整字段值、顺序和身份。独立目标、27 项回归、原态行为断言、完整构建及示例均通过，512 项保护、Git 和 26 个 Trace 文件已核对。交付报告给出的最终通过属实，但两次用目录作为 Node 回归入口时均未启动实际测试文件，首次明确 MODULE_NOT_FOUND。报告遗漏这两次启动错误及改用有效入口的经过，按方案 23 的报告条件记普通未通过。"
+      ],
+      "evidenceRoot": "runs/U04-v0-a1",
+      "traceHash": "f68e7b62a5c908805c6592096aa3e7b75465be115f518f146bad7b555f338b25",
+      "reviewHash": "4fce3f880f8bb6c01501bff8aa48ee9990c179ad09462173628e5888b49b007d",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "f96403904c6e3cf482ca37fd3d8e5579b9ab96c593227c7230a248fd088e434f",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "U04-claude-a1",
+      "task": "U04",
+      "product": "claude",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 28,
+        "completeResponses": 28
+      },
+      "requests": 28,
+      "completeResponses": 28,
+      "externalEvents": 0,
+      "wallSeconds": 318.7,
+      "permissions": 32,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "映射用独立分组 Map，保留字段身份与顺序。目标行为、旧检查、14 项回归和原态 11 处断言、示例及 512 项保护均通过。最终通过记录属实；报告遗漏 Node 以目录作回归入口的 MODULE_NOT_FOUND，以及中途缺 npx 的启动失败。按方案 23 的同一报告规则记普通未通过。Git 和 28 个封存文件均可复核。"
+      ],
+      "evidenceRoot": "runs/U04-claude-a1",
+      "traceHash": "21ef0ebdc53d29cadf15a677c13ce020f98824c70448d76f0361b9b52bd4febb",
+      "reviewHash": "c97fa7b5135928d3fb0c84dae1964bd88dab6313faef3116b29bb72e74a623ab",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "c7a1b6fa68a742515aa5e6fabc23fbb44df28273d6a77ac9b207574a324c0874",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "U04-v1-a1",
+      "task": "U04",
+      "product": "v1",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 67,
+        "completeResponses": 67
+      },
+      "requests": 67,
+      "completeResponses": 67,
+      "externalEvents": 0,
+      "wallSeconds": 528.3,
+      "permissions": 53,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "独立评分确认分组行为、字段身份、旧检查、示例、36 项新增回归及原态 27 项断言均合格。报告如实记录 python3、npx 缺失和最后通过。Trace 同时记录两次 node --test 指向目录并以退出 1 结束，均未运行目标测试文件。报告遗漏目录入口错误，把后续失败归为测试内容写错。按方案 23 的同一报告规则记普通未通过。512 项保护、Git、初稿终稿和 31 个封存文件均已核对。"
+      ],
+      "evidenceRoot": "runs/U04-v1-a1",
+      "traceHash": "b278a1914594a1f95e08cc3b04e7c9d59e29413abd93d97702c8005c272c2725",
+      "reviewHash": "388ec50d7483c40bdba733303d48c2c1e8c3d40953cfda14166926af21a73e2f",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "8255cab36b9206861f765880eece5359dc569cb67c2f19f4ec8e647a898d7cd5",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "07e5ed8c900167f7fbe43635eb81dd4bc007b9aff8f2b9e2a40f9c43b17f811a",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
     }
   ],
   "validRepresentative": {
-    "v0": 3,
-    "v1": 3,
-    "claude": 3
+    "v0": 4,
+    "v1": 4,
+    "claude": 4
   },
   "passedRepresentative": {
     "v0": 1,
     "v1": 1
   },
-  "completedGroups": 3,
+  "completedGroups": 4,
   "traceIndex": "TRACE-INDEX.md",
   "firstValid": {
     "v0": 1,
