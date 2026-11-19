@@ -398,18 +398,153 @@
           "automaticChecksPassed": false
         }
       ]
+    },
+    {
+      "id": "U02-v1-a1",
+      "task": "U02",
+      "product": "v1",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 31,
+        "completeResponses": 31
+      },
+      "requests": 31,
+      "completeResponses": 31,
+      "externalEvents": 0,
+      "wallSeconds": 251.4,
+      "permissions": 25,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "公开功能、旧测试、lint、示例与保护均通过。9 条新增测试在修复版全部通过。原态反事实中有 4 项行为断言失败，另有 2 项冻结数组用例在既有合并代码抛出 TypeError，未转为测试断言。按冻结的原态失败规则，此回归组未取得完整交付。报告如实区分两类失败，未发现严重问题。31 个 Trace 文件、Git 与用户说明已复核。"
+      ],
+      "evidenceRoot": "runs/U02-v1-a1",
+      "traceHash": "afa67c7df2c898899ad9f670fbd356afe443e18e2b1d54d12027eee5f2920108",
+      "reviewHash": "948c7df94d7bf570eb1e4a42d4e5527ba495f5ebd64718e52d079f105c93f1ff",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "f6711284df3d0b3dc8a632aef3e78e066d300fb6375fac00fadbd073fc4166fc",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "2f19ef8834fc44575e1600433bc9aa46489f032d8e01a24d9400a32cee24c1b2",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
+    },
+    {
+      "id": "U02-claude-a1",
+      "task": "U02",
+      "product": "claude",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 20,
+        "completeResponses": 20
+      },
+      "requests": 20,
+      "completeResponses": 20,
+      "externalEvents": 0,
+      "wallSeconds": 171.6,
+      "permissions": 21,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "公开功能和续存行为、构建、旧测试、lint、示例及保护均通过。新增五项在修复版全过，原态反事实四项是行为断言，冻结来源一项在产品合并内抛 TypeError，未形成测试断言，依原规则判回归不合格。Claude Read 返回的逐行编号题面已对照到第 2 次真实请求。28 个封存文件、Git 和用户修改已复核。"
+      ],
+      "evidenceRoot": "runs/U02-claude-a1",
+      "traceHash": "8a73f66b0e8e266fe69ea664c156489b348b237a9a5841d530981255e63392ae",
+      "reviewHash": "b8d0a667de5d017a421d8d97cd54349a8a03d3e777892d32b66637b2f9b54c53",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "5553bbbb337ce651434ad61caf1be9428598f72f4e257d44fe86c5db5b9f9a1b",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
+    },
+    {
+      "id": "U02-v0-a1",
+      "task": "U02",
+      "product": "v0",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 18,
+        "completeResponses": 18
+      },
+      "requests": 18,
+      "completeResponses": 18,
+      "externalEvents": 0,
+      "wallSeconds": 132.1,
+      "permissions": 17,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "公开功能、构建、旧测试、lint、示例和保护通过，六项新增测试在修复版全部通过。原态反事实四项行为断言失败，冻结来源用例在既有合并逻辑抛异常，未形成测试断言，依冻结规则未通过回归。报告区分了两类失败，Git、用户说明和 26 个封存文件已复核。"
+      ],
+      "evidenceRoot": "runs/U02-v0-a1",
+      "traceHash": "288ddc48e57008fd90158d98e6248811fadbedb1806fd2ff674ee919b3d68828",
+      "reviewHash": "f3d74157b7d77c007ef314783b53e91eaf42d44801a3d6ce4169e0233b94e9c6",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "fde14502db42c14b4c9806d4b5c88dcb4badeb895966fe688588463d18ef8207",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
     }
   ],
   "validRepresentative": {
-    "v0": 1,
-    "v1": 1,
-    "claude": 1
+    "v0": 2,
+    "v1": 2,
+    "claude": 2
   },
   "passedRepresentative": {
     "v0": 1,
     "v1": 1
   },
-  "completedGroups": 1,
+  "completedGroups": 2,
   "traceIndex": "TRACE-INDEX.md",
   "firstValid": {
     "v0": 1,
