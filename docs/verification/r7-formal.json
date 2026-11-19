@@ -3,8 +3,21 @@
   "candidate": "edaaa63738400012d11338db432dd16ce1278c11",
   "facilityCommit": "bc325a1ca9405659db069af90c3cb55b051d25b9",
   "T1Beijing": "2026-11-19 22:19:07",
-  "phase": "R5",
-  "closure": null,
+  "phase": "R6",
+  "closure": {
+    "allGatesPassed": false,
+    "at": 1795104330.810035,
+    "cleanupHash": "b49f35a58a19f87b6e57e8eb420f8aca0d336361fa5b15d30178b4eaef0d752e",
+    "decisiveFailure": "G4-threshold-impossible",
+    "reportHash": "d683e2deb215251164b40e784670420f58883a463e1eafdf00f3d8d512bdaebf",
+    "requiredGateFailures": [
+      {
+        "evidenceHash": "d674c6e7f65961f61002f5870d401e6185fad9fccf58427f521c3330cdd0e7d9",
+        "gate": "G4"
+      }
+    ],
+    "verdict": "NO-GO"
+  },
   "recoveryEvents": [],
   "rows": [
     {
@@ -820,5 +833,110 @@
     "v0": 1,
     "v1": 1,
     "claude": 0
+  },
+  "verdict": "NO-GO",
+  "reason": "健康检查 3/3、C7 2/2。已完成前四题的 12 份三方有效结果。Axi v1 在 U01 通过，在 U02、U03、U04 记普通未通过。前两项的冻结反事实回归不合格，第三项的报告未覆盖两次测试入口未启动。候选最多只能达到 17/20，低于 G4 的 18/20。完成当前组三方后按原契约提前停止，U05–U20 的 48 槽未启动。",
+  "closedBeijing": "2026-11-20 00:05:30",
+  "controllerHash": "10d473045ccb2a132e39716b06545f1c2ac702a1b5bca4854173fb65a302c270",
+  "gateStatus": {
+    "G0": "PASS",
+    "G1": "PASS",
+    "G5": "PASS",
+    "G2": "PASS",
+    "G3": "PASS",
+    "G4": "FAIL",
+    "G6": "PASS"
+  },
+  "firstResults": {
+    "health-v0": "PASS",
+    "health-v1": "PASS",
+    "health-claude": "PASS",
+    "C7-L": "PASS",
+    "C7-O": "PASS",
+    "U01-v0": "PASS",
+    "U01-v1": "PASS",
+    "U01-claude": "N",
+    "U02-v1": "N",
+    "U02-claude": "N",
+    "U02-v0": "N",
+    "U03-claude": "N",
+    "U03-v0": "N",
+    "U03-v1": "N",
+    "U04-v0": "N",
+    "U04-claude": "N",
+    "U04-v1": "N"
+  },
+  "adoptedResults": {
+    "health-v0": "PASS",
+    "health-v1": "PASS",
+    "health-claude": "PASS",
+    "C7-L": "PASS",
+    "C7-O": "PASS",
+    "U01-v0": "PASS",
+    "U01-v1": "PASS",
+    "U01-claude": "N",
+    "U02-v1": "N",
+    "U02-claude": "N",
+    "U02-v0": "N",
+    "U03-claude": "N",
+    "U03-v0": "N",
+    "U03-v1": "N",
+    "U04-v0": "N",
+    "U04-claude": "N",
+    "U04-v1": "N"
+  },
+  "representativeValidCounts": {
+    "v0": 4,
+    "v1": 4,
+    "claude": 4
+  },
+  "representativeSuccessCounts": {
+    "v0": 1,
+    "v1": 1,
+    "claude": 0
+  },
+  "representativeCategoriesV1": {
+    "R1": {
+      "valid": 1,
+      "passed": 1,
+      "planned": 5
+    },
+    "R2": {
+      "valid": 1,
+      "passed": 0,
+      "planned": 5
+    },
+    "R3": {
+      "valid": 1,
+      "passed": 0,
+      "planned": 5
+    },
+    "R4": {
+      "valid": 1,
+      "passed": 0,
+      "planned": 5
+    }
+  },
+  "baselineOnlyPass": [],
+  "healthPassed": 3,
+  "c7Passed": 2,
+  "formalAttemptCount": 17,
+  "rawTraceFiles": 487,
+  "gradedViews": 24,
+  "privateTraceIndex": {
+    "path": "TRACE-INDEX.md",
+    "sha256": "f23d50b05666af853846f6324357d3b52edd6b12f86898e2121beea7e153db57"
+  },
+  "formalReport": {
+    "path": "final-audit-r7/release-report.json",
+    "sha256": "d683e2deb215251164b40e784670420f58883a463e1eafdf00f3d8d512bdaebf"
+  },
+  "cleanup": {
+    "path": "final-audit-r7/cleanup.json",
+    "sha256": "b49f35a58a19f87b6e57e8eb420f8aca0d336361fa5b15d30178b4eaef0d752e"
+  },
+  "preclaimAudit": {
+    "path": "preclaim-path-audit.json",
+    "sha256": "5c2e823daf30e854d5df7a059b1cdbf3bb4567206d54aea3c05c285151aa1bcc"
   }
 }
