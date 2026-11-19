@@ -4,6 +4,10 @@
 
 共用规范见 [AGENTS.md](../AGENTS.md)。本文件汇总当前状态，详细过程保存在 [开发日报](devlog/) 中。
 
+## 官方安装器方案待确认（2026-11-20）
+
+用户认可采用和 Pi 类似的官方安装体验。用 `v0.0.1` 公开源码验证了 macOS ARM64 和 Linux ARM64 的独立可执行文件均能运行 `--help`。方案 29 给出预览版本、安装升级、签名和真实下载验收条件。实现待 D1–D5 确认。[安装器方案](29-official-installer-preview-plan.md) · [本日记录](devlog/2026-11-20.md#提出-axi-官方安装器方案)
+
 ## v0.0.1 已预发布，评分专项复验完成（2026-11-20）
 
 按用户确认公开发布开发者预览 `v0.0.1`。远端标签指向 `edaaa63`。同一源码包通过 macOS ARM64 与 Linux ARM64 的干净安装、真实网关短任务和权限检查。[GitHub Release](https://github.com/BozhengLong/axi/releases/tag/v0.0.1)
