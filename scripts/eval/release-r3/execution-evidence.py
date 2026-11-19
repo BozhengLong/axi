@@ -62,7 +62,8 @@ def audit(run, mock=False, expected_model='claude-opus-5-5', expected_effort='me
         elif kind == 'api_error':
             normalized = data['normalizedError']
             if normalized.get('retryable') is True:
-                external[data['sequence']] = {'kind':'upstream-sse','normalized':normalized}
+                kind = 'upstream-http' if normalized.get('transport') == 'http' else 'upstream-sse'
+                external[data['sequence']] = {'kind':kind,'normalized':normalized}
         elif kind == 'upstream_error':
             transport_errors+=1
             if not data.get('forwarded'):not_forwarded[data['sequence']]={'kind':kind,'reason':'local-body-interruption'}

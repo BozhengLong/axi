@@ -2,7 +2,7 @@
 from pathlib import Path
 import datetime as dt,hashlib,importlib.util,json,os,subprocess,sys
 sys.dont_write_bytecode=True
-from controller import digest,slots
+from controller import OAUTH_RECOVERY_POLICY,digest,slots
 sys.path.append(str(Path(__file__).resolve().parent.parent/'release-r2'))
 from inputs import git_identity,verify_initial
 HERE=Path(__file__).resolve().parent;REPO=HERE.parents[2]
@@ -120,12 +120,21 @@ def build(study,plan_path):
     git=lambda args:subprocess.run(['git',*args],cwd=REPO,check=True,capture_output=True,text=True).stdout.strip()
     assert not git(['status','--porcelain']), '冻结前工作树必须提交'
     commit=git(['rev-parse','HEAD']);branch=git(['branch','--show-current']);remote=git(['ls-remote','origin','refs/heads/'+branch]).split()[0];assert remote==commit
-    assert git(['ls-remote','origin','refs/heads/codex/v1-beta1-candidate-r4']).split()[0]=='280d1f3debf95455b7a763b0b9ffc579bac6c5bd','候选远端身份改变'
-    candidate=read(study/'candidate.json');identity={'candidate':'280d1f3debf95455b7a763b0b9ffc579bac6c5bd','sourceHash':'75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519','v0':'963704be97150e268edd3fda484d68e0a18a1f8b','image':'sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','model':'claude-opus-5-5','claude':'2.1.322'}
+    auth=read(study/'authorization.json')
+    candidate=read(study/'candidate.json')
+    oauth=auth.get('recoveryHealthPolicy')==OAUTH_RECOVERY_POLICY
+    candidate_branch='codex/v1-beta1-oauth-retry' if oauth else 'codex/v1-beta1-candidate-r4'
+    identity={'candidate':'280d1f3debf95455b7a763b0b9ffc579bac6c5bd','sourceHash':'75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519','v0':'963704be97150e268edd3fda484d68e0a18a1f8b','image':'sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','model':'claude-opus-5-5','claude':'2.1.322'}
+    if oauth:
+        identity.update(auth['candidateIdentity'])
+        assert set(auth['candidateIdentity'])=={'candidate','sourceHash'}
+        assert candidate['branch']==candidate_branch and all(candidate[k]==identity[k] for k in auth['candidateIdentity'])
+    assert git(['ls-remote','origin','refs/heads/'+candidate_branch]).split()[0]==identity['candidate'],'候选远端身份改变'
     proofs={key:proof(path)for key,path in plan['proofs'].items()};proofs.update(pipeline=bound(pipeline),taskPackage=bound(task_proof),c7=bound(c7_proof));assert set(proofs)=={'engineering','taskPackage','c7','controller','pipeline','capture','dependencies','resourcePolicy','evidenceAudit','reuse'}
     manifest={'schema':3,'executionPolicy':{'version':'r3','limitMode':'unlimited','requestLimit':None},'T0':read(study/'authorization.json')['T0'],'identities':identity,'qualificationComplete':True,'commit':commit,'remoteCommit':remote,'branch':branch,'tasks':task_rows,'c7Tasks':c7_rows,'healthTask':health,'proofs':proofs,'facilityIndex':bound(index_path),'facilityHash':digest(index),'engineeringHash':proofs['engineering']['sha256'],'c7QualificationHash':proofs['c7']['sha256'],'controllerQualificationHash':proofs['controller']['sha256'],'dependencyHash':proofs['dependencies']['sha256'],'evidenceAuditHash':proofs['evidenceAudit']['sha256'],'reuseAuditHash':proofs['reuse']['sha256']}
     policy=read(study/'authorization.json').get('recoveryHealthPolicy')
     if policy:manifest['recoveryHealthPolicy']=policy
+    if oauth:manifest['gatewayPreflight']=bound(study/plan['gatewayPreflight'])
     spec=importlib.util.spec_from_file_location('gateway',HERE/'controller-gateway.py');gateway=importlib.util.module_from_spec(spec);spec.loader.exec_module(gateway);gateway.verify_admission(study,manifest);gateway.resources(study,manifest,initial=True)
     put(study/'release-manifest.json',manifest);return {'qualified':True,'commit':commit,'facilityHash':manifest['facilityHash'],'tasks':20,'pipelines':65}
 

@@ -4,7 +4,7 @@ import { RequestMeter } from "./policy.ts";
 import { ChunkWriter } from "./chunks.ts";
 import { relayResponseHeaders } from "../container/response-headers.ts";
 import { materializeMockReply, type MockReply } from "../container/mock-reply.ts";
-import { observeAPIError } from "../container/api-error.ts";
+import { observeAPIError, observeOAuthHTTP, observeOAuthStream } from "../container/api-error.ts";
 
 type Tool = { id: string; name: string; input: Record<string, unknown>; approved?: boolean; messageComplete?: boolean };
 type Reply = MockReply & {status?: number; headers?: Record<string, string>; repeat?: number};
@@ -186,6 +186,11 @@ const server = Bun.serve({ hostname: process.env.EVAL_RELAY_HOST ?? "0.0.0.0", p
       const text = await response.text();
       const safe = JSON.parse(redact({ text })).text;
       log(run, "http_result", { sequence:requestSequence, status: response.status, text: safe });
+      const oauthError = observeOAuthHTTP(response.status, safe);
+      if (oauthError && url.pathname === "/v1/messages") {
+        run.transportIssues.push(`api_event:${oauthError.errorType}`);
+        log(run, "api_error", { sequence: requestSequence, round: requestRound, normalizedError: oauthError });
+      }
       // Claude Code 可能将失败的流式请求改为普通 JSON 重试。保留该行为，并解析完整消息供授权配对。
       if (response.ok && url.pathname === "/v1/messages") {
         const message = JSON.parse(text);
@@ -214,7 +219,10 @@ const server = Bun.serve({ hostname: process.env.EVAL_RELAY_HOST ?? "0.0.0.0", p
         if (!payload) continue;
         if (payload.trim() === "[DONE]") { log(run, "sse_marker", { value: "[DONE]" }); continue; }
         const e = JSON.parse(payload); log(run, "sse", e);
-        const apiError = observeAPIError(e);
+        const eventName = frame.split("\n").filter(line => line.startsWith("event:")).at(-1)?.slice(6).trim() ?? "";
+        const oauthError = observeOAuthStream(eventName, e);
+        const apiError = oauthError ? { ...oauthError, retryable: blocks.length === 0 && !messageComplete }
+          : observeAPIError(e);
         if (apiError) { run.transportIssues.push(`api_event:${apiError.errorType}`); log(run, "api_error", { sequence: requestSequence, round: requestRound, normalizedError: apiError }); }
         if (e.type === "message_start") { result.model = e.message.model; Object.assign(result.usage, e.message.usage); }
         if (e.type === "content_block_start") blocks[e.index] = structuredClone(e.content_block);

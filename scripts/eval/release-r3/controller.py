@@ -9,6 +9,7 @@ import os
 MINUTE = 60
 HOUR = 3600
 RECOVERY_POLICY = 'recoverable-rate-limit-v1'
+OAUTH_RECOVERY_POLICY = 'recoverable-upstream-oauth-v1'
 PRODUCTS = ('v0', 'v1', 'claude')
 ORDERS = (('v0', 'v1', 'claude'), ('v1', 'claude', 'v0'), ('claude', 'v0', 'v1'),
           ('v0', 'claude', 'v1'), ('claude', 'v1', 'v0'), ('v1', 'v0', 'claude'))
@@ -51,7 +52,7 @@ def new_state(authorization, identities):
     require(timestamp(authorization['preparationDeadline']) == t0 + 72*HOUR and timestamp(authorization['absoluteDeadline']) == t0 + 168*HOUR, '绝对时钟不符')
     require(all(identities.get(k) for k in ('candidate', 'sourceHash', 'v0', 'image', 'model', 'claude')), '冻结身份缺失')
     policy = authorization.get('recoveryHealthPolicy')
-    require(policy in (None, RECOVERY_POLICY), '未知恢复健康策略')
+    require(policy in (None, RECOVERY_POLICY, OAUTH_RECOVERY_POLICY), '未知恢复健康策略')
     return dict(**({'recoveryHealthPolicy': policy} if policy else {}), schema=3, T0=t0, preparationDeadline=t0+72*HOUR, absoluteDeadline=t0+168*HOUR,
                 identities=identities, T1=None, formalDeadline=None, phase='R0', manifest=None,
                 claims={}, paused=None, repair=None, recoveries=[], activeRecovery=None, closure=None)
@@ -101,8 +102,10 @@ def recovery_probe_passed(state, claim):
     if state.get('recoveryHealthPolicy') is None:
         return review.get('cleanUpstream') is True
     proof = review.get('recoveryHealth', {})
-    return (state['recoveryHealthPolicy'] == RECOVERY_POLICY
-            and proof.get('status') in ('clean', 'recovered-rate-limit')
+    statuses = ('clean', 'recovered-rate-limit')
+    if state['recoveryHealthPolicy'] == OAUTH_RECOVERY_POLICY:
+        statuses += ('recovered-upstream-oauth',)
+    return (proof.get('status') in statuses
             and bool(proof.get('traceHash')) and proof['traceHash'] == claim['seal']['traceHash'])
 
 
@@ -251,6 +254,9 @@ def transition(state, action, payload, now):
             state['paused'] = dict(reason={'H':'confirmed-H','UNKNOWN':'untrusted-evidence','ENV_INTERRUPTED':'environment'}[payload['classification']], slot=payload['id'], at=now)
         elif claim['slot']['kind'] in ('health','recovery-health') and payload['classification'] == 'N':
             state['paused'] = dict(reason='health-failed', slot=payload['id'], at=now)
+        elif (state.get('recoveryHealthPolicy') == OAUTH_RECOVERY_POLICY
+              and claim['slot']['kind'] == 'health' and not recovery_probe_passed(state, claim)):
+            state['paused'] = dict(reason='health-recovery-unresolved', slot=payload['id'], at=now)
         update_recovery(state, claim, now)
     elif action == 'environment-begin':
         require(state['paused'] and state['paused']['reason'] == 'environment' and state['activeRecovery'] is None, '不是可恢复的外部事件')

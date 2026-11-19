@@ -1,4 +1,4 @@
-"""从已验封的代理和原生 Trace 核对健康探针中的限流重试。"""
+"""从已验封的代理和原生 Trace 核对健康探针中的上游重试。"""
 from collections import Counter
 from datetime import datetime
 from hashlib import sha256
@@ -14,7 +14,7 @@ def body_hash(body):
     return sha256(json.dumps(body, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest()
 
 
-def decision(run, checked, deadline):
+def decision(run, checked, deadline, allow_oauth=False):
     """checked 必须来自同一运行的执行审计。普通任务不调用此入口。"""
     if checked['status'] != 'completed':
         return {'status': 'not-completed', 'traceHash': checked['traceHash']}
@@ -28,8 +28,8 @@ def decision(run, checked, deadline):
         return {'status': 'unresolved', 'reason': '原生会话无法唯一定位', 'traceHash': checked['traceHash']}
     try:
         result = correlate(events(run.parent/'relay'/(run.name+'.jsonl')), events(paths[0]),
-                           'axi-session' in paths[0].parts, deadline)
-        if (result['rateLimits'] != checked['externalEvents']
+                           'axi-session' in paths[0].parts, deadline, allow_oauth=allow_oauth)
+        if (result['rateLimits'] + result.get('oauthExpirations', 0) != checked['externalEvents']
                 or result['generations'] != checked['forwardedGeneration']
                 or result['responses'] != checked['completeResponses']):
             raise ValueError('回执与独立计量不符')
@@ -38,7 +38,7 @@ def decision(run, checked, deadline):
     return {**result, 'traceHash': checked['traceHash']}
 
 
-def correlate(wire, native, axi, deadline):
+def correlate(wire, native, axi, deadline, allow_oauth=False):
     requests = {}
     token_counts = set()
     issued, permitted = [], []
@@ -46,6 +46,7 @@ def correlate(wire, native, axi, deadline):
     pending = []
     chains = []
     wait = 0
+    oauth_attempts = set()
     for event in wire:
         kind, data = event['kind'], event['data']
         seq = data.get('sequence')
@@ -66,7 +67,7 @@ def correlate(wire, native, axi, deadline):
                 previous = requests[pending[-1]]
                 # 非流式回退可降低单次输出上限。消息、工具、模型及推理参数必须逐字相同。
                 # 下面还须用原生 base、keep、tail 与 requestRef 证明完整继承了同一轮输入。
-                fallback = (not axi and previous['http'] == 200 and previous['stream'] is True
+                fallback = (not axi and not (set(pending) & oauth_attempts) and previous['http'] == 200 and previous['stream'] is True
                             and body.get('stream') is False and semantics == previous['semantics']
                             and type(body.get('max_tokens')) is int and type(previous['tokens']) is int
                             and 0 < body['max_tokens'] <= previous['tokens'])
@@ -75,7 +76,7 @@ def correlate(wire, native, axi, deadline):
                     raise ValueError('重试没有对应到同一请求')
                 wait += t - previous['end']
             active = seq
-            requests[seq] = {'body': digest, 'round': data['round'], 'start': t, 'tools': [],
+            requests[seq] = {'body': digest, 'round': data['round'], 'start': t, 'tools': [], 'contentBegan': False, 'model': body.get('model'),
                              'semantics': semantics, 'stream': body.get('stream'), 'tokens': body.get('max_tokens'),
                              'fallback': fallback, 'messages': len(body.get('messages', []))}
         elif kind == 'response_headers':
@@ -91,19 +92,31 @@ def correlate(wire, native, axi, deadline):
                 requests[seq].update(limit=True, end=timestamp(event['time']))
                 pending.append(seq)
                 active = None
-            elif not 200 <= status < 300:
+            elif not (200 <= status < 300 or (allow_oauth and status == 401)):
                 raise ValueError('出现非限流HTTP错误')
-        elif kind == 'sse' and data['type'] == 'content_block_start':
+        elif kind == 'sse' and data.get('type') == 'content_block_start':
+            if active is None:
+                raise ValueError('内容块缺少请求')
+            requests[active]['contentBegan'] = True
             block = data['content_block']
             if block.get('type') == 'tool_use':
-                if active is None:raise ValueError('工具提案缺少请求')
                 requests[active]['tools'].append(block['id'])
         elif kind == 'api_error':
             err = data['normalizedError']
-            if (seq != active or not 200 <= requests[seq].get('http', 0) < 300
-                    or err.get('retryable') is not True or err.get('errorType') != 'rate_limit_error'
-                    or requests[seq]['tools']):
-                raise ValueError('限流归因不唯一或失败流已发出工具提案')
+            if seq != active or seq not in requests or err.get('retryable') is not True:
+                raise ValueError('错误事件缺少唯一的可重试请求')
+            current = requests[seq]
+            is_oauth = (allow_oauth and err.get('errorType') == 'upstream_oauth_expired'
+                        and err.get('rule') == 'gateway-upstream-oauth-expired-v1'
+                        and ((err.get('transport') == 'http' and current.get('http') == 401)
+                             or (err.get('transport') == 'sse' and current.get('http') == 200))
+                        and not current['contentBegan'])
+            is_limit = (err.get('errorType') == 'rate_limit_error'
+                        and 200 <= current.get('http', 0) < 300 and not current['tools'])
+            if not (is_oauth or is_limit):
+                raise ValueError('上游错误归因失败或失败流已交付内容')
+            if is_oauth:
+                oauth_attempts.add(seq)
             requests[seq].update(limit=True, end=timestamp(event['time']))
             pending.append(seq)
             active = None
@@ -114,6 +127,8 @@ def correlate(wire, native, axi, deadline):
         elif kind == 'complete_response':
             if seq != active or not 200 <= requests[seq].get('http', 0) < 300:
                 raise ValueError('完整响应缺少对应的成功请求')
+            if allow_oauth and data.get('model') != requests[seq]['model']:
+                raise ValueError('完整响应模型改变')
             t = timestamp(event['time'])
             if t > deadline or t < requests[seq]['start']:raise ValueError('完整响应超出执行窗口')
             tools = [b['id'] for b in data['content'] if b.get('type') == 'tool_use']
@@ -208,6 +223,10 @@ def correlate(wire, native, axi, deadline):
                 elif not before.get('requestDigest') or before['requestDigest'] != after.get('requestDigest'):
                     raise ValueError('Claude 重试的原生请求摘要改变')
     limits=sum(len(c['limited']) for c in chains)
-    return {'status':'recovered-rate-limit' if chains else 'clean','generations':len(requests),
-            'responses':len(requests)-limits,'rateLimits':limits,'chains':chains,
-            'observedRetryGapMs':round(wait*1000)}
+    result = {'status':'recovered-rate-limit' if chains else 'clean','generations':len(requests),
+              'responses':len(requests)-limits,'rateLimits':limits-len(oauth_attempts),'chains':chains,
+              'observedRetryGapMs':round(wait*1000)}
+    if oauth_attempts:
+        result.update(status='recovered-upstream-oauth', oauthExpirations=len(oauth_attempts),
+                      oauthAttempts=sorted(oauth_attempts))
+    return result

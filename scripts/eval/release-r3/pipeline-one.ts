@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync, mkdirSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {gzipSync} from 'node:zlib';
+import type {MockReply} from '../container/mock-reply.ts';
 import {executeSubject} from './execute-subject.ts';
 import {verifiedHostEnvironment} from '../release-r2/host-environment.ts';
 import {snapshotFacility,verifyFacility} from './facility-snapshot.ts';
@@ -44,15 +45,31 @@ function shellTool(id:string,changes:Record<string,string>,validate:boolean){
 }
 const end=(text:string)=>({content:[{type:'text',text}],stopReason:'end_turn'});
 const firstTest=taskId==='health'?'result.txt':profile.regressionPaths[0];assert(patch[firstTest]);
-const mock=[shellTool('read_task',{},false),...(product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]!},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')])];
+const mock: (MockReply & {status?: number; headers?: Record<string, string>})[] = [shellTool('read_task',{},false),...(product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]!},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')])];
 if (fault) {
- assert(taskId === 'health' && auth.recoveryHealthPolicy === 'recoverable-rate-limit-v1');
- assert(fault === 'http429' || fault === 'sse429');
+ assert(taskId === 'health');
+ const oauth = fault === 'httpOAuth' || fault === 'sseOAuth';
+ assert(auth.recoveryHealthPolicy === 'recoverable-upstream-oauth-v1'
+   || (auth.recoveryHealthPolicy === 'recoverable-rate-limit-v1' && !oauth));
+ assert(oauth || fault === 'http429' || fault === 'sse429');
  const error = JSON.stringify({type:'error',error:{type:'rate_limit_error',message:'Synthetic health probe rate limit'}});
  const reply = fault === 'http429'
    ? {content:[],stopReason:'',status:429,headers:{'content-type':'application/json','retry-after':'0'},raw:error}
    : {content:[],stopReason:'',raw:'event: error\ndata: '+error+'\n\n'};
- mock.unshift(reply);
+ if (oauth) {
+   const upstream = JSON.stringify({type:'error',error:{type:'authentication_error',
+     message:'OAuth access token has expired. Re-authenticate to continue.'},request_id:'req_fixture'});
+   if (fault === 'httpOAuth') {
+     const raw = JSON.stringify({type:'error',error:{type:'authentication_error',
+       message:'litellm.AuthenticationError: AnthropicException - '+upstream}});
+     mock.unshift({content:[],stopReason:'',status:401,headers:{'content-type':'application/json'},raw});
+   } else {
+     const raw = JSON.stringify({error:'Claude API error',status:401,details:upstream});
+     mock.unshift({content:[],stopReason:'',raw:'event: error\ndata: '+raw+'\n\n'});
+   }
+ } else {
+   mock.unshift(reply);
+ }
 }
 try {
 const x=await executeSubject(study,taskId!,product as 'v0'|'v1'|'claude',`${taskId!.toLowerCase()}-${product}-${revision}`,out,{mock,claim:{mode:'mock',id:claim.id,ledgerLabel:label},prompt:publicPrompt.text});
@@ -87,7 +104,7 @@ assert(performance.now()-gradeStart<=(taskId==='health'?240000:720000));
 assert.deepEqual(grading.views.map((v:any)=>v.view),['final',...(x.checkpoint?['checkpoint']:[])]);
 const execEvidence=JSON.parse(readFileSync(join(out,'execution-evidence.json'),'utf8'));
 save(join(out,'review.json'),{artifactHash:sha(readFileSync(join(out,'final-snapshot.json'))),executionHash:execEvidence.executionHash,gradeHash:sha(readFileSync(join(out,'final-grade/result.json'))),reviewer:'R3 scripted reference pipeline qualification',classification:'PASS',mockOnly:true,checks:{publicContract:true,sourceChanges:true,userChanges:true,documentationExample:true,reportedChecks:true,traceIntegrity:true}});
-const reviewed=JSON.parse((await controller('review',{id:claim.id,output:out.slice(study.length+1)})).stdout);assert(reviewed.reviewed&&reviewed.classification==='PASS'&&!reviewed.paused);save(join(out,'controller-review.json'),reviewed);
+const reviewed=JSON.parse((await controller('review',{id:claim.id,output:out.slice(study.length+1)})).stdout);assert(reviewed.reviewed && reviewed.classification === 'PASS' && (!reviewed.paused || !!fault));save(join(out,'controller-review.json'),reviewed);
 save(join(out,'result.json'),{qualified:true,mockOnly:true,task:taskId,product,executionStatus:x.execution.status,requests:x.execution.proxy.meter.forwardedGeneration,traceDirectory:x.traceDirectory,finalArtifact:sha(readFileSync(join(out,'final-snapshot.json'))),gradingMs:performance.now()-gradeStart,checkpointCaptured:!!x.checkpoint});
 console.log(JSON.stringify({task:taskId,product,qualified:true,traceDirectory:x.traceDirectory}));
 

@@ -30,7 +30,7 @@ def seed(study,label,task,product,claim_age=5):
    result={'ledgerLabel':label,'id':slot['id'],'task':task,'product':product,'mockOnly':True,'syntheticPriorSlots':True};(directory/'qualification-only.json').write_text(json.dumps(result,indent=2)+'\n');return result
   ledger.apply('launched',{'id':slot['id'],'processIdentity':'synthetic-prior-slot'},now)
   artifact='synthetic-artifact-'+slot['id'];execution='synthetic-execution-'+slot['id'];seal={'id':slot['id'],'candidate':identity['candidate'],'writersClosed':True,'manifestVerified':True,'traceHash':'synthetic-trace','artifactHash':artifact,'executionHash':execution,'cleanupHash':'synthetic-cleanup','forwardedGeneration':1,'receivedAttempts':1,'countTokens':0,'endedAt':now,'gradeSeconds':0,'termination':'completed','views':[{'id':slot['id']+'/final','kind':'final','artifactHash':artifact}]}
-  ledger.apply('seal',seal,now);state=ledger.apply('review',{'id':slot['id'],'artifactHash':artifact,'executionHash':execution,'gradeHash':'synthetic-grade','reviewEvidenceHash':'synthetic-review','reviewer':'qualification-fixture','classification':'PASS','allChecksPassed':True,'cleanUpstream':True},now)
+  ledger.apply('seal',seal,now);state=ledger.apply('review',{'id':slot['id'],'artifactHash':artifact,'executionHash':execution,'gradeHash':'synthetic-grade','reviewEvidenceHash':'synthetic-review','reviewer':'qualification-fixture','classification':'PASS','allChecksPassed':True,'cleanUpstream':True,'recoveryHealth':{'status':'clean','traceHash':'synthetic-trace'}},now)
  raise ValueError('未知任务或产品槽')
 
 

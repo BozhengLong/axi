@@ -12,7 +12,7 @@ import subprocess
 import sys
 sys.dont_write_bytecode=True
 # 与controller.py共同冻结，资格账本不能替代正式账本。
-from controller import Ledger,Refused,digest,next_slot,slots,decisive_failure
+from controller import OAUTH_RECOVERY_POLICY, Ledger,Refused,digest,next_slot,slots,decisive_failure
 sys.path.append(str(Path(__file__).resolve().parent.parent/'release-r2'))
 from inputs import verify_initial
 from recovery_health import decision as recovery_decision
@@ -106,8 +106,20 @@ def verify_admission(study,manifest,repair=None):
     require(manifest['commit']==manifest['remoteCommit'],'冻结提交未推送')
     auth=json.loads((study/'authorization.json').read_text());require(manifest['T0']==auth['T0'],'T0身份不符')
     require(auth.get('recoveryHealthPolicy') == manifest.get('recoveryHealthPolicy'), '恢复策略未绑定授权')
-    require(manifest['identities']['candidate']=='280d1f3debf95455b7a763b0b9ffc579bac6c5bd','候选不符')
-    require(manifest['identities']['sourceHash']=='75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519','产品源码不符')
+    oauth = auth.get('recoveryHealthPolicy') == OAUTH_RECOVERY_POLICY
+    if oauth:
+        # 新策略必须绑定通过的五次真实探针和本批已验的产品源码。
+        identity = {k:manifest['identities'][k] for k in ('candidate','sourceHash')}
+        require(auth.get('candidateIdentity') == identity, 'OAuth 候选未绑定授权')
+        probe = json.loads(bound_file(study,manifest['gatewayPreflight']).read_text())
+        require(probe['passed'] is True and probe['candidate'] == identity['candidate']
+                and probe['model'] == manifest['identities']['model']
+                and [r['index'] for r in probe['results']] == list(range(1,6))
+                and all(r['passed'] is True and type(r['physical']) is int and r['physical'] > 0
+                        and r['elapsedMs'] < 180_000 for r in probe['results']), '五次逻辑探针未通过')
+    else:
+        require(manifest['identities']['candidate']=='280d1f3debf95455b7a763b0b9ffc579bac6c5bd','候选不符')
+        require(manifest['identities']['sourceHash']=='75565595afae67e52d48ade8b9580c442aa999a90e95a5ca2d0a371024804519','产品源码不符')
     require(manifest['identities']['model']=='claude-opus-5-5'and manifest['identities']['claude']=='2.1.322','冻结模型或参照不符')
     required={'engineering','taskPackage','c7','controller','pipeline','capture','dependencies','resourcePolicy','evidenceAudit','reuse'}
     require(set(manifest['proofs'])==required,'准备证明种类不完整')
@@ -124,14 +136,31 @@ def verify_admission(study,manifest,repair=None):
         require(set(entries) == {'replay','protocol','native'}, '恢复专项证明不完整')
         evidence = {k:json.loads(bound_file(study,v).read_text()) for k,v in entries.items()}
         require(all(v.get('qualified') is True for v in evidence.values()), '恢复专项资格未通过')
-        require(evidence['replay']['replay']['replayOnlyNextSlot'] == 'recovery-1-health-claude-a1', 'C4回放未通过')
         native = evidence['native']
-        require(native['mockOnly'] and len(native['rows']) == 9 and all(row['qualified'] for row in native['rows'])
+        faults = ('clean','http429','sse429','httpOAuth','sseOAuth') if oauth else ('clean','http429','sse429')
+        require(native['mockOnly'] and len(native['rows']) == 3*len(faults) and all(row['qualified'] for row in native['rows'])
                 and {(r['product'],r['fault']) for r in native['rows']}
-                == {(product,fault) for product in ('v0','v1','claude') for fault in ('clean','http429','sse429')},
-                '三方模拟场景缺失')
+                == {(product,fault) for product in ('v0','v1','claude') for fault in faults}, '三方模拟场景缺失')
+        require(evidence['replay']['replay']['replayOnlyNextSlot'] == 'recovery-1-health-claude-a1', 'C4回放未通过')
+        if oauth:
+            require(native['candidate'] == manifest['identities']['candidate']
+                    and evidence['protocol'].get('oauthVerified') is True, 'OAuth 专项资格未绑定候选')
+
     require(proofs['engineering']['candidate']==manifest['identities']['candidate'],'工程证明不是当前候选')
-    verify_sources(study,manifest,repair)
+    index = verify_sources(study,manifest,repair)
+    if oauth:
+        path = study/'candidate-source.json'
+        source = json.loads(path.read_text())
+        paths = {entry['path']: entry['sha256'] for entry in index['files']}
+        require(str(path) in paths and paths[str(path)] == sha(path)
+                and source['kind'] == 'candidate' and source['commit'] == identity['candidate']
+                and source['sourceHash'] == identity['sourceHash']
+                and hashlib.sha256(json.dumps(source['files'],ensure_ascii=False,separators=(',', ':')).encode()).hexdigest() == identity['sourceHash'],
+                '候选源码清单未绑定')
+        for entry in source['files']:
+            name = entry['path']
+            if name.startswith('src/') or name == 'package.json':
+                require(paths.get(str(study/'v1-runtime'/name)) == entry['sha256'], '实际运行文件未绑定新候选')
     require([t['id']for t in manifest['tasks']]==[f'U{i:02}'for i in range(1,21)],'20题顺序错误')
     require([t['id']for t in manifest['c7Tasks']]==['C7-L','C7-O'],'C7题目不完整或顺序错误')
     require(manifest['healthTask']['id']=='health','健康探针绑定缺失')
@@ -256,7 +285,9 @@ def apply(study,action,payload,mode='real'):
         review.pop('recoveryHealth', None)
         if state.get('recoveryHealthPolicy') and claim['slot']['kind'] in ('health', 'recovery-health'):
             require(checked['traceHash'] == claim['seal']['traceHash'], '审查 Trace 与封存不符')
-            review['recoveryHealth'] = recovery_decision(run, checked, claim['executionDeadline'])
+            review['recoveryHealth'] = recovery_decision(
+                run, checked, claim['executionDeadline'],
+                allow_oauth=state['recoveryHealthPolicy'] == OAUTH_RECOVERY_POLICY)
         review.update(id=payload['id'],reviewEvidenceHash=sha(review_file),gradeSeconds=grading['sharedSeconds'],gradingSummaryHash=sha(output/'grading-summary.json'))
         state=ledger.apply('review',review);return {'reviewed':True,'classification':review['classification'],'paused':state['paused'],'decisiveFailure':decisive_failure(state)}
     if action=='environment-begin':
