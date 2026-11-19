@@ -1,6 +1,6 @@
 import { isObject, type ContentBlock, type JsonObject, type ModelResponse, type StreamCallbacks } from "./types.ts";
 import type { SSEEvent } from "./sse.ts";
-import { normalizeAPIError, type NormalizedAPIError } from "./errors.ts";
+import { normalizeAPIError, upstreamOAuthStream, type NormalizedAPIError } from "./errors.ts";
 
 export class ProtocolError extends Error {}
 export class StreamAPIError extends Error {
@@ -24,6 +24,12 @@ export class MessageAssembler {
     let value: unknown;
     try { value = JSON.parse(event.data); }
     catch { throw new ProtocolError("SSE data 不是有效 JSON"); }
+    const oauthError = upstreamOAuthStream(event.event, value);
+    if (oauthError) {
+      // 内容块可以在完整响应前显示。放弃部分响应时不能再次自动交付同一块。
+      const retryable = this.blocks.length === 0 && !this.stopped;
+      throw new StreamAPIError(oauthError.errorType, oauthError.message, { ...oauthError, retryable }, value);
+    }
     if (!isObject(value) || typeof value.type !== "string") throw new ProtocolError("事件缺少 type");
     const type = value.type;
     if (type === "ping") return;

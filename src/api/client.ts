@@ -1,4 +1,5 @@
 import { DEFAULT_RETRY_WINDOW_MS, type APIConfig } from "../config.ts";
+import { upstreamOAuthHTTP, type NormalizedAPIError } from "./errors.ts";
 import { SSEParser } from "./sse.ts";
 import { MessageAssembler, ProtocolError, StreamAPIError } from "./stream.ts";
 import { abortError, errorMessage, noLog, type Effort, type Message, type ModelResponse, type RecordLog, type StreamCallbacks } from "./types.ts";
@@ -6,7 +7,12 @@ import { toolDefinitions } from "../tools/registry.ts";
 import type { GenerationCounter } from "../agent/review.ts";
 
 export class HTTPError extends Error {
-  constructor(public status: number, message: string, public retryAfterMs?: number) { super(message); }
+  constructor(
+    public status: number,
+    message: string,
+    public retryAfterMs?: number,
+    public normalized?: NormalizedAPIError,
+  ) { super(message); }
 }
 
 export class RetryWindowError extends Error {
@@ -51,7 +57,7 @@ export function retryAfter(value: string | null, now = Date.now()): number | und
 }
 
 function retryable(error: unknown): boolean {
-  if (error instanceof HTTPError) return error.status === 429 || error.status >= 500;
+  if (error instanceof HTTPError) return error.normalized?.retryable === true || error.status === 429 || error.status >= 500;
   if (error instanceof StreamAPIError) return error.normalized?.retryable ?? ["overloaded_error", "rate_limit_error", "api_error", "connection_error"].includes(error.errorType);
   if (error instanceof TypeError || (error instanceof DOMException && ["TimeoutError", "AbortError"].includes(error.name))) return true;
   // Bun 1.3.14 的连接拒绝是普通 Error，不能只判断 TypeError。
@@ -115,6 +121,7 @@ export class APIClient {
         if (now() >= expires) exhausted();
         response = await (this.options.fetch ?? fetch)(this.config.url, {
           method: "POST",
+          redirect: "error",
           headers: { "content-type": "application/json", "x-api-key": this.config.apiKey, "anthropic-version": "2023-06-01", accept: "text/event-stream" },
           body,
           signal,
@@ -122,8 +129,11 @@ export class APIClient {
         signal.throwIfAborted();
         if (now() >= expires) exhausted();
         if (!response.ok) {
-          const detail = (await response.text()).slice(0, 8000).replaceAll(this.config.apiKey, "[认证信息已隐藏]");
-          throw new HTTPError(response.status, `HTTP ${response.status}：${detail}`, retryAfter(response.headers.get("retry-after")));
+          const body = (await response.text()).slice(0, 8000);
+          const oauthError = upstreamOAuthHTTP(response.status, body);
+          const detail = (oauthError?.message ?? body).replaceAll(this.config.apiKey, "[认证信息已隐藏]");
+          throw new HTTPError(response.status, `HTTP ${response.status}：${detail}`,
+            retryAfter(response.headers.get("retry-after")), oauthError);
         }
         if (!response.body) throw new ProtocolError("API 没有返回响应体");
         if (!response.headers.get("content-type")?.includes("text/event-stream")) throw new ProtocolError("API 未返回 text/event-stream");
@@ -151,12 +161,14 @@ export class APIClient {
         // 不把 API key 或包含连接地址的底层错误直接打印到终端。
         const sanitize = (text: string) => text.replaceAll(this.config.apiKey, "[认证信息已隐藏]").replaceAll(this.config.url, "[API 地址]");
         const reason = sanitize(errorMessage(error));
-        const canRetry = retryable(error);
+        const streamOAuth = error instanceof StreamAPIError && error.errorType === "upstream_oauth_expired";
+        const canRetry = retryable(error) && (!streamOAuth || response?.status === 200);
         const left = expires - now();
         const canRecover = !options.signal.aborted && (this.options.maxRetries === undefined || attempt < this.options.maxRetries) && canRetry && left > 0;
         const requestedDelayMs = error instanceof HTTPError && error.retryAfterMs !== undefined ? Math.max(1, error.retryAfterMs) : Math.min(30_000, 1000 * 2 ** Math.min(attempt, 5));
         const willRetry = canRecover && requestedDelayMs < left;
-        const details = error instanceof StreamAPIError ? JSON.parse(sanitize(JSON.stringify({ normalizedError: error.normalized, rawError: error.rawError, errorType: error.errorType }))) : {};
+        const details = error instanceof StreamAPIError ? JSON.parse(sanitize(JSON.stringify({ normalizedError: error.normalized, rawError: error.rawError, errorType: error.errorType }))) : error instanceof HTTPError && error.normalized
+          ? { status: error.status, normalizedError: error.normalized } : {};
         this.record("request_error", { callId, attempt, durationMs: performance.now() - started, reason, ...details, retryable: canRetry, willRetry });
         if (options.signal.aborted) throw abortError();
         if (error instanceof RetryWindowError) throw error;
