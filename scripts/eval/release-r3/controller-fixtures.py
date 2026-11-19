@@ -19,6 +19,10 @@ def seed(study,label,task,product,claim_age=5):
  if policy:
   auth['recoveryHealthPolicy']=policy
   manifest['recoveryHealthPolicy']=policy
+ if policy==controller_module.OAUTH_RECOVERY_POLICY:
+  candidate=json.loads((study/'candidate-source.json').read_text())
+  assert candidate['kind']=='candidate'
+  identity.update(candidate=candidate['commit'],sourceHash=candidate['sourceHash'])
  source=Path(controller_module.__file__).resolve();raw=source.read_bytes();checksum=hashlib.sha256(raw).hexdigest();archive=directory/'controller-source.py';archive.write_bytes(raw)
  index={'schema':1,'mockOnly':True,'files':[{'path':str(source),'sha256':checksum,'archive':str(archive.relative_to(study))}]};index_path=directory/'facility-index.json';index_path.write_text(json.dumps(index,indent=2)+'\n');manifest['facilityIndex']={'path':str(index_path.relative_to(study)),'sha256':hashlib.sha256(index_path.read_bytes()).hexdigest()};manifest['facilityHash']=digest(index)
  ledger=Ledger(directory);ledger.apply('initialize',{'authorization':auth,'identities':identity},now);ledger.apply('freeze',manifest,now);state=ledger.apply('begin',{},now)
