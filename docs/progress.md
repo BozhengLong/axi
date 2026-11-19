@@ -6,7 +6,7 @@
 
 ## R7 当前正式阶段（2026-11-19）
 
-R7 的 C7-L、C7-O 均以独立新尝试完整交付。正式对照进入固定 20 道代表题。[正式记录](verification/r7-formal.md) · [本日记录](devlog/2026-11-19.md)
+同题首次有效结果为v0 PASS，v1 PASS，claude N。[正式记录](verification/r7-formal.md) · [本日记录](devlog/2026-11-19.md)
 
 ## R7 模拟全部通过，正式验收受磁盘容量阻断（2026-11-19）
 

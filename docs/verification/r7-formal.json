@@ -3,7 +3,7 @@
   "candidate": "edaaa63738400012d11338db432dd16ce1278c11",
   "facilityCommit": "bc325a1ca9405659db069af90c3cb55b051d25b9",
   "T1Beijing": "2026-11-19 22:19:07",
-  "phase": "R4",
+  "phase": "R5",
   "closure": null,
   "recoveryEvents": [],
   "rows": [
@@ -263,15 +263,157 @@
           "automaticChecksPassed": true
         }
       ]
+    },
+    {
+      "id": "U01-v0-a1",
+      "task": "U01",
+      "product": "v0",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 20,
+        "completeResponses": 20
+      },
+      "requests": 20,
+      "completeResponses": 20,
+      "externalEvents": 0,
+      "wallSeconds": 228.9,
+      "permissions": 19,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "Node 两个入口共同处理可选展开，真实路径、嵌套、全局停止、字节限制和空结果符合公开契约。错误只用空参数和配置计算元数据，无用户 coerce 或配置回调。37 项保护文件、HEAD 和索引一致。13 项新回归通过，原态有行为断言失败。现有测试、类型、lint 和示例证据与报告相符。26 个 Trace 文件已复核。"
+      ],
+      "evidenceRoot": "runs/U01-v0-a1",
+      "traceHash": "332c2c9c89c475da0ce846a552d03553a9faf4308fc15138ac4b617d6654f8d6",
+      "reviewHash": "f490f4e86a7c19be11d79154fd1bd96609124844f4a6d4452a4a2a6bf95edbf3",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "36762be3247a8f7257e1624d38e07d590499eaffad153fb9dfbbcf0eb9d0aaae",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "U01-v1-a1",
+      "task": "U01",
+      "product": "v1",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 30,
+        "completeResponses": 30
+      },
+      "requests": 30,
+      "completeResponses": 30,
+      "externalEvents": 0,
+      "wallSeconds": 354.1,
+      "permissions": 23,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "两个 Node 入口依公开契约展开，活动真实路径、全局停止、深度与资源边界均核对。失败只用空参数及 configuration 求默认配置，返回空输出且不调用用户回调。37 项保护、Git HEAD 和索引一致。原态行为断言有效。原生最终回归显示 15/15，构建、类型、lint 与示例的实际结果及相关启动和复验符合报告。初稿、终稿和 31 个封存文件均核验通过。"
+      ],
+      "evidenceRoot": "runs/U01-v1-a1",
+      "traceHash": "92d30e599753b531ae86223c864d6efc59ed89d3d48f723445b6b788e96c4d00",
+      "reviewHash": "cd3e03c0224a47f3e0ebf8416c4d08a42e4aed0c02497e751d3204f1083255cd",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "c632624f3f2de2e33e5c0d5e77fd7f95f11b3032c0f2a874c73a35bd22f27279",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "2a588069af3b1ebf0129dff7e0a6758397a51786471fb3d45fe1886d74ff71d1",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "U01-claude-a1",
+      "task": "U01",
+      "product": "claude",
+      "kind": "task",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "N",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 20,
+        "completeResponses": 20
+      },
+      "requests": 20,
+      "completeResponses": 20,
+      "externalEvents": 0,
+      "wallSeconds": 236.1,
+      "permissions": 25,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "公开功能、旧检查、示例和保护均通过。新增测试在交付版本全部通过。用同一套测试验证原态时，30 项为行为断言，文件大小边界用例却在访问未定义值的 length 时抛出 TypeError。冻结规则要求原态失败由行为或类型断言给出，该回归组不合格。报告称 31 项都是行为断言，与此证据有差异。已核对 28 个封存文件和 Git HEAD、索引。"
+      ],
+      "evidenceRoot": "runs/U01-claude-a1",
+      "traceHash": "83653a4d7aa62ea0abb9a3c736c25d893a0a84207798be9737467badeb7b6d70",
+      "reviewHash": "2d638f8499feb72b2036441e9885620413b1b61ba83bfc2bfcb418b536b03628",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "4e060573292b98e356315511bac226e23880ac707b74162ca99bb8e332563340",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": false
+        }
+      ]
     }
   ],
-  "validRepresentative": {},
-  "passedRepresentative": {},
-  "completedGroups": 0,
+  "validRepresentative": {
+    "v0": 1,
+    "v1": 1,
+    "claude": 1
+  },
+  "passedRepresentative": {
+    "v0": 1,
+    "v1": 1
+  },
+  "completedGroups": 1,
   "traceIndex": "TRACE-INDEX.md",
   "firstValid": {
-    "v0": 0,
-    "v1": 0,
+    "v0": 1,
+    "v1": 1,
     "claude": 0
   }
 }
