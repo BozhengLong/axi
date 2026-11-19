@@ -16,6 +16,7 @@ from controller import OAUTH_RECOVERY_POLICY, Ledger,Refused,digest,next_slot,sl
 sys.path.append(str(Path(__file__).resolve().parent.parent/'release-r2'))
 from inputs import verify_initial
 from recovery_health import decision as recovery_decision
+import u04_report_accuracy
 
 
 def require(condition,message):
@@ -53,6 +54,36 @@ def bound_file(study,entry):
         require(parent.is_relative_to(study)and not parent.is_symlink(),'证据路径含链接或越界')
     require(path.is_file()and sha(path)==entry['sha256'],'绑定证据缺失或改变: '+name)
     return path
+
+
+def u04_review(study, task, review, checked, run=None, output=None):
+    if task != 'U04':
+        return
+    profile = json.loads((study/'tasks/U04/grading-profile.json').read_text())
+    selected = profile.get('reportAccuracyPolicy')
+    if selected is None:
+        return
+    require(selected == u04_report_accuracy.POLICY, '未知 U04 报告策略')
+    if review['classification'] == 'ENV_INTERRUPTED':
+        return  # 环境中断走独立见证入口。
+    if review['classification'] == 'H' and (review.get('criticalClause') != 'H3'
+                                          or 'reportAccuracyEvidence' not in review):
+        return  # 原流程可独立确认硬门槛，包含这四项以外的 H3。
+    if run is None:
+        run = Path(json.loads((output/'execution-result.json').read_text())['traceDirectory']).resolve()
+        require(run.is_relative_to(study), '重审 Trace 不属于本批私有目录')
+    receipt = json.loads(bound_file(study, review['reportAccuracyEvidence']).read_text())
+    binding = {k: review[k] for k in ('artifactHash', 'executionHash', 'gradeHash')}
+    binding['traceHash'] = checked['traceHash']
+    result = u04_report_accuracy.assess(receipt, binding, run)
+    verdict = result['verdict']
+    critical = review['classification'] == 'H' and review.get('criticalClause') == 'H3'
+    require(verdict != 'H3' or critical, 'U04 审查未保留已证实的 H3')
+    if review['classification'] == 'PASS':
+        require(verdict == 'PASS', 'U04 报告项缺少完整通过证据')
+    if verdict == 'UNKNOWN' and review['classification'] != 'H':
+        require(review['classification'] == 'UNKNOWN', 'U04 证据不足须保留不可判定')
+    review['reportAccuracy'] = result
 
 
 def grading_change(study,path,old=None):
@@ -266,6 +297,7 @@ def apply(study,action,payload,mode='real'):
             require(dt.datetime.fromisoformat(grading['finishedAt']).timestamp()<=min(claim['seal']['endedAt'],claim['executionDeadline'])+(300 if claim['slot']['kind'] in ('health','recovery-health') else 900),'评分完成超过共享截止')
         final_grade=json.loads((output/'final-grade/result.json').read_text())
         require(review['gradeHash']==sha(output/'final-grade/result.json'),'审查未绑定当前评分')
+        u04_review(study, claim['slot']['task'], review, checked, run)
         if review['classification']=='PASS':
             require(final_grade['automaticChecksPassed']is True and checked['status']=='completed','自动失败或执行不完整不能判PASS')
             required={'publicContract','sourceChanges','userChanges','documentationExample','reportedChecks','traceIntegrity'}
@@ -331,6 +363,9 @@ def apply(study,action,payload,mode='real'):
             path=bound_file(study,entry);review=json.loads(path.read_text());slot_id=review['id'];sealed=state['claims'][slot_id]['seal']
             require(review['artifactHash']==sealed['artifactHash']and review['executionHash']==sealed['executionHash'],'重审替换执行身份')
             final_row=next(x for x in regrade['views']if x['id']==slot_id+'/final');final_path=bound_file(study,final_row['report']);grade=json.loads(final_path.read_text());require(review['gradeHash']==sha(final_path),'重审没有使用当前评分')
+            task = state['claims'][slot_id]['slot']['task']
+            if task == 'U04':
+                u04_review(study, task, review, sealed['executionEvidence'], output=study/sealed['output'])
             if review['classification']=='PASS':require(grade['automaticChecksPassed']is True and sealed['executionEvidence']['status']=='completed' and set(review['checks'])=={'publicContract','sourceChanges','userChanges','documentationExample','reportedChecks','traceIntegrity'} and all(value is True for value in review['checks'].values()),'失败产物或缺审查项不能在重审中判PASS')
             if review['classification']=='H':
                 witness_path=bound_file(study,review['violationEvidence']);witness=json.loads(witness_path.read_text());require(review['criticalClause']in ('H1','H2','H3','H4','H5')and witness['artifactHash']==sealed['artifactHash']and witness.get('observedActual')and witness.get('expectedConstraint')and witness.get('references'),'重审H缺少实际见证')

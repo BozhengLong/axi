@@ -12,6 +12,7 @@ import traceback
 sys.dont_write_bytecode = True
 from observations import observe, retained_baseline, regression_valid
 from sandbox import Sandbox, save
+import u02_frozen_merge
 
 _spec = importlib.util.spec_from_file_location('artifact_policy', Path(__file__).with_name('artifact-policy.py'))
 policy_module = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(policy_module)
@@ -77,11 +78,17 @@ def grade(study, task_id, artifact_path, out, seconds, context=None):
     task=study/'health'if task_id=='health'else study/('c7'if task_id.startswith('C7-')else'tasks')/task_id
     profile=json.loads((task/'qualification-profile.json').read_text());config=json.loads((task/'grading-profile.json').read_text());manifest=json.loads((task/'input-manifest.json').read_text())
     assert config['qualificationProfileSha256']==hashlib.sha256((task/'qualification-profile.json').read_bytes()).hexdigest()
+    regression_policy=config['regression'].get('counterfactualPolicy')
+    if regression_policy is not None:
+        if task_id!='U02' or regression_policy!=u02_frozen_merge.POLICY:
+            raise ValueError('错误的反事实回归策略或题目')
+        if hashlib.sha256((task/'input-manifest.json').read_bytes()).hexdigest()!=u02_frozen_merge.INPUT_SHA256:
+            raise ValueError('U02 输入与冻结策略不符')
     raw=artifact_path.read_bytes();artifact_hash=hashlib.sha256(raw).hexdigest();artifact=json.loads(raw)
     assert artifact['schema']==1 and artifact['requiresPausedWriters'] is True
     out.mkdir()
     here=Path(__file__).parent
-    sources=[Path(__file__),*[here/n for n in ['sandbox.py','observations.py','bun-report.py','artifact-policy.py','inputs.py','restore.mjs','capture.mjs','bun-observer.ts','path_patterns.py']],*[p for p in (here/'reporters').iterdir() if p.is_file()],task/'qualification-profile.json',task/'input-manifest.json',task/'grading-profile.json',*[p for p in (task/'qualification-material').iterdir() if p.is_file()]]
+    sources=[Path(__file__),*[here/n for n in ['sandbox.py','observations.py','bun-report.py','artifact-policy.py','inputs.py','restore.mjs','capture.mjs','bun-observer.ts','path_patterns.py','u02_frozen_merge.py']],*[p for p in (here/'reporters').iterdir() if p.is_file()],task/'qualification-profile.json',task/'input-manifest.json',task/'grading-profile.json',*[p for p in (task/'qualification-material').iterdir() if p.is_file()]]
     frozen={str(p.resolve()):hashlib.sha256(p.read_bytes()).hexdigest()for p in sources}
     (out/'grader-source').mkdir()
     for path,checksum in frozen.items():(out/'grader-source'/checksum).write_bytes(Path(path).read_bytes())
@@ -157,14 +164,28 @@ def grade(study, task_id, artifact_path, out, seconds, context=None):
                 before=env.capture('before');build=env.run(profile['commands'][0])
                 if build['timedOut']:raise TimeoutError('反事实构建超时')
                 if build['code']==0:
-                    pairs=[]
+                    pairs=[];u02_checks=[]
                     for suite,current_reg in zip(suites,current_regs):
                         step=regression_step(suite['config'],suite['files'],suite['label']);process=env.run(step)
                         if process['timedOut']:raise TimeoutError('反事实回归超时')
                         try:
                             old_reg=native(env.case,step['label'],step['framework'],process['code']);save(env.case/(step['label']+'-observation.json'),old_reg);pairs.append((old_reg,current_reg))
+                            if regression_policy:
+                                if step['framework']!='vitest':
+                                    raise ValueError('U02 冻结策略只接受 Vitest 原生证据')
+                                report_name=step['label']+'.native.json'
+                                old_report=json.loads((env.case/report_name).read_text())
+                                current_report=json.loads((out/'candidate'/report_name).read_text())
+                                u02_checks.append(u02_frozen_merge.assess(old_reg,current_reg,old_report,current_report))
                         except (ValueError,KeyError,OSError)as error:result['counterfactualReportError']=str(error)
-                    result['regressionPassed']=len(pairs)==len(suites)and regression_groups_valid(pairs)
+                    if regression_policy:
+                        independent=None
+                        if any(g['pendingCompanionExceptions'] for g in u02_checks):
+                            independent=u02_frozen_merge.reproduction(task,deadline-time.monotonic())
+                        result['regressionQualification']=u02_frozen_merge.qualify(u02_checks,independent)
+                        result['regressionPassed']=len(u02_checks)==len(suites) and result['regressionQualification']['passed']
+                    else:
+                        result['regressionPassed']=len(pairs)==len(suites)and regression_groups_valid(pairs)
                 after=env.capture('after')
                 if stable_source(before['files'],before['files'])!=stable_source(after['files'],before['files'])or before['git']['head']!=after['git']['head']or before['git']['index']!=after['git']['index']:
                     raise RuntimeError('反事实验证改写源文件或Git')
