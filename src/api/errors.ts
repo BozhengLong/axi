@@ -4,7 +4,7 @@ export interface NormalizedAPIError {
   errorType: string;
   message: string;
   format: "structured" | "string" | "malformed";
-  rule: "structured-type" | "gateway-rate-limit-v1" | "gateway-upstream-oauth-expired-v1" | "unrecognized";
+  rule: "structured-type" | "gateway-rate-limit-v1" | "gateway-upstream-oauth-expired-v1" | "gateway-upstream-oauth-expired-text-v1" | "unrecognized";
   retryable: boolean;
 }
 
@@ -59,7 +59,19 @@ export function upstreamOAuthHTTP(status: number, body: string): NormalizedAPIEr
 
 // 有些网关的错误通过事件名标识，JSON 数据本身没有 type。
 export function upstreamOAuthStream(event: string, value: unknown): NormalizedAPIError | undefined {
-  if (event !== "error" || !isObject(value) || (value.type !== undefined && value.type !== "error")
+  if (!isObject(value)) return undefined;
+  // 仅识别已经实测的两字段错误帧，避免给其他鉴权失败开启重试。
+  if (event === "message" && value.type === "error" && value.error === expiredMessage
+      && Object.keys(value).length === 2) {
+    return {
+      errorType: "upstream_oauth_expired",
+      message: expiredMessage,
+      format: "string",
+      rule: "gateway-upstream-oauth-expired-text-v1",
+      retryable: true,
+    };
+  }
+  if (event !== "error" || (value.type !== undefined && value.type !== "error")
       || value.status !== 401 || value.error !== "Claude API error") return undefined;
   return expiredOAuth(parseObject(value.details));
 }

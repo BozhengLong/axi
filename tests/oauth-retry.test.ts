@@ -16,6 +16,8 @@ const wrappedHTTP = {
   },
 };
 const wrappedStream = { error: "Claude API error", status: 401, details: JSON.stringify(expired) };
+const textError = { type: "error", error: expired.error.message };
+const dataFrame = (data: unknown) => 'data: ' + JSON.stringify(data) + '\n\n';
 const event = (name: string, data: unknown) => 'event: ' + name + '\ndata: ' + JSON.stringify(data) + '\n\n';
 const frame = (type: string, data = {}) => event(type, { type, ...data });
 const start = frame("message_start", { message: { model: "claude-opus-5-5", content: [], usage: {} } });
@@ -49,6 +51,7 @@ function setup(reply: (attempt: number) => Response, window = 6000, onSleep?: ()
 for (const [name, response] of [
   ["HTTP", () => http(wrappedHTTP)],
   ["SSE", () => stream(event("error", wrappedStream))],
+  ["SSE 字符串", () => stream(dataFrame(textError))],
 ] as const) {
   test(name + " 上游过期后重发同一逻辑请求并保留每次终态", async () => {
     const run = setup(n => n === 1 ? response() : stream(start + end));
@@ -64,6 +67,9 @@ for (const [name, response] of [
       callId: first?.data.callId, attempt: 0, willRetry: true,
       normalizedError: { errorType: "upstream_oauth_expired", retryable: true },
     });
+    if (name === "SSE 字符串") {
+      expect(error?.data.normalizedError).toMatchObject({ format: "string", rule: "gateway-upstream-oauth-expired-text-v1" });
+    }
     expect(success?.data).toMatchObject({ callId: first?.data.callId, attempt: 1 });
   });
 
@@ -84,6 +90,14 @@ test("普通鉴权失败、403 和伪装在模型内容中的错误不能触发 
     () => stream(event("message", wrappedStream)),
     () => stream(event("error", { ...wrappedStream, status: 403 })),
     () => stream(start + block + event("error", wrappedStream)),
+    () => stream(dataFrame({ ...textError, error: expired.error.message + " " })),
+    () => stream(dataFrame({ ...textError, status: 403 })),
+    () => stream(dataFrame({ ...textError, error: "invalid x-api-key" })),
+    () => stream(event("error", textError)),
+    () => stream(start + block + dataFrame(textError)),
+    () => stream(start + frame("content_block_start", { index: 0, content_block: { type: "tool_use", id: "tool_1", name: "write", input: {} } }) + dataFrame(textError)),
+    () => http(textError),
+    () => new Response(dataFrame(textError), { status: 201, headers: { "content-type": "text/event-stream" } }),
     () => stream(start + frame("content_block_start", { index: 0, content_block: { type: "tool_use", id: "tool_1", name: "write", input: {} } }) + event("error", wrappedStream)),
   ]) {
     const run = setup(response);
