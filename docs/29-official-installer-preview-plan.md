@@ -45,7 +45,7 @@ Pi 提供项目维护的安装器和包管理入口，安装后使用 `pi` 命�
 | 升级与回退 | 用带版本的旧测试制品安装，更新至候选，随后切回旧版。各阶段命令指向正确版本，原项目文件和配置可继续使用。覆盖重复安装、两个安装进程并发、已有同名命令及卸载。 |
 | 失败处理 | 断网、损坏或错误架构的制品，以及安装中断，均返回明确结果。验证已有入口仍能启动，首次失败安装不留下有效命令。 |
 | macOS 下载信任 | 用 Developer ID 签名目标可执行文件，核对签名和所需运行权限，再提交 Apple 公证。用干净账户从浏览器下载最终交付件，实测 Gatekeeper 和首次运行。 |
-| 公开核对 | 发布前检查附件哈希、真实下载件、支持平台和试用说明。发布后匿名重下，核对哈希和版本。 |
+| 公开核对 | 公开标题、说明和默认试用指南使用英文。发布前检查附件哈希、真实下载件、支持平台和试用说明。发布后匿名重下，核对哈希和版本。 |
 
 当前 Mac 有 `notarytool`。在本机当前钥匙串未查到可用的 Developer ID Application 签名身份。实施阶段先确认可用的签名环境。Linux 的验收可独立进行。macOS 公布安装入口前须完成签名、公证和真实下载启动。[Apple Developer ID](https://developer.apple.com/developer-id/) · [Apple 公证流程](https://developer.apple.com/documentation/security/customizing-the-notarization-workflow)
 

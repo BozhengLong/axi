@@ -12,6 +12,8 @@
 
 按用户确认公开发布开发者预览 `v0.0.1`。远端标签指向 `edaaa63`。同一源码包通过 macOS ARM64 与 Linux ARM64 的干净安装、真实网关短任务和权限检查。[GitHub Release](https://github.com/BozhengLong/axi/releases/tag/v0.0.1)
 
+公开发布标题、说明和默认试用指南已改为英文。原中文指南可选下载。后续公开发布采用英文。[英文试用指南](https://github.com/BozhengLong/axi/releases/download/v0.0.1/PREVIEW.md?edition=20261120-en) · [本日记录](devlog/2026-11-20.md#调整公开发布材料的语言)
+
 U02、U04 新口径完成六份 R7 副本复验和 20 项控制。复验未调用模型。R7 的 NO-GO、原账本和 H1–H5 保持有效。新批次仍需正式资格和运行验收。[验证记录](verification/2026-11-20-preview-v001-and-v28-scoring.md) · [本日记录](devlog/2026-11-20.md#发布-v001-并完成方案-28-专项复验)
 
 ## R7 正式验收已结束（2026-11-20）
