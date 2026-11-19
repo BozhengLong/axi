@@ -20,6 +20,9 @@ def recover(product, transport):
         'rule': 'gateway-upstream-oauth-expired-v1',
         'transport': transport,
     }
+    if transport == 'text':
+        wire[2]['data']['normalizedError'].update(rule='gateway-upstream-oauth-expired-text-v1',
+                                                   format='string', transport='sse')
     if transport == 'http':
         wire[1]['data']['status'] = 401
     return wire, native
@@ -29,7 +32,7 @@ def run():
     rows = []
     for product in ('v0', 'v1', 'claude'):
         axi = product != 'claude'
-        for transport in ('http', 'sse'):
+        for transport in ('http', 'sse', 'text'):
             wire, native = recover(product, transport)
             proof = previous.correlate(wire, native, axi, 23, allow_oauth=True)
             assert proof['status'] == 'recovered-upstream-oauth' and proof['oauthAttempts'] == [1]
@@ -38,7 +41,8 @@ def run():
 
         for case in ('prior-policy', 'bare401', 'invalid-key', '403', 'no-completion',
                      'partial-text', 'partial-tool', 'different-body', 'wrong-model',
-                     'duplicate-effect', 'other-logical-call', 'stream-fallback', 'late', 'client-aborted'):
+                     'duplicate-effect', 'other-logical-call', 'stream-fallback', 'late', 'client-aborted',
+                     'text-wrong-format', 'text-in-http', 'text-in-sse201'):
             wire, native = recover(product, 'sse')
             if case == 'bare401':
                 wire[1]['data']['status'] = 401
@@ -74,6 +78,16 @@ def run():
                         event['data']['callId'] = 'another'
                 else:
                     native[1]['base'] = 'another'
+            elif case == 'text-wrong-format':
+                wire, native = recover(product, 'text')
+                wire[2]['data']['normalizedError']['format'] = 'structured'
+            elif case == 'text-in-http':
+                wire, native = recover(product, 'text')
+                wire[1]['data']['status'] = 401
+                wire[2]['data']['normalizedError']['transport'] = 'http'
+            elif case == 'text-in-sse201':
+                wire, native = recover(product, 'text')
+                wire[1]['data']['status'] = 201
             elif case == 'client-aborted':
                 wire.insert(2, {'time': previous.clock(11), 'kind': 'stream_error',
                                 'data': {'sequence': 1, 'clientAborted': True}})

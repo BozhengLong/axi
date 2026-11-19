@@ -219,8 +219,10 @@ const server = Bun.serve({ hostname: process.env.EVAL_RELAY_HOST ?? "0.0.0.0", p
         if (!payload) continue;
         if (payload.trim() === "[DONE]") { log(run, "sse_marker", { value: "[DONE]" }); continue; }
         const e = JSON.parse(payload); log(run, "sse", e);
-        const eventName = frame.split("\n").filter(line => line.startsWith("event:")).at(-1)?.slice(6).trim() ?? "";
-        const oauthError = observeOAuthStream(eventName, e);
+        // SSE 只移除冒号后的第一个空格。保留其他空格，避免放宽已确认的事件名。
+        const eventName = frame.split("\n").filter(line => line === "event" || line.startsWith("event:"))
+          .at(-1)?.slice(6).replace(/^ /, "") || "message";
+        const oauthError = response.status === 200 ? observeOAuthStream(eventName, e) : undefined;
         const apiError = oauthError ? { ...oauthError, retryable: blocks.length === 0 && !messageComplete }
           : observeAPIError(e);
         if (apiError) { run.transportIssues.push(`api_event:${apiError.errorType}`); log(run, "api_error", { sequence: requestSequence, round: requestRound, normalizedError: apiError }); }

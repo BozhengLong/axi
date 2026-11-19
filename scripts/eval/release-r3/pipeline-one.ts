@@ -48,7 +48,7 @@ const firstTest=taskId==='health'?'result.txt':profile.regressionPaths[0];assert
 const mock: (MockReply & {status?: number; headers?: Record<string, string>})[] = [shellTool('read_task',{},false),...(product==='v1'?[shellTool('draft',{[firstTest]:patch[firstTest]!},false),end('模拟初稿，需要收尾复核。'),shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')]:[shellTool('complete',patch,true),end('模拟参考完成；不计入模型能力。')])];
 if (fault) {
  assert(taskId === 'health');
- const oauth = fault === 'httpOAuth' || fault === 'sseOAuth';
+ const oauth = ['httpOAuth', 'sseOAuth', 'sseOAuthText'].includes(fault);
  assert(auth.recoveryHealthPolicy === 'recoverable-upstream-oauth-v1'
    || (auth.recoveryHealthPolicy === 'recoverable-rate-limit-v1' && !oauth));
  assert(oauth || fault === 'http429' || fault === 'sse429');
@@ -57,9 +57,12 @@ if (fault) {
    ? {content:[],stopReason:'',status:429,headers:{'content-type':'application/json','retry-after':'0'},raw:error}
    : {content:[],stopReason:'',raw:'event: error\ndata: '+error+'\n\n'};
  if (oauth) {
-   const upstream = JSON.stringify({type:'error',error:{type:'authentication_error',
-     message:'OAuth access token has expired. Re-authenticate to continue.'},request_id:'req_fixture'});
-   if (fault === 'httpOAuth') {
+   const message = 'OAuth access token has expired. Re-authenticate to continue.';
+   const upstream = JSON.stringify({type:'error',error:{type:'authentication_error',message},request_id:'req_fixture'});
+   if (fault === 'sseOAuthText') {
+     const raw = 'data: '+JSON.stringify({type:'error',error:message})+'\n\n';
+     mock.unshift({content:[],stopReason:'',raw});
+   } else if (fault === 'httpOAuth') {
      const raw = JSON.stringify({type:'error',error:{type:'authentication_error',
        message:'litellm.AuthenticationError: AnthropicException - '+upstream}});
      mock.unshift({content:[],stopReason:'',status:401,headers:{'content-type':'application/json'},raw});

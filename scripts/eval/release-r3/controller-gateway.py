@@ -137,7 +137,7 @@ def verify_admission(study,manifest,repair=None):
         evidence = {k:json.loads(bound_file(study,v).read_text()) for k,v in entries.items()}
         require(all(v.get('qualified') is True for v in evidence.values()), '恢复专项资格未通过')
         native = evidence['native']
-        faults = ('clean','http429','sse429','httpOAuth','sseOAuth') if oauth else ('clean','http429','sse429')
+        faults = ('clean','http429','sse429','httpOAuth','sseOAuth','sseOAuthText') if oauth else ('clean','http429','sse429')
         require(native['mockOnly'] and len(native['rows']) == 3*len(faults) and all(row['qualified'] for row in native['rows'])
                 and {(r['product'],r['fault']) for r in native['rows']}
                 == {(product,fault) for product in ('v0','v1','claude') for fault in faults}, '三方模拟场景缺失')

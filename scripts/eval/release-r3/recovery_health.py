@@ -106,11 +106,13 @@ def correlate(wire, native, axi, deadline, allow_oauth=False):
             if seq != active or seq not in requests or err.get('retryable') is not True:
                 raise ValueError('错误事件缺少唯一的可重试请求')
             current = requests[seq]
+            transport = (err.get('transport'), current.get('http'))
+            structured_oauth = (err.get('rule') == 'gateway-upstream-oauth-expired-v1'
+                                and transport in (('http', 401), ('sse', 200)))
+            text_oauth = (err.get('rule') == 'gateway-upstream-oauth-expired-text-v1'
+                          and err.get('format') == 'string' and transport == ('sse', 200))
             is_oauth = (allow_oauth and err.get('errorType') == 'upstream_oauth_expired'
-                        and err.get('rule') == 'gateway-upstream-oauth-expired-v1'
-                        and ((err.get('transport') == 'http' and current.get('http') == 401)
-                             or (err.get('transport') == 'sse' and current.get('http') == 200))
-                        and not current['contentBegan'])
+                        and (structured_oauth or text_oauth) and not current['contentBegan'])
             is_limit = (err.get('errorType') == 'rate_limit_error'
                         and 200 <= current.get('http', 0) < 300 and not current['tools'])
             if not (is_oauth or is_limit):

@@ -37,6 +37,11 @@ export function observeOAuthHTTP(status: number, text: string) {
 }
 
 export function observeOAuthStream(eventName: string, value: any) {
+  if (eventName === "message" && value?.type === "error" && value.error === expiredMessage
+      && Object.keys(value).length === 2) {
+    return { errorType: "upstream_oauth_expired", message: expiredMessage, format: "string",
+      rule: "gateway-upstream-oauth-expired-text-v1", retryable: true, transport: "sse" };
+  }
   if (eventName !== "error" || (value?.type !== undefined && value.type !== "error")
       || value?.status !== 401 || value.error !== "Claude API error") return undefined;
   return oauthError(parseJSON(value.details), "sse");

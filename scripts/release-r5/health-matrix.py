@@ -6,13 +6,13 @@ import subprocess
 import sys
 
 R3 = Path(__file__).resolve().parents[1] / 'eval/release-r3'
-OAUTH_FAULTS = ('httpOAuth', 'sseOAuth')
+OAUTH_FAULTS = ('httpOAuth', 'sseOAuth', 'sseOAuthText')
 
 
 def expected_oauth(product, fault):
     if product == 'v0':
         return 'ENV_INTERRUPTED', 'not-completed'
-    if product == 'claude' and fault == 'sseOAuth':
+    if product == 'claude' and fault in ('sseOAuth', 'sseOAuthText'):
         return 'PASS', 'unresolved'
     return 'PASS', 'recovered-upstream-oauth'
 
