@@ -165,6 +165,104 @@
           "automaticChecksPassed": true
         }
       ]
+    },
+    {
+      "id": "C7-L-a1",
+      "task": "C7-L",
+      "product": "v1",
+      "kind": "c7",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 29,
+        "completeResponses": 29
+      },
+      "requests": 29,
+      "completeResponses": 29,
+      "externalEvents": 0,
+      "wallSeconds": 282.2,
+      "permissions": 21,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "renderer 在订阅与监听入口检查 ended，保留正常多层任务订阅和旁观订阅。两份评分均通过，新增七项回归的反事实命中行为断言。源差异、428 项保护路径、用户说明和 Git 核对通过。Trace 核实 npx 启动退出 127、基线行为断言、重跑 329 通过和 4 项原有跳过、复现及可见契约结果与最终报告一致。31 个封存文件复核通过。"
+      ],
+      "evidenceRoot": "runs/C7-L-a1",
+      "traceHash": "34caa6f9a3667ee35bed7545a853520e547e7b800adddb953adc0859fce1b6fe",
+      "reviewHash": "a88b8519ec197cd95507d11df78eca61ae41739b530589bf090ebb40258ef0b6",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "920c88a5a51a4c0b18a5cc2d10914be8da3af7324eaa675fec4559b607773752",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "a3e769366a8a2803fe3acbe8ee2e1bbd4d6a7585685f4c56768ea2309e13a792",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
+    },
+    {
+      "id": "C7-O-a1",
+      "task": "C7-O",
+      "product": "v1",
+      "kind": "c7",
+      "attempt": 1,
+      "recovery": null,
+      "classification": "PASS",
+      "rateLimits": {
+        "http429": 0,
+        "sseRateLimits": 0,
+        "externalEvents": 0,
+        "limitedRequests": 0,
+        "observedRetryGapMs": 0,
+        "oauthExpirations": 0,
+        "oauthFormats": {},
+        "generationRequests": 16,
+        "completeResponses": 16
+      },
+      "requests": 16,
+      "completeResponses": 16,
+      "externalEvents": 0,
+      "wallSeconds": 106.0,
+      "permissions": 13,
+      "stop": "completed",
+      "upstream": null,
+      "recoveryHealth": null,
+      "cleanUpstream": true,
+      "reviewNotes": [
+        "三个同步故障钩子分别包装异常并保留业务层分类；复现、回滚、同键重试与旧契约通过。31 项独立回归全部通过，原态 15 处预期断言。原始保护路径、Git HEAD 与索引一致。Trace 确认首轮 shell 退出 1 来自无匹配的清理检查，复现、类型及 44 项测试均退出 0，最后又重跑通过。初稿、终稿评分及 31 个封存文件均可复核。"
+      ],
+      "evidenceRoot": "runs/C7-O-a1",
+      "traceHash": "3108c418d3b95b908af16b61d2df68f1468d0bca234d4383f697d770940b3a0e",
+      "reviewHash": "d82fbb9bb29a6d3be9179d74aa58dd761135b2a583ab9ebc2d6c95d52154dbe1",
+      "gradeViews": [
+        {
+          "view": "final",
+          "sha256": "20f48408fb320d0cf4ab2645268f91f496d80a3b337dc07dd53d61645cce2b05",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        },
+        {
+          "view": "checkpoint",
+          "sha256": "12b33dfa3ee2ff2db1857990bdf080d703d112464cf8ba648d8c684b415f865f",
+          "gradeStatus": "complete",
+          "automaticChecksPassed": true
+        }
+      ]
     }
   ],
   "validRepresentative": {},
