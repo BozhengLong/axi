@@ -4,6 +4,10 @@
 
 共用规范见 [AGENTS.md](../AGENTS.md)。本文件汇总当前状态，详细过程保存在 [开发日报](devlog/) 中。
 
+## 多提供商接入方案待确认（2026-11-20）
+
+方案 31 记录 `axi setup`、六种首批连接、原网关兼容、两道真实任务和 `v0.0.2` 安装衔接。已核对官方接口、代表型号和当前 Bun 凭据库 API。D1–D5 确认后再实现。[接入方案](31-multi-provider-setup-plan.md) · [本日记录](devlog/2026-11-20.md#提出多提供商接入与首次配置方案)
+
 ## main 已展示 v0.0.1 英文下载入口（2026-11-20）
 
 GitHub 默认分支已更新到 `06f3da1`。英文 README 先介绍产品能力，再给出下载及入门入口。GitHub About 使用英文产品描述，并链接到 Releases。相对 `v0.0.1` 标签只有根目录 README 改动。方案 30 的冻结安装、类型检查、194 项测试和帮助入口已经通过。本次再次匿名核对首页、About 和下载件。[GitHub 首页](https://github.com/BozhengLong/axi) · [本日记录](devlog/2026-11-20.md#调整-github-公开产品介绍)
