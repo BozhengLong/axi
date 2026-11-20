@@ -4,6 +4,10 @@
 
 共用规范见 [AGENTS.md](../AGENTS.md)。本文件汇总当前状态，详细过程保存在 [开发日报](devlog/) 中。
 
+## 本机代理和 npm 内测通过同机隔离验收（2026-11-20）
+
+方案 32 已实现。冻结源码为 `49bb6a1`。新命令 `axi --agent codex --file FILE` 和 `axi --agent claude --file FILE` 每轮复制一个已存在的文本文件，Axi 审批后才写回。Codex 复验覆盖拒绝、中断、在同一会话继续和批准后通过独立测试。Claude Code 复验覆盖现有网关、拒绝和批准写回。两条路径均由同一个私有 npm 包启动。包从本机测试仓库下载，使用独立用户目录及 npm 缓存，无 Bun 的 PATH，并沿用原 Codex 登录。独立 Mac 和公开 npm 分发仍待实测。[本轮方案](32-local-cli-npm-preview-plan.md) · [本日记录](devlog/2026-11-20.md#实现本机代理并验证-npm-内测)
+
 ## 本机 Claude Code 和 Codex 调用试验通过（2026-11-20）
 
 用户决定暂缓五个云端预设的独立实测，优先验证 Axi 能否调用用户已经配置的本机命令。临时 Bun 试验程序在隔离 Git 副本中分别启动 Claude Code 和 Codex。两边完成同一处修复并返回结构化事件。Claude Code 使用现有 API 网关，Codex 使用现有 ChatGPT 登录。Axi 产品入口仍使用模型接口。跨进程审批、取消和会话续接待单独验证。[本日记录](devlog/2026-11-20.md#验证本机-claude-code-和-codex-的调用路径)
