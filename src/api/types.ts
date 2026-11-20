@@ -21,6 +21,7 @@ export interface ModelResponse {
   content: ContentBlock[];
   stopReason: string;
   usage: Record<string, number>;
+  upstreamProvider?: string;
 }
 export interface StreamCallbacks {
   onText?: (text: string) => void;

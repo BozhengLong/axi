@@ -1,14 +1,21 @@
 import { APIClient, RetryWindowError } from "./api/client.ts";
 import { errorMessage, type Effort } from "./api/types.ts";
 import { Agent, systemPrompt } from "./agent/loop.ts";
-import { loadConfig } from "./config.ts";
+import { loadProfile, profileNameValid, shellEnvironment } from "./profiles.ts";
+import { runSetup } from "./setup.ts";
+import { buildCommit, version } from "./version.ts";
+import { redact } from "./api/wire.ts";
+import { runBash } from "./tools/bash.ts";
 import { SessionLog } from "./log.ts";
 import { confirmTool, type PermissionMode } from "./ui/permission.ts";
 import { Terminal } from "./ui/terminal.ts";
 import { realpathSync } from "node:fs";
 import type { ReviewMode } from "./agent/review.ts";
 
-const help = `Axi v1：连续对话，历史仅保留在本次运行中。
+const help = `Axi：连续对话，历史仅保留在本次运行中。
+axi setup [--profile NAME]   配置提供商、模型和认证
+axi [--profile NAME]         启动模型会话
+axi --version                显示版本与构建提交
 /effort medium  设置下一轮为 medium（默认）
 /effort high    设置下一轮为 high
 /help          显示帮助
@@ -25,11 +32,40 @@ Ctrl+C 中止当前输入、请求或工具。再次输入可继续，已完成�
 `;
 
 export async function main(): Promise<void> {
-  if (process.argv.includes("--help") || process.argv.includes("-h")) { process.stdout.write(help); return; }
-  const config = loadConfig();
+  const args = process.argv.slice(2);
+  if (args.includes("--help") || args.includes("-h")) { process.stdout.write(help); return; }
+  if (args.length === 1 && args[0] === "--version") { process.stdout.write(`axi ${version} (${buildCommit})\n`); return; }
+  const setup = args[0] === "setup";
+  if (setup) args.shift();
+  const name = args[1];
+  if (args.length && (args.length !== 2 || args[0] !== "--profile" || !profileNameValid(name))) throw new Error("参数无效。请运行 axi --help。");
+
+  if (setup && !process.stdin.isTTY) throw new Error("axi setup 需要交互终端。");
+  const ui = new Terminal(true);
+  const preparing = new AbortController();
+  const cancelPreparation = () => preparing.abort();
+  ui.onInterrupt = cancelPreparation;
+  process.on("SIGINT", cancelPreparation);
+  let config;
+  try {
+    if (setup) await runSetup(ui, name, preparing.signal);
+    else config = await loadProfile(name, prompt => ui.readSecret(prompt, preparing.signal));
+  } catch (error) {
+    if (!preparing.signal.aborted && (error as Error).name !== "AbortError") {
+      ui.close();
+      throw error;
+    }
+    ui.write("已取消。\n");
+  } finally {
+    process.removeListener("SIGINT", cancelPreparation);
+  }
+  if (!config) { ui.close(); return; }
   const cwd = realpathSync(process.cwd());
-  const log = new SessionLog(cwd);
-  const ui = new Terminal();
+  let log: SessionLog;
+  try { log = new SessionLog(cwd); } catch (error) { ui.close(); throw error; }
+  ui.filterOutput = value => redact(value, config.apiKey);
+  const record = (kind: string, data: unknown) => log.record(kind, JSON.parse(JSON.stringify(data,
+    (_key, value) => typeof value === "string" ? redact(value, config.apiKey) : value)));
   let effort: Effort = "medium";
   let permissionMode: PermissionMode = "project";
   let reviewMode: ReviewMode = "auto";
@@ -39,13 +75,14 @@ export async function main(): Promise<void> {
   ui.onClose = interrupt;
   process.on("SIGINT", interrupt);
   const client = new APIClient(config, systemPrompt(cwd), {
-    record: log.record,
+    record,
     onRawLine: process.env.AXI_DEBUG === "sse" ? line => ui.write(`[SSE ${new Date().toISOString()}] ${line}\n`) : undefined,
   });
   const agent = new Agent({
     cwd,
     sessionId: log.id,
-    record: log.record,
+    record,
+    execute: (input, cwd, signal) => runBash(input, cwd, signal, shellEnvironment(config)),
     permissionMode: () => permissionMode,
     reviewMode: () => reviewMode,
     onReviewStart: () => { ui.endStream(); ui.write("\nAxi：收尾复核（待复核初稿）。不设请求次数上限，权限要求不变。\n"); },
@@ -71,6 +108,7 @@ export async function main(): Promise<void> {
       ui.write(`\n工具结果${result.is_error ? "（未成功）" : ""}：\n${display}\n`);
     },
   });
+  if (config.profile) { record("profile_selected", { profile: config.profile, provider: config.provider, model: config.model, protocol: config.protocol }); ui.write(`模型配置：${config.profile}（${config.model}）\n`); }
   ui.write(`${help}\n任务请求次数：不限。连续故障恢复窗口：${config.retryWindowMs! / 1000}秒。\n工作目录：${cwd}\n日志：${log.path}\n`);
   try {
     while (!ui.closed) {

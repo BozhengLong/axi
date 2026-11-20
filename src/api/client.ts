@@ -1,9 +1,10 @@
 import { DEFAULT_RETRY_WINDOW_MS, type APIConfig } from "../config.ts";
 import { upstreamOAuthHTTP, type NormalizedAPIError } from "./errors.ts";
 import { SSEParser } from "./sse.ts";
-import { MessageAssembler, ProtocolError, StreamAPIError } from "./stream.ts";
+import { ProtocolError, StreamAPIError } from "./stream.ts";
 import { abortError, errorMessage, noLog, type Effort, type Message, type ModelResponse, type RecordLog, type StreamCallbacks } from "./types.ts";
-import { toolDefinitions } from "../tools/registry.ts";
+import { assemblerFor, requestBody } from "./providers.ts";
+import { redact, requestHeaders } from "./wire.ts";
 import type { GenerationCounter } from "../agent/review.ts";
 
 export class HTTPError extends Error {
@@ -82,16 +83,8 @@ export class APIClient {
 
   async call(history: readonly Message[], options: CallOptions): Promise<ModelResponse> {
     // 先序列化快照。重试期间外部修改不会改变同一次请求。
-    const body = JSON.stringify({
-      model: this.config.model,
-      max_tokens: 64000,
-      stream: true,
-      system: this.system,
-      thinking: { type: "adaptive", display: "summarized" },
-      output_config: { effort: options.effort },
-      tools: toolDefinitions.map(tool => ({ ...tool, eager_input_streaming: this.options.eagerInputStreaming ?? true })),
-      messages: history,
-    });
+    const body = JSON.stringify(requestBody(this.config, this.system, history, options.effort,
+      this.options.eagerInputStreaming ?? true));
     const callId = crypto.randomUUID();
     const now = this.options.now ?? (() => performance.now());
     const windowMs = this.config.retryWindowMs ?? DEFAULT_RETRY_WINDOW_MS;
@@ -116,13 +109,13 @@ export class APIClient {
       let response: Response | undefined;
       let reader: { read(): Promise<{ done: boolean; value?: Uint8Array }>; cancel(): Promise<void>; releaseLock(): void } | undefined;
       try {
-        this.record("request", { callId, attempt, budget: options.budget?.snapshot(), recovery: { windowMs, remainingMs, elapsedMs: now() - callStarted }, body: JSON.parse(body) });
+        this.record("request", { callId, attempt, budget: options.budget?.snapshot(), recovery: { windowMs, remainingMs, elapsedMs: now() - callStarted }, protocol: this.config.protocol ?? "anthropic-messages", provider: this.config.provider, body: JSON.parse(body) });
         options.signal.throwIfAborted();
         if (now() >= expires) exhausted();
         response = await (this.options.fetch ?? fetch)(this.config.url, {
           method: "POST",
           redirect: "error",
-          headers: { "content-type": "application/json", "x-api-key": this.config.apiKey, "anthropic-version": "2023-06-01", accept: "text/event-stream" },
+          headers: requestHeaders(this.config, true),
           body,
           signal,
         });
@@ -130,17 +123,18 @@ export class APIClient {
         if (now() >= expires) exhausted();
         if (!response.ok) {
           const body = (await response.text()).slice(0, 8000);
-          const oauthError = upstreamOAuthHTTP(response.status, body);
-          const detail = (oauthError?.message ?? body).replaceAll(this.config.apiKey, "[认证信息已隐藏]");
+          const oauthError = this.config.upstreamOAuth !== false ? upstreamOAuthHTTP(response.status, body) : undefined;
+          const detail = redact(oauthError?.message ?? body, this.config.apiKey);
           throw new HTTPError(response.status, `HTTP ${response.status}：${detail}`,
             retryAfter(response.headers.get("retry-after")), oauthError);
         }
         if (!response.body) throw new ProtocolError("API 没有返回响应体");
         if (!response.headers.get("content-type")?.includes("text/event-stream")) throw new ProtocolError("API 未返回 text/event-stream");
-        const assembler = new MessageAssembler(options);
+        const assembler = assemblerFor(this.config, options);
         const parser = new SSEParser(line => {
-          this.record("sse", { callId, attempt, line });
-          this.options.onRawLine?.(line);
+          const safeLine = redact(line, this.config.apiKey);
+          this.record("sse", { callId, attempt, line: safeLine });
+          this.options.onRawLine?.(safeLine);
         });
         const streamReader = response.body.getReader();
         reader = streamReader;
@@ -159,10 +153,10 @@ export class APIClient {
         return result;
       } catch (error) {
         // 不把 API key 或包含连接地址的底层错误直接打印到终端。
-        const sanitize = (text: string) => text.replaceAll(this.config.apiKey, "[认证信息已隐藏]").replaceAll(this.config.url, "[API 地址]");
+        const sanitize = (text: string) => redact(text, this.config.apiKey).replaceAll(this.config.url, "[API 地址]");
         const reason = sanitize(errorMessage(error));
         const streamOAuth = error instanceof StreamAPIError && error.errorType === "upstream_oauth_expired";
-        const canRetry = retryable(error) && (!streamOAuth || response?.status === 200);
+        const canRetry = retryable(error) && (!streamOAuth || this.config.upstreamOAuth !== false && response?.status === 200);
         const left = expires - now();
         const canRecover = !options.signal.aborted && (this.options.maxRetries === undefined || attempt < this.options.maxRetries) && canRetry && left > 0;
         const requestedDelayMs = error instanceof HTTPError && error.retryAfterMs !== undefined ? Math.max(1, error.retryAfterMs) : Math.min(30_000, 1000 * 2 ** Math.min(attempt, 5));
