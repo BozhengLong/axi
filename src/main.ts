@@ -1,3 +1,4 @@
+import { runLocalSession } from "./delegate/session.ts";
 import { APIClient, RetryWindowError } from "./api/client.ts";
 import { errorMessage, type Effort } from "./api/types.ts";
 import { Agent, systemPrompt } from "./agent/loop.ts";
@@ -16,6 +17,8 @@ const help = `Axi：连续对话，历史仅保留在本次运行中。
 axi setup [--profile NAME]   配置提供商、模型和认证
 axi [--profile NAME]         启动模型会话
 axi --version                显示版本与构建提交
+axi --agent codex --file FILE   在临时副本中调用本机 Codex
+axi --agent claude --file FILE  在临时副本中调用已配置网关的 Claude Code
 /effort medium  设置下一轮为 medium（默认）
 /effort high    设置下一轮为 high
 /help          显示帮助
@@ -35,6 +38,13 @@ export async function main(): Promise<void> {
   const args = process.argv.slice(2);
   if (args.includes("--help") || args.includes("-h")) { process.stdout.write(help); return; }
   if (args.length === 1 && args[0] === "--version") { process.stdout.write(`axi ${version} (${buildCommit})\n`); return; }
+  if (args[0] === "--agent") {
+    if (args.length !== 4 || (args[1] !== "codex" && args[1] !== "claude") || args[2] !== "--file" || !args[3]) {
+      throw new Error("本机代理用法：axi --agent codex|claude --file FILE");
+    }
+    await runLocalSession(args[1], args[3]);
+    return;
+  }
   const setup = args[0] === "setup";
   if (setup) args.shift();
   const name = args[1];

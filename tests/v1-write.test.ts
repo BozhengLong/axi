@@ -182,3 +182,17 @@ test("E-01：日志版本可关联会话；启动时不沿 .axi 链接写到其�
   const log = new SessionLog(outside); log.record("test", { ok: true }); log.close();
   const entry = JSON.parse(readFileSync(log.path, "utf8")); expect(entry.version).toBe(4); expect(entry.sessionId).toBe(log.id); expect(entry.data).toEqual({ ok: true });
 });
+
+test("本机代理整文件提案保留原文件版本绑定", async () => {
+  const { root, registry } = fixture();
+  const workspace = registry.workspace;
+  const filename = join(root, "a.txt");
+  const start = await workspace.snapshot("a.txt", signal());
+  const version = workspace.remember(start);
+  const proposal = await workspace.prepareReplacement("a.txt", version, "delegate\n", signal());
+  writeFileSync(filename, "local edit\n");
+  await expect(workspace.prepareReplacement("a.txt", version, "wrong\n", signal())).rejects.toHaveProperty("code", "stale_version");
+  await expect(workspace.commit(proposal, signal())).rejects.toHaveProperty("code", "stale_version");
+  expect(readFileSync(filename, "utf8")).toBe("local edit\n");
+  noTemps(root);
+});

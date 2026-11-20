@@ -118,6 +118,11 @@ export class FileWorkspace {
     if (before.text.indexOf(oldText, at + 1) >= 0) throw new ToolError("ambiguous_match", "old_text 出现多次（含重叠），不能猜测替换位置。");
     return this.proposal("edit", before.path, before.text.slice(0, at) + newText + before.text.slice(at + oldText.length), before, version);
   }
+  async prepareReplacement(path: string, version: string, text: string, signal: AbortSignal): Promise<MutationProposal> {
+    const before = await this.snapshot(path, signal);
+    this.requireVersion(before, version);
+    return this.proposal("edit", before.path, text, before, version);
+  }
   prepareWrite(path: string, text: string, signal: AbortSignal): MutationProposal {
     signal.throwIfAborted(); const target = this.paths.check(path, "file", true);
     if (target.stat) throw new ToolError("already_exists", "write 只创建新文件，不能覆盖已有目标。已有文件请先 read 再 edit。");
