@@ -1,28 +1,32 @@
 # Axi
 
-Axi is a terminal coding agent built with Bun. It can read project files, preview edits, and run shell commands with your approval.
+**An AI coding agent for your terminal.**
 
-## v0.0.1 Developer Preview
+Explore a codebase, work through a fix, and decide which changes Axi applies.
 
-[Download the source bundle](https://github.com/BozhengLong/axi/releases/download/v0.0.1/axi-v0.0.1-source.tar.gz) · [SHA-256 checksums](https://github.com/BozhengLong/axi/releases/download/v0.0.1/SHA256SUMS) · [English quickstart](https://github.com/BozhengLong/axi/releases/download/v0.0.1/PREVIEW.md?edition=20261120-en) · [Release notes](https://github.com/BozhengLong/axi/releases/tag/v0.0.1)
+[Download Axi v0.0.1](https://github.com/BozhengLong/axi/releases/download/v0.0.1/axi-v0.0.1-source.tar.gz) · [Quickstart](https://github.com/BozhengLong/axi/releases/download/v0.0.1/PREVIEW.md?edition=20261120-en) · [Release notes](https://github.com/BozhengLong/axi/releases/tag/v0.0.1)
 
-Download the bundle and checksums, verify the archive, then unpack it and run `bun install --frozen-lockfile` with Bun 1.3.14. The quickstart shows how to configure your own Anthropic Messages-compatible gateway and launch Axi in a disposable Git repository.
+**Developer preview** · Tested on Apple silicon Macs and in a Linux ARM64 container.
 
-Tested on macOS ARM64 and in a Linux ARM64 container.
+## Work with Axi
 
-## Run from source
+- **Explore your project.** Search and read project files as you work through a task in one terminal session.
+- **Review proposed changes.** See the diff before a file edit is applied. Shell commands show the full command and working directory and wait for your approval.
+- **Inspect the session afterward.** Axi keeps a local record of tool calls, approvals, and results in the project's `.axi/logs/` directory.
 
-1. Install Git and Bun 1.3.14. From the extracted or cloned Axi directory, run `bun install --frozen-lockfile`.
-2. Set `ANTHROPIC_BASE_URL` and `ANTHROPIC_API_KEY` in your terminal. Use a gateway you are authorized to access that serves `claude-opus-5-5`.
-3. From a disposable Git repository with an initial commit, run `bun run /absolute/path/to/axi/src/main.ts`. Axi uses the directory you launched it from as its working directory.
+## Get started
 
-Enter `/permissions strict` to confirm each tool call, including reads and searches. Axi shows file diffs and the full text of shell commands before seeking approval. Enter `y` to approve or `n` to decline. The interactive prompts in this preview are in Chinese. Use `/help` to see available commands, `/exit` to quit, or Ctrl+C to stop the current turn.
+1. Download the source bundle and [SHA-256 checksums](https://github.com/BozhengLong/axi/releases/download/v0.0.1/SHA256SUMS). Verify the archive and unpack it. Install Git and Bun 1.3.14, then run `bun install --frozen-lockfile` in the Axi directory.
+2. Set `ANTHROPIC_BASE_URL` and `ANTHROPIC_API_KEY` using your own Anthropic Messages-compatible gateway. This preview requests `claude-opus-5-5`.
+3. Open a disposable Git repository with an initial commit and run `bun run /absolute/path/to/axi/src/main.ts`. Axi uses your current directory as its workspace.
 
-Approved shell commands run with your account's permissions and can access files outside the working directory. Changes that have already been applied stay in the working tree. Use Git to inspect or revert them. Axi writes session traces to `.axi/logs/` in the working directory. Share only relevant, redacted excerpts when reporting an issue.
+Enter `/permissions strict` to confirm reads and searches as well as edits and commands. The preview displays interactive prompts in Chinese. Use `y` to approve, `n` to decline, and `/help` for the full command list. The [English quickstart](https://github.com/BozhengLong/axi/releases/download/v0.0.1/PREVIEW.md?edition=20261120-en) has the exact verification and launch steps.
 
-## Verify the checkout
+Approved shell commands run with your account's operating-system permissions. Applied changes stay in the working tree and can be inspected or reverted with Git.
 
-Run these commands from a full repository checkout or GitHub's generated source archive.
+## Development and support
+
+From a full repository checkout or GitHub's generated source archive, run:
 
 ```sh
 bun install --frozen-lockfile
@@ -30,4 +34,4 @@ bun run typecheck
 bun test tests
 ```
 
-The tests use a local mock API and temporary Git repositories. [Report a reproducible issue](https://github.com/BozhengLong/axi/issues) or see the Chinese documentation on [project design](docs/00-vision.md), [file tools and permissions](docs/07-v1-design.md), [retries](docs/guides/task-execution.md), and [session traces](docs/guides/daily-trace.md).
+The tests use a local mock API and temporary Git repositories. [Report an issue](https://github.com/BozhengLong/axi/issues) with the version, reproduction steps, and the smallest useful redacted excerpt. The Chinese project documentation covers [the roadmap](docs/00-vision.md), [file tools and permissions](docs/07-v1-design.md), [retries](docs/guides/task-execution.md), and [session traces](docs/guides/daily-trace.md).
