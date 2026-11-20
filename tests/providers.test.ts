@@ -106,15 +106,34 @@ test("设置读取、取消及并发保存保留原配置，未设置时兼容�
   try {
     expect((await loadProfile(undefined, unused, env)).url).toBe("https://legacy.invalid/api/v1/messages");
     await expect(loadProfile("missing", unused, env)).rejects.toThrow("找不到");
-    const answers = ["6", "", "", "n", "y", "y"];
-    await runSetup({ write() {}, read: async () => answers.shift() ?? null, readSecret: unused }, "local", signal, env);
+    const answers = ["6", "3", "http://127.0.0.1:9000/v1", "local-model", "4", "n", "y", "y"];
+    const output: string[] = [];
+    await runSetup({ write: text => output.push(text), read: async () => answers.shift() ?? null, readSecret: unused }, "local", signal, env);
+    expect(output.join("")).not.toContain("Ollama");
     const { raw, data } = readProfiles(path);
     expect(statSync(path).mode & 0o777).toBe(0o600);
+    expect(data.profiles.local?.provider).toBe("custom");
     expect((await loadProfile(undefined, unused, env)).apiKey).toBe("");
     await expect(runSetup({ write() {}, read: async () => null, readSecret: unused }, "local", signal, env)).rejects.toHaveProperty("name", "AbortError");
     expect(readProfiles(path).raw).toBe(raw);
     writeFileSync(path, raw + "\n");
     expect(() => saveProfiles(path, raw, data)).toThrow("已更新");
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test("已保存的 Ollama 预览配置仍可启动和编辑", async () => {
+  const root = mkdtempSync(join(tmpdir(), "axi-preview-profile-"));
+  const env = { XDG_CONFIG_HOME: root };
+  const path = profilePath(env);
+  const unused = async () => { throw new Error("未要求输入"); };
+  try {
+    saveProfiles(path, null, { schema: 1, defaultProfile: "local", profiles: {
+      local: { provider: "ollama", protocol: "chat-completions", model: "qwen3:8b",
+        baseUrl: "http://127.0.0.1:11435/v1", auth: { type: "none" } },
+    } });
+    const answers = ["", "", "", "n", "y", "y"];
+    await runSetup({ write() {}, read: async () => answers.shift() ?? null, readSecret: unused }, "local", signal, env);
+    expect((await loadProfile(undefined, unused, env)).url).toBe("http://127.0.0.1:11435/v1/chat/completions");
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 

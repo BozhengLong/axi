@@ -23,7 +23,9 @@ export async function runSetup(io: SetupIO, selected: string | undefined, signal
   const name = selected ?? await ask("配置名称", data.defaultProfile ?? "default");
   if (!profileNameValid(name)) throw new Error("配置名须为 1 至 48 个字母、数字、下划线或连字符，并以字母或数字开头。");
   const previous = Object.hasOwn(data.profiles, name) ? data.profiles[name] : undefined;
-  const providers = [...Object.keys(presets) as Preset[], "custom" as const];
+  // 已保存的预览配置仍可编辑。新建配置时隐藏 Ollama 预设。
+  const providers = [...(Object.keys(presets) as Preset[]).filter(key => key !== "ollama" || previous?.provider === key),
+    "custom" as const];
   io.write(`提供商：\n${providers.map((key, index) => `  ${index + 1}. ${key === "custom" ? "自定义端点" : presets[key].label}`).join("\n")}\n`);
   const provider = providers[Number(await ask("选择提供商序号", String(previous ? providers.indexOf(previous.provider) + 1 : 1))) - 1];
   if (!provider) throw new Error("提供商选择无效。");
