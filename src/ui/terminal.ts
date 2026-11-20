@@ -1,4 +1,5 @@
 import { createInterface, type Interface } from "node:readline";
+import { Writable } from "node:stream";
 import { abortError, type ModelResponse } from "../api/types.ts";
 import type { ReadLine } from "./permission.ts";
 import { visibleText } from "../text.ts";
@@ -11,12 +12,24 @@ export class Terminal {
   private pending?: { resolve: (value: string | null) => void; reject: (error: Error) => void; cleanup: () => void };
   private channel = "";
   closed = false;
+  private masking = false;
+  filterOutput = (value: string) => value;
   onInterrupt: () => void = () => {};
   onClose: () => void = () => {};
   private color = !!process.stdout.isTTY && process.env.NO_COLOR === undefined;
 
-  constructor() {
-    this.rl = createInterface({ input: process.stdin, output: process.stdout, terminal: !!process.stdin.isTTY });
+  constructor(secretInput = false) {
+    const output = secretInput ? new Writable({
+      write: (chunk, encoding, done) => {
+        if (this.masking) done();
+        else process.stdout.write(chunk, encoding, done);
+      },
+    }) : process.stdout;
+    if (secretInput) Object.defineProperty(output, "columns", { get: () => process.stdout.columns });
+    this.rl = createInterface({
+      input: process.stdin, output, terminal: !!process.stdin.isTTY,
+      ...(secretInput ? { historySize: 0 } : {}),
+    });
     this.rl.on("line", line => {
       const pending = this.pending;
       this.pending = undefined;
@@ -35,7 +48,7 @@ export class Terminal {
     });
   }
 
-  write = (text: string): void => { process.stdout.write(visibleText(text)); };
+  write = (text: string): void => { process.stdout.write(visibleText(this.filterOutput(text))); };
   read: ReadLine = (prompt, signal) => {
     this.endStream();
     if (this.closed) return Promise.resolve(null);
@@ -54,6 +67,13 @@ export class Terminal {
       this.pending = { resolve, reject, cleanup: () => signal?.removeEventListener("abort", abort) };
       this.write(prompt);
     });
+  };
+
+  readSecret: ReadLine = async (prompt, signal) => {
+    if (!process.stdin.isTTY) throw new Error("遮掩输入需要交互终端。请使用环境变量认证。");
+    this.masking = true;
+    try { return await this.read(prompt, signal); }
+    finally { this.masking = false; this.write("\n"); }
   };
 
   private clearInput(): void {

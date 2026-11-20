@@ -43,13 +43,13 @@ export class BoundedOutput {
   }
 }
 
-export async function runBash(input: BashInput, cwd: string, signal: AbortSignal): Promise<BashResult> {
+export async function runBash(input: BashInput, cwd: string, signal: AbortSignal, env?: Record<string, string | undefined>): Promise<BashResult> {
   if (signal.aborted) return { content: "用户已中止，命令未执行。", isError: true, exitCode: null, outcome: "cancelled" };
   const output = new BoundedOutput();
   const state: { outcome: BashResult["outcome"] } = { outcome: "completed" };
   let child: ReturnType<typeof Bun.spawn>;
   try {
-    child = Bun.spawn(["bash", "-c", input.command], { cwd, stdin: "ignore", stdout: "pipe", stderr: "pipe", detached: true });
+    child = Bun.spawn(["bash", "-c", input.command], { cwd, env, stdin: "ignore", stdout: "pipe", stderr: "pipe", detached: true });
   } catch (error) {
     return { content: `命令无法启动：${error instanceof Error ? error.message : String(error)}`, isError: true, exitCode: null, outcome: "failed" };
   }

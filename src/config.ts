@@ -1,8 +1,18 @@
+export const DEFAULT_RETRY_WINDOW_MS = 600_000;
+
+export type Protocol = "anthropic-messages" | "openai-responses" | "chat-completions";
+
 export interface APIConfig {
   url: string;
   apiKey: string;
   model: string;
   timeoutMs: number;
+  retryWindowMs?: number;
+  protocol?: Protocol;
+  provider?: string;
+  profile?: string;
+  secretEnv?: string;
+  upstreamOAuth?: boolean;
 }
 
 export function loadConfig(env: Record<string, string | undefined> = process.env): APIConfig {
@@ -16,5 +26,11 @@ export function loadConfig(env: Record<string, string | undefined> = process.env
   }
   const path = url.pathname.replace(/\/+$/, "");
   url.pathname = path.endsWith("/v1/messages") ? path : path.endsWith("/v1") ? `${path}/messages` : `${path}/v1/messages`;
-  return { url: url.toString(), apiKey: env.ANTHROPIC_API_KEY.trim(), model: "claude-opus-5-5", timeoutMs: 300_000 };
+  return { url: url.toString(), apiKey: env.ANTHROPIC_API_KEY.trim(), model: "claude-opus-5-5", ...requestPolicy(env) };
+}
+
+export function requestPolicy(env: Record<string, string | undefined>) {
+  const retryWindowMs = env.AXI_RETRY_WINDOW_MS === undefined ? DEFAULT_RETRY_WINDOW_MS : Number(env.AXI_RETRY_WINDOW_MS);
+  if (!Number.isSafeInteger(retryWindowMs) || retryWindowMs <= 0 || retryWindowMs > 2_147_483_647) throw new Error("AXI_RETRY_WINDOW_MS 必须是1至2147483647的整数毫秒");
+  return { timeoutMs: 300_000, retryWindowMs };
 }

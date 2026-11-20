@@ -30,7 +30,7 @@ for (const [i,c] of cases.entries()) test(`错误契约独立预期 ${i}`,async(
  expect(observeAPIError(value)).toMatchObject(expected);
  expect(classifyExecution('product_error',[{kind:'request',data:{path:'/v1/messages'}},{kind:'response_headers',data:{status:200}},{kind:'sse',data:value}])).toBe(c.classification);
  let calls=0;const logs:any[]=[];const sleeps:number[]=[];
- const client=new APIClient(config,'',{fetch:(async()=>{calls++;return sse(event('error',{error:c.raw}));}) as unknown as typeof fetch,sleep:async ms=>{sleeps.push(ms)},record:(kind,data)=>logs.push({kind,data})});
+ const client=new APIClient(config,'',{maxRetries:3,fetch:(async()=>{calls++;return sse(event('error',{error:c.raw}));}) as unknown as typeof fetch,sleep:async ms=>{sleeps.push(ms)},record:(kind,data)=>logs.push({kind,data})});
  await expect(client.call([],{signal:activeSignal(),effort:'medium'})).rejects.toThrow();
  expect(calls).toBe(c.retry?4:1);expect(sleeps).toEqual(c.retry?[1000,2000,4000]:[]);
  const errors=logs.filter(x=>x.kind==='request_error');expect(errors.at(-1).data.willRetry).toBe(false);

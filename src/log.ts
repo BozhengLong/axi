@@ -28,7 +28,7 @@ export class SessionLog {
 
   // 只记录请求体，不记录认证头。原始内容留在带排除规则的本地目录。
   record: RecordLog = (kind, data) => {
-    appendFileSync(this.fd, JSON.stringify({ version: 3, sessionId: this.id, time: new Date().toISOString(), kind, data }) + "\n");
+    appendFileSync(this.fd, JSON.stringify({ version: 4, sessionId: this.id, time: new Date().toISOString(), kind, data }) + "\n");
   };
 
   close(): void { closeSync(this.fd); }

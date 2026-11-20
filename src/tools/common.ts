@@ -12,6 +12,7 @@ export interface ToolExecution {
   modified: boolean | "unknown";
   path?: string;
   fatal?: boolean;
+  shellExit?: number | null;
 }
 export function result(operation: string, path: string, data: JsonObject, isError = false): ToolExecution {
   const body = { status: "completed", code: "ok", operation, path, modified: false, truncated: false, ...data };
@@ -32,9 +33,9 @@ export function stringValue(value: unknown, name: string, allowEmpty = false): s
   if (new TextDecoder("utf-8", { ignoreBOM: true }).decode(new TextEncoder().encode(value)) !== value) throw new ToolError("invalid_input", `${name} 包含无效 Unicode。`);
   return value;
 }
-export function integer(value: unknown, fallback: number, max: number): number {
+export function integer(name: string, value: unknown, fallback: number, max: number): number {
   if (value === undefined) return fallback;
-  if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 1 || value > max) throw new ToolError("invalid_input", `数字必须是 1 至 ${max} 的整数。`);
+  if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 1 || value > max) throw new ToolError("invalid_input", `${name} 必须是 1 至 ${max} 的整数。省略该字段时使用默认值 ${fallback}。`);
   return value;
 }
 export function lines(text: string): string[] { return text.match(/[^\n]*\n|[^\n]+$/g) ?? []; }
