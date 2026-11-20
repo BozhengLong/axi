@@ -14,6 +14,7 @@ sys.dont_write_bytecode=True
 # 与controller.py共同冻结，资格账本不能替代正式账本。
 from controller import Ledger,Refused,digest,next_slot,slots,decisive_failure
 from inputs import verify_initial
+from candidate_remote import verify_candidate_ref
 
 
 def require(condition,message):
@@ -101,6 +102,10 @@ def verify_admission(study,manifest,repair=None):
     require(manifest['identities']['v0']=='963704be97150e268edd3fda484d68e0a18a1f8b' and manifest['identities']['image']=='sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','基线或镜像身份改变')
     require(manifest['commit']==manifest['remoteCommit'],'冻结提交未推送')
     auth=json.loads((study/'authorization.json').read_text());require(manifest['T0']==auth['T0'],'T0身份不符')
+    try:
+        verify_candidate_ref(auth,manifest)
+    except ValueError as error:
+        raise Refused(str(error)) from None
     require(manifest['identities']['candidate']=='dbe7e145d205c21b580d8c2ee2dcf58c408380d8','候选不符')
     require(manifest['identities']['sourceHash']=='14be06a50a8163d4461c1d6e6a498ede412b13dc927f80fa4cf323446a552855','产品源码不符')
     require(manifest['identities']['model']=='claude-opus-5-5'and manifest['identities']['claude']=='2.1.322','冻结模型或参照不符')

@@ -4,6 +4,7 @@ import datetime as dt,hashlib,importlib.util,json,os,subprocess,sys
 sys.dont_write_bytecode=True
 from controller import digest,slots
 from inputs import git_identity,verify_initial
+from candidate_remote import freeze_candidate_ref
 HERE=Path(__file__).resolve().parent;REPO=HERE.parents[2]
 
 def read(path):return json.loads(Path(path).read_text())
@@ -94,10 +95,11 @@ def build(study,plan_path):
     git=lambda args:subprocess.run(['git',*args],cwd=REPO,check=True,capture_output=True,text=True).stdout.strip()
     assert not git(['status','--porcelain']), '冻结前工作树必须提交'
     commit=git(['rev-parse','HEAD']);branch=git(['branch','--show-current']);remote=git(['ls-remote','origin','refs/heads/'+branch]).split()[0];assert remote==commit
-    assert git(['ls-remote','origin','refs/heads/codex/v1-beta1-candidate-r2']).split()[0]=='dbe7e145d205c21b580d8c2ee2dcf58c408380d8','候选远端身份改变'
+    auth=read(study/'authorization.json')
     candidate=read(study/'candidate.json');identity={'candidate':'dbe7e145d205c21b580d8c2ee2dcf58c408380d8','sourceHash':'14be06a50a8163d4461c1d6e6a498ede412b13dc927f80fa4cf323446a552855','v0':'963704be97150e268edd3fda484d68e0a18a1f8b','image':'sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','model':'claude-opus-5-5','claude':'2.1.322'}
+    candidate_git=freeze_candidate_ref(REPO,auth,identity,candidate,read(study/'candidate-source.json'))
     proofs={key:proof(path)for key,path in plan['proofs'].items()};proofs.update(pipeline=bound(pipeline),taskPackage=bound(task_proof),c7=bound(c7_proof));assert set(proofs)=={'engineering','taskPackage','c7','controller','pipeline','capture','dependencies','resourcePolicy','evidenceAudit'}
-    manifest={'schema':1,'T0':read(study/'authorization.json')['T0'],'identities':identity,'qualificationComplete':True,'commit':commit,'remoteCommit':remote,'branch':branch,'tasks':task_rows,'c7Tasks':c7_rows,'healthTask':health,'proofs':proofs,'facilityIndex':bound(index_path),'facilityHash':digest(index),'engineeringHash':proofs['engineering']['sha256'],'c7QualificationHash':proofs['c7']['sha256'],'controllerQualificationHash':proofs['controller']['sha256'],'dependencyHash':proofs['dependencies']['sha256'],'evidenceAuditHash':proofs['evidenceAudit']['sha256']}
+    manifest={'schema':1,'T0':read(study/'authorization.json')['T0'],'identities':identity,'candidateGit':candidate_git,'qualificationComplete':True,'commit':commit,'remoteCommit':remote,'branch':branch,'tasks':task_rows,'c7Tasks':c7_rows,'healthTask':health,'proofs':proofs,'facilityIndex':bound(index_path),'facilityHash':digest(index),'engineeringHash':proofs['engineering']['sha256'],'c7QualificationHash':proofs['c7']['sha256'],'controllerQualificationHash':proofs['controller']['sha256'],'dependencyHash':proofs['dependencies']['sha256'],'evidenceAuditHash':proofs['evidenceAudit']['sha256']}
     spec=importlib.util.spec_from_file_location('gateway',HERE/'controller-gateway.py');gateway=importlib.util.module_from_spec(spec);spec.loader.exec_module(gateway);gateway.verify_admission(study,manifest);gateway.resources(study,manifest)
     put(study/'release-manifest.json',manifest);return {'qualified':True,'commit':commit,'facilityHash':manifest['facilityHash'],'tasks':20,'pipelines':62}
 

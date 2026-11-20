@@ -15,6 +15,7 @@ sys.dont_write_bytecode=True
 from controller import OAUTH_RECOVERY_POLICY, Ledger,Refused,digest,next_slot,slots,decisive_failure
 sys.path.append(str(Path(__file__).resolve().parent.parent/'release-r2'))
 from inputs import verify_initial
+from candidate_remote import verify_candidate_ref
 from recovery_health import decision as recovery_decision
 import u04_report_accuracy
 
@@ -136,6 +137,10 @@ def verify_admission(study,manifest,repair=None):
     require(manifest['identities']['v0']=='963704be97150e268edd3fda484d68e0a18a1f8b' and manifest['identities']['image']=='sha256:2c28b2b381ad0647f6a95afbd781e0d27e06a892fd40a164ac0dcb753fb92ba1','基线或镜像身份改变')
     require(manifest['commit']==manifest['remoteCommit'],'冻结提交未推送')
     auth=json.loads((study/'authorization.json').read_text());require(manifest['T0']==auth['T0'],'T0身份不符')
+    try:
+        verify_candidate_ref(auth,manifest)
+    except ValueError as error:
+        raise Refused(str(error)) from None
     require(auth.get('recoveryHealthPolicy') == manifest.get('recoveryHealthPolicy'), '恢复策略未绑定授权')
     oauth = auth.get('recoveryHealthPolicy') == OAUTH_RECOVERY_POLICY
     if oauth:
