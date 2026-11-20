@@ -6,7 +6,7 @@
 
 ## main 已展示 v0.0.1 英文下载入口（2026-11-20）
 
-用户确认方案 30。GitHub 默认分支已快进到 `6aeb67e`。相对 `v0.0.1` 标签只有根目录 README 改动。匿名首页核对到版本、源码下载、SHA-256 和英文指南。冻结安装、类型检查、194 项测试和帮助入口通过。[GitHub 首页](https://github.com/BozhengLong/axi) · [本日记录](devlog/2026-11-20.md#更新-main-官网入口)
+GitHub 默认分支已更新到 `06f3da1`。英文 README 先介绍产品能力，再给出下载及入门入口。GitHub About 使用英文产品描述，并链接到 Releases。相对 `v0.0.1` 标签只有根目录 README 改动。方案 30 的冻结安装、类型检查、194 项测试和帮助入口已经通过。本次再次匿名核对首页、About 和下载件。[GitHub 首页](https://github.com/BozhengLong/axi) · [本日记录](devlog/2026-11-20.md#调整-github-公开产品介绍)
 
 ## 正式评测候选引用校验已修复（2026-11-20）
 
